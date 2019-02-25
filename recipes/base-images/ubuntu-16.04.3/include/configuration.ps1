@@ -23,6 +23,7 @@ $BUILD_DEBUG = 1
 
 # Ubuntu Revision (Xenial Xaurus) v16.04.3
 # Source configuration created for v2018.2 tools$UBUNTU_BASE_URL = "http://cdimage.ubuntu.com/ubuntu-base/releases"
+$UBUNTU_BASE_URL= "http://cdimage.ubuntu.com/ubuntu-base/releases"
 $UBUNTU_VERSION = "16.04.3"
 
 $UBUNTU_RELEASE_ARCHIVE = "ubuntu-base-16.04.3-base-amd64.tar.gz"
