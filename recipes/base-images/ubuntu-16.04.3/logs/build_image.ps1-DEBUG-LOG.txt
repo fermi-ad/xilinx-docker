@@ -1,0 +1,29 @@
+PS X:\xilinx-docker\recipes\base-images\ubuntu-16.04.3> .\build_image.ps1
+Base Release Image [Missing] ubuntu-base-16.04.3-base-amd64.tar.gz
+
+    Directory: D:\repositories\gitlab\xilinx-docker\recipes\base-images\ubuntu-16.04.3
+
+Mode                LastWriteTime         Length Name
+----                -------------         ------ ----
+d-----        2/25/2019   5:31 PM                depends
+Attempting to download http://cdimage.ubuntu.com/ubuntu-base/releases/16.04.3/release/ubuntu-base-16.04.3-base-amd64.tar.gz
+DEBUG:   31+   >>>> wget "$UBUNTU_BASE_URL/$UBUNTU_VERSION/release/$UBUNTU_RELEASE_ARCHIVE" -Outfile "depends/$UBUNTU_RELEASE_ARCHIVE"
+DEBUG:   33+  if ( >>>> $BUILD_DEBUG -ne 0) {
+DEBUG:   35+     >>>> Set-PSDebug -Trace 0
+Base Relese Image Download [Good]
+ubuntu-base-16.04.3-base-amd64.tar.gz
+DEBUG:   52+  >>>> docker import "depends/$UBUNTU_RELEASE_ARCHIVE" "ubuntu:$UBUNTU_VERSION"
+sha256:832b14263981566049d11ebb2aa56ff203c4cf38d104e9cb13fcff4a411096eb
+DEBUG:   54+  >>>> docker image ls -a
+REPOSITORY          TAG                 IMAGE ID            CREATED                  SIZE
+ubuntu              16.04.3             832b14263981        Less than a second ago   120MB
+DEBUG:   56+  >>>> docker system df
+TYPE                TOTAL               ACTIVE              SIZE                RECLAIMABLE
+Images              1                   0                   120.1MB             120.1MB (100%)
+Containers          0                   0                   0B                  0B
+Local Volumes       0                   0                   0B                  0B
+Build Cache         0                   0                   0B                  0B
+DEBUG:   58+ if ( >>>> $BUILD_DEBUG -ne 0) {
+DEBUG:   60+    >>>> Set-PSDebug -Trace 0
+
+PS D:\repositories\gitlab\xilinx-docker\recipes\base-images\ubuntu-16.04.3>

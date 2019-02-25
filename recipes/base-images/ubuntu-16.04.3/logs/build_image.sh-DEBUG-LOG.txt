@@ -1,0 +1,30 @@
+Base Release Image [Missing] ubuntu-base-16.04.3-base-amd64.tar.gz
+Attempting to download http://cdimage.ubuntu.com/ubuntu-base/releases/16.04.3/release/ubuntu-base-16.04.3-base-amd64.tar.gz
++ wget http://cdimage.ubuntu.com/ubuntu-base/releases/16.04.3/release/ubuntu-base-16.04.3-base-amd64.tar.gz -O depends/ubuntu-base-16.04.3-base-amd64.tar.gz
+--2019-02-25 17:12:10--  http://cdimage.ubuntu.com/ubuntu-base/releases/16.04.3/release/ubuntu-base-16.04.3-base-amd64.tar.gz
+Resolving cdimage.ubuntu.com (cdimage.ubuntu.com)... 2001:67c:1360:8001::1d, 91.189.88.167
+Connecting to cdimage.ubuntu.com (cdimage.ubuntu.com)|2001:67c:1360:8001::1d|:80... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 46119172 (44M) [application/x-gzip]
+Saving to: ‘depends/ubuntu-base-16.04.3-base-amd64.tar.gz’
+
+depends/ubuntu-base-16.04.3-base-amd64 100%[=========================================================================>]  43.98M   422KB/s    in 1m 47s  
+
+2019-02-25 17:13:57 (423 KB/s) - ‘depends/ubuntu-base-16.04.3-base-amd64.tar.gz’ saved [46119172/46119172]
+
++ '[' 1 -ne 0 ']'
++ set +x
+Base Relese Image Download [Good] ubuntu-base-16.04.3-base-amd64.tar.gz
++ docker import depends/ubuntu-base-16.04.3-base-amd64.tar.gz ubuntu:16.04.3
+sha256:d01bf256ae128efca210779db899a48c932ddaba6706c7d989945a4805e1f383
++ docker image ls -a
+REPOSITORY                TAG                 IMAGE ID            CREATED                  SIZE
+ubuntu                    16.04.3             d01bf256ae12        Less than a second ago   120MB
++ docker system df
+TYPE                TOTAL               ACTIVE              SIZE                RECLAIMABLE
+Images              1                   0                   120MB               120MB (100%)
+Containers          0                   0                   0B		            0B (0%)
+Local Volumes       0                   0                   0B                  0B
+Build Cache         0                   0                   0B                  0B
++ '[' 1 -ne 0 ']'
++ set +x
