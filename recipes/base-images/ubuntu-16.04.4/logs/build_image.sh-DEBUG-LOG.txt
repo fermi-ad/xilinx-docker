@@ -1,0 +1,32 @@
+$ ./scripts/bash/build_ubuntu_16.04.4_base_image.sh
+Base Release Image [Missing] ubuntu-base-16.04.4-base-amd64.tar.gz
+Attempting to download http://cdimage.ubuntu.com/ubuntu-base/releases/16.04.4/release/ubuntu-base-16.04.4-base-amd64.tar.gz
++ wget http://cdimage.ubuntu.com/ubuntu-base/releases/16.04.4/release/ubuntu-base-16.04.4-base-amd64.tar.gz -O depends/ubuntu-base-16.04.4-base-amd64.tar.gz
+--2019-02-12 14:17:25--  http://cdimage.ubuntu.com/ubuntu-base/releases/16.04.4/release/ubuntu-base-16.04.4-base-amd64.tar.gz
+Resolving cdimage.ubuntu.com (cdimage.ubuntu.com)... 2001:67c:1360:8001::1d, 91.189.88.39
+Connecting to cdimage.ubuntu.com (cdimage.ubuntu.com)|2001:67c:1360:8001::1d|:80... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 42145011 (40M) [application/x-gzip]
+Saving to: ‘depends/ubuntu-base-16.04.4-base-amd64.tar.gz’
+
+depends/ubuntu-base-16.04.4-base-amd64 100%[=========================================================================>]  40.19M   227KB/s    in 3m 0s   
+
+2019-02-12 14:20:25 (229 KB/s) - ‘depends/ubuntu-base-16.04.4-base-amd64.tar.gz’ saved [42145011/42145011]
+
++ '[' 1 -ne 0 ']'
++ set +x
+Base Relese Image Download [Good] ubuntu-base-16.04.4-base-amd64.tar.gz
++ docker import depends/ubuntu-base-16.04.4-base-amd64.tar.gz ubuntu:16.04.4
+sha256:a9e9c139dbd40d8df57521728a932a9bc49dafe825ea3aedd5aab10c7fdf65e9
++ docker image ls -a
+REPOSITORY          TAG                 IMAGE ID            CREATED                  SIZE
+ubuntu              16.04.4             a9e9c139dbd4        Less than a second ago   112MB
++ docker system df
+TYPE                TOTAL               ACTIVE              SIZE                RECLAIMABLE
+Images              1                   0                   112.4MB             112.4MB (100%)
+Containers          0                   0                   0B                  0B
+Local Volumes       0                   0                   0B                  0B
+Build Cache         0                   0                   0B                  0B
++ '[' 1 -ne 0 ']'
++ set +x
+
