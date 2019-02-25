@@ -2,7 +2,6 @@
 #!/bin/bash
 ########################################################################################
 # Docker Image Build Script:
-
 #
 # Maintainer:
 #	- Jason Moss (jason.moss@avnet.com)
@@ -11,8 +10,6 @@
 # Created: 
 #	- 10/24/2018
 #
-# Ubuntu Revision (Xenial Xaurus) v16.04.3
-# Source configuration created for v2018.2 builds
 . ".\include\configuration.ps1"
 
 # Check for downloaded tarball

@@ -38,7 +38,7 @@ $ ./build_image.sh
 ```powershell
 powershell:
 PS > C:\> cd xilinx-docker\recipes\base-images\ubuntu-16.04.3
-PS > C:\xilinx-docker\build_environments\v2018.3> .\build_image.ps1
+PS > C:\xilinx-docker\recipes\base-images\v2018.3> .\build_image.ps1
 ```
 
 #### Example: Create the Ubuntu 16.04.3 OS using the included script
