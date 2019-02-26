@@ -10,7 +10,7 @@
 # Created: 
 #	- 2/4/2019
 #
-. ".\include\configuration.sh.ps1"
+. ".\include\configuration.ps1"
 
 # Check for downloaded tarball
 if (Test-Path "depends/$UBUNTU_RELEASE_ARCHIVE") {

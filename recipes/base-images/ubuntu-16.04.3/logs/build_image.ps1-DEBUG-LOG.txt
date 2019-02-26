@@ -1,7 +1,7 @@
 PS X:\xilinx-docker\recipes\base-images\ubuntu-16.04.3> .\build_image.ps1
 Base Release Image [Missing] ubuntu-base-16.04.3-base-amd64.tar.gz
 
-    Directory: D:\repositories\gitlab\xilinx-docker\recipes\base-images\ubuntu-16.04.3
+    Directory: X:\xilinx-docker\recipes\base-images\ubuntu-16.04.3
 
 Mode                LastWriteTime         Length Name
 ----                -------------         ------ ----
@@ -26,4 +26,4 @@ Build Cache         0                   0                   0B                  
 DEBUG:   58+ if ( >>>> $BUILD_DEBUG -ne 0) {
 DEBUG:   60+    >>>> Set-PSDebug -Trace 0
 
-PS D:\repositories\gitlab\xilinx-docker\recipes\base-images\ubuntu-16.04.3>
+PS X:\xilinx-docker\recipes\base-images\ubuntu-16.04.3>
