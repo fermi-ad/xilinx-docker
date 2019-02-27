@@ -25,7 +25,7 @@ DOCKER_FILE_NAME=Dockerfile
 
 # Additional setup and overrides specificaly for dependency generation
 GENERATED_DIR=_generated
-DOCKER_FILE_STAGE=base_os_$XLNX_RELEASE_VERSION
+DOCKER_FILE_STAGE="base_os_"$XLNX_TOOL_INFO"_"$XLNX_RELEASE_VERSION
 DOCKER_IMAGE_NAME=dependency_generation
 DOCKER_IMAGE_VERSION=$XLNX_RELEASE_VERSION
 
