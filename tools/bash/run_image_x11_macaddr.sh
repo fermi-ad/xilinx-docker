@@ -92,6 +92,12 @@ xhost +
 # '-e DISPLAY'
 #	- share the host system's DISPLAY definition, which allows X-windows sessions to use the host system display
 #
+# `--mac-address`
+#	- set the container's MAC Address, which is associated with the Xilinx tool license
+#
+# `--user`
+#	- run the container as the non-root user.  This is xilinx:xilinx for all images/containers in this repo.
+#
 # '-h $DOCKER_CONTAINER_NAME'
 #	- set the container hostname (for networking and terminal identification purposes)
 #	- this makes it easier to associate xterm sessions with a running container
@@ -109,5 +115,6 @@ docker run \
 	-v /srv/shared:/srv/shared \
 	-e DISPLAY=$DISPLAY \
 	--mac-address $DOCKER_CONTAINER_MACADDR \
+	--user 1000:1000 \
 	-itd $DOCKER_IMAGE_NAME \
 	/bin/bash
