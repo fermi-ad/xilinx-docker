@@ -80,10 +80,37 @@ DOCKER_IMAGE_VERSION=$XLNX_RELEASE_VERSION
 
 ########################################################################################
 ########################################################################################
+# Target Path Variables for Docker Image:
+########################################################################################
+########################################################################################
+# Xilinx Tool Install Location
+XLNX_INSTALL_LOCATION=/opt/Xilinx
+
+# Xilinx Tool Downloads Location
+XLNX_DOWNLOAD_LOCATION=$XLNX_INSTALL_LOCATION/downloads
+
+########################################################################################
+########################################################################################
+# Host OS Path Variables for Docker build:
+########################################################################################
+########################################################################################
+DOCKER_INSTALL_DIR=.
+
+# Xilinx Configuration and Dependency folder definitions
+# These locations must be within the docker build context
+# (meaning accessible from the base folder of the Dockerfile)
+# INSTALL_CONFIGS_DIR: folder in docker context on host for
+#	build related configuration files for headless install
+# INSTALL_DEPENDS_DIR:  folder in docker context on host for
+#	build related installers/downloads used in installation
+INSTALL_CONFIGS_DIR=configs
+INSTALL_DEPENDS_DIR=depends
+
+########################################################################################
+########################################################################################
 # Depdendency / Configuration File Related Variables
 ########################################################################################
 ########################################################################################
-
 # DOCKER_BUILD_XLNX_MALI_LOCAL:
 # '0' = The docker build script will not construct XLNX_MALI_URL
 #       using the python server address, but will pass the URL setup above
@@ -147,37 +174,6 @@ XLNX_VIVADO_OFFLINE_INSTALLER=$INSTALL_DEPENDS_DIR/Xilinx_Vivado_SDK_Web_2018.3_
 # INSTALL_SERVER_URL: Set automatically later in this script when
 #	http server is spawned for file transfer to container
 INSTALL_SERVER_URL=0.0.0.0:8000
-
-
-########################################################################################
-########################################################################################
-# Target Path Variables for Docker Image:
-########################################################################################
-########################################################################################
-# Xilinx Tool Install Location
-XLNX_INSTALL_LOCATION=/opt/Xilinx
-
-# Xilinx Tool Downloads Location
-XLNX_DOWNLOAD_LOCATION=$XLNX_INSTALL_LOCATION/downloads
-
-
-########################################################################################
-########################################################################################
-# Host OS Path Variables for Docker build:
-########################################################################################
-########################################################################################
-DOCKER_INSTALL_DIR=.
-
-# Xilinx Configuration and Dependency folder definitions
-# These locations must be within the docker build context
-# (meaning accessible from the base folder of the Dockerfile)
-# INSTALL_CONFIGS_DIR: folder in docker context on host for
-#	build related configuration files for headless install
-# INSTALL_DEPENDS_DIR:  folder in docker context on host for
-#	build related installers/downloads used in installation
-INSTALL_CONFIGS_DIR=configs
-INSTALL_DEPENDS_DIR=depends
-
 
 ########################################################################################
 ########################################################################################
