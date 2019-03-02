@@ -118,48 +118,6 @@ RUN if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi \
 	&& sudo dpkg --add-architecture i386 \
 	&& sudo apt-get update \
 	&& sudo apt-get install -y \
-# 		  build-essential \
-# 		  sudo \
-# 		  tofrodos \
-# 		  iproute2 \
-# 		  gawk \
-# 		  net-tools \
-# 		  expect \
-# 		  libncurses5-dev \
-# # Install update-inetd for tftpd \
-# 		  update-inetd \
-# 		  tftpd \
-# 		  libssl-dev \
-# 		  flex \
-# 		  bison \
-# 		  libselinux1 \
-# 		  gnupg \
-# 		  wget \
-# 		  socat \
-# 		  gcc-multilib \
-# 		  libsdl1.2-dev \
-# 		  libglib2.0-dev \
-# 		  lib32z1-dev \
-# 		  zlib1g:i386 \
-# 		  libgtk2.0-0 \
-# 		  screen \
-# 		  pax \
-# 		  diffstat \
-# 		  xvfb \
-# 		  xterm \
-# Install texlive-base for tex-common \
-#         texlive-base \
-		  # texinfo \
-		  # gzip \
-		  # unzip \
-		  # cpio \
-		  # chrpath \
-		  # autoconf \
-		  # lsb-release \
-		  # libtool \
-		  # libtool-bin \
-		  # locales \
-		  # git \
 # petalinux base dependencies \
 	&& sudo apt-get install -y \
 		tofrodos \
