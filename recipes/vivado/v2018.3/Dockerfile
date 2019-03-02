@@ -1,11 +1,15 @@
 # Dockerfile.vivado_v2018.3
-# 
-# Build an Ubuntu 16.04 x64 portable image
-# for Vivado/Petalinux development on Xilinx Zynq/MPSoC parts
-# 
+########################################################################################
+# Maintainer:
+#	- Jason Moss (jason.moss@avnet.com)
+#	- Xilinx Applications Engineer, Embedded Software
+#
+# Created: 
+#	- 1/31/2019
+#
 # What's installed in the image created by this docker file?
 # ----------------------------------------------------------
-# - Ubuntu 16.04 x64 base OS image
+# - Ubuntu 18.04.2 x64 base OS image
 # - Xilinx Vivado v2018.3 (Xilinx Vivado v2018.3 release)
 #
 #
