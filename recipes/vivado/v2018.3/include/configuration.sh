@@ -41,8 +41,8 @@ XLNX_RELEASE_VERSION=v2018.3
 # Xilinx tool information
 XLNX_TOOL_INFO=vivado
 
-# Docker File Recipe Nam
-# Petalinux - possible stage assignments
+# Docker File Recipe Name
+# Vivado - possible stage assignments
 #DOCKER_FILE_NAME=Dockerfile.$XLNX_TOOL_INFO_$XLNX_RELEASE_VERSION
 #DOCKER_FILE_STAGE=base_os_$XLNX_TOOL_INFO"_"$XLNX_RELEASE_VERSION
 #DOCKER_FILE_STAGE=xilinx_install_depends_$XLNX_TOOL_INFO"_"$XLNX_RELEASE_VERSION
