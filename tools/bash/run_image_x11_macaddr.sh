@@ -67,10 +67,10 @@ xhost +
 # '-v ~/.Xauthority:/home/xilinx/.Xauthority'
 #	- required to launch X-based applications in the container and connect them to the host system
 #
-# '-v /srv/sstate-mirrors:/srv/sstate-mirrors'
+# '-v /xilinx/local/sstate-mirrors:/srv/sstate-mirrors'
 #	- share petalinux pre-downloaded sstate-cache mirror on the host system
 #
-# '-v /srv/sstate-cache:/srv/sstate-cache'
+# '-v /xilinx/local/sstate-cache:/srv/sstate-cache'
 #	- share petalinux/yocto working sstate-cache folder on the host system
 #	- this keeps work product/temp files outside of the container that can be re-used
 #
@@ -107,8 +107,8 @@ docker run \
 	-h $DOCKER_CONTAINER_NAME \
 	-v /tmp/.X11-unix:/tmp/.X11-unix \
 	-v ~/.Xauthority:/home/xilinx/.Xauthority \
-	-v /srv/sstate-mirrors:/srv/sstate-mirrors \
-	-v /srv/sstate-cache:/srv/sstate-cache \
+	-v /xilinx/local/sstate-mirrors:/srv/sstate-mirrors \
+	-v /xilinx/local/sstate-cache:/srv/sstate-cache \
 	-v /srv/tftpboot:/tftpboot \
 	-v /srv/software/xilinx:/srv/software \
 	-v /srv/hardware_definitions:/srv/hardware_definitions \
