@@ -74,6 +74,10 @@ xhost +
 #	- share petalinux/yocto working sstate-cache folder on the host system
 #	- this keeps work product/temp files outside of the container that can be re-used
 #
+# '-v /xilinx/local/trds:/srv/trds'
+#	- share trd working build folders on the host system
+#	- this keeps work product/temp files outside of the container that can be re-used
+#
 # '-v /srv/tftpboot:/tftpboot'
 #	- provides a tftpboot folder for the container (and installed Xilinx tools) but files
 #	- actually reside on the host filesystem where the TFTP server is actually installed and running
@@ -109,6 +113,7 @@ docker run \
 	-v ~/.Xauthority:/home/xilinx/.Xauthority \
 	-v /xilinx/local/sstate-mirrors:/srv/sstate-mirrors \
 	-v /xilinx/local/sstate-cache:/srv/sstate-cache \
+	-v /xilinx/local/trds:/srv/trds \
 	-v /srv/tftpboot:/tftpboot \
 	-v /srv/software/xilinx:/srv/software \
 	-v /srv/hardware_definitions:/srv/hardware_definitions \
