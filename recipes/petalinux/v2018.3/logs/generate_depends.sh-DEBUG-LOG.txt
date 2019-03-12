@@ -1,0 +1,423 @@
+$ ./generate_depends.sh 
+-----------------------------------
+Checking for dependencies...
+-----------------------------------
+Base docker image [found] (ubuntu:16.04.3)
+-----------------------------------
+Docker Build Context (Working)...
+-----------------------------------
+DOCKER_INSTALL_DIR=.
+DOCKER_BUILD_WORKING_DIR=/xilinx/local/repositories/bitbucket/xilinx_docker/docker_recipes/xilinx_tools/v2018.3
+-----------------------------------
+-----------------------------------
+Launching Python HTTP Server...
+-----------------------------------
++ SERVER_PID=8278
++ python3 -m http.server
+++ ifconfig docker0
+++ grep 'inet\s'
+++ awk '{print $2}'
++ SERVER_IP=172.17.0.1
++ '[' 1 -ne 0 ']'
++ set +x
+SERVER_IP=172.17.0.1
+SERVER_PID=8278
+-----------------------------------
+-----------------------------------
+Building the Docker Image...
+-----------------------------------
+DOCKER_CACHE=
+DOCKER_FILE_NAME=Dockerfile.petalinux_v2018.3
+DOCKER_FILE_STAGE=base_os_v2018.3
+DOCKER_IMAGE=dependency_generation:v2018.3
+DOCKER_INSTALL_DIR=.
+INSTALL_SERVER_URL=172.17.0.1:8000
+-----------------------------------
+Arguments...
+-----------------------------------
+        --build-arg USER_ACCT="xilinx"
+        --build-arg HOME_DIR="/home/xilinx"
+        --build-arg XLNX_INSTALL_LOCATION="/opt/Xilinx"
+        --build-arg INSTALL_SERVER_URL="172.17.0.1:8000"
+        --build-arg XLNX_PETALINUX_INSTALLER="depends/petalinux-v2018.3-final-installer.run"
+        --build-arg KEYBOARD_CONFIG_FILE="configs/keyboard_settings.conf"
+  --build-arg BUILD_DEBUG="1"
+-----------------------------------
++ docker build -f ./Dockerfile.petalinux_v2018.3 --target base_os_v2018.3 -t dependency_generation:v2018.3 --build-arg USER_ACCT=xilinx --build-arg HOME_DIR=/home/xilinx --build-arg XLNX_INSTALL_LOCATION=/opt/Xilinx --build-arg INSTALL_SERVER_URL=172.17.0.1:8000 --build-arg XLNX_PETALINUX_INSTALLER=depends/petalinux-v2018.3-final-installer.run --build-arg KEYBOARD_CONFIG_FILE=configs/keyboard_settings.conf --build-arg BUILD_DEBUG=1 .
+Sending build context to Docker daemon  18.94kB
+Serving HTTP on 0.0.0.0 port 8000 ...
+Step 1/10 : FROM ubuntu:16.04.3 AS base_os_v2018.3
+ ---> 762be2dd44ce
+Step 2/10 : LABEL author="Jason Moss"
+ ---> Using cache
+ ---> 15299697ea8a
+Step 3/10 : ENV DEBIAN_FRONTEND=noninteractive
+ ---> Using cache
+ ---> 60e0a8e8010f
+Step 4/10 : ARG BUILD_DEBUG
+ ---> Using cache
+ ---> 55b6719c99d5
+Step 5/10 : RUN if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi      && echo "APT::Install-Recommends false;" > /etc/apt/apt.conf.d/00norecommends    && echo "APT::AutoRemove::RecommendsImportant false;" >> /etc/apt/apt.conf.d/00norecommends     && echo "APT::Install-Suggests false;" > /etc/apt/apt.conf.d/00nosuggests        && echo "APT::AutoRemove::SuggestsImportant false;" >> /etc/apt/apt.conf.d/00nosuggests  && apt-get update       && apt-get install -y           apt-utils       vim      && apt-get install locales      && locale-gen en_US.UTF-8       && dpkg-reconfigure             --frontend $DEBIAN_FRONTEND locales
+ ---> Using cache
+ ---> f0247dade632
+Step 6/10 : RUN if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi      && apt-get install -y           dialog          debconf-utils    && echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections
+ ---> Using cache
+ ---> 3be72e8b168a
+Step 7/10 : ARG USER_ACCT
+ ---> Using cache
+ ---> c3e167117edb
+Step 8/10 : ARG HOME_DIR
+ ---> Using cache
+ ---> 957b2216b897
+Step 9/10 : ARG XLNX_INSTALL_LOCATION
+ ---> Using cache
+ ---> 7b41133de910
+Step 10/10 : RUN if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi     && apt-get install -y           sudo    && adduser      --disabled-password              --gecos ''              --shell /bin/bash               --home $HOME_DIR                $USER_ACCT       && echo                 "$USER_ACCT ALL=(ALL) NOPASSWD: ALL"            >> /etc/sudoers         && mkdir -p $XLNX_INSTALL_LOCATION       && chown -R $USER_ACCT:$USER_ACCT $XLNX_INSTALL_LOCATION        && echo "dash dash/sh boolean false" | debconf-set-selections    && DEBIAN_FRONTEND=$DEBIAN_FRONTEND dpkg-reconfigure dash
+ ---> Using cache
+ ---> 0d3408b80d15
+[Warning] One or more build-args [KEYBOARD_CONFIG_FILE XLNX_PETALINUX_INSTALLER INSTALL_SERVER_URL] were not consumed
+Successfully built 0d3408b80d15
+Successfully tagged dependency_generation:v2018.3
++ xhost +
+access control disabled, clients can connect from any host
++ '[' 1 -ne 0 ']'
++ set +x
+-----------------------------------
+Create a base docker container...
+-----------------------------------
+DOCKER_CONTAINER_NAME=
+-----------------------------------
++ docker run --name build_petalinux_depends_v2018.3 -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=:0 -itd dependency_generation:v2018.3 /bin/bash
+7d275f7a29bc941441030761faadcf788b0a2800d503f87555fa0b3a7562f8de
++ '[' 1 -ne 0 ']'
++ set +x
+-----------------------------------
+Install support packages...
+-----------------------------------
++ docker exec -it build_petalinux_depends_v2018.3 bash -c 'if [ 1 -ne 0 ]; then set -x; fi      && apt-get -y install wget'
++ apt-get -y install wget
+Reading package lists... Done
+Building dependency tree       
+Reading state information... Done
+The following additional packages will be installed:
+  libidn11
+Recommended packages:
+  ca-certificates
+The following NEW packages will be installed:
+  libidn11 wget
+0 upgraded, 2 newly installed, 0 to remove and 37 not upgraded.
+Need to get 346 kB of archives.
+After this operation, 1151 kB of additional disk space will be used.
+Get:1 http://archive.ubuntu.com/ubuntu xenial-updates/main amd64 libidn11 amd64 1.32-3ubuntu1.2 [46.5 kB]
+Get:2 http://archive.ubuntu.com/ubuntu xenial-updates/main amd64 wget amd64 1.17.1-1ubuntu1.4 [299 kB]
+Fetched 346 kB in 0s (440 kB/s)
+Selecting previously unselected package libidn11:amd64.
+(Reading database ... 8383 files and directories currently installed.)
+Preparing to unpack .../libidn11_1.32-3ubuntu1.2_amd64.deb ...
+Unpacking libidn11:amd64 (1.32-3ubuntu1.2) ...
+Selecting previously unselected package wget.
+Preparing to unpack .../wget_1.17.1-1ubuntu1.4_amd64.deb ...
+Unpacking wget (1.17.1-1ubuntu1.4) ...
+Processing triggers for libc-bin (2.23-0ubuntu9) ...
+Setting up libidn11:amd64 (1.32-3ubuntu1.2) ...
+Setting up wget (1.17.1-1ubuntu1.4) ...
+Processing triggers for libc-bin (2.23-0ubuntu9) ...
++ '[' 1 -ne 0 ']'
++ set +x
+-----------------------------------
+Generating Xilinx Keyboard Configuration... (Interactive)
+-----------------------------------
++ docker exec -it build_petalinux_depends_v2018.3 bash -c 'if [ 1 -ne 0 ]; then set -x; fi      && apt-get install -y keyboard-configuration     && sudo dpkg-reconfigure keyboard-configuration         && mkdir -p /home/xilinx/downloads/tmp  && cd /home/xilinx/downloads/tmp         && mkdir -p configs     && debconf-get-selections | grep keyboard-configuration > configs/keyboard_settings.conf         && ls -al'
++ apt-get install -y keyboard-configuration
+Reading package lists... Done
+Building dependency tree       
+Reading state information... Done
+The following additional packages will be installed:
+  liblocale-gettext-perl
+The following NEW packages will be installed:
+  keyboard-configuration liblocale-gettext-perl
+0 upgraded, 2 newly installed, 0 to remove and 37 not upgraded.
+Need to get 674 kB of archives.
+After this operation, 2695 kB of additional disk space will be used.
+Get:1 http://archive.ubuntu.com/ubuntu xenial/main amd64 liblocale-gettext-perl amd64 1.07-1build1 [17.1 kB]
+Get:2 http://archive.ubuntu.com/ubuntu xenial-updates/main amd64 keyboard-configuration all 1.108ubuntu15.4 [657 kB]
+Fetched 674 kB in 0s (764 kB/s)                
+Preconfiguring packages ...
+Selecting previously unselected package liblocale-gettext-perl.
+(Reading database ... 8399 files and directories currently installed.)
+Preparing to unpack .../liblocale-gettext-perl_1.07-1build1_amd64.deb ...
+Unpacking liblocale-gettext-perl (1.07-1build1) ...
+Selecting previously unselected package keyboard-configuration.
+Preparing to unpack .../keyboard-configuration_1.108ubuntu15.4_all.deb ...
+Unpacking keyboard-configuration (1.108ubuntu15.4) ...
+Processing triggers for systemd (229-4ubuntu19) ...
+Setting up liblocale-gettext-perl (1.07-1build1) ...
+Setting up keyboard-configuration (1.108ubuntu15.4) ...
+/var/lib/dpkg/info/keyboard-configuration.postinst: line 120: type: plymouth: not found
+update-rc.d: warning: start and stop actions are no longer supported; falling back to defaults
+update-rc.d: warning: start and stop actions are no longer supported; falling back to defaults
+Processing triggers for systemd (229-4ubuntu19) ...
++ sudo dpkg-reconfigure keyboard-configuration
+ Package configuration
+ ────────┌───────────────────────────────Configuring keyboard-configuration─────────────────────────────────┐───────────
+         │ Please select the model of the keyboard of this machine.                                         │  
+         │                                                                                                  │  
+         │ Keyboard model:                                                                                  │  
+         │ ┌────^(-)──────────────────────────────────────────────────────────────────────────────────────┐ │  
+         │ │Compaq Internet Keyboard (7 keys)                                                             │ │  
+         │ │Compaq iPaq Keyboard                                                                          │ │  
+         │ │Creative Desktop Wireless 7000                                                                │ │  
+         │ │DTK2000                                                                                       │ │  
+         │ │Dell                                                                                          │ │  
+         │ │Dell 101-key PC                                                                               │ │  
+         │ │Dell Laptop/notebook Inspiron 6xxx/8xxx                                                       │ │  
+         │ │Dell Laptop/notebook Precision M series                                                       │ │  
+         │ │Dell Latitude series laptop                                                                   │ │  
+         │ │Dell Precision M65                                                                            │ │  
+         │ │Dell SK-8125                                                                                  │ │  
+         │ │Dell SK-8135                                                                                  │ │  
+         │ │Dell USB Multimedia Keyboard                                                                  │ │  
+         │ │Dexxa Wireless Desktop Keyboard                                                               │ │  
+         │ │Diamond 9801 / 9802 series                                                                    │ │  
+         │ │Do not configure keyboard; keep kernel keymap                                                 │ │  
+         │ │Ennyah DKB-1008                                                                               │ │  
+         │ │Everex STEPnote                                                                               │ │  
+         │ │FL90                                                                                          │ │  
+         │ │Fujitsu-Siemens Computers AMILO laptop                                                        │ │  
+         │ │Generic 101-key PC                                                                            │ │  
+         │ │Generic 102-key (Intl) PC                                                                     │ │  
+         │ │Generic 104-key PC                                                                            │ │  
+         │ │Generic 105-key (Intl) PC                                                                     │ │  
+         │ └────v(+)──────────────────────────────────────────────────────────────────────────────36%─────┘ │  
+         ├──────────────────────────────────────────────────────────────────────────────────────────────────┤  
+         │                               <  OK  >                <Cancel>                                   │  
+         └──────────────────────────────────────────────────────────────────────────────────────────────────┘  
+           
+
+ Package configuration
+ ┌───────────────────────────────────────Configuring keyboard-configuration─────────────────────────────────────────┐───
+ │ The layout of keyboards varies per country, with some countries having multiple common layouts. Please select    │  
+ │ the country of origin for the keyboard of this computer.                                                         │  
+ │                                                                                                                  │  
+ │ Country of origin for the keyboard:                                                                              │  
+ │ ┌────^(-)──────────────────────────────────────────────────────────────────────────────────────────────────────┐ │  
+ │ │                                 Armenian                                                                     │ │  
+ │ │                                 Azerbaijani                                                                  │ │  
+ │ │                                 Bambara                                                                      │ │  
+ │ │                                 Bangla                                                                       │ │  
+ │ │                                 Belarusian                                                                   │ │  
+ │ │                                 Belgian                                                                      │ │  
+ │ │                                 Bosnian                                                                      │ │  
+ │ │                                 Braille                                                                      │ │  
+ │ │                                 Bulgarian                                                                    │ │  
+ │ │                                 Burmese                                                                      │ │  
+ │ │                                 Chinese                                                                      │ │  
+ │ │                                 Croatian                                                                     │ │  
+ │ │                                 Czech                                                                        │ │  
+ │ │                                 Danish                                                                       │ │  
+ │ │                                 Dhivehi                                                                      │ │  
+ │ │                                 Dutch                                                                        │ │  
+ │ │                                 Dzongkha                                                                     │ │  
+ │ │                                 English (Cameroon)                                                           │ │  
+ │ │                                 English (Ghana)                                                              │ │  
+ │ │                                 English (Nigeria)                                                            │ │  
+ │ │                                 English (South Africa)                                                       │ │  
+ │ │                                 English (UK)                                                                 │ │  
+ │ │                                 English (US)                                                                 │ │  
+ │ └────v(+)──────────────────────────────────────────────────────────────────────────────────────────────31%─────┘ │  
+ ├──────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤  
+ │                                       <  OK  >                    <Cancel>                                       │  
+ └──────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘  
+   
+
+ Package configuration
+ ───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+                        ┌────────────────Configuring keyboard-configuration───────────────────┐
+                        │ Please select the layout matching the keyboard for this machine.    │  
+                        │                                                                     │  
+                        │ Keyboard layout:                                                    │  
+                        │ ┌─────────────────────────────────────────────────────────────────┐ │  
+                        │ │English (US)                                                     │ │  
+                        │ │English (US) - Cherokee                                          │ │  
+                        │ │English (US) - English (Colemak)                                 │ │  
+                        │ │English (US) - English (Dvorak alternative international no dead │ │  
+                        │ │English (US) - English (Dvorak)                                  │ │  
+                        │ │English (US) - English (Dvorak, international with dead keys)    │ │  
+                        │ │English (US) - English (Macintosh)                               │ │  
+                        │ │English (US) - English (Programmer Dvorak)                       │ │  
+                        │ │English (US) - English (US, alternative international)           │ │  
+                        │ │English (US) - English (US, international with dead keys)        │ │  
+                        │ │English (US) - English (US, with euro on 5)                      │ │  
+                        │ │English (US) - English (Workman)                                 │ │  
+                        │ │English (US) - English (Workman, international with dead keys)   │ │  
+                        │ │English (US) - English (classic Dvorak)                          │ │  
+                        │ │English (US) - English (international AltGr dead keys)           │ │  
+                        │ │English (US) - English (left handed Dvorak)                      │ │  
+                        │ │English (US) - English (right handed Dvorak)                     │ │  
+                        │ │English (US) - English (the divide/multiply keys toggle the layo │ │  
+                        │ │English (US) - Russian (US, phonetic)                            │ │  
+                        │ │English (US) - Serbo-Croatian (US)                               │ │  
+                        │ └─────────────────────────────────────────────────────────────────┘ │  
+                        ├─────────────────────────────────────────────────────────────────────┤  
+                        │                     <  OK  >           <Cancel>                     │  
+                        └─────────────────────────────────────────────────────────────────────┘  
+                          
+
+
+
+ Package configuration
+ ───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+
+
+
+ ┌───────────────────────────────────────Configuring keyboard-configuration─────────────────────────────────────────┐
+ │ With some keyboard layouts, AltGr is a modifier key used to input some characters, primarily ones that are       │  
+ │ unusual for the language of the keyboard layout, such as foreign currency symbols and accented letters. These    │  
+ │ are often printed as an extra symbol on keys.                                                                    │  
+ │                                                                                                                  │  
+ │ Key to function as AltGr:                                                                                        │  
+ │ ┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────┐ │  
+ │ │                                    The default for the keyboard layout                                       │ │  
+ │ │                                    No AltGr key                                                              │ │  
+ │ │                                    Right Alt (AltGr)                                                         │ │  
+ │ │                                    Right Control                                                             │ │  
+ │ │                                    Right Logo key                                                            │ │  
+ │ │                                    Menu key                                                                  │ │  
+ │ │                                    Left Alt                                                                  │ │  
+ │ │                                    Left Logo key                                                             │ │  
+ │ │                                    Keypad Enter key                                                          │ │  
+ │ │                                    Both Logo keys                                                            │ │  
+ │ │                                    Both Alt keys                                                             │ │  
+ │ └──────────────────────────────────────────────────────────────────────────────────────────────────────────────┘ │  
+ ├──────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤  
+ │                                       <  OK  >                    <Cancel>                                       │  
+ └──────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘  
+   
+
+
+
+
+
+
+ Package configuration
+ ───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+
+
+
+
+ ┌───────────────────────────────────────Configuring keyboard-configuration─────────────────────────────────────────┐
+ │ The Compose key (known also as Multi_key) causes the computer to interpret the next few keystrokes as a          │  
+ │ combination in order to produce a character not found on the keyboard.                                           │  
+ │                                                                                                                  │  
+ │ On the text console the Compose key does not work in Unicode mode. If not in Unicode mode, regardless of what    │  
+ │ you choose here, you can always also use the Control+period combination as a Compose key.                        │  
+ │                                                                                                                  │  
+ │ Compose key:                                                                                                     │  
+ │ ┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────┐ │  
+ │ │                                             No compose key                                                   │ │  
+ │ │                                             Right Alt (AltGr)                                                │ │  
+ │ │                                             Right Control                                                    │ │  
+ │ │                                             Right Logo key                                                   │ │  
+ │ │                                             Menu key                                                         │ │  
+ │ │                                             Left Logo key                                                    │ │  
+ │ │                                             Caps Lock                                                        │ │  
+ │ └──────────────────────────────────────────────────────────────────────────────────────────────────────────────┘ │  
+ ├──────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤  
+ │                                       <  OK  >                    <Cancel>                                       │  
+ └──────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘  
+   
+
+
+
+
+
+
+
+/var/lib/dpkg/info/keyboard-configuration.postinst: line 120: type: plymouth: not found
+update-rc.d: warning: start and stop actions are no longer supported; falling back to defaults
+update-rc.d: warning: start and stop actions are no longer supported; falling back to defaults
++ mkdir -p /home/xilinx/downloads/tmp
++ cd /home/xilinx/downloads/tmp
++ mkdir -p configs
++ debconf-get-selections
++ grep keyboard-configuration
++ ls -al
+total 12
+drwxr-xr-x 3 root root 4096 Dec 19 15:33 .
+drwxr-xr-x 3 root root 4096 Dec 19 15:33 ..
+drwxr-xr-x 2 root root 4096 Dec 19 15:33 configs
++ '[' 1 -ne 0 ']'
++ set +x
+-----------------------------------
+Copying keyboard configuration to host...
+-----------------------------------
++ mkdir -p _generated/configs
++ docker cp build_petalinux_depends_v2018.3:/home/xilinx/downloads/tmp/configs/keyboard_settings.conf _generated/configs/keyboard_settings.conf
++ '[' 1 -ne 0 ']'
++ set +x
+-----------------------------------
+Downloading ARM Mali userspace binaries... (Automated)
+-----------------------------------
++ docker exec -it build_petalinux_depends_v2018.3 bash -c 'if [ 1 -ne 0 ]; then set -x; fi      && mkdir -p /home/xilinx/downloads/tmp   && cd /home/xilinx/downloads/tmp        && wget -nv https://www.xilinx.com/publications/products/tools/mali-400-userspace.tar -O mali-400-userspace.tar --no-check-certificate   && ls -al'
++ mkdir -p /home/xilinx/downloads/tmp
++ cd /home/xilinx/downloads/tmp
++ wget -nv https://www.xilinx.com/publications/products/tools/mali-400-userspace.tar -O mali-400-userspace.tar --no-check-certificate
+WARNING: cannot verify www.xilinx.com's certificate, issued by 'CN=COMODO RSA Domain Validation Secure Server CA,O=COMODO CA Limited,L=Salford,ST=Greater Manchester,C=GB':
+  Self-signed certificate encountered.
+2018-12-19 15:33:18 URL:https://www.xilinx.com/publications/products/tools/mali-400-userspace.tar [131686400/131686400] -> "mali-400-userspace.tar" [1]
++ ls -al
+total 128612
+drwxr-xr-x 3 root root      4096 Dec 19 15:33 .
+drwxr-xr-x 3 root root      4096 Dec 19 15:33 ..
+drwxr-xr-x 2 root root      4096 Dec 19 15:33 configs
+-rw-r--r-- 1 root root 131686400 Nov 17 03:37 mali-400-userspace.tar
++ '[' 1 -ne 0 ']'
++ set +x
+-----------------------------------
+Copying mali arm binary to host...
+-----------------------------------
++ mkdir -p _generated/depends
++ docker cp build_petalinux_depends_v2018.3:/home/xilinx/downloads/tmp/mali-400-userspace.tar _generated/depends/mali-400-userspace.tar
++ '[' 1 -ne 0 ']'
++ set +x
+-----------------------------------
+Shutting down Python HTTP Server...
+-----------------------------------
+Killing process ID 8278
+-----------------------------------
++ kill 8278
++ '[' 1 -ne 0 ']'
++ set +x
+-----------------------------------
+Removing temporary docker resources...
+-----------------------------------
++ docker rm -f build_petalinux_depends_v2018.3
+build_petalinux_depends_v2018.3
+./scripts/bash/generate_xilinx_petalinux_depends_v2018.3.sh: line 257:  8278 Terminated              python3 -m http.server
++ docker rmi -f dependency_generation:v2018.3
+Untagged: dependency_generation:v2018.3
++ '[' 1 -ne 0 ']'
++ set +x
+-----------------------------------
+Dependency Generation Complete
+-----------------------------------
+STARTED :Wed Dec 19 10:33:01 EST 2018
+ENDED   :Wed Dec 19 10:33:20 EST 2018
+-----------------------------------
+DOCKER_FILE_NAME=Dockerfile.petalinux_v2018.3
+DOCKER_FILE_STAGE=base_os_v2018.3
+DOCKER_IMAGE=dependency_generation:v2018.3
+DOCKER_CONTAINER_NAME=build_petalinux_depends_v2018.3
+-----------------------------------
+Dependencies Generated:
+-----------------------------------
+-rw-r--r-- 1 rjmoss rjmoss 1553 Dec 19 10:33 _generated/configs/keyboard_settings.conf
+-rw-r--r-- 1 rjmoss rjmoss 131686400 Nov 16 22:37 _generated/depends/mali-400-userspace.tar
+-----------------------------------
+rjmoss@rjmoss-HP-ZBook-15-G3:/xilinx/local/repositories/bitbucket/xilinx_docker/docker_recipes/xilinx_tools/v2018.3$ 
+
