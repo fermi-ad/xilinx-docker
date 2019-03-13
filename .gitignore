@@ -1,0 +1,16 @@
+# gitignore for xilinx_docker repository
+~*
+*~
+
+# Ignore install dependencies
+depends/*.bin
+depends/*.tar
+depends/*.tar.gz
+
+# Ignore generated folders
+_generated*
+_backup*
+_old*
+
+# Ignore installer files for Petalinux
+*.run
