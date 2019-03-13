@@ -1,0 +1,7 @@
+# Ignore all files except those explicitly included in context
+*
+
+# Add files required back in context
+!Dockerfile
+!configs
+!depends
