@@ -156,7 +156,7 @@ XTERM_CONFIG_FILE=$INSTALL_CONFIGS_DIR/XTerm
 
 # Xilinx Petalinux Autoinstall Script
 #  for headless installation of Petalinux
-XLNX_PETALINUX_AUTOINSTALL_SCRIPT=autoinstall_petalinux_"$XLNX_RELEASE_VERSION".sh
+XLNX_PETALINUX_AUTOINSTALL_SCRIPT=autoinstall_petalinux.sh
 
 # Xilinx Petalinux Installer Bundle
 XLNX_PETALINUX_INSTALLER=$INSTALL_DEPENDS_DIR/petalinux-v2018.3-final-installer.run

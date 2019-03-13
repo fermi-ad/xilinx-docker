@@ -44,15 +44,12 @@ $ perl ldd-recursive.pl /opt/Xilinx/Vivado/2018.3/bin/unwrapped/lnx64.o/vivado -
 			- https://www.xilinx.com/support/download/index.html/content/xilinx/en/downloadNav/vivado-design-tools/2018-3.html
 - Place the installer binary (or a link to it) in the ./depends folder
 
-## Set the Host IP Address in the common include script (one time)
+## Setting the Host IP Address
+- Currently the build scripts pull the correct host IP address from the system, so there is no need to set this manually.
 
 ### Locate the local ipaddress
 - For Linux use __ifconfig__ to determine the host IP address
 - For Windows Powershell use __ipconfig__ to determine the host IP address
-
-### Set the local ipaddress
-- For Linux, modify the file __*./scripts/include/common_v2018.3.sh*__ and change the __SERVER_IP__ definition
-- For Windows Powershell, modify the file __*.\scripts\powershell\include\common-v2018.3.sh.ps1*__ and change the __$SERVER_IP__ definition
 
 ## Generate a base Ubuntu 16.04.4 image (one time)
 - For Linux, execute the image generation script __*../../base_os/ubuntu_16.04.4/scripts/build_ubuntu_16.04.4_base_image.sh*__
@@ -86,7 +83,7 @@ ubuntu              16.04.4             a9e9c139dbd4        Less than a second a
 
 ```
 
-- For Windows Powershell, execute the image generation script __*..\..\base_os\ubuntu_16.04.3\scripts\powershell\build_ubuntu_16.04.3_base_image.sh.ps1*__
+- For Windows Powershell, execute the image generation script __*..\..\base_images\ubuntu_16.04.4\build_image.ps1*__
 	- Note: If it appears that the script has hung and nothing is happening, look at the top of the Powershell command line window to see if there is a status message like this (it should be downloading the base Ubuntu Image)
 
 ```powershell
@@ -97,10 +94,10 @@ Writing web request
 
 ```powershell
 powershell:
-PS X:\...\build_environments\ubuntu_16.04.4\scripts\powershell> .\build_ubuntu_16.04.4_base_image.sh.ps1
+PS X:\...\base_images\ubuntu_16.04.4> .\build_image.ps1
 Base Release Image [Missing] ubuntu-base-16.04.4-base-amd64.tar.gz
 
-Directory: X:\...\build_environments\ubuntu_16.04.4\scripts\powershell
+Directory: X:\...\base_images\ubuntu_16.04.4
 
 Mode                LastWriteTime         Length Name
 ----                -------------         ------ ----
@@ -411,10 +408,18 @@ $ docker exec -d xilinx_vivado_v2018.3 bash -c "/opt/Xilinx/Vivado/2018.3/bin/vi
 ```
 
 ### Setup the License in the Vivado Gui
- 	- From the Vivado GUI menu, select ```Help -> Manage License...```
- 	- Load the license file from __*/opt/Xilinx/licenses*___ or a shared folder (__*/srv/shared/licenses*__)
+ - From the Vivado GUI menu, select ```Help -> Manage License...```
+ - Load the license file from __*/opt/Xilinx/licenses*__ or a shared folder (__*/srv/shared/licenses*__)
 
 ### Exit Vivado
+- Type 'exit' in the xterm session to close it
+- If you attached to the running container first before launching xterm, you must use a special escape sequence to __*detach*__ from the running container to leave it running in the background
+	- The special escape sequence is __*<CTRL-P><CTRL-Q>*__
+```bash:
+bash:
+xilinx@xilinx_vivado_v2018.3:/opt/Xilinx$$ read escape sequence
+[1]+  Done                    docker exec -d xilinx_vivado_v2018.3 bash -c "xterm"
+```
 - The container should still be running, even if Vivado has been closed
 - Verify that the container is still running in the background
 ```bash
@@ -526,8 +531,7 @@ $ ../../../tools/bash/run_image_x11_macaddr xilinx-vivado-licensed-imported:v201
 - Restore a working Vivado environment from the archived image (using the one created in the above instructions)
 ```bash
 bash:
-$ docker load xlnx-vivado-v2018.3_container_backup_licensed_02deadbeef99.tar
-
+$ docker load -i xlnx-vivado-v2018.3_container_backup_licensed_02deadbeef99.tar
 ```
 
 - List the local docker images
@@ -592,7 +596,7 @@ bash:
 ../../../tools/bash/run_image_x11_macaddr.sh  xilinx-vivado-licensed:v2018.3 xilinx_vivado_loaded_licensed_v2018.3 02:de:ad:be:ef:99
 DOCKER_IMAGE_NAME: xilinx-vivado-licensed:v2018.3
 DOCKER_CONTAINER_NAME: xilinx_vivado_loaded_licensed_v2018.3
-DOCKER_CONTAINER_MACADDR: 
+DOCKER_CONTAINER_MACADDR: 02:de:ad:be:ef:99
 access control disabled, clients can connect from any host
 c75206901573880b92a05eb86f83d2bee334d0051a00bafac50677f9806b117f
 ```
