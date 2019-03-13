@@ -89,7 +89,7 @@ RUN if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi \
 ########################################################################################
 # Xilinx Vivado Dependencies:
 # ---------------------------
-# - Includes the following Petalinux Dependencies
+# - Includes Petalinux Dependencies and JRE needed for Eclipse in XSDK
 ########################################################################################
 FROM base_os_vivado_v2018.3 AS xilinx_install_depends_vivado_v2018.3
 LABEL author="Jason Moss"
@@ -176,7 +176,9 @@ RUN if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi \
 # additional Vivado dependencies \
 # derived from the perl 'ldd-recursive.pl' script \
 	 	libboost-signals-dev \
-	 	google-perftools
+	 	google-perftools \
+# JRE for Eclipse to use the Xilinx SDK \
+		default-jre
 # The following PPA is only required if using Ubuntu 16.04.4 base images to update to newer GCCXX libs
 # # Get the add-apt-repository command \
 # 		software-properties-common \
