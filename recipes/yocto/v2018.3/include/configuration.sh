@@ -57,7 +57,7 @@ DOCKER_IMAGE_NAME=xilinx-$XLNX_TOOL_INFO
 
 # Docker base OS Images
 DOCKER_BASE_OS=ubuntu
-DOCKER_BASE_OS_TAG=18.04.2
+DOCKER_BASE_OS_TAG=16.04.3
 
 # Should Docker use Cache when building?
 # - A couple of important reasons to DISABLE the use of the cache
