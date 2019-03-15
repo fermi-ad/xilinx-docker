@@ -109,15 +109,19 @@ ARG HOME_DIR
 USER $USER_ACCT
 ENV DEBIAN_FRONTEND=noninteractive
 
+# Arguments can be filled at build time using the '--build-arg' option
+ARG XLNX_INSTALL_LOCATION
+
 # Turn on shell command expansion inside docker container IF Debug is configured
 ARG BUILD_DEBUG
 
-# Install Yocto Essential dependencies (see ref-manual.html linked above)
+# Setup install location folder permissions
 RUN if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi \
 	&& mkdir -p $XLNX_INSTALL_LOCATION/tmp \
 	&& cd $XLNX_INSTALL_LOCATION/tmp \
 	&& sudo apt-get update \
 	&& sudo apt-get install -y \
+# Install Yocto Essential dependencies (see ref-manual.html linked above)
 		gawk \
 		wget \
 		git-core \
@@ -153,8 +157,8 @@ RUN if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi \
 # Install CURL (needed for REPO command) \
 		curl \
 # Install the REPO command \
-	&& curl https://storage.googleapis.com/git-repo-downloads/repo > /usr/local/bin/repo \
-	&& chmod a+x /usr/local/bin/repo \
+	&& sudo bash -c "curl https://storage.googleapis.com/git-repo-downloads/repo > /usr/local/bin/repo" \
+	&& sudo chmod a+x /usr/local/bin/repo \
 # Install Xorg and file, which are required by the Xilinx SDK installer setup
 	&& sudo apt-get install -y \
 		file \
@@ -166,6 +170,28 @@ RUN if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi \
 # used to strip windows line terminations from files \
 		dos2unix
 
+# Arguments can be filled at build time using the '--build-arg' option
+ARG YOCTO_DIR
+ARG YOCTO_VER
+ARG YOCTO_MANIFEST_URL
+ARG YOCTO_MANIFEST_BRANCH
+ARG GIT_USER_NAME
+ARG GIT_USER_EMAIL
+
+# Setup GIT with a dummy username and email address
+RUN if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi \
+	&& git config \
+		--global user.name $GIT_USER_NAME \
+	&& git config \
+		--global user.email $GIT_USER_EMAIL \
+	&& git config \
+		--global color.ui true \
+# Initialize Yocto using the release manifest from Xilinx \f
+# Create a working branch of all yocto projects locally \
+	&& mkdir -p $YOCTO_DIR \
+	&& cd $YOCTO_DIR \
+	&& repo init -u $YOCTO_MANIFEST_URL -b $YOCTO_MANIFEST_BRANCH \
+	&& repo sync && repo start $YOCTO_VER"_working" --all
 
 ########################################################################################
 #	- Xilinx SDK v2018.3

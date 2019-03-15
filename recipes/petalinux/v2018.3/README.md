@@ -41,11 +41,12 @@
 - For Windows Powershell use __ipconfig__ to determine the host IP address
 
 ## Generate a base Ubuntu 16.04.3 image (one time)
-- For Linux, execute the image generation script __*../../base_os/ubuntu_16.04.3/scripts/build_ubuntu_16.04.3_base_image.sh*__
+- For Linux, execute the image generation script __*../../base-images/ubuntu_16.04.3/scripts/build_image.sh*__
 
 ```bash
 bash:
-$ ../../ubuntu_16.04.3/build_unbuntu_16.04.3_base_image.sh
+$ pushd ../../base-images/ubuntu-16.04.3
+$ ./build_image.sh
 Base Release Image [Missing] ubuntu-base-16.04.3-base-amd64.tar.gz
 Attempting to download http://cdimage.ubuntu.com/ubuntu-base/releases/16.04.3/release/ubuntu-base-16.04.3-base-amd64.tar.gz
 --2018-10-04 10:08:41--  http://cdimage.ubuntu.com/ubuntu-base/releases/16.04.3/release/ubuntu-base-16.04.3-base-amd64.tar.gz
@@ -76,20 +77,7 @@ Writing web request
 
 ```powershell
 powershell:
-PS X:\...\base_os\ubuntu_16.04.3> .\build_image.ps1
-Base Release Image [Missing] ubuntu-base-16.04.3-base-amd64.tar.gz
-
-Directory: X:\...\base_os\ubuntu_16.04.3
-
-Mode                LastWriteTime         Length Name
-----                -------------         ------ ----
------       1/14/2019  10:11 AM                depends
-Attempting to download http://cdimage.ubuntu.com/ubuntu-base/releases/16.04.3/release/ubuntu-base-16.04.3-base-amd64.tar.gz
-Base Relese Image Download [Good]
-ubuntu-base-16.04.3-base-amd64.tar.gz
-sha256:9e30184c0cc6334678aa3440b7911a876fd8d5fd929f7d6b661def7d3e730972
-REPOSITORY          TAG                 IMAGE ID            CREATED                  SIZE
-ubuntu              16.04.3             9e30184c0cc6        Less than a second ago   120MB
+PS X:\...\base-images\ubuntu_16.04.3> .\build_image.ps1
 ```
 
 ## Generate Petalinux Image Dependencies (one time)
@@ -99,7 +87,7 @@ ubuntu              16.04.3             9e30184c0cc6        Less than a second a
 - For Linux, execute the following script:
 ```bash
 bash:
-$ ./scripts/bash/generate_xilinx_petalinux_depends_v2018.3.sh
+$ ./generate_depends.sh
 ```
 - Follow the build process in the terminal (manual interaction required)
 - Keyboard configuration
@@ -414,7 +402,7 @@ IMAGE               CREATED             CREATED BY                              
 - Create a running container based on the loaded image
 ```bash
 bash:
-../../../tools/bash/run_image_x11_macaddr.sh  xilinx-petalinux-backup:v2018.3 xilinx_petalinux_backup_v2018.3 02:de:ad:be:ef:91
+$ ../../../tools/bash/run_image_x11_macaddr.sh  xilinx-petalinux-backup:v2018.3 xilinx_petalinux_backup_v2018.3 02:de:ad:be:ef:91
 DOCKER_IMAGE_NAME: xilinx-petalinux-backup:v2018.3
 DOCKER_CONTAINER_NAME: xilinx_petalinux_backup_v2018.3
 DOCKER_CONTAINER_MACADDR: 02:de:ad:be:ef:91
@@ -438,8 +426,8 @@ $ docker export -o xlnx-petalinux-v2018.3_container_backup_02deadbeef91.tar xili
 ```bash
 bash:
 $ ls -al xlnx-petalinux-v2018.3*
--rw------- 1 rjmoss rjmoss 15291889152 Mar 12 20:47 xlnx-petalinux-v2018.3_container_backup_02deadbeef91.tar
--rw------- 1 rjmoss rjmoss 23227588608 Mar 12 16:22 xlnx-petalinux-v2018.3_image_backup_saved_02deadbeef91.tar
+-rw------- 1 xilinx xilinx 15291889152 Mar 12 20:47 xlnx-petalinux-v2018.3_container_backup_02deadbeef91.tar
+-rw------- 1 xilinx xilinx 23227588608 Mar 12 16:22 xlnx-petalinux-v2018.3_image_backup_saved_02deadbeef91.tar
 ```
 
 ### Use __*docker import*__ to create a new docker image based on this filesystem archive
@@ -469,15 +457,13 @@ ae9bfee745f3        2 minutes ago                           15.2GB              
 - Create a running container based on the imported image
 ```bash
 bash:
-../../../tools/bash/run_image_x11_macaddr.sh xilinx-petalinux-imported:v2018.3 xilinx_petalinux_import_v2018.3 02:de:ad:be:ef:91
+$ ../../../tools/bash/run_image_x11_macaddr.sh xilinx-petalinux-imported:v2018.3 xilinx_petalinux_import_v2018.3 02:de:ad:be:ef:91
 DOCKER_IMAGE_NAME: xilinx-petalinux-imported:v2018.3
 DOCKER_CONTAINER_NAME: xilinx_petalinux_import_v2018.3
 DOCKER_CONTAINER_MACADDR: 02:de:ad:be:ef:91
 access control disabled, clients can connect from any host
 759ccf17fa992defafdf2c0c6983f8225704caa4700c66435e488f7bc2278594
 ```
-
-<=========== UPDATE ME ===================>
 
 ## Get started with a petalinux build (in the running container)
 

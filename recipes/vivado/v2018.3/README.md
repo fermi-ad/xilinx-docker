@@ -51,36 +51,34 @@ $ perl ldd-recursive.pl /opt/Xilinx/Vivado/2018.3/bin/unwrapped/lnx64.o/vivado -
 - For Linux use __ifconfig__ to determine the host IP address
 - For Windows Powershell use __ipconfig__ to determine the host IP address
 
-## Generate a base Ubuntu 16.04.4 image (one time)
-- For Linux, execute the image generation script __*../../base_os/ubuntu_16.04.4/scripts/build_ubuntu_16.04.4_base_image.sh*__
+## Generate a base Ubuntu 18.04.2 image (one time)
+- For Linux, execute the image generation script __*../../base-images/ubuntu_18.04.2/build_image.sh*__
 
 ```bash
-bash:
-$ cd ../../base_os/ubuntu_16.04.4/
-$ ./scripts/bash/build_ubuntu_16.04.4_base_image.sh
-Base Release Image [Missing] ubuntu-base-16.04.4-base-amd64.tar.gz
-Attempting to download http://cdimage.ubuntu.com/ubuntu-base/releases/16.04.4/release/ubuntu-base-16.04.4-base-amd64.tar.gz
-+ wget http://cdimage.ubuntu.com/ubuntu-base/releases/16.04.4/release/ubuntu-base-16.04.4-base-amd64.tar.gz -O depends/ubuntu-base-16.04.4-base-amd64.tar.gz
---2019-02-12 14:17:25--  http://cdimage.ubuntu.com/ubuntu-base/releases/16.04.4/release/ubuntu-base-16.04.4-base-amd64.tar.gz
-Resolving cdimage.ubuntu.com (cdimage.ubuntu.com)... 2001:67c:1360:8001::1d, 91.189.88.39
-Connecting to cdimage.ubuntu.com (cdimage.ubuntu.com)|2001:67c:1360:8001::1d|:80... connected.
+$ pushd ../..//base-images/ubuntu-18.04.2
+$ ./build_image.sh 
+Base Release Image [Missing] ubuntu-base-18.04.2-base-amd64.tar.gz
+Attempting to download http://cdimage.ubuntu.com/ubuntu-base/releases/18.04.2/release/ubuntu-base-18.04.2-base-amd64.tar.gz
++ wget http://cdimage.ubuntu.com/ubuntu-base/releases/18.04.2/release/ubuntu-base-18.04.2-base-amd64.tar.gz -O depends/ubuntu-base-18.04.2-base-amd64.tar.gz
+--2019-03-14 15:11:50--  http://cdimage.ubuntu.com/ubuntu-base/releases/18.04.2/release/ubuntu-base-18.04.2-base-amd64.tar.gz
+Resolving cdimage.ubuntu.com (cdimage.ubuntu.com)... 2001:67c:1360:8001::27, 91.189.88.168
+Connecting to cdimage.ubuntu.com (cdimage.ubuntu.com)|2001:67c:1360:8001::27|:80... connected.
 HTTP request sent, awaiting response... 200 OK
-Length: 42145011 (40M) [application/x-gzip]
-Saving to: ‘depends/ubuntu-base-16.04.4-base-amd64.tar.gz’
+Length: 31858560 (30M) [application/x-gzip]
+Saving to: ‘depends/ubuntu-base-18.04.2-base-amd64.tar.gz’
 
-depends/ubuntu-base-16.04.4-base-amd64 100%[=========================================================================>]  40.19M   227KB/s    in 3m 0s   
+depends/ubuntu-base-18.04.2-base-amd64.t 100%[===============================================================================>]  30.38M  13.4MB/s    in 2.3s    
 
-2019-02-12 14:20:25 (229 KB/s) - ‘depends/ubuntu-base-16.04.4-base-amd64.tar.gz’ saved [42145011/42145011]
+2019-03-14 15:11:52 (13.4 MB/s) - ‘depends/ubuntu-base-18.04.2-base-amd64.tar.gz’ saved [31858560/31858560]
 
 + '[' 1 -ne 0 ']'
 + set +x
-Base Relese Image Download [Good] ubuntu-base-16.04.4-base-amd64.tar.gz
-+ docker import depends/ubuntu-base-16.04.4-base-amd64.tar.gz ubuntu:16.04.4
-sha256:a9e9c139dbd40d8df57521728a932a9bc49dafe825ea3aedd5aab10c7fdf65e9
+Base Relese Image Download [Good] ubuntu-base-18.04.2-base-amd64.tar.gz
++ docker import depends/ubuntu-base-18.04.2-base-amd64.tar.gz ubuntu:18.04.2
+sha256:c48d0efe705c6eb38a0b6e6bdc2f8de2d8d642626e07b7a996afbd2408f4b5f0
 + docker image ls -a
-REPOSITORY          TAG                 IMAGE ID            CREATED                  SIZE
-ubuntu              16.04.4             a9e9c139dbd4        Less than a second ago   112MB
-
+REPOSITORY                      TAG                 IMAGE ID            CREATED             SIZE
+ubuntu                          18.04.2             c48d0efe705c        1 second ago        88.3MB
 ```
 
 - For Windows Powershell, execute the image generation script __*..\..\base_images\ubuntu_16.04.4\build_image.ps1*__
@@ -94,20 +92,7 @@ Writing web request
 
 ```powershell
 powershell:
-PS X:\...\base_images\ubuntu_16.04.4> .\build_image.ps1
-Base Release Image [Missing] ubuntu-base-16.04.4-base-amd64.tar.gz
-
-Directory: X:\...\base_images\ubuntu_16.04.4
-
-Mode                LastWriteTime         Length Name
-----                -------------         ------ ----
------       10/30/2018  10:11 AM                depends
-Attempting to download http://cdimage.ubuntu.com/ubuntu-base/releases/16.04.4/release/ubuntu-base-16.04.4-base-amd64.tar.gz
-Base Relese Image Download [Good]
-ubuntu-base-16.04.4-base-amd64.tar.gz
-sha256:a9e9c139dbd40d8df57521728a932a9bc49dafe825ea3aedd5aab10c7fdf65e9
-REPOSITORY          TAG                 IMAGE ID            CREATED                  SIZE
-ubuntu              16.04.4             a9e9c139dbd4        Less than a second ago   112MB
+PS X:\...\base-images\ubuntu-18.04.2> .\build_image.ps1
 ```
 
 ## Generate Vivado Image Dependencies (one time)
@@ -117,7 +102,7 @@ ubuntu              16.04.4             a9e9c139dbd4        Less than a second a
 - For Linux, execute the following script:
 ```bash
 bash:
-$ ./generated_depends.sh
+$ ./generate_depends.sh
 ```
 - Follow the build process in the terminal (manual interaction required)
 - Keyboard configuration
@@ -311,7 +296,7 @@ xilinx@xilinx_vivado_v2018.3:/opt/Xilinx$
 bash:
 $ docker inspect --format '{{range .Mounts}}{{println .Source .Destination}}{{end}}' xilinx_vivado_v2018.3
 /tmp/.X11-unix /tmp/.X11-unix
-/home/rjmoss/.Xauthority /home/xilinx/.Xauthority
+/home/xilinx/.Xauthority /home/xilinx/.Xauthority
 /srv/sstate-mirrors /srv/sstate-mirrors
 /srv/sstate-cache /srv/sstate-cache
 /srv/tftpboot /tftpboot
@@ -593,7 +578,7 @@ IMAGE               CREATED             CREATED BY                              
 - Create a running container based on the loaded image
 ```bash
 bash:
-../../../tools/bash/run_image_x11_macaddr.sh  xilinx-vivado-licensed:v2018.3 xilinx_vivado_loaded_licensed_v2018.3 02:de:ad:be:ef:99
+$ ../../../tools/bash/run_image_x11_macaddr.sh  xilinx-vivado-licensed:v2018.3 xilinx_vivado_loaded_licensed_v2018.3 02:de:ad:be:ef:99
 DOCKER_IMAGE_NAME: xilinx-vivado-licensed:v2018.3
 DOCKER_CONTAINER_NAME: xilinx_vivado_loaded_licensed_v2018.3
 DOCKER_CONTAINER_MACADDR: 02:de:ad:be:ef:99
@@ -644,7 +629,7 @@ IMAGE               CREATED              CREATED BY          SIZE               
 - Create a running container based on the imported image
 ```bash
 bash:
-../../../tools/bash/run_image_x11_macaddr.sh  xilinx-vivado-licensed-imported:v2018.3 xilinx_vivado_imported_licensed_v2018.3 02:de:ad:be:ef:99
+$ ../../../tools/bash/run_image_x11_macaddr.sh  xilinx-vivado-licensed-imported:v2018.3 xilinx_vivado_imported_licensed_v2018.3 02:de:ad:be:ef:99
 DOCKER_IMAGE_NAME: xilinx-vivado-licensed-imported:v2018.3
 DOCKER_CONTAINER_NAME: xilinx_vivado_imported_licensed_v2018.3
 DOCKER_CONTAINER_MACADDR: 
