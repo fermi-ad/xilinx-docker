@@ -420,6 +420,8 @@ $
 	- Similar to a Virtual Machine image created in VMWare or Virtualbox, you can store, share and later restore working containers from a tar archive
 - A docker container is __*exported*__ to an archive file
 - A docker image is __*saved*__ or __*exported*__ to an archive file
+- A docker image that was __*saved*__ should be __*loaded*__ to restore the image from an archive
+- A docker image or container that was __*exported*__ should be __*imported*__ to create a new image from an 
 - The major differences between a __*save*__ and an __*export*__
 	- A __*saved*__ image retains the complete layer history of the docker image and any configuration of that image (based on the as commit to the repository)
 	- An __*exported*__ image or container retains only the state of the filesystem and therefore will start up logged in as the user root.
@@ -478,39 +480,8 @@ Deleted: sha256:09194595939252613c12cc20680cc48b279f93f2bad59fdcf885aa4396bea8d2
 
 ### Example: Restore a container from a backup archive image
 - Use a backup archive of a docker image to re-create an environment with Vivado Tools installed and licensed
-- There are two ways to create a docker image from an archive depending on if you want to maintain the recorded history of an archived image
-	- __*docker import__* imports a flattened copy of the archived image filesystem into a new docker image
-		- An import operation creates a new image with a name you specify in the local docker image cache
 	- __*docker load__* loads the complete history of the archived image into a new docker image
 		- A load operation creates a new docker image with the same name of the image contained in the archive
-
-### Use __*docker import*__ to bring in an archived image
-- Restore a working Vivado environment image from the archive (using the one created in the above instructions)
-```bash
-bash:
-$ docker import xlnx-vivado-v2018.3_image_backup_licensed_02deadbeef99.tar xilinx-vivado-licensed-imported:v2018.3
-sha256:d2e103491692a1c444c8476b7ebd0de003868ba73cb06339f9e1660d1ae15deb
-```
-
-- List the local docker images
-```bash
-bash:
-$ docker image ls
-REPOSITORY                        TAG                 IMAGE ID            CREATED             SIZE
-xilinx-vivado-licensed-imported   v2018.3             e6e2ae50f86a        10 minutes ago      43.5GB
-```
-
-- See that an imported image has no history
-```bash
-$ docker history xilinx-vivado-licensed-imported:v2018.3
-IMAGE               CREATED             CREATED BY          SIZE                COMMENT
-e6e2ae50f86a        10 minutes ago                          43.5GB              Imported from -
-```
-
-- Create a working container based on this image
-```bash
-$ ../../../tools/bash/run_image_x11_macaddr xilinx-vivado-licensed-imported:v2018.3 xilinx_vivado_licensed_imported_v2018.3 02:de:ad:be:ef:99
-```
 
 ### Use __*docker load*__ to bring in an archived image
 - Restore a working Vivado environment from the archived image (using the one created in the above instructions)
@@ -601,6 +572,7 @@ $ docker export -o xlnx-vivado-v2018.3_container_backup_licensed_02deadbeef99.ta
 bash:
 $ ls -al xlnx-vivado-v2018.3*
 -rw------- 1 xilinx xilinx 42831595008 Mar  1 13:27 xlnx-vivado-v2018.3_container_backup_licensed_02deadbeef99.tar
+-rw------- 1 xilinx xilinx 43454688256 Feb 27 20:21 xlnx-vivado-v2018.3_image_backup_licensed_02deadbeef99.tar
 ```
 
 ### Use __*docker import*__ to create a new docker image based on this filesystem archive
