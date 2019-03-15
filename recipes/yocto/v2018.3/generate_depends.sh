@@ -147,7 +147,7 @@ echo "Create a base docker container..."
 echo "-----------------------------------"
 echo "DOCKER_CONTAINER_NAME="$DOCKER_CONTAINER_NAME
 echo "-----------------------------------"
-DOCKER_CONTAINER_NAME=build_yocto_depends_$XLNX_RELEASE_VERSION
+DOCKER_CONTAINER_NAME="build_"$XLNX_TOOL_INFO"_depends_"$XLNX_RELEASE_VERSION
 
 if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi
 
