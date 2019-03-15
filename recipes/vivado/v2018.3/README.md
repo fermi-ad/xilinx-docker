@@ -13,7 +13,7 @@
 -> depends/
 	-> Xilinx_Vivado_SDK_Web_2018.3_0614_1954_Lin64.bin
 	-> (Xilinx_Vivado_SDK_Web_2018.3_0614_1954_Lin64.tar.gz)
-	-> (mali-400-userspace.tar)
+	-> (mali-400-userspace-with-android-2018.3.tar)
 -> include/
 	-> configuration.sh
 ```

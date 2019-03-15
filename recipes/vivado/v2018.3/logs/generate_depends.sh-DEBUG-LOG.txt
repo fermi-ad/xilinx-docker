@@ -647,26 +647,26 @@ Copying keyboard configuration to host...
 -----------------------------------
 Downloading ARM Mali userspace binaries... (Automated)
 -----------------------------------
-+ docker exec -it build_vivado_depends_v2018.3 bash -c 'if [ 1 -ne 0 ]; then set -x; fi         && mkdir -p /home/xilinx/downloads/tmp  && cd /home/xilinx/downloads/tmp  && wget -nv https://www.xilinx.com/publications/products/tools/mali-400-userspace.tar -O mali-400-userspace.tar --no-check-certificate   && ls -al'
++ docker exec -it build_vivado_depends_v2018.3 bash -c 'if [ 1 -ne 0 ]; then set -x; fi         && mkdir -p /home/xilinx/downloads/tmp  && cd /home/xilinx/downloads/tmp  && wget -nv https://www.xilinx.com/publications/products/tools/mali-400-userspace-with-android-2018.3.tar -O mali-400-userspace-with-android-2018.3.tar --no-check-certificate   && ls -al'
 + mkdir -p /home/xilinx/downloads/tmp
 + cd /home/xilinx/downloads/tmp
-+ wget -nv https://www.xilinx.com/publications/products/tools/mali-400-userspace.tar -O mali-400-userspace.tar --no-check-certificate
-WARNING: cannot verify www.xilinx.com's certificate, issued by 'CN=COMODO RSA Domain Validation Secure Server CA,O=COMODO CA Limited,L=Salford,ST=Greater Manchester,C=GB':
-  Self-signed certificate encountered.
-2019-02-27 15:22:27 URL:https://www.xilinx.com/publications/products/tools/mali-400-userspace.tar [305602560/305602560] -> "mali-400-userspace.tar" [1]
++ wget -nv https://www.xilinx.com/publications/products/tools/mali-400-userspace-with-android-2018.3.tar -O mali-400-userspace-with-android-2018.3.tar --no-check-certificate
+WARNING: cannot verify www.xilinx.com's certificate, issued by 'CN=Sectigo RSA Domain Validation Secure Server CA,O=Sectigo Limited,L=Salford,ST=Greater Manchester,C=GB':
+  Unable to locally verify the issuer's authority.
+2019-03-15 13:32:29 URL:https://www.xilinx.com/publications/products/tools/mali-400-userspace-with-android-2018.3.tar [308336640/308336640] -> "mali-400-userspace-with-android-2018.3.tar" [1]
 + ls -al
-total 298456
-drwxr-xr-x 3 root root      4096 Feb 27 15:22 .
-drwxr-xr-x 3 root root      4096 Feb 27 15:22 ..
-drwxr-xr-x 2 root root      4096 Feb 27 15:22 configs
--rw-r--r-- 1 root root 305602560 Dec 20 05:37 mali-400-userspace.tar
+total 301124
+drwxr-xr-x 3 root root      4096 Mar 15 13:32 .
+drwxr-xr-x 3 root root      4096 Mar 15 13:32 ..
+drwxr-xr-x 2 root root      4096 Mar 15 13:32 configs
+-rw-r--r-- 1 root root 308336640 Mar 15 04:10 mali-400-userspace-with-android-2018.3.tar
 + '[' 1 -ne 0 ']'
 + set +x
 -----------------------------------
 Copying mali arm binary to host...
 -----------------------------------
 + mkdir -p _generated/depends
-+ docker cp build_vivado_depends_v2018.3:/home/xilinx/downloads/tmp/mali-400-userspace.tar _generated/depends/mali-400-userspace.tar
++ docker cp build_vivado_depends_v2018.3:/home/xilinx/downloads/tmp/mali-400-userspace-with-android-2018.3.tar _generated/depends/mali-400-userspace-with-android-2018.3.tar
 + '[' 1 -ne 0 ']'
 + set +x
 -----------------------------------
@@ -2055,6 +2055,6 @@ Dependencies Generated:
 -----------------------------------
 -rw-r--r-- 1 xilinx xilinx 1554 Feb 27 10:22 _generated/configs/keyboard_settings.conf
 -rw-r--r-- 1 xilinx xilinx 1795 Feb 27 10:26 _generated/configs/xlnx_vivado_system_edition.config
--rw-r--r-- 1 xilinx xilinx 305602560 Dec 20 00:37 _generated/depends/mali-400-userspace.tar
+-rw-r--r-- 1 xilinx xilinx 308336640 Mar 15 04:10 mali-400-userspace-with-android-2018.3.tar
 -rw-r--r-- 1 xilinx xilinx 20602510276 Feb 27 11:23 _generated/depends/Xilinx_Vivado_SDK_Web_2018.3_1207_2324_Lin64.tar.gz
 -----------------------------------

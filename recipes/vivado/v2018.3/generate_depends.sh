@@ -34,7 +34,8 @@ DOCKER_IMAGE_VERSION=$XLNX_RELEASE_VERSION
 # XLNX_MALI_BINARY: filename to download
 # Set #1: Download MALI binary directly from Xilinx
 XLNX_MALI_URL=https://www.xilinx.com/publications/products/tools
-XLNX_MALI_BINARY=mali-400-userspace.tar
+#XLNX_MALI_BINARY=mali-400-userspace.tar
+XLNX_MALI_BINARY=mali-400-userspace-with-android-2018.3.tar
 
 # Grab Start Time
 DOCKER_BUILD_START_TIME=`date`
