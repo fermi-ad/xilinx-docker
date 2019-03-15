@@ -34,7 +34,8 @@ DOCKER_IMAGE_VERSION=$XLNX_RELEASE_VERSION
 # XLNX_MALI_BINARY: filename to download
 # Set #1: Download MALI binary directly from Xilinx
 XLNX_MALI_URL=https://www.xilinx.com/publications/products/tools
-XLNX_MALI_BINARY=mali-400-userspace.tar
+#XLNX_MALI_BINARY=mali-400-userspace.tar
+XLNX_MALI_BINARY=mali-400-userspace-with-android-2018.3.tar
 
 # Grab Start Time
 DOCKER_BUILD_START_TIME=`date`
@@ -64,15 +65,9 @@ fi
 # files links within the build context can point outside
 # the context and they will get transferred just fine.
 
-# Check for Xilinx SDK Web Installer
-# This is required for building the offline installer package
-if [ -f $XLNX_XSDK_WEB_INSTALLER ] || [ -L $XLNX_XSDK_WEB_INSTALLER ]; then
-	echo "Xilinx SDK Web Installer: [Exists] "$XLNX_XSDK_WEB_INSTALLER
-else
-	# File does not exist
-	echo "ERROR: Xilinx SDK Web Installer: [Missing] "$XLNX_XSDK_WEB_INSTALLER
-	exit $EX_OSFILE
-fi
+# Note: Xilinx SDK Web Installer is no longer needed
+# See the meta-xilinx-tools layer documentation for more information
+# https://xilinx-wiki.atlassian.net/wiki/spaces/A/pages/18841671/Using+meta-xilinx-tools+layer
 
 # Create docker folder
 echo "-----------------------------------"
@@ -125,7 +120,6 @@ echo " 	--build-arg XLNX_INSTALL_LOCATION=\"${XLNX_INSTALL_LOCATION}\""
 echo " 	--build-arg INSTALL_SERVER_URL=\"${SERVER_IP}:8000\""
 echo " 	--build-arg KEYBOARD_CONFIG_FILE=\"${KEYBOARD_CONFIG_FILE}\""
 echo " 	--build-arg XLNX_XSDK_BATCH_CONFIG_FILE=\"${XLNX_XSDK_BATCH_CONFIG_FILE}\""
-echo " 	--build-arg XLNX_XSDK_OFFLINE_INSTALLER=\"${XLNX_XSDK_OFFLINE_INSTALLER}\""
 echo "  --build-arg BUILD_DEBUG=\"${BUILD_DEBUG}\""
 echo "-----------------------------------"
 
@@ -139,8 +133,6 @@ docker build $DOCKER_CACHE -f ./$DOCKER_FILE_NAME \
  	--build-arg HOME_DIR="${HOME_DIR}" \
  	--build-arg XLNX_INSTALL_LOCATION="${XLNX_INSTALL_LOCATION}" \
  	--build-arg INSTALL_SERVER_URL="${INSTALL_SERVER_URL}" \
- 	--build-arg XLNX_XSDK_BATCH_CONFIG_FILE="${XLNX_XSDK_BATCH_CONFIG_FILE}" \
- 	--build-arg XLNX_XSDK_OFFLINE_INSTALLER="${XLNX_XSDK_OFFLINE_INSTALLER}" \
  	--build-arg BUILD_DEBUG="${BUILD_DEBUG}" \
  	$DOCKER_INSTALL_DIR
 
@@ -250,92 +242,6 @@ docker cp $DOCKER_CONTAINER_NAME:$HOME_DIR/downloads/tmp/$XLNX_MALI_BINARY $GENE
 
 if [ $BUILD_DEBUG -ne 0 ]; then set +x; fi
 
-echo "-----------------------------------"
-echo "Building Offline SDK Installer Bundle..."
-echo "-----------------------------------"
-echo " - Install dependencies and download SDK installer into container..."
-echo "-----------------------------------"
-# Install the Xilinx SDK dependencies and download the SDK Installer
-
-if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi
-
-docker exec -it $DOCKER_CONTAINER_NAME \
-	bash -c "if [ ${BUILD_DEBUG} -ne 0 ]; then set -x; fi \
-	&& apt-get -y install file xorg \
-	&& mkdir -p ${HOME_DIR}/downloads/tmp \
-	&& cd ${HOME_DIR}/downloads/tmp \
-	&& mkdir -p ${XLNX_XSDK_WEB_INSTALLER%/*} \
-	&& wget -nv ${INSTALL_SERVER_URL}/${XLNX_XSDK_WEB_INSTALLER} -O ${XLNX_XSDK_WEB_INSTALLER} \
-	&& chmod a+x ${XLNX_XSDK_WEB_INSTALLER} \
-	&& ls -al ${XLNX_XSDK_WEB_INSTALLER}"
-
-if [ $BUILD_DEBUG -ne 0 ]; then set +x; fi
-
-echo "-----------------------------------"
-echo " - Extract the SDK Installer and generate a batch mode config..."
-echo "-----------------------------------"
-# Extract the SDK Web Installer and run configGen
-
-if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi
-
-docker exec -it $DOCKER_CONTAINER_NAME \
-	bash -c "if [ ${BUILD_DEBUG} -ne 0 ]; then set -x; fi \
-	&& cd ${HOME_DIR}/downloads/tmp \
-	&& ${XLNX_XSDK_WEB_INSTALLER} --noexec --nox11 --target xsdk_tmp \
-	&& cd xsdk_tmp \
-	&& ./xsetup -b ConfigGen -l ${XLNX_INSTALL_LOCATION} \
-	&& cd ${HOME_DIR}/downloads/tmp \
-	&& mkdir -p ${XLNX_XSDK_BATCH_CONFIG_FILE%/*} \
-	&& cp ~/.Xilinx/install_config.txt ${XLNX_XSDK_BATCH_CONFIG_FILE} \
-	&& vi ${XLNX_XSDK_BATCH_CONFIG_FILE} \
-	&& ls -al ${XLNX_XSDK_BATCH_CONFIG_FILE} \
-	&& cat ${XLNX_XSDK_BATCH_CONFIG_FILE}"
-
-if [ $BUILD_DEBUG -ne 0 ]; then set +x; fi
-
-# copy the batch mode configuration(s) to the host
-echo "-----------------------------------"
-echo "Copying Xilinx SDK batch mode configurations to host ..."
-echo "-----------------------------------"
-
-if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi
-
-mkdir -p $GENERATED_DIR/${XLNX_XSDK_BATCH_CONFIG_FILE%/*}
-docker cp $DOCKER_CONTAINER_NAME:$HOME_DIR/downloads/tmp/$XLNX_XSDK_BATCH_CONFIG_FILE $GENERATED_DIR/$XLNX_XSDK_BATCH_CONFIG_FILE
-
-if [ $BUILD_DEBUG -ne 0 ]; then set +x; fi
-
-echo "-----------------------------------"
-echo " - Launch SDK Setup to create a download bundle..."
-echo "-----------------------------------"
-# Launch XSDK Setup in X11 Mode to create download bundle
-# Leave download location default (/opt/Xilinx/Downloads/<VERSION>)
-
-if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi
-
-docker exec -it $DOCKER_CONTAINER_NAME \
-	bash -c "if [ ${BUILD_DEBUG} -ne 0 ]; then set -x; fi \
-	&& cd ${HOME_DIR}/downloads/tmp/xsdk_tmp \
-	&& ./xsetup --agree XilinxEULA,3rdPartyEULA,WebTalkTerms --config ${XLNX_XSDK_BATCH_CONFIG_FILE} \
-	&& cd ${HOME_DIR}/downloads/tmp \
-	&& mkdir -p ${XLNX_XSDK_OFFLINE_INSTALLER%/*} \
-	&& tar -zcf ${XLNX_XSDK_OFFLINE_INSTALLER} -C /opt/Xilinx/Downloads/2018.3 . \
-	&& ls -al /opt/Xilinx/Downloads/2018.3"
-
-if [ $BUILD_DEBUG -ne 0 ]; then set +x; fi
-
-# copy sdk offline installer from container to host
-echo "-----------------------------------"
-echo "Copying Xilinx SDK offline installer to host ..."
-echo "-----------------------------------"
-
-if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi
-
-mkdir -p $GENERATED_DIR/${XLNX_XSDK_OFFLINE_INSTALLER%/*}
-docker cp $DOCKER_CONTAINER_NAME:$HOME_DIR/downloads/tmp/$XLNX_XSDK_OFFLINE_INSTALLER $GENERATED_DIR/$XLNX_XSDK_OFFLINE_INSTALLER
-
-if [ $BUILD_DEBUG -ne 0 ]; then set +x; fi
-
 # Shut down the python3 http server
 echo "-----------------------------------"
 echo "Shutting down Python HTTP Server..."
@@ -378,7 +284,5 @@ echo "-----------------------------------"
 echo "Dependencies Generated:"
 echo "-----------------------------------"
 ls -al $GENERATED_DIR/$KEYBOARD_CONFIG_FILE
-ls -al $GENERATED_DIR/$XLNX_XSDK_BATCH_CONFIG_FILE
 ls -al $GENERATED_DIR/$INSTALL_DEPENDS_DIR/$XLNX_MALI_BINARY
-ls -al $GENERATED_DIR/$XLNX_XSDK_OFFLINE_INSTALLER
 echo "-----------------------------------"

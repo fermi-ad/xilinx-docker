@@ -66,22 +66,10 @@ else
 fi
 
 # Check for Xilinx XSDK Web Installer (Used to create a targeted offline installer)
-if [ -f $XLNX_XSDK_WEB_INSTALLER ] || [ -L $XLNX_XSDK_WEB_INSTALLER ]; then
-	echo "Xilinx XSDK WEB Installer: [Good] "$XLNX_XSDK_WEB_INSTALLER
-else
-	# File does not exist
-	echo "ERROR: Xilinx XSDK Web Installer: [Missing] "$XLNX_XSDK_WEB_INSTALLER
-	exit $EX_OSFILE
-fi
-	
 # Check for Xilinx XSDK Offline Installer (Used to create a targeted offline installer)
-if [ -f $XLNX_XSDK_OFFLINE_INSTALLER ] || [ -L $XLNX_XSDK_OFFLINE_INSTALLER ]; then
-	echo "Xilinx XSDK Offline Installer: [Good] "$XLNX_XSDK_OFFLINE_INSTALLER
-else
-	# File does not exist
-	echo "ERROR: Xilinx XSDK Offline Installer: [Missing] "$XLNX_XSDK_OFFLINE_INSTALLER
-	exit $EX_OSFILE
-fi
+# Note: Xilinx SDK Web Installer is no longer needed
+# See the meta-xilinx-tools layer documentation for more information
+# https://xilinx-wiki.atlassian.net/wiki/spaces/A/pages/18841671/Using+meta-xilinx-tools+layer
 
 # Create docker folder
 echo "-----------------------------------"
@@ -146,8 +134,6 @@ echo "  --build-arg XLNX_INSTALL_LOCATION=\"${XLNX_INSTALL_LOCATiON}\""
 echo " 	--build-arg XLNX_DOWNLOAD_LOCATION=\"${XLNX_DOWNLOAD_LOCATION}\""
 echo "  --build-arg XLNX_MALI_BINARY=\"${XLNX_MALI_BINARY}\""
 echo " 	--build-arg INSTALL_SERVER_URL=\"${SERVER_IP}:8000\""
-echo " 	--build-arg XLNX_XSDK_BATCH_CONFIG_FILE=\"${XLNX_XSDK_BATCH_CONFIG_FILE}\""
-echo " 	--build-arg XLNX_XSDK_OFFLINE_INSTALLER=\"${XLNX_XSDK_OFFLINE_INSTALLER}\""
 echo "  --build-arg BUILD_DEBUG=\"${BUILD_DEBUG}\""
 echo "  --build-arg XTERM_CONFIG_FILE=\"${XTERM_CONFIG_FILE}\""
 echo "-----------------------------------"
@@ -170,8 +156,6 @@ docker build $DOCKER_CACHE -f ./$DOCKER_FILE_NAME \
  	--build-arg XLNX_DOWNLOAD_LOCATION="${XLNX_DOWNLOAD_LOCATION}" \
  	--build-arg XLNX_MALI_BINARY="${XLNX_MALI_BINARY}" \
   	--build-arg INSTALL_SERVER_URL="${INSTALL_SERVER_URL}" \
-  	--build-arg XLNX_XSDK_BATCH_CONFIG_FILE="${XLNX_XSDK_BATCH_CONFIG_FILE}" \
-  	--build-arg XLNX_XSDK_OFFLINE_INSTALLER="${XLNX_XSDK_OFFLINE_INSTALLER}" \
  	--build-arg BUILD_DEBUG="${BUILD_DEBUG}" \
  	--build-arg XTERM_CONFIG_FILE="${XTERM_CONFIG_FILE}" \
   	$DOCKER_INSTALL_DIR

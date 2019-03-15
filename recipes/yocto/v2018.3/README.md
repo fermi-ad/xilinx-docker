@@ -23,18 +23,6 @@
 ```
 
 # Quickstart
-## Download Xilinx SDK Web Installer
-
-Xilinx requires a valid xilinx.com account in order to download the Xilinx SDK Web Installer.
-
-## Download the v2018.3 Xilinx SDK Web Installer
-- Xilinx requires a valid xilinx.com account in order to download the Xilinx SDK Web Installer.
-	- Xilinx SDK v2018.3
-		- Download Link: 
-			- https://www.xilinx.com/member/forms/download/xef.html?filename=Xilinx_SDK_2018.3_1207_2324_Lin64.bin
-		- Release Notes;
-			- https://www.xilinx.com/support/download/index.html/content/xilinx/en/downloadNav/embedded-design-tools/2018-3.html
-- Place the installer binary (or a link to it) in the ./depends folder
 
 ## Setting the Host IP Address
 - Currently the build scripts pull the correct host IP address from the system, so there is no need to set this manually.
@@ -99,45 +87,12 @@ $ ./generate_depends.sh
 	- Select a keyboard layout: ```English (US)``` is the default
 	- Select an AltGr function: ```The default for the keyboard layout``` is the default
 	- Select a compose key: ```No compose key``` is the default
-- Xilinx SDK batch mode configuration (generate)
-	- Select Xilinx Software Command-Line Tool (XSCT): option ```2```
-	- The configuration opens in the ```vim``` editor
-	- Make the following modifications:
-		- ```InstallOptions=Enable WebTalk for SDK to send usage statistics to Xilinx:0```
-		- ```CreateProgramGroupShortcuts=1```
-		- ```CreateShortcutsForAllUsers=0```
-		- ```CreateDesktopShortcuts=0```
-		- ```CreateFileAssociation=0```
-	- Save with ```:wq```
-- Xilinx SDK installer (download only)
-	- This should launch an X11-based Xilinx SDK Setup window on your host
-	- Continue with curent version if prompted that a new version exists: ```Continue```
-	- Skip welcome screen: ```Next```
-	- Enter User ID and Password in the ```User Authentication``` section
-	- Select the ```Download Full Image (Install Separately)```
-		- Use the defaults:
-			- download directory: ```/opt/Xilinx/Downloads/2018.3```
-			- platform selection: ```Linux```
-	- Continue: ```Next```
-	- Create the download directory (in the container) when prompted: ```Yes```
-	- Review the download summary:
-		- Download location: 
-			- ```/opt/Xilinx/Downloads/2018.3```
-		- Disk Space Required:
-			- ```Download Size: 1.18 GB```
-			- ```Disk Space Required: 1.18 GB```
-		- Download Platform
-			- ```Linux```
-	- Download the files for offline install: ```Download```
-	- Finish the download: ```OK```
 - Review the generated dependencies
 
 ```bash
 bash:
 -rw-r--r-- 1 xilinx xilinx 1553 Jan 23 12:33 _generated/configs/keyboard_settings.conf
--rw-r--r-- 1 xilinx xilinx 1278 Jan 23 12:38 _generated/configs/xsdk_config_xsct_only.config
 -rw-r--r-- 1 xilinx xilinx 305602560 Dec 19 22:26 _generated/depends/mali-400-userspace.tar
--rw-r--r-- 1 xilinx xilinx 1373663062 Jan 23 12:43 _generated/depends/Xilinx_SDK_2018.3_1207_2324_Lin64.tar.gz
 ```
 
 - Copy the generated dependencies to the dependency folder

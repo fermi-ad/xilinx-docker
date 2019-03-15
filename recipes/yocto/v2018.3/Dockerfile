@@ -11,7 +11,7 @@
 # ----------------------------------------------------------
 # - Ubuntu 16.04.3 x64 base OS image
 # - Xilinx Yocto Morty v2.4.1 (Xilinx Petalinux v2018.3 release)
-# - Xilinx SDK XSCT Tools v2018.3 (Xilinx SDK v2018.3 release)
+# - Xilinx SDK XSCT Tools are no longer installed in the container, a binary release is provided as part of meta-xilinx-tools layer
 #
 #
 # Multi-stage build organization:
@@ -195,22 +195,9 @@ RUN if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi \
 
 ########################################################################################
 #	- Xilinx SDK v2018.3
-#		- Download Link: 
-#			- https://www.xilinx.com/member/forms/download/xef.html?filename=Xilinx_SDK_2018.3_0614_1954_Lin64.bin
-#		- Release Notes;
-#			- https://www.xilinx.com/support/download/index.html/content/xilinx/en/downloadNav/embedded-design-tools/2017-4.html
-#		- Run the web installer batch mode configuration generator to create a batch mode configuration file (for headless install)
-#			- ./xsetup -b ConfigGen
-#		- Run the web installer with the batch mode configuration generated to download either the XSCT only or FULL image 
-#			- Download full image (Install Separately)
-#				- Location: Same location as this dockerfile
-#			- Download files to create full image for selected platform(s)
-#				- Linux
-#			- Create Archive for the downloaded image
-#				- None
-#		- After the download is complete, create an archive with the downloaded content:
-#			- $ tar -zcvf Xilinx_SDK_2018.3_0614_1954_Lin64.tar.gz ./
-#
+#		- Note: Xilinx SDK Web Installer is no longer needed
+# 		- See the meta-xilinx-tools layer documentation for more information
+# 		- https://xilinx-wiki.atlassian.net/wiki/spaces/A/pages/18841671/Using+meta-xilinx-tools+layer
 #	- Xilinx ARM MALI GPU Binaries
 #		- Download Link:
 #			- https://www.xilinx.com/publications/products/tools/mali-400-userspace.tar
@@ -285,40 +272,16 @@ RUN if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi \
 	&& cp $XTERM_CONFIG_FILE $HOME_DIR
 
 # Arguments can be filled at build time using the '--build-arg' option
-ARG XLNX_XSDK_OFFLINE_INSTALLER
-ARG XLNX_XSDK_BATCH_CONFIG_FILE
 ARG YOCTO_DIR
 
 # Get the SDK Offline installer
 RUN if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi \
- 	&& cd $XLNX_INSTALL_LOCATION/tmp \
-# Get Xilinx SDK Batch Mode configuration file \
- 	&& mkdir -p "${XLNX_XSDK_BATCH_CONFIG_FILE%/*}" \
- 	&& wget -nv $INSTALL_SERVER_URL/$XLNX_XSDK_BATCH_CONFIG_FILE -O $XLNX_XSDK_BATCH_CONFIG_FILE \
- 	&& cat $XLNX_XSDK_BATCH_CONFIG_FILE \
-# Get Xilinx SDK Offline Installer \
- 	&& mkdir -p "${XLNX_XSDK_OFFLINE_INSTALLER%/*}" \
- 	&& wget -nv --no-cache $INSTALL_SERVER_URL/$XLNX_XSDK_OFFLINE_INSTALLER -O $XLNX_XSDK_OFFLINE_INSTALLER \
-	&& chmod a+x $XLNX_XSDK_OFFLINE_INSTALLER \
-# Decompress XSDK Installer \
- 	&& tar -zxf $XLNX_XSDK_OFFLINE_INSTALLER && ls -al \
-# Have new user shell start in yocto folder \
 	&& echo "cd $YOCTO_DIR" >> $HOME_DIR/.bashrc \
 # Setup the User Locale \
 # Xilinx tools specifically require the 'en_US.UTF-8' locale \
 	&& echo "export LANG=en_US.UTF-8" >> $HOME_DIR/.bashrc \
-	&& export "LANG=en_US.UTF-8" \
-# Setup installer permissions \
-  	&& chmod a+x xsetup \
-# Run Setup in batch mode to install XSCT Tools only from the XSDK \
-	&& cd $XLNX_INSTALL_LOCATION/tmp \
-	&& ./xsetup \
-  		--agree XilinxEULA,3rdPartyEULA,WebTalkTerms \
-  		--config $XLNX_XSDK_BATCH_CONFIG_FILE \
-  		--batch INSTALL \
-# Cleanup Temporary Files \
-  	&& cd $HOME_DIR \
-  	&& rm -rf $XLNX_INSTALL_LOCATION/tmp
+	&& export "LANG=en_US.UTF-8"
+
 
 # Clean up apt cache and temporary files to reduce image size
 RUN if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi \

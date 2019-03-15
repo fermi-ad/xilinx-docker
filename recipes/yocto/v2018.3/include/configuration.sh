@@ -139,6 +139,7 @@ DOCKER_BUILD_XLNX_MALI_LOCAL='1'
 # Set #2: Download from local archive by use of python http.server (address set later in this script)
 # DOCKER_BUILD_XLNX_MALI_LOCAL=1
 XLNX_MALI_URL=0.0.0.0:8000
+#XLNX_MALI_BINARY=$INSTALL_DEPENDS_DIR/mali-400-userspace-with-android-2018.3.tar
 XLNX_MALI_BINARY=$INSTALL_DEPENDS_DIR/mali-400-userspace.tar
 
 # Configuration Files for batch mode installation
@@ -162,25 +163,6 @@ KEYBOARD_CONFIG_FILE=$INSTALL_CONFIGS_DIR/keyboard_settings.conf
 #			- Host clipboard contents from host copy maintained in separate buffer (CTRL-V)
 #-------------
 XTERM_CONFIG_FILE=$INSTALL_CONFIGS_DIR/XTerm
-
-# XLNX_XSDK_BATCH_CONFIG_FILE: Batch mode install configuration template
-#	for headless install of Xilinx SDK components
-# xsdk_config_xsct_only.config = XSCT only installation
-# xsdk_config_xsdk_full.config = XSDK full installation
-# Note: XSCT is used for Yocto
-#XLNX_XSDK_BATCH_CONFIG_FILE=$INSTALL_CONFIGS_DIR/xsdk_config_xsdk_full.config
-XLNX_XSDK_BATCH_CONFIG_FILE=$INSTALL_CONFIGS_DIR/xsdk_config_xsct_only.config
-
-# Xilinx SDK Web-based installer
-# XLNX_XSDK_WEBINSTALLER: Official web-based installer for the SDK release
-XLNX_XSDK_WEB_INSTALLER=$INSTALL_DEPENDS_DIR/Xilinx_SDK_2018.3_1207_2324_Lin64.bin
-
-# Xilinx SDK Pre-downloaded offline install bundle
-# - This is downloaded and created by:
-#   1. Running the web-installer with the batch mode configuration
-#   2. Downloading the files for offline install
-#   3. Manually archiving files in a tarball
-XLNX_XSDK_OFFLINE_INSTALLER=$INSTALL_DEPENDS_DIR/Xilinx_SDK_2018.3_1207_2324_Lin64.tar.gz
 
 # Local Python3 http server to transfer files into container
 # INSTALL_SERVER_URL: Set automatically later in this script when
