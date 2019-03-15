@@ -65,6 +65,15 @@ else
 	exit $EX_OSFILE
 fi
 
+# Check for XTerm configuration file
+if [ -f $XTERM_CONFIG_FILE ] || [ -L $XTERM_CONFIG_FILE ]; then
+	echo "XTerm Configuration File: [Good] "$XTERM_CONFIG_FILE
+else
+	# File does not exist
+	echo "ERROR: XTerm Configuration File: [Missing] "$XTERM_CONFIG_FILE
+	exit $EX_OSFILE
+fi
+
 # Check for Xilinx XSDK Web Installer (Used to create a targeted offline installer)
 # Check for Xilinx XSDK Offline Installer (Used to create a targeted offline installer)
 # Note: Xilinx SDK Web Installer is no longer needed
@@ -130,7 +139,7 @@ echo "  --build-arg YOCTO_MANIFEST_BRANCH=\"${YOCTO_MANIFEST_BRANCH}\""
 echo " 	--build-arg GIT_USER_NAME=\"${GIT_USER_NAME}\""
 echo " 	--build-arg GIT_USER_EMAIL=\"${GIT_USER_EMAIL}\""
 echo " 	--build-arg KEYBOARD_CONFIG_FILE=\"${KEYBOARD_CONFIG_FILE}\""
-echo "  --build-arg XLNX_INSTALL_LOCATION=\"${XLNX_INSTALL_LOCATiON}\""
+echo "  --build-arg XLNX_INSTALL_LOCATION=\"${XLNX_INSTALL_LOCATION}\""
 echo " 	--build-arg XLNX_DOWNLOAD_LOCATION=\"${XLNX_DOWNLOAD_LOCATION}\""
 echo "  --build-arg XLNX_MALI_BINARY=\"${XLNX_MALI_BINARY}\""
 echo " 	--build-arg INSTALL_SERVER_URL=\"${SERVER_IP}:8000\""

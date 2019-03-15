@@ -221,6 +221,8 @@ faa3be443596        xilinx-yocto:v2018.3                    "/bin/bash"         
 	- Similar to a Virtual Machine image created in VMWare or Virtualbox, you can store, share and later restore working containers from a tar archive
 - A docker container is __*exported*__ to an archive file
 - A docker image is __*saved*__ or __*exported*__ to an archive file
+- A docker image that was __*saved*__ should be __*loaded*__ to restore the image from an archive
+- A docker image or container that was __*exported*__ should be __*imported*__ to create a new image from an 
 - The major differences between a __*save*__ and an __*export*__
 	- A __*saved*__ image retains the complete layer history of the docker image and any configuration of that image (based on the as commit to the repository)
 	- An __*exported*__ image or container retains only the state of the filesystem and therefore will start up logged in as the user root.
@@ -278,45 +280,13 @@ Deleted: sha256:2d89476924e277a89e1593064f84c6949926aa9acdec7e803cc166c8333821ca
 Deleted: sha256:6af3df1065f36d8daf566840c286d4c73710b17c6acdf72a8bd8a2d8a3745e53
 ```
 
-### Example: Restore a container from a backup archive image
-- Use a backup archive of a docker image to re-create an environment with Vivado Tools installed and licensed
-- There are two ways to create a docker image from an archive depending on if you want to maintain the recorded history of an archived image
-	- __*docker import__* imports a flattened copy of the archived image filesystem into a new docker image
-		- An import operation creates a new image with a name you specify in the local docker image cache
+### Example: Restore a __*saved*__ container from a backup archive image
+- Use a backup archive of a docker image to re-create an environment with Yocto installed
 	- __*docker load__* loads the complete history of the archived image into a new docker image
 		- A load operation creates a new docker image with the same name of the image contained in the archive
 
-### Use __*docker import*__ to bring in an archived image
-- Restore a working Vivado environment image from the archive (using the one created in the above instructions)
-```bash
-bash:
-$ docker import xlnx-yocto-v2018.3_image_backup_saved_02deadbeef92.tar xilinx-petalinux-imported:v2018.3
-sha256:dd3e13c29ebf933a3792ecb1a9cd5a8ba3e3facaf66210e5e7eb1ab71f9694b9
-```
-
-- List the local docker images
-```bash
-bash:
-$ docker image ls
-REPOSITORY                      TAG                 IMAGE ID            CREATED             SIZE
-xilinx-yocto-imported       v2018.3             dd3e13c29ebf        28 seconds ago      11.6GB
-xilinx-yocto                    v2018.3             3b8c2953f9b6        4 hours ago         11.5GB
-```
-
-- See that an imported image has no history
-```bash
-$ docker history xilinx-yocto-imported:v2018.3 
-IMAGE               CREATED              CREATED BY          SIZE                COMMENT
-dd3e13c29ebf        About a minute ago                       11.6GB              Imported from -
-```
-
-- Create a working container based on this image
-```bash
-$ ../../../tools/bash/run_image_x11_macaddr xilinx-yocto-imported:v2018.3 xilinx_yocto_imported_v2018.3 02:de:ad:be:ef:92
-```
-
 ### Use __*docker load*__ to bring in an archived image
-- Restore a working Vivado environment from the archived image (using the one created in the above instructions)
+- Restore a working Yocto environment from the archived image (using the one created in the above instructions)
 ```bash
 bash:
 $ docker load -i xlnx-yocto-v2018.3_image_backup_saved_02deadbeef92.tar 
@@ -329,7 +299,6 @@ Loaded image: xilinx-yocto-backup:v2018.3
 bash:
 $ docker image ls
 REPOSITORY                      TAG                 IMAGE ID            CREATED             SIZE
-xilinx-petalinux-imported       v2018.3             dd3e13c29ebf        4 minutes ago       11.6GB
 xilinx-yocto-backup             v2018.3             2d89476924e2        10 minutes ago      11.5GB
 xilinx-yocto                    v2018.3             3b8c2953f9b6        4 hours ago         11.5GB
 ```
@@ -398,7 +367,7 @@ access control disabled, clients can connect from any host
 
 ## Archive a Docker Container filesystem or Create a new Image from a filesystem archive
 ### Example: Backup a running container's filesystem to an archive file
-- Create a filesystem archive from a running container with Petalinux installed
+- Create a filesystem archive from a running container with Yocto installed
 
 - Export a copy of a running docker container to an image archive
 ```bash
@@ -450,8 +419,6 @@ DOCKER_CONTAINER_MACADDR: 02:de:ad:be:ef:92
 access control disabled, clients can connect from any host
 812c80544c1c3fa797042b85a72f08b23eb63e8cfcb8c9f20ee2291dd8616499
 ```
-
-=============== UPDATE ME ============================
 
 ## Get started with a yocto build (in the running container)
 
