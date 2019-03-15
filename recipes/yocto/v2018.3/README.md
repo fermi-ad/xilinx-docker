@@ -90,7 +90,7 @@ $ ./generate_depends.sh
 ```bash
 bash:
 -rw-r--r-- 1 xilinx xilinx 1553 Jan 23 12:33 _generated/configs/keyboard_settings.conf
--rw-r--r-- 1 xilinx xilinx 305602560 Dec 19 22:26 _generated/depends/mali-400-userspace.tar
+-rw-r--r-- 1 xilinx xilinx 308336640 Mar 15 00:10 ../../yocto/v2018.3/_generated/depends/mali-400-userspace-with-android-2018.3.tar
 ```
 
 - Copy the generated dependencies to the dependency folder

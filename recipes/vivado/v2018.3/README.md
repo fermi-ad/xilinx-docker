@@ -149,7 +149,7 @@ $ ./generate_depends.sh
 bash:
 -rw-r--r-- 1 xilinx xilinx 1554 Feb 27 10:22 _generated/configs/keyboard_settings.conf
 -rw-r--r-- 1 xilinx xilinx 1795 Feb 27 10:26 _generated/configs/xlnx_vivado_system_edition.config
--rw-r--r-- 1 xilinx xilinx 305602560 Dec 20 00:37 _generated/depends/mali-400-userspace.tar
+-rw-r--r-- 1 xilinx xilinx 308336640 Mar 15 00:10 ../../yocto/v2018.3/_generated/depends/mali-400-userspace-with-android-2018.3.tar
 -rw-r--r-- 1 xilinx xilinx 20602510276 Feb 27 11:23 _generated/depends/Xilinx_Vivado_SDK_Web_2018.3_1207_2324_Lin64.tar.gz
 ```
 
@@ -179,7 +179,7 @@ Checking for dependencies...
 -----------------------------------
 Base docker image [found] (ubuntu:18.04.2)
 Keyboard Configuration: [Good] configs/keyboard_settings.conf
-Xilinx MALI Binaries: [Good] depends/mali-400-userspace.tar
+Xilinx MALI Binaries: [Good] depends/mali-400-userspace-with-android-2018.3.tar
 Xilinx Vivado Web Installer: [Good] depends/Xilinx_Vivado_SDK_Web_2018.3_1207_2324_Lin64.bin
 Xilinx Vivado Offline Installer: [Good] depends/Xilinx_Vivado_SDK_Web_2018.3_1207_2324_Lin64.tar.gz
 -----------------------------------

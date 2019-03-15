@@ -12,7 +12,7 @@
 	-> XTerm
 -> depends/
 	-> petalinux-v2018.3-final-installer.run
-	-> (mali-400-userspace.tar)
+	-> (mali-400-userspace-with-android-2018.3.tar)
 -> include/
 	-> configuration.sh
 ```

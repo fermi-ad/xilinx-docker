@@ -4,7 +4,7 @@ Checking for dependencies...
 -----------------------------------
 Base docker image [found] (ubuntu:16.04.3)
 Keyboard Configuration: [Good] configs/keyboard_settings.conf
-Xilinx MALI Binaries: [Good] depends/mali-400-userspace.tar
+Xilinx MALI Binaries: [Good] depends/mali-400-userspace-with-android-2018.3.tar
 Xilinx Petalinux Installer: [Good] depends/petalinux-v2018.3-final-installer.run
 -----------------------------------
 Docker Build Context (Working)...
@@ -48,7 +48,7 @@ Arguments...
         --build-arg KEYBOARD_CONFIG_FILE="configs/keyboard_settings.conf"
         --build-arg XLNX_INSTALL_LOCATION="/opt/Xilinx"
   --build-arg XLNX_DOWNLOAD_LOCATION="/opt/Xilinx/downloads"
-  --build-arg XLNX_MALI_BINARY="depends/mali-400-userspace.tar"
+  --build-arg XLNX_MALI_BINARY="depends/mali-400-userspace-with-android-2018.3.tar"
         --build-arg INSTALL_SERVER_URL="172.17.0.1:8000"
         --build-arg XLNX_PETALINUX_INSTALLER="depends/petalinux-v2018.3-final-installer.run"
   --build-arg XLNX_PETALINUX_AUTOINSTALL_SCRIPT="autoinstall_petalinux.sh"
@@ -56,7 +56,7 @@ Arguments...
   --build-arg BUILD_DEBUG="1"
   --build-arg XTERM_CONFIG_FILE="configs/XTerm"
 -----------------------------------
-+ docker build --no-cache -f ./Dockerfile --target xilinx_install_petalinux_v2018.3 -t xilinx-petalinux:v2018.3 --build-arg USER_ACCT=xilinx --build-arg HOME_DIR=/home/xilinx --build-arg 'GIT_USER_NAME=Xilinx User' --build-arg GIT_USER_EMAIL=Xilinx.User@dummyaddress.com --build-arg KEYBOARD_CONFIG_FILE=configs/keyboard_settings.conf --build-arg XLNX_INSTALL_LOCATION=/opt/Xilinx --build-arg XLNX_DOWNLOAD_LOCATION=/opt/Xilinx/downloads --build-arg XLNX_MALI_BINARY=depends/mali-400-userspace.tar --build-arg INSTALL_SERVER_URL=172.17.0.1:8000 --build-arg XLNX_PETALINUX_INSTALLER=depends/petalinux-v2018.3-final-installer.run --build-arg XLNX_PETALINUX_AUTOINSTALL_SCRIPT=autoinstall_petalinux.sh --build-arg XLNX_PETALINUX_INSTALL_DIR=/opt/Xilinx/petalinux/v2018.3 --build-arg BUILD_DEBUG=1 --build-arg XTERM_CONFIG_FILE=configs/XTerm .
++ docker build --no-cache -f ./Dockerfile --target xilinx_install_petalinux_v2018.3 -t xilinx-petalinux:v2018.3 --build-arg USER_ACCT=xilinx --build-arg HOME_DIR=/home/xilinx --build-arg 'GIT_USER_NAME=Xilinx User' --build-arg GIT_USER_EMAIL=Xilinx.User@dummyaddress.com --build-arg KEYBOARD_CONFIG_FILE=configs/keyboard_settings.conf --build-arg XLNX_INSTALL_LOCATION=/opt/Xilinx --build-arg XLNX_DOWNLOAD_LOCATION=/opt/Xilinx/downloads --build-arg XLNX_MALI_BINARY=depends/mali-400-userspace-with-android-2018.3.tar --build-arg INSTALL_SERVER_URL=172.17.0.1:8000 --build-arg XLNX_PETALINUX_INSTALLER=depends/petalinux-v2018.3-final-installer.run --build-arg XLNX_PETALINUX_AUTOINSTALL_SCRIPT=autoinstall_petalinux.sh --build-arg XLNX_PETALINUX_INSTALL_DIR=/opt/Xilinx/petalinux/v2018.3 --build-arg BUILD_DEBUG=1 --build-arg XTERM_CONFIG_FILE=configs/XTerm .
 Sending build context to Docker daemon  24.06kB
 Serving HTTP on 0.0.0.0 port 8000 ...
 Step 1/44 : FROM ubuntu:16.04.3 AS base_os_petalinux_v2018.3
@@ -2834,10 +2834,10 @@ Step 35/44 : RUN if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi     && mkdir -p $XLN
 + mkdir -p /opt/Xilinx/downloads/tmp
 + cd /opt/Xilinx/downloads/tmp
 + mkdir -p depends
-+ wget -nv 172.17.0.1:8000/depends/mali-400-userspace.tar -O depends/mali-400-userspace.tar
-172.17.0.4 - - [12/Mar/2019 15:26:44] "GET /depends/mali-400-userspace.tar HTTP/1.1" 200 -
-2019-03-12 19:26:45 URL:http://172.17.0.1:8000/depends/mali-400-userspace.tar [305602560/305602560] -> "depends/mali-400-userspace.tar" [1]
-+ tar xf depends/mali-400-userspace.tar mali/rel-v2018.3/downloads-mali.tar
++ wget -nv 172.17.0.1:8000/depends/mali-400-userspace-with-android-2018.3.tar -O depends/mali-400-userspace-with-android-2018.3.tar
+172.17.0.4 - - [15/Mar/2019 08:51:55] "GET /depends/mali-400-userspace-with-android-2018.3.tar HTTP/1.1" 200 -
+2019-03-15 12:51:55 URL:http://172.17.0.1:8000/depends/mali-400-userspace-with-android-2018.3.tar [308336640/308336640] -> "depends/mali-400-userspace-with-android-2018.3.tar" [1]
++ tar xf depends/mali-400-userspace-with-android-2018.3.tar mali/rel-v2018.3/downloads-mali.tar
 + tar xf mali/rel-v2018.3/downloads-mali.tar
 + mv /opt/Xilinx/downloads/tmp/downloads-mali/git2_gitenterprise.xilinx.com.Graphics.mali400-xlnx-userspace.git.tar.gz /opt/Xilinx/downloads/depends
 + rm -rf /opt/Xilinx/downloads/tmp

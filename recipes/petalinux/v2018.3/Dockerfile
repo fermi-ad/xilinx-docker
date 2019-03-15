@@ -199,7 +199,7 @@ RUN if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi \
 #
 #	- Xilinx ARM MALI GPU Binaries
 #		- Download Link:
-#			- https://www.xilinx.com/publications/products/tools/mali-400-userspace.tar
+#			- https://www.xilinx.com/publications/products/tools/mali-400-userspace-with-android-2018.3.tar
 #		- Release Notes:
 #			- http://www.wiki.xilinx.com/Adding+MALI+userspace+binaries+in+Yocto+builds
 #			- https://www.xilinx.com/products/design-tools/embedded-software/petalinux-sdk/arm-mali-400-software-download.html
