@@ -204,7 +204,7 @@ RUN if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi \
 	&& git config \
 		--global user.email $GIT_USER_EMAIL \
 	&& git config \
-		--global color.ui true \
+		--global color.ui true
 
 ########################################################################################
 #	- Xilinx SDK v2018.3
