@@ -1,12 +1,9 @@
-$ ./build_image.sh 
------------------------------------
+$ ./build_image.sh -----------------------------------
 Checking for dependencies...
 -----------------------------------
 Base docker image [found] (ubuntu:16.04.3)
 Keyboard Configuration: [Good] configs/keyboard_settings.conf
-Xilinx MALI Binaries: [Good] depends/mali-400-userspace.tar
-Xilinx XSDK WEB Installer: [Good] depends/Xilinx_SDK_2018.3_1207_2324_Lin64.bin
-Xilinx XSDK Offline Installer: [Good] depends/Xilinx_SDK_2018.3_1207_2324_Lin64.tar.gz
+Xilinx MALI Binaries: [Good] depends/mali-400-userspace-with-android-2018.3.tar
 -----------------------------------
 Docker Build Context (Working)...
 -----------------------------------
@@ -19,7 +16,7 @@ DOCKER_BUILD_WORKING_DIR=/xilinx/local/repositories/gitlab/xilinx-docker/recipes
 -----------------------------------
 Launching Python HTTP Server...
 -----------------------------------
-+ SERVER_PID=3363
++ SERVER_PID=20254
 + python3 -m http.server
 ++ ifconfig docker0
 ++ grep 'inet\s'
@@ -28,7 +25,7 @@ Launching Python HTTP Server...
 + '[' 1 -ne 0 ']'
 + set +x
 SERVER_IP=172.17.0.1
-SERVER_PID=3363
+SERVER_PID=20254
 -----------------------------------
 -----------------------------------
 Building the Docker Image...
@@ -53,66 +50,79 @@ Arguments...
         --build-arg KEYBOARD_CONFIG_FILE="configs/keyboard_settings.conf"
   --build-arg XLNX_INSTALL_LOCATION=""
         --build-arg XLNX_DOWNLOAD_LOCATION="/opt/Xilinx/downloads"
-  --build-arg XLNX_MALI_BINARY="depends/mali-400-userspace.tar"
+  --build-arg XLNX_MALI_BINARY="depends/mali-400-userspace-with-android-2018.3.tar"
         --build-arg INSTALL_SERVER_URL="172.17.0.1:8000"
-        --build-arg XLNX_XSDK_BATCH_CONFIG_FILE="configs/xsdk_config_xsct_only.config"
-        --build-arg XLNX_XSDK_OFFLINE_INSTALLER="depends/Xilinx_SDK_2018.3_1207_2324_Lin64.tar.gz"
   --build-arg BUILD_DEBUG="1"
   --build-arg XTERM_CONFIG_FILE="configs/XTerm"
 -----------------------------------
-+ docker build --no-cache -f ./Dockerfile --target xilinx_install_yocto_v2018.3 -t xilinx-yocto:v2018.3 --build-arg USER_ACCT=xilinx --build-arg HOME_DIR=/home/xilinx --build-arg YOCTO_DIR=/opt/Xilinx/yocto/v2018.3 --build-arg YOCTO_VER=v2018.3 --build-arg YOCTO_MANIFEST_URL=git://github.com/Xilinx/yocto-manifests.git --build-arg YOCTO_MANIFEST_BRANCH=rel-v2018.3 --build-arg 'GIT_USER_NAME=Xilinx User' --build-arg GIT_USER_EMAIL=Xilinx.User@dummyaddress.com --build-arg KEYBOARD_CONFIG_FILE=configs/keyboard_settings.conf --build-arg XLNX_INSTALL_LOCATION=/opt/Xilinx --build-arg XLNX_DOWNLOAD_LOCATION=/opt/Xilinx/downloads --build-arg XLNX_MALI_BINARY=depends/mali-400-userspace.tar --build-arg INSTALL_SERVER_URL=172.17.0.1:8000 --build-arg XLNX_XSDK_BATCH_CONFIG_FILE=configs/xsdk_config_xsct_only.config --build-arg XLNX_XSDK_OFFLINE_INSTALLER=depends/Xilinx_SDK_2018.3_1207_2324_Lin64.tar.gz --build-arg BUILD_DEBUG=1 --build-arg XTERM_CONFIG_FILE=configs/XTerm .
-Sending build context to Docker daemon  26.11kB
-Serving HTTP on 0.0.0.0 port 8000 ...
-Step 1/46 : FROM ubuntu:16.04.3 AS base_os_yocto_v2018.3
++ docker build --no-cache -f ./Dockerfile --target xilinx_install_yocto_v2018.3 -t xilinx-yocto:v2018.3 --build-arg USER_ACCT=xilinx --build-arg HOME_DIR=/home/xilinx --build-arg YOCTO_DIR=/opt/Xilinx/yocto/v2018.3 --build-arg YOCTO_VER=v2018.3 --build-arg YOCTO_MANIFEST_URL=git://github.com/Xilinx/yocto-manifests.git --build-arg YOCTO_MANIFEST_BRANCH=rel-v2018.3 --build-arg 'GIT_USER_NAME=Xilinx User' --build-arg GIT_USER_EMAIL=Xilinx.User@dummyaddress.com --build-arg KEYBOARD_CONFIG_FILE=configs/keyboard_settings.conf --build-arg XLNX_INSTALL_LOCATION=/opt/Xilinx --build-arg XLNX_DOWNLOAD_LOCATION=/opt/Xilinx/downloads --build-arg XLNX_MALI_BINARY=depends/mali-400-userspace-with-android-2018.3.tar --build-arg INSTALL_SERVER_URL=172.17.0.1:8000 --build-arg BUILD_DEBUG=1 --build-arg XTERM_CONFIG_FILE=configs/XTerm .
+Sending build context to Docker daemon  24.58kB
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.5/runpy.py", line 193, in _run_module_as_main
+    "__main__", mod_spec)
+  File "/usr/local/lib/python3.5/runpy.py", line 85, in _run_code
+    exec(code, run_globals)
+  File "/usr/local/lib/python3.5/http/server.py", line 1221, in <module>
+    test(HandlerClass=handler_class, port=args.port, bind=args.bind)
+  File "/usr/local/lib/python3.5/http/server.py", line 1194, in test
+    httpd = ServerClass(server_address, HandlerClass)
+  File "/usr/local/lib/python3.5/socketserver.py", line 440, in __init__
+    self.server_bind()
+  File "/usr/local/lib/python3.5/http/server.py", line 138, in server_bind
+    socketserver.TCPServer.server_bind(self)
+  File "/usr/local/lib/python3.5/socketserver.py", line 454, in server_bind
+    self.socket.bind(self.server_address)
+OSError: [Errno 98] Address already in use
+Step 1/44 : FROM ubuntu:16.04.3 AS base_os_yocto_v2018.3
  ---> 68726738affb
-Step 2/46 : LABEL author="Jason Moss"
- ---> Running in 6bbb785719a6
-Removing intermediate container 6bbb785719a6
- ---> 101c5a4d4dc8
-Step 3/46 : ENV DEBIAN_FRONTEND=noninteractive
- ---> Running in d7b9a736c626
-Removing intermediate container d7b9a736c626
- ---> 8e218b6d5b0e
-Step 4/46 : ARG BUILD_DEBUG
- ---> Running in e1fc0312fa7b
-Removing intermediate container e1fc0312fa7b
- ---> 25f4cc5d2354
-Step 5/46 : RUN if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi      && echo "APT::Install-Recommends false;" > /etc/apt/apt.conf.d/00norecommends   && echo "APT::AutoRemove::RecommendsImportant false;" >> /etc/apt/apt.conf.d/00norecommends      && echo "APT::Install-Suggests false;" > /etc/apt/apt.conf.d/00nosuggests       && echo "APT::AutoRemove::SuggestsImportant false;" >> /etc/apt/apt.conf.d/00nosuggests  && apt-get update       && apt-get install -y           apt-utils       vim      && apt-get install locales      && locale-gen en_US.UTF-8       && dpkg-reconfigure             --frontend $DEBIAN_FRONTEND locales
- ---> Running in 5720f8ac3e4f
+Step 2/44 : LABEL author="Jason Moss"
+ ---> Running in 5310e3445bda
+Removing intermediate container 5310e3445bda
+ ---> 0dba6648c297
+Step 3/44 : ENV DEBIAN_FRONTEND=noninteractive
+ ---> Running in 9ebe75614bb0
+Removing intermediate container 9ebe75614bb0
+ ---> 47c011e4b277
+Step 4/44 : ARG BUILD_DEBUG
+ ---> Running in cdff81224372
+Removing intermediate container cdff81224372
+ ---> b17f203c3984
+Step 5/44 : RUN if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi      && echo "APT::Install-Recommends false;" > /etc/apt/apt.conf.d/00norecommends      && echo "APT::AutoRemove::RecommendsImportant false;" >> /etc/apt/apt.conf.d/00norecommends     && echo "APT::Install-Suggests false;" > /etc/apt/apt.conf.d/00nosuggests  && echo "APT::AutoRemove::SuggestsImportant false;" >> /etc/apt/apt.conf.d/00nosuggests    && apt-get update       && apt-get install -y           apt-utils               vim     && apt-get install locales && locale-gen en_US.UTF-8       && dpkg-reconfigure             --frontend $DEBIAN_FRONTEND locales
+ ---> Running in fae5a48e076e
 + echo APT::Install-Recommends false;
 + echo APT::AutoRemove::RecommendsImportant false;
 + echo APT::Install-Suggests false;
 + echo APT::AutoRemove::SuggestsImportant false;
 + apt-get update
-Get:1 http://security.ubuntu.com/ubuntu xenial-security InRelease [109 kB]
-Hit:2 http://archive.ubuntu.com/ubuntu xenial InRelease
-Get:3 http://archive.ubuntu.com/ubuntu xenial-updates InRelease [109 kB]
-Get:4 http://archive.ubuntu.com/ubuntu xenial-backports InRelease [107 kB]
-Get:5 http://security.ubuntu.com/ubuntu xenial-security/main amd64 Packages [622 kB]
-Get:6 http://archive.ubuntu.com/ubuntu xenial/universe amd64 Packages [7532 kB]
-Get:7 http://security.ubuntu.com/ubuntu xenial-security/main Translation-en [256 kB]
-Get:8 http://security.ubuntu.com/ubuntu xenial-security/restricted amd64 Packages [7204 B]
-Get:9 http://security.ubuntu.com/ubuntu xenial-security/restricted Translation-en [2152 B]
-Get:10 http://security.ubuntu.com/ubuntu xenial-security/universe amd64 Packages [429 kB]
-Get:11 http://security.ubuntu.com/ubuntu xenial-security/universe Translation-en [172 kB]
-Get:12 http://security.ubuntu.com/ubuntu xenial-security/multiverse amd64 Packages [5604 B]
-Get:13 http://security.ubuntu.com/ubuntu xenial-security/multiverse Translation-en [2676 B]
-Get:14 http://archive.ubuntu.com/ubuntu xenial/universe Translation-en [4354 kB]
-Get:15 http://archive.ubuntu.com/ubuntu xenial/multiverse amd64 Packages [144 kB]
-Get:16 http://archive.ubuntu.com/ubuntu xenial/multiverse Translation-en [106 kB]
-Get:17 http://archive.ubuntu.com/ubuntu xenial-updates/main amd64 Packages [920 kB]
-Get:18 http://archive.ubuntu.com/ubuntu xenial-updates/main Translation-en [370 kB]
-Get:19 http://archive.ubuntu.com/ubuntu xenial-updates/restricted amd64 Packages [7556 B]
-Get:20 http://archive.ubuntu.com/ubuntu xenial-updates/restricted Translation-en [2272 B]
-Get:21 http://archive.ubuntu.com/ubuntu xenial-updates/universe amd64 Packages [738 kB]
-Get:22 http://archive.ubuntu.com/ubuntu xenial-updates/universe Translation-en [305 kB]
-Get:23 http://archive.ubuntu.com/ubuntu xenial-updates/multiverse amd64 Packages [16.7 kB]
-Get:24 http://archive.ubuntu.com/ubuntu xenial-updates/multiverse Translation-en [8440 B]
-Get:25 http://archive.ubuntu.com/ubuntu xenial-backports/main amd64 Packages [7280 B]
-Get:26 http://archive.ubuntu.com/ubuntu xenial-backports/main Translation-en [4456 B]
-Get:27 http://archive.ubuntu.com/ubuntu xenial-backports/universe amd64 Packages [7804 B]
-Get:28 http://archive.ubuntu.com/ubuntu xenial-backports/universe Translation-en [4184 B]
-Fetched 16.3 MB in 3s (5009 kB/s)
+Hit:1 http://archive.ubuntu.com/ubuntu xenial InRelease
+Get:2 http://archive.ubuntu.com/ubuntu xenial-updates InRelease [109 kB]
+Get:3 http://archive.ubuntu.com/ubuntu xenial-backports InRelease [107 kB]
+Get:4 http://archive.ubuntu.com/ubuntu xenial/universe amd64 Packages [7532 kB]
+Get:5 http://security.ubuntu.com/ubuntu xenial-security InRelease [109 kB]
+Get:6 http://archive.ubuntu.com/ubuntu xenial/universe Translation-en [4354 kB]
+Get:7 http://archive.ubuntu.com/ubuntu xenial/multiverse amd64 Packages [144 kB]
+Get:8 http://archive.ubuntu.com/ubuntu xenial/multiverse Translation-en [106 kB]
+Get:9 http://archive.ubuntu.com/ubuntu xenial-updates/main amd64 Packages [920 kB]
+Get:10 http://archive.ubuntu.com/ubuntu xenial-updates/main Translation-en [370 kB]
+Get:11 http://archive.ubuntu.com/ubuntu xenial-updates/restricted amd64 Packages [7616 B]
+Get:12 http://archive.ubuntu.com/ubuntu xenial-updates/restricted Translation-en [2272 B]
+Get:13 http://archive.ubuntu.com/ubuntu xenial-updates/universe amd64 Packages [738 kB]
+Get:14 http://archive.ubuntu.com/ubuntu xenial-updates/universe Translation-en [305 kB]
+Get:15 http://archive.ubuntu.com/ubuntu xenial-updates/multiverse amd64 Packages [16.7 kB]
+Get:16 http://archive.ubuntu.com/ubuntu xenial-updates/multiverse Translation-en [8440 B]
+Get:17 http://security.ubuntu.com/ubuntu xenial-security/main amd64 Packages [622 kB]
+Get:18 http://archive.ubuntu.com/ubuntu xenial-backports/main amd64 Packages [7280 B]
+Get:19 http://archive.ubuntu.com/ubuntu xenial-backports/main Translation-en [4456 B]
+Get:20 http://archive.ubuntu.com/ubuntu xenial-backports/universe amd64 Packages [7804 B]
+Get:21 http://archive.ubuntu.com/ubuntu xenial-backports/universe Translation-en [4184 B]
+Get:22 http://security.ubuntu.com/ubuntu xenial-security/main Translation-en [256 kB]
+Get:23 http://security.ubuntu.com/ubuntu xenial-security/restricted amd64 Packages [7204 B]
+Get:24 http://security.ubuntu.com/ubuntu xenial-security/restricted Translation-en [2152 B]
+Get:25 http://security.ubuntu.com/ubuntu xenial-security/universe amd64 Packages [429 kB]
+Get:26 http://security.ubuntu.com/ubuntu xenial-security/universe Translation-en [172 kB]
+Get:27 http://security.ubuntu.com/ubuntu xenial-security/multiverse amd64 Packages [5604 B]
+Get:28 http://security.ubuntu.com/ubuntu xenial-security/multiverse Translation-en [2676 B]
+Fetched 16.3 MB in 3s (4617 kB/s)
 Reading package lists...
 + apt-get install -y apt-utils vim
 Reading package lists...
@@ -154,7 +164,7 @@ Get:14 http://archive.ubuntu.com/ubuntu xenial-updates/main amd64 libpython3.5 a
 Get:15 http://archive.ubuntu.com/ubuntu xenial-updates/main amd64 vim-runtime all 2:7.4.1689-3ubuntu1.2 [5164 kB]
 Get:16 http://archive.ubuntu.com/ubuntu xenial-updates/main amd64 vim amd64 2:7.4.1689-3ubuntu1.2 [1036 kB]
 debconf: delaying package configuration, since apt-utils is not installed
-Fetched 14.0 MB in 1s (7350 kB/s)
+Fetched 14.0 MB in 2s (5167 kB/s)
 (Reading database ... 4766 files and directories currently installed.)
 Preparing to unpack .../libapt-pkg5.0_1.2.29ubuntu0.1_amd64.deb ...
 Unpacking libapt-pkg5.0:amd64 (1.2.29ubuntu0.1) over (1.2.24) ...
@@ -248,7 +258,7 @@ Need to get 3196 kB of archives.
 After this operation, 14.0 MB of additional disk space will be used.
 Get:1 http://archive.ubuntu.com/ubuntu xenial-updates/main amd64 locales all 2.23-0ubuntu11 [3196 kB]
 Preconfiguring packages ...
-Fetched 3196 kB in 1s (2645 kB/s)
+Fetched 3196 kB in 0s (3224 kB/s)
 Selecting previously unselected package locales.
 (Reading database ... 7514 files and directories currently installed.)
 Preparing to unpack .../locales_2.23-0ubuntu11_all.deb ...
@@ -264,10 +274,10 @@ Generation complete.
 Generating locales (this might take a while)...
   en_US.UTF-8... done
 Generation complete.
-Removing intermediate container 5720f8ac3e4f
- ---> 734fd30540de
-Step 6/46 : RUN if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi      && apt-get install -y           dialog          debconf-utils   && echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections
- ---> Running in b426a98d8a1f
+Removing intermediate container fae5a48e076e
+ ---> 770c3ceafc68
+Step 6/44 : RUN if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi      && apt-get install -y           dialog          debconf-utils   && echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections
+ ---> Running in d2e442d8093d
 + apt-get install -y dialog debconf-utils
 Reading package lists...
 Building dependency tree...
@@ -279,7 +289,7 @@ Need to get 272 kB of archives.
 After this operation, 1234 kB of additional disk space will be used.
 Get:1 http://archive.ubuntu.com/ubuntu xenial/universe amd64 debconf-utils all 1.5.58ubuntu1 [57.5 kB]
 Get:2 http://archive.ubuntu.com/ubuntu xenial/universe amd64 dialog amd64 1.3-20160209-1 [215 kB]
-Fetched 272 kB in 0s (360 kB/s)
+Fetched 272 kB in 0s (337 kB/s)
 Selecting previously unselected package debconf-utils.
 (Reading database ... 8111 files and directories currently installed.)
 Preparing to unpack .../debconf-utils_1.5.58ubuntu1_all.deb ...
@@ -291,22 +301,22 @@ Setting up debconf-utils (1.5.58ubuntu1) ...
 Setting up dialog (1.3-20160209-1) ...
 + echo debconf debconf/frontend select Noninteractive
 + debconf-set-selections
-Removing intermediate container b426a98d8a1f
- ---> 92d11a046281
-Step 7/46 : ARG USER_ACCT
- ---> Running in d75670a7b873
-Removing intermediate container d75670a7b873
- ---> 633b2f73508c
-Step 8/46 : ARG HOME_DIR
- ---> Running in 92049166e69e
-Removing intermediate container 92049166e69e
- ---> 59f59eea73f2
-Step 9/46 : ARG XLNX_INSTALL_LOCATION
- ---> Running in 8f7359e3d2e4
-Removing intermediate container 8f7359e3d2e4
- ---> ee0ee69300a8
-Step 10/46 : RUN if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi     && apt-get install -y           sudo    && adduser              --disabled-password             --gecos ''               --shell /bin/bash               --home $HOME_DIR                $USER_ACCT      && echo                 "$USER_ACCT ALL=(ALL) NOPASSWD: ALL"             >> /etc/sudoers         && mkdir -p $XLNX_INSTALL_LOCATION      && chown -R $USER_ACCT:$USER_ACCT $XLNX_INSTALL_LOCATION        && echo "dash dash/sh boolean false" | debconf-set-selections    && DEBIAN_FRONTEND=$DEBIAN_FRONTEND dpkg-reconfigure dash
- ---> Running in f66f3f5019ed
+Removing intermediate container d2e442d8093d
+ ---> 2bb1fd13a177
+Step 7/44 : ARG USER_ACCT
+ ---> Running in a24b90f0910c
+Removing intermediate container a24b90f0910c
+ ---> af10cde79731
+Step 8/44 : ARG HOME_DIR
+ ---> Running in 50b51726319a
+Removing intermediate container 50b51726319a
+ ---> 984c8232cd34
+Step 9/44 : ARG XLNX_INSTALL_LOCATION
+ ---> Running in b291a4541b01
+Removing intermediate container b291a4541b01
+ ---> b8939e601d1b
+Step 10/44 : RUN if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi     && apt-get install -y           sudo    && adduser              --disabled-password                --gecos ''              --shell /bin/bash               --home $HOME_DIR                $USER_ACCT && echo                 "$USER_ACCT ALL=(ALL) NOPASSWD: ALL"            >> /etc/sudoers         && mkdir -p $XLNX_INSTALL_LOCATION && chown -R $USER_ACCT:$USER_ACCT $XLNX_INSTALL_LOCATION        && echo "dash dash/sh boolean false" | debconf-set-selections   && DEBIAN_FRONTEND=$DEBIAN_FRONTEND dpkg-reconfigure dash
+ ---> Running in 29a2a92cfdac
 + apt-get install -y sudo
 Reading package lists...
 Building dependency tree...
@@ -317,7 +327,7 @@ The following NEW packages will be installed:
 Need to get 390 kB of archives.
 After this operation, 1618 kB of additional disk space will be used.
 Get:1 http://archive.ubuntu.com/ubuntu xenial-updates/main amd64 sudo amd64 1.8.16-0ubuntu1.5 [390 kB]
-Fetched 390 kB in 0s (553 kB/s)
+Fetched 390 kB in 0s (568 kB/s)
 Selecting previously unselected package sudo.
 (Reading database ... 8330 files and directories currently installed.)
 Preparing to unpack .../sudo_1.8.16-0ubuntu1.5_amd64.deb ...
@@ -339,46 +349,46 @@ Removing 'diversion of /bin/sh to /bin/sh.distrib by dash'
 Adding 'diversion of /bin/sh to /bin/sh.distrib by bash'
 Removing 'diversion of /usr/share/man/man1/sh.1.gz to /usr/share/man/man1/sh.distrib.1.gz by dash'
 Adding 'diversion of /usr/share/man/man1/sh.1.gz to /usr/share/man/man1/sh.distrib.1.gz by bash'
-Removing intermediate container f66f3f5019ed
- ---> 9824c88a006a
-Step 11/46 : FROM base_os_yocto_v2018.3 AS xilinx_install_depends_yocto_v2018.3
- ---> 9824c88a006a
-Step 12/46 : LABEL author="Jason Moss"
- ---> Running in f36972161d55
-Removing intermediate container f36972161d55
- ---> c7f697d80cd2
-Step 13/46 : ARG USER_ACCT
- ---> Running in f0888e73fa4a
-Removing intermediate container f0888e73fa4a
- ---> 74c3f8999ec7
-Step 14/46 : ARG HOME_DIR
- ---> Running in dc202d9d3001
-Removing intermediate container dc202d9d3001
- ---> 18db6c3b342e
-Step 15/46 : USER $USER_ACCT
- ---> Running in 4cd855ceca53
-Removing intermediate container 4cd855ceca53
- ---> cc56e268acb7
-Step 16/46 : ENV DEBIAN_FRONTEND=noninteractive
- ---> Running in 322f17b717e1
-Removing intermediate container 322f17b717e1
- ---> 7c0c7185e170
-Step 17/46 : ARG XLNX_INSTALL_LOCATION
- ---> Running in d6ceb43e17fe
-Removing intermediate container d6ceb43e17fe
- ---> 1220973d3512
-Step 18/46 : ARG BUILD_DEBUG
- ---> Running in ea787289488a
-Removing intermediate container ea787289488a
- ---> b66cbad5587d
-Step 19/46 : RUN if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi     && mkdir -p $XLNX_INSTALL_LOCATION/tmp  && cd $XLNX_INSTALL_LOCATION/tmp        && sudo apt-get update   && sudo apt-get install -y              gawk            wget            git-core                diffstat                unzip           texinfo         gcc-multilib             build-essential                 chrpath                 socat           cpio            python          python3                 python3-pip              python3-pexpect                 xz-utils                debianutils             iputils-ping            libsdl1.2-dev           xterm           make             xsltproc                docbook-utils           fop             dblatex                 xmlto           python-git              python3-gi      curl     && sudo bash -c "curl https://storage.googleapis.com/git-repo-downloads/repo > /usr/local/bin/repo"     && sudo chmod a+x /usr/local/bin/repo   && sudo apt-get install -y               file            xorg            xterm           less            lsb-release             dos2unix
- ---> Running in a05ca023c511
+Removing intermediate container 29a2a92cfdac
+ ---> 28c29515aea5
+Step 11/44 : FROM base_os_yocto_v2018.3 AS xilinx_install_depends_yocto_v2018.3
+ ---> 28c29515aea5
+Step 12/44 : LABEL author="Jason Moss"
+ ---> Running in f66a6774a5a0
+Removing intermediate container f66a6774a5a0
+ ---> 0e4c61cdd4d1
+Step 13/44 : ARG USER_ACCT
+ ---> Running in 7c6cdcdebb1f
+Removing intermediate container 7c6cdcdebb1f
+ ---> 59f8949b274d
+Step 14/44 : ARG HOME_DIR
+ ---> Running in 0cad61d4185c
+Removing intermediate container 0cad61d4185c
+ ---> a6ab45c39cb2
+Step 15/44 : USER $USER_ACCT
+ ---> Running in 70f2cdc6872d
+Removing intermediate container 70f2cdc6872d
+ ---> 1966b960d933
+Step 16/44 : ENV DEBIAN_FRONTEND=noninteractive
+ ---> Running in e2b95e04c00e
+Removing intermediate container e2b95e04c00e
+ ---> 0501cc5d3bd0
+Step 17/44 : ARG XLNX_INSTALL_LOCATION
+ ---> Running in 0ba5e9f7d145
+Removing intermediate container 0ba5e9f7d145
+ ---> 1dfad3344de8
+Step 18/44 : ARG BUILD_DEBUG
+ ---> Running in 017b359fd50c
+Removing intermediate container 017b359fd50c
+ ---> f6cedcd18edb
+Step 19/44 : RUN if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi     && mkdir -p $XLNX_INSTALL_LOCATION/tmp  && cd $XLNX_INSTALL_LOCATION/tmp   && sudo apt-get update  && sudo apt-get install -y              gawk            wget            git-core                diffstat           unzip           texinfo                 gcc-multilib            build-essential                 chrpath           socat            cpio            python          python3                 python3-pip             python3-pexpect                 xz-utils           debianutils             iputils-ping            libsdl1.2-dev           xterm           make            xsltproc  docbook-utils            fop             dblatex                 xmlto           python-git              python3-gi              curl       && sudo bash -c "curl https://storage.googleapis.com/git-repo-downloads/repo > /usr/local/bin/repo"     && sudo chmod a+x /usr/local/bin/repo      && sudo apt-get install -y              file            xorg            xterm           less            lsb-release                dos2unix
+ ---> Running in cabcfec5b8f8
 + mkdir -p /opt/Xilinx/tmp
 + cd /opt/Xilinx/tmp
 + sudo apt-get update
 Hit:1 http://archive.ubuntu.com/ubuntu xenial InRelease
-Hit:2 http://archive.ubuntu.com/ubuntu xenial-updates InRelease
-Hit:3 http://security.ubuntu.com/ubuntu xenial-security InRelease
+Hit:2 http://security.ubuntu.com/ubuntu xenial-security InRelease
+Hit:3 http://archive.ubuntu.com/ubuntu xenial-updates InRelease
 Hit:4 http://archive.ubuntu.com/ubuntu xenial-backports InRelease
 Reading package lists...
 + sudo apt-get install -y gawk wget git-core diffstat unzip texinfo gcc-multilib build-essential chrpath socat cpio python python3 python3-pip python3-pexpect xz-utils debianutils iputils-ping libsdl1.2-dev xterm make xsltproc docbook-utils fop dblatex xmlto python-git python3-gi curl
@@ -939,7 +949,7 @@ Get:363 http://archive.ubuntu.com/ubuntu xenial/main amd64 xterm amd64 322-1ubun
 Get:364 http://archive.ubuntu.com/ubuntu xenial/universe amd64 socat amd64 1.7.3.1-1 [321 kB]
 Extracting templates from packages: 100%
 Preconfiguring packages ...
-Fetched 330 MB in 20s (16.1 MB/s)
+Fetched 330 MB in 19s (17.2 MB/s)
 (Reading database ... 8383 files and directories currently installed.)
 Preparing to unpack .../perl-base_5.22.1-9ubuntu0.6_amd64.deb ...
 Unpacking perl-base (5.22.1-9ubuntu0.6) over (5.22.1-9) ...
@@ -2636,7 +2646,7 @@ Building format(s) --all.
 + sudo bash -c 'curl https://storage.googleapis.com/git-repo-downloads/repo > /usr/local/bin/repo'
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
-100 29142  100 29142    0     0  77353      0 --:--:-- --:--:-- --:--:-- 77505
+100 29142  100 29142    0     0  84178      0 --:--:-- --:--:-- --:--:-- 84225
 + sudo chmod a+x /usr/local/bin/repo
 + sudo apt-get install -y file xorg xterm less lsb-release dos2unix
 Reading package lists...
@@ -2745,7 +2755,7 @@ Get:61 http://archive.ubuntu.com/ubuntu xenial-updates/main amd64 xorg amd64 1:7
 Get:62 http://archive.ubuntu.com/ubuntu xenial/universe amd64 dos2unix amd64 6.0.4-1 [68.7 kB]
 Extracting templates from packages: 100%
 Preconfiguring packages ...
-Fetched 16.0 MB in 4s (3512 kB/s)
+Fetched 16.0 MB in 2s (6338 kB/s)
 Selecting previously unselected package liblocale-gettext-perl.
 (Reading database ... 44596 files and directories currently installed.)
 Preparing to unpack .../liblocale-gettext-perl_1.07-1build1_amd64.deb ...
@@ -3012,34 +3022,34 @@ Setting up xorg (1:7.7+13ubuntu3.1) ...
 Setting up dos2unix (6.0.4-1) ...
 Processing triggers for systemd (229-4ubuntu19) ...
 Processing triggers for libc-bin (2.23-0ubuntu9) ...
-Removing intermediate container a05ca023c511
- ---> 8ef0a4775059
-Step 20/46 : ARG YOCTO_DIR
- ---> Running in 7c694d2461a0
-Removing intermediate container 7c694d2461a0
- ---> 1027627c2d74
-Step 21/46 : ARG YOCTO_VER
- ---> Running in 8015f1b00369
-Removing intermediate container 8015f1b00369
- ---> d545187e4a9f
-Step 22/46 : ARG YOCTO_MANIFEST_URL
- ---> Running in 645ec14bda09
-Removing intermediate container 645ec14bda09
- ---> 7f5a76770dd0
-Step 23/46 : ARG YOCTO_MANIFEST_BRANCH
- ---> Running in f5889f0dbbe6
-Removing intermediate container f5889f0dbbe6
- ---> 7828a416961d
-Step 24/46 : ARG GIT_USER_NAME
- ---> Running in ea4b40e75605
-Removing intermediate container ea4b40e75605
- ---> 5d3d02d7c016
-Step 25/46 : ARG GIT_USER_EMAIL
- ---> Running in 018b6470d5b9
-Removing intermediate container 018b6470d5b9
- ---> 8579437812bb
-Step 26/46 : RUN if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi     && git config           --global user.name $GIT_USER_NAME       && git config           --global user.email $GIT_USER_EMAIL      && git config           --global color.ui true  && mkdir -p $YOCTO_DIR  && cd $YOCTO_DIR        && repo init -u $YOCTO_MANIFEST_URL -b $YOCTO_MANIFEST_BRANCH    && repo sync && repo start $YOCTO_VER"_working" --all
- ---> Running in 5e336005cfca
+Removing intermediate container cabcfec5b8f8
+ ---> 5d825c367369
+Step 20/44 : ARG YOCTO_DIR
+ ---> Running in 474131f73b31
+Removing intermediate container 474131f73b31
+ ---> da5446d679ac
+Step 21/44 : ARG YOCTO_VER
+ ---> Running in 5f6ed748c7c0
+Removing intermediate container 5f6ed748c7c0
+ ---> ae7948c6a16f
+Step 22/44 : ARG YOCTO_MANIFEST_URL
+ ---> Running in e74b9a067f68
+Removing intermediate container e74b9a067f68
+ ---> ab49c50422a7
+Step 23/44 : ARG YOCTO_MANIFEST_BRANCH
+ ---> Running in f15f251c18d3
+Removing intermediate container f15f251c18d3
+ ---> 40c3b7f3351a
+Step 24/44 : ARG GIT_USER_NAME
+ ---> Running in ed1c8741fb32
+Removing intermediate container ed1c8741fb32
+ ---> 79bf3deb894f
+Step 25/44 : ARG GIT_USER_EMAIL
+ ---> Running in 05da03afe8ec
+Removing intermediate container 05da03afe8ec
+ ---> 6b9be3104bf5
+Step 26/44 : RUN if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi     && git config           --global user.name $GIT_USER_NAME       && git config              --global user.email $GIT_USER_EMAIL     && git config           --global color.ui true  && mkdir -p $YOCTO_DIR     && cd $YOCTO_DIR        && repo init -u $YOCTO_MANIFEST_URL -b $YOCTO_MANIFEST_BRANCH   && repo sync && repo start $YOCTO_VER"_working" --all
+ ---> Running in 486905799bb5
 + git config --global user.name Xilinx User
 + git config --global user.email Xilinx.User@dummyaddress.com
 + git config --global color.ui true
@@ -3235,81 +3245,81 @@ Fetching project meta-xilinx-tools
 Fetching project yocto-manifests
 Fetching project meta-openembedded
 + repo start v2018.3_working --all
-Removing intermediate container 5e336005cfca
- ---> fbeff6208823
-Step 27/46 : FROM xilinx_install_depends_yocto_v2018.3 AS xilinx_install_yocto_v2018.3
- ---> fbeff6208823
-Step 28/46 : LABEL author="Jason Moss"
- ---> Running in 19397c92bc73
-Removing intermediate container 19397c92bc73
- ---> 6d4a730458af
-Step 29/46 : ARG USER_ACCT
- ---> Running in 9438726eb137
-Removing intermediate container 9438726eb137
- ---> 3b28c8ed7867
-Step 30/46 : ARG HOME_DIR
- ---> Running in 41dc1c090332
-Removing intermediate container 41dc1c090332
- ---> 7ad445746871
-Step 31/46 : USER $USER_ACCT
- ---> Running in bbe4d6344ff2
-Removing intermediate container bbe4d6344ff2
- ---> d7c0b587de4e
-Step 32/46 : ENV DEBIAN_FRONTEND=noninteractive
- ---> Running in 02ade554e7de
-Removing intermediate container 02ade554e7de
- ---> 35a2ca091652
-Step 33/46 : ARG XLNX_INSTALL_LOCATION
- ---> Running in b5285baca6d2
-Removing intermediate container b5285baca6d2
- ---> 7dd13ce104e4
-Step 34/46 : ARG XLNX_DOWNLOAD_LOCATION
- ---> Running in b5de8792b736
-Removing intermediate container b5de8792b736
- ---> 049d6648611f
-Step 35/46 : ARG INSTALL_SERVER_URL
- ---> Running in ed5ec372cdbe
-Removing intermediate container ed5ec372cdbe
- ---> fe471dc0ea73
-Step 36/46 : ARG XLNX_MALI_BINARY
- ---> Running in 607107e510ee
-Removing intermediate container 607107e510ee
- ---> fb01a6d09199
-Step 37/46 : ARG BUILD_DEBUG
- ---> Running in 306ad9e76e62
-Removing intermediate container 306ad9e76e62
- ---> 0e353859bb50
-Step 38/46 : RUN if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi     && mkdir -p $XLNX_DOWNLOAD_LOCATION/tmp         && cd $XLNX_DOWNLOAD_LOCATION/tmp       && mkdir -p "${XLNX_MALI_BINARY%/*}"     && wget -nv $INSTALL_SERVER_URL/$XLNX_MALI_BINARY -O $XLNX_MALI_BINARY  && tar xf $XLNX_MALI_BINARY mali/rel-v2018.3/downloads-mali.tar  && tar xf mali/rel-v2018.3/downloads-mali.tar   && mv $XLNX_DOWNLOAD_LOCATION/tmp/downloads-mali/* $XLNX_INSTALL_LOCATION/"${XLNX_MALI_BINARY%/*}"      && rm -rf $XLNX_DOWNLOAD_LOCATION/tmp
- ---> Running in 69c7528262d5
+Removing intermediate container 486905799bb5
+ ---> 3074b71b4f5d
+Step 27/44 : FROM xilinx_install_depends_yocto_v2018.3 AS xilinx_install_yocto_v2018.3
+ ---> 3074b71b4f5d
+Step 28/44 : LABEL author="Jason Moss"
+ ---> Running in 223a378773db
+Removing intermediate container 223a378773db
+ ---> b24ee609bc27
+Step 29/44 : ARG USER_ACCT
+ ---> Running in 4c198b45bf51
+Removing intermediate container 4c198b45bf51
+ ---> e22fb6c7c10f
+Step 30/44 : ARG HOME_DIR
+ ---> Running in bb19ddf414da
+Removing intermediate container bb19ddf414da
+ ---> e10c0bca1f49
+Step 31/44 : USER $USER_ACCT
+ ---> Running in c25bde302784
+Removing intermediate container c25bde302784
+ ---> f7ec41336093
+Step 32/44 : ENV DEBIAN_FRONTEND=noninteractive
+ ---> Running in cf074cde3b4d
+Removing intermediate container cf074cde3b4d
+ ---> 62158eccb180
+Step 33/44 : ARG XLNX_INSTALL_LOCATION
+ ---> Running in 064eb78e7307
+Removing intermediate container 064eb78e7307
+ ---> 2ece88cb4a60
+Step 34/44 : ARG XLNX_DOWNLOAD_LOCATION
+ ---> Running in a7f5ee951fa5
+Removing intermediate container a7f5ee951fa5
+ ---> f9ec28beb040
+Step 35/44 : ARG INSTALL_SERVER_URL
+ ---> Running in ddb4a6432654
+Removing intermediate container ddb4a6432654
+ ---> 9ff6d291e4c9
+Step 36/44 : ARG XLNX_MALI_BINARY
+ ---> Running in 7539b1a08b44
+Removing intermediate container 7539b1a08b44
+ ---> 3f93d09b8dc7
+Step 37/44 : ARG BUILD_DEBUG
+ ---> Running in 3b8c205c117f
+Removing intermediate container 3b8c205c117f
+ ---> b18fc10414d3
+Step 38/44 : RUN if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi     && mkdir -p $XLNX_DOWNLOAD_LOCATION/tmp         && cd $XLNX_DOWNLOAD_LOCATION/tmp  && mkdir -p "${XLNX_MALI_BINARY%/*}"    && wget -nv $INSTALL_SERVER_URL/$XLNX_MALI_BINARY -O $XLNX_MALI_BINARY  && tar xf $XLNX_MALI_BINARY mali/rel-v2018.3/downloads-mali.tar    && tar xf mali/rel-v2018.3/downloads-mali.tar   && mv $XLNX_DOWNLOAD_LOCATION/tmp/downloads-mali/* $XLNX_INSTALL_LOCATION/"${XLNX_MALI_BINARY%/*}"         && rm -rf $XLNX_DOWNLOAD_LOCATION/tmp
+ ---> Running in 24f18b8b61df
 + mkdir -p /opt/Xilinx/downloads/tmp
 + cd /opt/Xilinx/downloads/tmp
 + mkdir -p depends
-+ wget -nv 172.17.0.1:8000/depends/mali-400-userspace.tar -O depends/mali-400-userspace.tar
-172.17.0.4 - - [14/Mar/2019 17:26:17] "GET /depends/mali-400-userspace.tar HTTP/1.1" 200 -
-2019-03-14 21:26:17 URL:http://172.17.0.1:8000/depends/mali-400-userspace.tar [305602560/305602560] -> "depends/mali-400-userspace.tar" [1]
-+ tar xf depends/mali-400-userspace.tar mali/rel-v2018.3/downloads-mali.tar
++ wget -nv 172.17.0.1:8000/depends/mali-400-userspace-with-android-2018.3.tar -O depends/mali-400-userspace-with-android-2018.3.tar
+172.17.0.4 - - [15/Mar/2019 08:51:55] "GET /depends/mali-400-userspace-with-android-2018.3.tar HTTP/1.1" 200 -
+2019-03-15 12:51:55 URL:http://172.17.0.1:8000/depends/mali-400-userspace-with-android-2018.3.tar [308336640/308336640] -> "depends/mali-400-userspace-with-android-2018.3.tar" [1]
++ tar xf depends/mali-400-userspace-with-android-2018.3.tar mali/rel-v2018.3/downloads-mali.tar
 + tar xf mali/rel-v2018.3/downloads-mali.tar
 + mv /opt/Xilinx/downloads/tmp/downloads-mali/git2_gitenterprise.xilinx.com.Graphics.mali400-xlnx-userspace.git.tar.gz /opt/Xilinx/depends
 + rm -rf /opt/Xilinx/downloads/tmp
-Removing intermediate container 69c7528262d5
- ---> d4e92957e8dc
-Step 39/46 : ARG KEYBOARD_CONFIG_FILE
- ---> Running in e7f467647e6b
-Removing intermediate container e7f467647e6b
- ---> b0ce35b4c9c5
-Step 40/46 : ARG XTERM_CONFIG_FILE
- ---> Running in 15aa47a7b816
-Removing intermediate container 15aa47a7b816
- ---> a40a2273d1c3
-Step 41/46 : RUN if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi     && export TERM=xterm    && cd $XLNX_INSTALL_LOCATION/tmp        && mkdir -p "${KEYBOARD_CONFIG_FILE%/*}"         && wget -nv $INSTALL_SERVER_URL/$KEYBOARD_CONFIG_FILE -O $KEYBOARD_CONFIG_FILE  && cat $KEYBOARD_CONFIG_FILE    && sudo DEBIAN_FRONTEND=$DEBIAN_FRONTEND apt-get install -y keyboard-configuration       && sudo DEBIAN_FRONTEND=$DEBIAN_FRONTEND debconf-set-selections < $KEYBOARD_CONFIG_FILE         && sudo DEBIAN_FRONTEND=$DEBIAN_FRONTEND dpkg-reconfigure keyboard-configuration         && mkdir -p "${XTERM_CONFIG_FILE%/*}"   && wget -nv $INSTALL_SERVER_URL/$XTERM_CONFIG_FILE -O $XTERM_CONFIG_FILE         && cat $XTERM_CONFIG_FILE       && cp $XTERM_CONFIG_FILE $HOME_DIR
- ---> Running in 3e3f581166bf
+Removing intermediate container 24f18b8b61df
+ ---> ffe659b867a3
+Step 39/44 : ARG KEYBOARD_CONFIG_FILE
+ ---> Running in 2d0b76984a59
+Removing intermediate container 2d0b76984a59
+ ---> fc57a5b07e7d
+Step 40/44 : ARG XTERM_CONFIG_FILE
+ ---> Running in e8b8edb40bd2
+Removing intermediate container e8b8edb40bd2
+ ---> f8cde9d8d1e5
+Step 41/44 : RUN if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi     && export TERM=xterm    && cd $XLNX_INSTALL_LOCATION/tmp        && mkdir -p "${KEYBOARD_CONFIG_FILE%/*}"   && wget -nv $INSTALL_SERVER_URL/$KEYBOARD_CONFIG_FILE -O $KEYBOARD_CONFIG_FILE  && cat $KEYBOARD_CONFIG_FILE       && sudo DEBIAN_FRONTEND=$DEBIAN_FRONTEND apt-get install -y keyboard-configuration      && sudo DEBIAN_FRONTEND=$DEBIAN_FRONTEND debconf-set-selections < $KEYBOARD_CONFIG_FILE    && sudo DEBIAN_FRONTEND=$DEBIAN_FRONTEND dpkg-reconfigure keyboard-configuration   && mkdir -p "${XTERM_CONFIG_FILE%/*}"   && wget -nv $INSTALL_SERVER_URL/$XTERM_CONFIG_FILE -O $XTERM_CONFIG_FILE   && cat $XTERM_CONFIG_FILE       && cp $XTERM_CONFIG_FILE $HOME_DIR
+ ---> Running in 2f2b7921ea9b
 + export TERM=xterm
 + TERM=xterm
 + cd /opt/Xilinx/tmp
 + mkdir -p configs
 + wget -nv 172.17.0.1:8000/configs/keyboard_settings.conf -O configs/keyboard_settings.conf
-172.17.0.4 - - [14/Mar/2019 17:26:19] "GET /configs/keyboard_settings.conf HTTP/1.1" 200 -
-2019-03-14 21:26:19 URL:http://172.17.0.1:8000/configs/keyboard_settings.conf [1553/1553] -> "configs/keyboard_settings.conf" [1]
+172.17.0.4 - - [15/Mar/2019 08:51:58] "GET /configs/keyboard_settings.conf HTTP/1.1" 200 -
+2019-03-15 12:51:58 URL:http://172.17.0.1:8000/configs/keyboard_settings.conf [1553/1553] -> "configs/keyboard_settings.conf" [1]
 + cat configs/keyboard_settings.conf
 keyboard-configuration  keyboard-configuration/unsupported_options      boolean true
 keyboard-configuration  keyboard-configuration/model    select  Generic 105-key (Intl) PC
@@ -3347,8 +3357,8 @@ update-rc.d: warning: start and stop actions are no longer supported; falling ba
 update-rc.d: warning: start and stop actions are no longer supported; falling back to defaults
 + mkdir -p configs
 + wget -nv 172.17.0.1:8000/configs/XTerm -O configs/XTerm
-172.17.0.4 - - [14/Mar/2019 17:26:20] "GET /configs/XTerm HTTP/1.1" 200 -
-2019-03-14 21:26:20 URL:http://172.17.0.1:8000/configs/XTerm [227/227] -> "configs/XTerm" [1]
+172.17.0.4 - - [15/Mar/2019 08:51:59] "GET /configs/XTerm HTTP/1.1" 200 -
+2019-03-15 12:51:59 URL:http://172.17.0.1:8000/configs/XTerm [227/227] -> "configs/XTerm" [1]
 + cat configs/XTerm
 XTerm*Background: black
 XTerm*Foreground: green
@@ -3359,120 +3369,43 @@ XTerm*rightScrollBar: true
 XTerm*ScrollBar: true
 XTerm*scrollTtyOutput: false
 XTerm*selectToClipboard: true+ cp configs/XTerm /home/xilinx
-Removing intermediate container 3e3f581166bf
- ---> 778fea74a1f3
-Step 42/46 : ARG XLNX_XSDK_OFFLINE_INSTALLER
- ---> Running in a9bad5fa7b56
-Removing intermediate container a9bad5fa7b56
- ---> 85f7cefc7550
-Step 43/46 : ARG XLNX_XSDK_BATCH_CONFIG_FILE
- ---> Running in dbf3706a67e5
-Removing intermediate container dbf3706a67e5
- ---> 3382984c52d3
-Step 44/46 : ARG YOCTO_DIR
- ---> Running in ffb726609f71
-Removing intermediate container ffb726609f71
- ---> 0f319679f34e
-Step 45/46 : RUN if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi     && cd $XLNX_INSTALL_LOCATION/tmp        && mkdir -p "${XLNX_XSDK_BATCH_CONFIG_FILE%/*}"         && wget -nv $INSTALL_SERVER_URL/$XLNX_XSDK_BATCH_CONFIG_FILE -O $XLNX_XSDK_BATCH_CONFIG_FILE     && cat $XLNX_XSDK_BATCH_CONFIG_FILE     && mkdir -p "${XLNX_XSDK_OFFLINE_INSTALLER%/*}"          && wget -nv --no-cache $INSTALL_SERVER_URL/$XLNX_XSDK_OFFLINE_INSTALLER -O $XLNX_XSDK_OFFLINE_INSTALLER         && chmod a+x $XLNX_XSDK_OFFLINE_INSTALLER        && tar -zxf $XLNX_XSDK_OFFLINE_INSTALLER && ls -al      && echo "cd $YOCTO_DIR" >> $HOME_DIR/.bashrc    && echo "export LANG=en_US.UTF-8" >> $HOME_DIR/.bashrc   && export "LANG=en_US.UTF-8"    && chmod a+x xsetup     && cd $XLNX_INSTALL_LOCATION/tmp        && ./xsetup             --agree XilinxEULA,3rdPartyEULA,WebTalkTerms             --config $XLNX_XSDK_BATCH_CONFIG_FILE                   --batch INSTALL         && cd $HOME_DIR         && rm -rf $XLNX_INSTALL_LOCATION/tmp
- ---> Running in 56d77abf4166
-+ cd /opt/Xilinx/tmp
-+ mkdir -p configs
-+ wget -nv 172.17.0.1:8000/configs/xsdk_config_xsct_only.config -O configs/xsdk_config_xsct_only.config
-172.17.0.4 - - [14/Mar/2019 17:26:23] "GET /configs/xsdk_config_xsct_only.config HTTP/1.1" 200 -
-2019-03-14 21:26:23 URL:http://172.17.0.1:8000/configs/xsdk_config_xsct_only.config [1278/1278] -> "configs/xsdk_config_xsct_only.config" [1]
-+ cat configs/xsdk_config_xsct_only.config
-#### Xilinx Software Command-Line Tool (XSCT) Install Configuration ####
-Edition=Xilinx Software Command-Line Tool (XSCT)
-
-# Path where Xilinx software will be installed.
-Destination=/opt/Xilinx
-
-# Choose the Products/Devices the you would like to install.
-Modules=DocNav:1,ARM Cortex-A9:1,ARM Cortex R5:1,MicroBlaze:1,ARM Cortex-A53:1
-
-# Choose the post install scripts you'd like to run as part of the finalization step. Please note that some of these scripts may require user interaction during runtime.
-InstallOptions=Enable WebTalk for SDK to send usage statistics to Xilinx:0
-
-## Shortcuts and File associations ##
-# Choose whether Start menu/Application menu shortcuts will be created or not.
-CreateProgramGroupShortcuts=1
-
-# Choose the name of the Start menu/Application menu shortcut. This setting will be ignored if you choose NOT to create shortcuts.
-ProgramGroupFolder=Xilinx Design Tools
-
-# Choose whether shortcuts will be created for All users or just the Current user. Shortcuts can be created for all users only if you run the installer as administrator.
-CreateShortcutsForAllUsers=0
-
-# Choose whether shortcuts will be created on the desktop or not.
-CreateDesktopShortcuts=0
-
-# Choose whether file associations will be created or not.
-CreateFileAssociation=0
-
-+ mkdir -p depends
-+ wget -nv --no-cache 172.17.0.1:8000/depends/Xilinx_SDK_2018.3_1207_2324_Lin64.tar.gz -O depends/Xilinx_SDK_2018.3_1207_2324_Lin64.tar.gz
-172.17.0.4 - - [14/Mar/2019 17:26:23] "GET /depends/Xilinx_SDK_2018.3_1207_2324_Lin64.tar.gz HTTP/1.1" 200 -
-2019-03-14 21:26:24 URL:http://172.17.0.1:8000/depends/Xilinx_SDK_2018.3_1207_2324_Lin64.tar.gz [1373663062/1373663062] -> "depends/Xilinx_SDK_2018.3_1207_2324_Lin64.tar.gz" [1]
-+ chmod a+x depends/Xilinx_SDK_2018.3_1207_2324_Lin64.tar.gz
-+ tar -zxf depends/Xilinx_SDK_2018.3_1207_2324_Lin64.tar.gz
-+ ls -al
-total 64
-drwxr-xr-x 1 xilinx xilinx  4096 Jan 23 17:41 .
-drwxr-xr-x 1 xilinx xilinx  4096 Mar 14 21:26 ..
-drwxr-xr-x 2 xilinx xilinx  4096 Jan 23 17:41 bin
-drwxr-xr-x 1 xilinx xilinx  4096 Mar 14 21:26 configs
-drwxr-xr-x 3 xilinx xilinx  4096 Jan 23 17:42 data
-drwxr-xr-x 2 xilinx xilinx  4096 Mar 14 21:26 depends
-drwxr-xr-x 4 xilinx xilinx  4096 Jan 23 17:41 lib
-drwxr-xr-x 2 xilinx xilinx 16384 Jan 23 17:41 payload
-drwxr-xr-x 2 xilinx xilinx  4096 Jan 23 17:41 scripts
-drwxr-xr-x 3 xilinx xilinx  4096 Jan 23 17:41 tps
--rwxr-xr-x 1 xilinx xilinx  3142 Dec  7 06:56 xsetup
+Removing intermediate container 2f2b7921ea9b
+ ---> 4ec8f433913f
+Step 42/44 : ARG YOCTO_DIR
+ ---> Running in 8a2ddaaa51de
+Removing intermediate container 8a2ddaaa51de
+ ---> 3b17901f02d0
+Step 43/44 : RUN if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi     && echo "cd $YOCTO_DIR" >> $HOME_DIR/.bashrc    && echo "export LANG=en_US.UTF-8" >> $HOME_DIR/.bashrc     && export "LANG=en_US.UTF-8"
+ ---> Running in fcab0c21ac54
 + echo 'cd /opt/Xilinx/yocto/v2018.3'
 + echo 'export LANG=en_US.UTF-8'
 + export LANG=en_US.UTF-8
 + LANG=en_US.UTF-8
-+ chmod a+x xsetup
-+ cd /opt/Xilinx/tmp
-+ ./xsetup --agree XilinxEULA,3rdPartyEULA,WebTalkTerms --config configs/xsdk_config_xsct_only.config --batch INSTALL
-Running in batch mode...
-Copyright (c) 1986-2019 Xilinx, Inc.  All rights reserved.
-INFO : Log file location - /home/xilinx/.Xilinx/xinstall/xinstall_1552598792937.log
-INFO : Edition Selected to be installed: Xilinx Software Command-Line Tool (XSCT)
-INFO : Installing Edition: Xilinx Software Command-Line Tool (XSCT)
-INFO : Installation directory is /opt/Xilinx
-.
-INFO : Installing.......................................................................................................................................................................................................................................
-INFO : Running post-install tasks...........
-INFO : Log file is copied to : /opt/Xilinx/.xinstall/SDK_2018.3/xinstall.log
-INFO : Installation completed successfully.
-+ cd /home/xilinx
-+ rm -rf /opt/Xilinx/tmp
-Removing intermediate container 56d77abf4166
- ---> 9b1352b7d0ad
-Step 46/46 : RUN if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi     && sudo apt-get clean   && sudo rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*   && sudo echo 'debconf debconf/frontend select Dialog' | sudo debconf-set-selections
- ---> Running in 8a6e99440774
+Removing intermediate container fcab0c21ac54
+ ---> e5da2fccf76c
+Step 44/44 : RUN if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi     && sudo apt-get clean   && sudo rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*      && sudo echo 'debconf debconf/frontend select Dialog' | sudo debconf-set-selections
+ ---> Running in 5e7de72599c1
 + sudo apt-get clean
-+ sudo rm -rf /var/lib/apt/lists/archive.ubuntu.com_ubuntu_dists_xenial-backports_InRelease /var/lib/apt/lists/archive.ubuntu.com_ubuntu_dists_xenial-backports_main_binary-amd64_Packages /var/lib/apt/lists/archive.ubuntu.com_ubuntu_dists_xenial-backports_main_i18n_Translation-en /var/lib/apt/lists/archive.ubuntu.com_ubuntu_dists_xenial-backports_universe_binary-amd64_Packages /var/lib/apt/lists/archive.ubuntu.com_ubuntu_dists_xenial-backports_universe_i18n_Translation-en /var/lib/apt/lists/archive.ubuntu.com_ubuntu_dists_xenial-updates_InRelease /var/lib/apt/lists/archive.ubuntu.com_ubuntu_dists_xenial-updates_main_binary-amd64_Packages /var/lib/apt/lists/archive.ubuntu.com_ubuntu_dists_xenial-updates_main_i18n_Translation-en /var/lib/apt/lists/archive.ubuntu.com_ubuntu_dists_xenial-updates_multiverse_binary-amd64_Packages /var/lib/apt/lists/archive.ubuntu.com_ubuntu_dists_xenial-updates_multiverse_i18n_Translation-en /var/lib/apt/lists/archive.ubuntu.com_ubuntu_dists_xenial-updates_restricted_binary-amd64_Packages /var/lib/apt/lists/archive.ubuntu.com_ubuntu_dists_xenial-updates_restricted_i18n_Translation-en /var/lib/apt/lists/archive.ubuntu.com_ubuntu_dists_xenial-updates_universe_binary-amd64_Packages /var/lib/apt/lists/archive.ubuntu.com_ubuntu_dists_xenial-updates_universe_i18n_Translation-en /var/lib/apt/lists/archive.ubuntu.com_ubuntu_dists_xenial_InRelease /var/lib/apt/lists/archive.ubuntu.com_ubuntu_dists_xenial_main_binary-amd64_Packages /var/lib/apt/lists/archive.ubuntu.com_ubuntu_dists_xenial_main_i18n_Translation-en /var/lib/apt/lists/archive.ubuntu.com_ubuntu_dists_xenial_multiverse_binary-amd64_Packages /var/lib/apt/lists/archive.ubuntu.com_ubuntu_dists_xenial_multiverse_i18n_Translation-en /var/lib/apt/lists/archive.ubuntu.com_ubuntu_dists_xenial_restricted_binary-amd64_Packages /var/lib/apt/lists/archive.ubuntu.com_ubuntu_dists_xenial_restricted_i18n_Translation-en /var/lib/apt/lists/archive.ubuntu.com_ubuntu_dists_xenial_universe_binary-amd64_Packages /var/lib/apt/lists/archive.ubuntu.com_ubuntu_dists_xenial_universe_i18n_Translation-en /var/lib/apt/lists/lock /var/lib/apt/lists/partial /var/lib/apt/lists/security.ubuntu.com_ubuntu_dists_xenial-security_InRelease /var/lib/apt/lists/security.ubuntu.com_ubuntu_dists_xenial-security_main_binary-amd64_Packages /var/lib/apt/lists/security.ubuntu.com_ubuntu_dists_xenial-security_main_i18n_Translation-en /var/lib/apt/lists/security.ubuntu.com_ubuntu_dists_xenial-security_multiverse_binary-amd64_Packages /var/lib/apt/lists/security.ubuntu.com_ubuntu_dists_xenial-security_multiverse_i18n_Translation-en /var/lib/apt/lists/security.ubuntu.com_ubuntu_dists_xenial-security_restricted_binary-amd64_Packages /var/lib/apt/lists/security.ubuntu.com_ubuntu_dists_xenial-security_restricted_i18n_Translation-en /var/lib/apt/lists/security.ubuntu.com_ubuntu_dists_xenial-security_universe_binary-amd64_Packages /var/lib/apt/lists/security.ubuntu.com_ubuntu_dists_xenial-security_universe_i18n_Translation-en /tmp/hsperfdata_root /tmp/hsperfdata_xilinx '/var/tmp/*'
++ sudo rm -rf /var/lib/apt/lists/archive.ubuntu.com_ubuntu_dists_xenial-backports_InRelease /var/lib/apt/lists/archive.ubuntu.com_ubuntu_dists_xenial-backports_main_binary-amd64_Packages /var/lib/apt/lists/archive.ubuntu.com_ubuntu_dists_xenial-backports_main_i18n_Translation-en /var/lib/apt/lists/archive.ubuntu.com_ubuntu_dists_xenial-backports_universe_binary-amd64_Packages /var/lib/apt/lists/archive.ubuntu.com_ubuntu_dists_xenial-backports_universe_i18n_Translation-en /var/lib/apt/lists/archive.ubuntu.com_ubuntu_dists_xenial-updates_InRelease /var/lib/apt/lists/archive.ubuntu.com_ubuntu_dists_xenial-updates_main_binary-amd64_Packages /var/lib/apt/lists/archive.ubuntu.com_ubuntu_dists_xenial-updates_main_i18n_Translation-en /var/lib/apt/lists/archive.ubuntu.com_ubuntu_dists_xenial-updates_multiverse_binary-amd64_Packages /var/lib/apt/lists/archive.ubuntu.com_ubuntu_dists_xenial-updates_multiverse_i18n_Translation-en /var/lib/apt/lists/archive.ubuntu.com_ubuntu_dists_xenial-updates_restricted_binary-amd64_Packages /var/lib/apt/lists/archive.ubuntu.com_ubuntu_dists_xenial-updates_restricted_i18n_Translation-en /var/lib/apt/lists/archive.ubuntu.com_ubuntu_dists_xenial-updates_universe_binary-amd64_Packages /var/lib/apt/lists/archive.ubuntu.com_ubuntu_dists_xenial-updates_universe_i18n_Translation-en /var/lib/apt/lists/archive.ubuntu.com_ubuntu_dists_xenial_InRelease /var/lib/apt/lists/archive.ubuntu.com_ubuntu_dists_xenial_main_binary-amd64_Packages /var/lib/apt/lists/archive.ubuntu.com_ubuntu_dists_xenial_main_i18n_Translation-en /var/lib/apt/lists/archive.ubuntu.com_ubuntu_dists_xenial_multiverse_binary-amd64_Packages /var/lib/apt/lists/archive.ubuntu.com_ubuntu_dists_xenial_multiverse_i18n_Translation-en /var/lib/apt/lists/archive.ubuntu.com_ubuntu_dists_xenial_restricted_binary-amd64_Packages /var/lib/apt/lists/archive.ubuntu.com_ubuntu_dists_xenial_restricted_i18n_Translation-en /var/lib/apt/lists/archive.ubuntu.com_ubuntu_dists_xenial_universe_binary-amd64_Packages /var/lib/apt/lists/archive.ubuntu.com_ubuntu_dists_xenial_universe_i18n_Translation-en /var/lib/apt/lists/lock /var/lib/apt/lists/partial /var/lib/apt/lists/security.ubuntu.com_ubuntu_dists_xenial-security_InRelease /var/lib/apt/lists/security.ubuntu.com_ubuntu_dists_xenial-security_main_binary-amd64_Packages /var/lib/apt/lists/security.ubuntu.com_ubuntu_dists_xenial-security_main_i18n_Translation-en /var/lib/apt/lists/security.ubuntu.com_ubuntu_dists_xenial-security_multiverse_binary-amd64_Packages /var/lib/apt/lists/security.ubuntu.com_ubuntu_dists_xenial-security_multiverse_i18n_Translation-en /var/lib/apt/lists/security.ubuntu.com_ubuntu_dists_xenial-security_restricted_binary-amd64_Packages /var/lib/apt/lists/security.ubuntu.com_ubuntu_dists_xenial-security_restricted_i18n_Translation-en /var/lib/apt/lists/security.ubuntu.com_ubuntu_dists_xenial-security_universe_binary-amd64_Packages /var/lib/apt/lists/security.ubuntu.com_ubuntu_dists_xenial-security_universe_i18n_Translation-en /tmp/hsperfdata_root '/var/tmp/*'
 + sudo echo 'debconf debconf/frontend select Dialog'
 + sudo debconf-set-selections
-Removing intermediate container 8a6e99440774
- ---> 3b8c2953f9b6
-Successfully built 3b8c2953f9b6
+Removing intermediate container 5e7de72599c1
+ ---> f5b9c4c8b956
+Successfully built f5b9c4c8b956
 Successfully tagged xilinx-yocto:v2018.3
 + '[' 1 -ne 0 ']'
 + set +x
 -----------------------------------
 Shutting down Python HTTP Server...
 -----------------------------------
-Killing process ID 3363
+Killing process ID 20254
 -----------------------------------
-+ kill 3363
++ kill 20254
+./build_image.sh: line 174: kill: (20254) - No such process
 + '[' 1 -ne 0 ']'
 + set +x
-./build_image.sh: line 196:  3363 Terminated              python3 -m http.server
 -----------------------------------
 Image Build Complete...
-STARTED :Thu Mar 14 17:22:19 EDT 2019
-ENDED   :Thu Mar 14 17:29:01 EDT 2019
+STARTED :Fri Mar 15 08:47:47 EDT 2019
+ENDED   :Fri Mar 15 08:52:02 EDT 2019
 -----------------------------------

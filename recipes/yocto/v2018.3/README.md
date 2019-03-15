@@ -9,9 +9,7 @@
    -> xsdk_config_xsdk_full.config 
    -> XTerm
 -> depends/
-   -> Xilinx_SDK_2018.3_1207_2324_Lin64.bin
-   -> (Xilinx_XSDK_2018.3_1207_2324_Lin64.tar.gz)
-   -> (mali-400-userspace.tar)
+   -> (mali-400-userspace-with-android-2018.3.tar)
 -> scripts/bash/
    -> generate_xilinx_yocto_depends_v2018.3.sh
    -> build_yocto_image_v2018.3.sh

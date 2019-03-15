@@ -119,7 +119,6 @@ echo " 	--build-arg HOME_DIR=\"${HOME_DIR}\""
 echo " 	--build-arg XLNX_INSTALL_LOCATION=\"${XLNX_INSTALL_LOCATION}\""
 echo " 	--build-arg INSTALL_SERVER_URL=\"${SERVER_IP}:8000\""
 echo " 	--build-arg KEYBOARD_CONFIG_FILE=\"${KEYBOARD_CONFIG_FILE}\""
-echo " 	--build-arg XLNX_XSDK_BATCH_CONFIG_FILE=\"${XLNX_XSDK_BATCH_CONFIG_FILE}\""
 echo "  --build-arg BUILD_DEBUG=\"${BUILD_DEBUG}\""
 echo "-----------------------------------"
 
