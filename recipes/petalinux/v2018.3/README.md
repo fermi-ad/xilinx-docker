@@ -237,6 +237,8 @@ CONTAINER ID        IMAGE                      COMMAND             CREATED      
 	- Similar to a Virtual Machine image created in VMWare or Virtualbox, you can store, share and later restore working containers from a tar archive
 - A docker container is __*exported*__ to an archive file
 - A docker image is __*saved*__ or __*exported*__ to an archive file
+- A docker image that was __*saved*__ should be __*loaded*__ to restore the image from an archive
+- A docker image or container that was __*exported*__ should be __*imported*__ to create a new image from an 
 - The major differences between a __*save*__ and an __*export*__
 	- A __*saved*__ image retains the complete layer history of the docker image and any configuration of that image (based on the as commit to the repository)
 	- An __*exported*__ image or container retains only the state of the filesystem and therefore will start up logged in as the user root.
@@ -295,41 +297,9 @@ Deleted: sha256:43b4ac0817bfb640cdf71965e5a9c3db4e3a48585d9e63e158a11a5bfc5b8db2
 ```
 
 ### Example: Restore a container from a backup archive image
-- Use a backup archive of a docker image to re-create an environment with Vivado Tools installed and licensed
-- There are two ways to create a docker image from an archive depending on if you want to maintain the recorded history of an archived image
-	- __*docker import__* imports a flattened copy of the archived image filesystem into a new docker image
-		- An import operation creates a new image with a name you specify in the local docker image cache
+- Use a backup archive of a docker image to re-create an environment with Petalinux Tools installed and licensed
 	- __*docker load__* loads the complete history of the archived image into a new docker image
 		- A load operation creates a new docker image with the same name of the image contained in the archive
-
-### Use __*docker import*__ to bring in an archived image
-- Restore a working Vivado environment image from the archive (using the one created in the above instructions)
-```bash
-bash:
-$ docker import xlnx-petalinux-v2018.3_image_backup_saved_02deadbeef91.tar xilinx-petalinux-imported:v2018.3
-sha256:c27b56cfd17b2220ff6e6fa1d4501f4651c3e5521608e7ea2ec5fdbacc847be2
-```
-
-- List the local docker images
-```bash
-bash:
-$ docker image ls
-REPOSITORY                      TAG                 IMAGE ID            CREATED              SIZE
-xilinx-petalinux-imported       v2018.3             c27b56cfd17b        About a minute ago   23.2GB
-xilinx-petalinux                v2018.3             49aee43eb048        About an hour ago    23.1GB
-```
-
-- See that an imported image has no history
-```bash
-$ docker history xilinx-petalinux-imported:v2018.3 
-IMAGE               CREATED             CREATED BY          SIZE                COMMENT
-c27b56cfd17b        2 minutes ago                           23.2GB              Imported from -
-```
-
-- Create a working container based on this image
-```bash
-$ ../../../tools/bash/run_image_x11_macaddr xilinx-petalinux-imported:v2018.3 xilinx_petalinux_imported_v2018.3 02:de:ad:be:ef:91
-```
 
 ### Use __*docker load*__ to bring in an archived image
 - Restore a working Vivado environment from the archived image (using the one created in the above instructions)
@@ -345,7 +315,6 @@ Loaded image: xilinx-petalinux-backup:v2018.3
 bash:
 $ docker image ls
 REPOSITORY                      TAG                 IMAGE ID            CREATED             SIZE
-xilinx-petalinux-imported       v2018.3             c27b56cfd17b        4 hours ago         23.2GB
 xilinx-petalinux-backup         v2018.3             13c05fdb3e2b        4 hours ago         23.1GB
 xilinx-petalinux                v2018.3             49aee43eb048        5 hours ago         23.1GB
 ```

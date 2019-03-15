@@ -74,6 +74,15 @@ else
 	exit $EX_OSFILE
 fi
 
+# Check for XTerm configuration file
+if [ -f $XTERM_CONFIG_FILE ] || [ -L $XTERM_CONFIG_FILE ]; then
+	echo "XTerm Configuration File: [Good] "$XTERM_CONFIG_FILE
+else
+	# File does not exist
+	echo "ERROR: XTerm Configuration File: [Missing] "$XTERM_CONFIG_FILE
+	exit $EX_OSFILE
+fi
+
 # Create docker folder
 echo "-----------------------------------"
 echo "Docker Build Context (Working)..."
