@@ -2053,8 +2053,8 @@ DOCKER_CONTAINER_NAME=build_vivado_depends_v2018.3
 -----------------------------------
 Dependencies Generated:
 -----------------------------------
--rw-r--r-- 1 rjmoss rjmoss 1554 Feb 27 10:22 _generated/configs/keyboard_settings.conf
--rw-r--r-- 1 rjmoss rjmoss 1795 Feb 27 10:26 _generated/configs/xlnx_vivado_system_edition.config
--rw-r--r-- 1 rjmoss rjmoss 305602560 Dec 20 00:37 _generated/depends/mali-400-userspace.tar
--rw-r--r-- 1 rjmoss rjmoss 20602510276 Feb 27 11:23 _generated/depends/Xilinx_Vivado_SDK_Web_2018.3_1207_2324_Lin64.tar.gz
+-rw-r--r-- 1 xilinx xilinx 1554 Feb 27 10:22 _generated/configs/keyboard_settings.conf
+-rw-r--r-- 1 xilinx xilinx 1795 Feb 27 10:26 _generated/configs/xlnx_vivado_system_edition.config
+-rw-r--r-- 1 xilinx xilinx 305602560 Dec 20 00:37 _generated/depends/mali-400-userspace.tar
+-rw-r--r-- 1 xilinx xilinx 20602510276 Feb 27 11:23 _generated/depends/Xilinx_Vivado_SDK_Web_2018.3_1207_2324_Lin64.tar.gz
 -----------------------------------
