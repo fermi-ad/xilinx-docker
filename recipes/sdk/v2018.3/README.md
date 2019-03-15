@@ -400,7 +400,7 @@ access control disabled, clients can connect from any host
 
 ## Archive a Docker Container filesystem or Create a new Image from a filesystem archive
 ### Example: Backup a running container's filesystem to an archive file
-- Create a filesystem archive from a running container with Petalinux installed
+- Create a filesystem archive from a running container with XSDK installed
 
 - Export a copy of a running docker container to an image archive
 ```bash
