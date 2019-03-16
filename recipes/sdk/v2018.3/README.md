@@ -78,7 +78,7 @@ powershell:
 PS X:\...\base-images\ubuntu_16.04.3> .\build_image.ps1
 ```
 
-## Generate Yocto Image Dependencies (one time)
+## Generate Xilinx SDK Image Dependencies (one time)
 
 ### Execute the dependency generation script
 
@@ -177,7 +177,7 @@ ENDED   :Fri Mar 15 11:49:04 EDT 2019
 -----------------------------------
 ```
 
-## Create a working container (running in daemon mode) based on the yocto image
+## Create a working container (running in daemon mode) based on the Xilinx SDK image
 - The container is started in __interactive daemon__ mode
 - You may also specify the MAC address of the container (making it easier to deal with tool licenses that are tied to a machine's MAC address)
 - Note: For Windows Powershell, use __*Select-String*__  in place of __*grep*__ to find the MacAddress
@@ -217,7 +217,7 @@ $ docker inspect xilinx_xsdk_v2018.3 | grep "MacAddress"
 bash:
 $ docker exec -d xilinx_xsdk_v2018.3 bash -c "xterm" &
 ```
-- This launches an X-windows terminal shell ready to use yocto
+- This launches an X-windows terminal shell ready to use the Xilinx SDK
 ```bash
 xterm:
 xilinx@xilinx_xsdk_v2018:/opt/Xilinx$
@@ -413,7 +413,7 @@ $ docker export -o xlnx-xsdk-v2018.3_container_backup_02deadbeef94.tar xilinx_xs
 	- This is due to export capturing the filesystem state only, not the history of the image and associated layers!
 ```bash
 bash:
-$ ls -al xlnx-yocto-v2018.3*
+$ ls -al xlnx-xsdk-v2018.3*
 -rw------- 1 xilinx xilinx 10444639744 Mar 15 14:10 xlnx-xsdk-v2018.3_container_backup_02deadbeef94.tar
 -rw------- 1 xilinx xilinx 11096830464 Mar 15 14:06 xlnx-xsdk-v2018.3_image_backup_02deadbeef93.tar
 ```
