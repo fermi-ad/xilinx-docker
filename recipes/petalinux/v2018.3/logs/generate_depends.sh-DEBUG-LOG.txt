@@ -682,6 +682,6 @@ DOCKER_CONTAINER_NAME=build_petalinux_depends_v2018.3
 -----------------------------------
 Dependencies Generated:
 -----------------------------------
--rw-r--r-- 1 rjmoss rjmoss 1553 Mar 15 10:00 _generated/configs/keyboard_settings.conf
--rw-r--r-- 1 rjmoss rjmoss 308336640 Mar 15 00:10 _generated/depends/mali-400-userspace-with-android-2018.3.tar
+-rw-r--r-- 1 xilinx xilinx 1553 Mar 15 10:00 _generated/configs/keyboard_settings.conf
+-rw-r--r-- 1 xilinx xilinx 308336640 Mar 15 00:10 _generated/depends/mali-400-userspace-with-android-2018.3.tar
 -----------------------------------
