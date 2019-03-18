@@ -1,0 +1,6 @@
+# gitignore for documentation folder
+*~
+~
+*.tar*
+*.zip*
+*.bin*
