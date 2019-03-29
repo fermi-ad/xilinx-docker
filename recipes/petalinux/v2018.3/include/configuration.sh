@@ -130,8 +130,8 @@ DOCKER_BUILD_XLNX_MALI_LOCAL='1'
 # Set #2: Download from local archive by use of python http.server (address set later in this script)
 # DOCKER_BUILD_XLNX_MALI_LOCAL=1
 XLNX_MALI_URL=0.0.0.0:8000
-#XLNX_MALI_BINARY=$INSTALL_DEPENDS_DIR/mali-400-userspace.tar
-XLNX_MALI_BINARY=$INSTALL_DEPENDS_DIR/mali-400-userspace-with-android-2018.3.tar
+XLNX_MALI_BINARY=$INSTALL_DEPENDS_DIR/mali-400-userspace.tar
+#XLNX_MALI_BINARY=$INSTALL_DEPENDS_DIR/mali-400-userspace-with-android-2018.3.tar
 
 # Configuration Files for batch mode installation
 # KEYBOARD_CONFIG_FILE:	Keyboard setting configuration file
