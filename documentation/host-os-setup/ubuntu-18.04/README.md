@@ -293,6 +293,16 @@ NEW:
 ExecStart=/usr/bin/dockerd --data-root=/new/docker/path --exec-root=/new/docker/path -H unix://
 ```
 
+or
+
+```
+DEFAULT:
+ExecStart=/usr/bin/dockerd -H fd:// --containerd=/run/containerd/containerd.sock
+
+NEW:
+ExecStart=/usr/bin/dockerd --data-root=/xilinx/docker --exec-root=/xilinx/docker -H fd:// --containerd=/run/containerd/containerd.sock
+```
+
 #### In Docker CE 18.06.1 (and earlier)
 ```
 DEFAULT:
@@ -318,6 +328,12 @@ $ mkdir /new/docker/path
 ```bash
 bash:
 $ sudo rsync -aX /var/lib/docker /new/docker/path
+```
+
+### Reload the new daemon configuration
+```bash
+bash:
+$ systemctl daemon-reload
 ```
 
 ### Reload docker
