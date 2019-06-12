@@ -178,7 +178,9 @@ RUN if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi \
 	 	libboost-signals-dev \
 	 	google-perftools \
 # JRE for Eclipse to use the Xilinx SDK \
-		default-jre
+		default-jre \
+# Libgtk required for Xilinx SDK \
+		libgtk2.0-0
 # The following PPA is only required if using Ubuntu 16.04.4 base images to update to newer GCCXX libs
 # # Get the add-apt-repository command \
 # 		software-properties-common \
