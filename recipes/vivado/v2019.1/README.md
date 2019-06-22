@@ -112,15 +112,6 @@ Writing web request
 powershell:
 PS X:\...\base-images\ubuntu-18.04.1> .\build_image.ps1
 ```
-< --------------- UPDATE ME -------------------->
-< --------------- UPDATE ME -------------------->
-< --------------- UPDATE ME -------------------->
-< --------------- UPDATE ME -------------------->
-< --------------- UPDATE ME -------------------->
-< --------------- UPDATE ME -------------------->
-< --------------- UPDATE ME -------------------->
-< --------------- UPDATE ME -------------------->
-
 ## Generate Vivado Image Dependencies (one time)
 
 ### Execute the dependency generation script
@@ -162,10 +153,20 @@ $ ./generate_depends.sh
 		- Download location: 
 			- ```/opt/Xilinx/Downloads/2019.1```
 		- Disk Space Required:
-			- ```Download Size: 19.08 GB```
-			- ```Disk Space Required: 19.08 GB```
+			- ```Download Size: 22.46 GB```
+			- ```Disk Space Required: 22.46 GB```
 		- Download Platform
 			- ```Linux```
+			
+< --------------- UPDATE ME -------------------->
+< --------------- UPDATE ME -------------------->
+< --------------- UPDATE ME -------------------->
+< --------------- UPDATE ME -------------------->
+< --------------- UPDATE ME -------------------->
+< --------------- UPDATE ME -------------------->
+< --------------- UPDATE ME -------------------->
+< --------------- UPDATE ME -------------------->
+
 	- Download the files for offline install: ```Download```
 	- Finish the download: ```OK```
 
