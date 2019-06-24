@@ -297,8 +297,8 @@ docker exec -it $DOCKER_CONTAINER_NAME \
 	&& ./xsetup --agree XilinxEULA,3rdPartyEULA,WebTalkTerms --config ${XLNX_VIVADO_BATCH_CONFIG_FILE} \
 	&& cd ${HOME_DIR}/downloads/tmp \
 	&& mkdir -p ${XLNX_VIVADO_OFFLINE_INSTALLER%/*} \
-	&& tar -zcf ${XLNX_VIVADO_OFFLINE_INSTALLER} -C /opt/Xilinx/Downloads/2018.3 . \
-	&& ls -al /opt/Xilinx/Downloads/2018.3"
+	&& tar -zcf ${XLNX_VIVADO_OFFLINE_INSTALLER} -C /opt/Xilinx/Downloads/2019.1 . \
+	&& ls -al /opt/Xilinx/Downloads/2019.1"
 
 if [ $BUILD_DEBUG -ne 0 ]; then set +x; fi
 

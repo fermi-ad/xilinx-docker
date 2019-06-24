@@ -96,6 +96,7 @@ Build Cache         0                   0                   0B                  
 + '[' 1 -ne 0 ']'
 + set +x
 ```
+
 ### Alternatively, Generate a base Ubuntu 16.04.5 image (one time)
 - For Linux, execute the image generation script __*../../base-images/ubuntu_16.04.5/build_image.sh*__
 
@@ -112,6 +113,7 @@ Writing web request
 powershell:
 PS X:\...\base-images\ubuntu-18.04.1> .\build_image.ps1
 ```
+
 ## Generate Vivado Image Dependencies (one time)
 
 ### Execute the dependency generation script
@@ -121,6 +123,7 @@ PS X:\...\base-images\ubuntu-18.04.1> .\build_image.ps1
 bash:
 $ ./generate_depends.sh
 ```
+
 - Follow the build process in the terminal (manual interaction required)
 - Keyboard configuration
 	- Select a keyboard model: ```Generic 105-key (Intl) PC``` is the default
@@ -128,6 +131,8 @@ $ ./generate_depends.sh
 	- Select a keyboard layout: ```English (US)``` is the default
 	- Select an AltGr function: ```The default for the keyboard layout``` is the default
 	- Select a compose key: ```No compose key``` is the default
+
+
 - Xilinx Vivado batch mode configuration (generate)
 	- Select Vivado HL System Edition: option ```3```
 	- The configuration opens in the ```vim``` editor
@@ -138,6 +143,8 @@ $ ./generate_depends.sh
 		- ```CreateDesktopShortcuts=0```
 		- ```CreateFileAssociation=0```
 	- Save with ```:wq```
+
+
 - Xilinx Vivado installer (download only)
 	- This should launch an X11-based Xilinx Vivado Setup window on your host
 	- Continue with curent version if prompted that a new version exists: ```Continue```
@@ -145,7 +152,7 @@ $ ./generate_depends.sh
 	- Enter User ID and Password in the ```User Authentication``` section
 	- Select the ```Download Full Image (Install Separately)```
 		- Use the defaults:
-			- download directory: ```/opt/Xilinx/Downloads/2018.3```
+			- download directory: ```/opt/Xilinx/Downloads/2019.1```
 			- platform selection: ```Linux```
 	- Continue: ```Next```
 	- Create the download directory (in the container) when prompted: ```Yes```
@@ -157,36 +164,16 @@ $ ./generate_depends.sh
 			- ```Disk Space Required: 22.46 GB```
 		- Download Platform
 			- ```Linux```
-			
-< --------------- UPDATE ME -------------------->
-< --------------- UPDATE ME -------------------->
-< --------------- UPDATE ME -------------------->
-< --------------- UPDATE ME -------------------->
-< --------------- UPDATE ME -------------------->
-< --------------- UPDATE ME -------------------->
-< --------------- UPDATE ME -------------------->
-< --------------- UPDATE ME -------------------->
-
 	- Download the files for offline install: ```Download```
 	- Finish the download: ```OK```
 
 - Review the generated dependencies
 
-< --------------- UPDATE ME -------------------->
-< --------------- UPDATE ME -------------------->
-< --------------- UPDATE ME -------------------->
-< --------------- UPDATE ME -------------------->
-< --------------- UPDATE ME -------------------->
-< --------------- UPDATE ME -------------------->
-< --------------- UPDATE ME -------------------->
-< --------------- UPDATE ME -------------------->
-
 ```bash
 bash:
--rw-r--r-- 1 xilinx xilinx 1554 Feb 27 10:22 _generated/configs/keyboard_settings.conf
--rw-r--r-- 1 xilinx xilinx 1795 Feb 27 10:26 _generated/configs/xlnx_vivado_system_edition.config
--rw-r--r-- 1 xilinx xilinx 308336640 Mar 15 00:10 ../../yocto/v2018.3/_generated/depends/mali-400-userspace-with-android-2018.3.tar
--rw-r--r-- 1 xilinx xilinx 20602510276 Feb 27 11:23 _generated/depends/Xilinx_Vivado_SDK_Web_2018.3_1207_2324_Lin64.tar.gz
+-rw-r--r-- 1 rjmoss rjmoss 1554 Jun 23 01:08 _generated/configs/keyboard_settings.conf
+-rw-r--r-- 1 rjmoss rjmoss 1873 Jun 23 01:11 _generated/configs/xlnx_vivado_system_edition.config
+-rw-r--r-- 1 rjmoss rjmoss 24248813183 Jun 23 02:13 _generated/depends/
 ```
 
 - Copy the generated dependencies to the dependency folder
@@ -196,6 +183,12 @@ bash:
 $ cp _generated/configs/* configs/
 $ cp _generated/depends/* depends/
 ```
+
+<---------------- RESUME EDITS HERE ------------------->
+<---------------- RESUME EDITS HERE ------------------->
+<---------------- RESUME EDITS HERE ------------------->
+<---------------- RESUME EDITS HERE ------------------->
+<---------------- RESUME EDITS HERE ------------------->
 
 ## Build a v2018.3 Vivado Image (one time)
 
@@ -210,46 +203,7 @@ $ cp _generated/depends/* depends/
 ```bash
 bash:
 $ ./build_image.sh
------------------------------------
-Checking for dependencies...
------------------------------------
-Base docker image [found] (ubuntu:18.04.2)
-Keyboard Configuration: [Good] configs/keyboard_settings.conf
-Xilinx MALI Binaries: [Good] depends/mali-400-userspace-with-android-2018.3.tar
-Xilinx Vivado Web Installer: [Good] depends/Xilinx_Vivado_SDK_Web_2018.3_1207_2324_Lin64.bin
-Xilinx Vivado Offline Installer: [Good] depends/Xilinx_Vivado_SDK_Web_2018.3_1207_2324_Lin64.tar.gz
------------------------------------
-Docker Build Context (Working)...
------------------------------------
-+ cd /xilinx/local/repositories/gitlab/xilinx-docker/recipes/vivado/v2018.3
-+ '[' 1 -ne 0 ']'
-+ set +x
-DOCKER_INSTALL_DIR=.
-DOCKER_BUILD_WORKING_DIR=/xilinx/local/repositories/gitlab/xilinx-docker/recipes/vivado/v2018.3
------------------------------------
 
-...
-
-Removing intermediate container 264201b320c4
- ---> 9682fb401a2a
-Successfully built 9682fb401a2a
-Successfully tagged xilinx-vivado:v2018.3
-+ '[' 1 -ne 0 ']'
-+ set +x
------------------------------------
-Shutting down Python HTTP Server...
------------------------------------
-Killing process ID 16780
------------------------------------
-+ kill 16780
-+ '[' 1 -ne 0 ']'
-+ set +x
-./build_image.sh: line 188: 16780 Terminated              python3 -m http.server
------------------------------------
-Image Build Complete...
-STARTED :Wed Feb 27 11:39:18 EST 2019
-ENDED   :Wed Feb 27 11:57:26 EST 2019
------------------------------------
 ```
 
 ## Create a working container (running in daemon mode) based on the vivado image
