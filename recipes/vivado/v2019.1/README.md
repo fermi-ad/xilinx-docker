@@ -171,9 +171,9 @@ $ ./generate_depends.sh
 
 ```bash
 bash:
--rw-r--r-- 1 rjmoss rjmoss 1554 Jun 23 01:08 _generated/configs/keyboard_settings.conf
--rw-r--r-- 1 rjmoss rjmoss 1873 Jun 23 01:11 _generated/configs/xlnx_vivado_system_edition.config
--rw-r--r-- 1 rjmoss rjmoss 24248813183 Jun 23 02:13 _generated/depends/
+-rw-r--r-- 1 xilinx xilinx 1554 Jun 23 01:08 _generated/configs/keyboard_settings.conf
+-rw-r--r-- 1 xilinx xilinx 1873 Jun 23 01:11 _generated/configs/xlnx_vivado_system_edition.config
+-rw-r--r-- 1 xilinx xilinx 24248813183 Jun 23 02:13 _generated/depends/
 ```
 
 - Copy the generated dependencies to the dependency folder
@@ -183,12 +183,6 @@ bash:
 $ cp _generated/configs/* configs/
 $ cp _generated/depends/* depends/
 ```
-
-<---------------- RESUME EDITS HERE ------------------->
-<---------------- RESUME EDITS HERE ------------------->
-<---------------- RESUME EDITS HERE ------------------->
-<---------------- RESUME EDITS HERE ------------------->
-<---------------- RESUME EDITS HERE ------------------->
 
 ## Build a v2018.3 Vivado Image (one time)
 
@@ -203,7 +197,23 @@ $ cp _generated/depends/* depends/
 ```bash
 bash:
 $ ./build_image.sh
+-----------------------------------
+Checking for dependencies...
+-----------------------------------
+Base docker image [found] (ubuntu:18.04.1)
+Keyboard Configuration: [Good] configs/keyboard_settings.conf
+Xilinx MALI Binaries: [Good] depends/mali-400-userspace.tar
+Xilinx Vivado Web Installer: [Good] depends/Xilinx_Vivado_SDK_Web_2019.1_0524_1430_Lin64.bin
+Xilinx Vivado Offline Installer: [Good] depends/Xilinx_Vivado_SDK_Web_2019.1_0524_1430_Lin64.tar.gz
+XTerm Configuration File: [Good] configs/XTerm
 
+...
+
+-----------------------------------
+Image Build Complete...
+STARTED :Sun Jun 23 22:36:49 EDT 2019
+ENDED   :Sun Jun 23 23:00:23 EDT 2019
+-----------------------------------
 ```
 
 ## Create a working container (running in daemon mode) based on the vivado image
@@ -215,20 +225,20 @@ $ ./build_image.sh
 ```bash
 bash:
 $ docker image ls
-REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
-xilinx-vivado       v2018.3             9682fb401a2a        22 minutes ago      43.3GB
-ubuntu              18.04.2             0c174d761a30        24 hours ago        88.3MB
+REPOSITORY               TAG                 IMAGE ID            CREATED             SIZE
+xilinx-vivado            v2019.1             0570aa89c8b9        9 hours ago         52.5GB
+ubuntu                   18.04.1             4112b3ccf856        42 hours ago        83.5MB
 ```
 
 - Use the included tool script to create a Container based on the Vivado image
 ```bash
 bash:
-$ ../../../tools/bash/run_image_x11_macaddr.sh xilinx-vivado:v2018.3 xilinx_vivado_v2018.3 02:de:ad:be:ef:99
-DOCKER_IMAGE_NAME: xilinx-vivado:v2018.3
-DOCKER_CONTAINER_NAME: xilinx_vivado_v2018.3
-DOCKER_CONTAINER_MACADDR: 
+$ ../../../tools/bash/run_image_x11_macaddr.sh xilinx-vivado:v2019.1 xilinx_vivado_v2019.1 02:de:ad:be:ef:99
+DOCKER_IMAGE_NAME: xilinx-vivado:v2019.1
+DOCKER_CONTAINER_NAME: xilinx_vivado_v2019.1
+DOCKER_CONTAINER_MACADDR: 02:de:ad:be:ef:99
 access control disabled, clients can connect from any host
-4c5ae631bb27568a5a2d346cafdb4b6ece7224f0d067d182d88be6cd8b1c630b
+7c0d7e6e5e6eb0646cff6e2836ebfeab2b0632c6ca56668c230ec995c1f128e0
 ```
 
 - List containers on the local system
@@ -236,17 +246,18 @@ access control disabled, clients can connect from any host
 bash:
 $ docker ps -a
 CONTAINER ID        IMAGE                   COMMAND             CREATED             STATUS              PORTS               NAMES
-4c5ae631bb27        xilinx-vivado:v2018.3   "/bin/bash"         32 seconds ago      Up 31 seconds                           xilinx_vivado_v2018.3
+7c0d7e6e5e6e        xilinx-vivado:v2019.1   "/bin/bash"         15 seconds ago      Up 14 seconds                           xilinx_vivado_v2019.1                         xilinx_vivado_v2018.3
 ```
 
 - Verify the container is setup with the MAC address specified (for Vivado Licensing)
 ```bash
 bash:
-$ docker inspect xilinx_vivado_v2018.3 | grep MacAddress
+$ docker inspect xilinx_vivado_v2019.1 | grep MacAddress
             "MacAddress": "02:de:ad:be:ef:99",
             "MacAddress": "02:de:ad:be:ef:99",
                     "MacAddress": "02:de:ad:be:ef:99",
 ```
+
 
 ## Connect to the running container
 - There are two common ways to interact with the container
@@ -254,22 +265,22 @@ $ docker inspect xilinx_vivado_v2018.3 | grep MacAddress
 		- This method was used above to verify that the container was running
 	- use __*docker exec*__ to execute commands in the container from the host OS command line
 
-### Launch an xterm session in the running container from the host command line
+### Method #1: Launch an xterm session in the running container from the host command line
 - Launch an X-windows terminal shell for access to the container
 ```bash
 bash:
-$ docker exec -d xilinx_vivado_v2018.3 bash -c "xterm" &
+$ docker exec -d xilinx_vivado_v2019.1 bash -c "xterm" &
 ```
 
-### Launch an xterm session after attaching to the running container
+### Method #2: Launch an xterm session after attaching to the running container
 - This will launch a separate X-windows terminal session in your host OS
 - This xterm session is not tied to a local terminal session
 ```bash
 bash:
-$ docker attach xilinx_vivado_v2018
-xilinx@xilinx_vivado_v2018.3:/opt/Xilinx$ xterm &
+$ docker attach xilinx_vivado_v2019.1
+xilinx@xilinx_vivado_v2019.1:/opt/Xilinx$ xterm &
 [1] 25
-xilinx@xilinx_vivado_v2018.3:/opt/Xilinx$
+xilinx@xilinx_vivado_v2019.1:/opt/Xilinx$
 ```
 
 ## Setup the Vivado License in the running container
@@ -284,22 +295,22 @@ xilinx@xilinx_vivado_v2018.3:/opt/Xilinx$
 - From the host OS terminal, show which folders are mounted/shared in the container
 ```bash
 bash:
-$ docker inspect --format '{{range .Mounts}}{{println .Source .Destination}}{{end}}' xilinx_vivado_v2018.3
-/tmp/.X11-unix /tmp/.X11-unix
-/home/xilinx/.Xauthority /home/xilinx/.Xauthority
-/srv/sstate-mirrors /srv/sstate-mirrors
-/srv/sstate-cache /srv/sstate-cache
+$ docker inspect --format '{{range .Mounts}}{{println .Source .Destination}}{{end}}' xilinx_vivado_v2019.1
 /srv/tftpboot /tftpboot
-/srv/software/xilinx /srv/software
 /srv/hardware_definitions /srv/hardware_definitions
+/tmp/.X11-unix /tmp/.X11-unix
+/srv/software/xilinx /srv/software
 /srv/shared /srv/shared
-$
+/xilinx/local/sstate-mirrors /srv/sstate-mirrors
+/xilinx/local/sstate-cache /srv/sstate-cache
+/home/xilinx/.Xauthority /home/xilinx/.Xauthority
+/xilinx/local/trds /srv/trds
 ```
 
 - From an xterm session associated with the running container, verify you can see the license file on a shared drive
 ```bash
 xterm:
-xilinx@xilinx_vivado_v2018.3:/opt/Xilinx$ ls -al /srv/shared/licenses
+xilinx@xilinx_vivado_v2019.1:/opt/Xilinx$ ls -al /srv/shared/licenses
 total 40
 drwxrwxr-x 2 xilinx xilinx  4096 Nov 29 17:53 .
 drwxr-xr-x 4 xilinx xilinx  4096 Nov 29 17:53 ..
@@ -311,23 +322,23 @@ drwxr-xr-x 4 xilinx xilinx  4096 Nov 29 17:53 ..
 - First, create a folder to hold the license file
 ```bash
 bash:
-$ docker exec -it xilinx_vivado_v2018.3 bash -c "mkdir -p /opt/Xilinx/licenses"
+$ docker exec -it xilinx_vivado_v2019.1 bash -c "mkdir -p /opt/Xilinx/licenses"
 ```
 
 - Copy the license file from the host to the running docker container
 ```bash
 bash:
-$ docker cp /srv/shared/licenses/Xilinx.lic.vivado_system_edition_ubuntu_docker_02deadbeef99.lic xilinx_vivado_v2018.3:/opt/Xilinx/licenses
+$ docker cp /srv/shared/licenses/Xilinx.lic.vivado_system_edition_ubuntu_docker_02deadbeef99.lic xilinx_vivado_v2019.1:/opt/Xilinx/licenses
 ```
 
 - List the container's folder contents from the host
 ```bash
 bash:
-$ docker exec -it xilinx_vivado_v2018 bash -c "ls -al /opt/Xilinx/licenses"
-total 40
-drwxr-xr-x 2 xilinx xilinx  4096 Nov 29 18:14 .
-drwxr-xr-x 1 xilinx xilinx  4096 Nov 29 18:13 ..
--rw-rw-r-- 1 xilinx xilinx  1789 Feb  8 17:27 Xilinx.lic.vivado_system_edition_ubuntu_docker_02deadbeef99.lic
+$ docker exec -it xilinx_vivado_v2019.1 bash -c "ls -al /opt/Xilinx/licenses"
+total 12
+drwxr-xr-x 2 xilinx xilinx 4096 Jun 24 14:01 .
+drwxr-xr-x 1 xilinx xilinx 4096 Jun 24 14:01 ..
+-rw-r--r-- 1 xilinx xilinx 1789 Jun 24 14:01 Xilinx.lic.vivado_system_edition_ubuntu_docker_02deadbeef99.lic
 ```
 
 ### Launch Vivado in the container
@@ -338,15 +349,15 @@ drwxr-xr-x 1 xilinx xilinx  4096 Nov 29 18:13 ..
 
 ```bash
 bash:
-$ docker attach xilinx_vivado_v2018
-xilinx@xilinx_vivado_v2018.3:/opt/Xilinx$ which vivado
-/opt/Xilinx/Vivado/2018.3/bin/vivado
-xilinx@xilinx_vivado_v2018.3:/opt/Xilinx$ vivado
+$ docker attach xilinx_vivado_v2019.1
+xilinx@xilinx_vivado_v2019.1:/opt/Xilinx$ which vivado
+/opt/Xilinx/Vivado/2019.1/bin/vivado
+xilinx@xilinx_vivado_v2019.1:/opt/Xilinx$ vivado
 
-****** Vivado v2018.3 (64-bit)
-  **** SW Build 2258646 on Thu Jun 14 20:02:38 MDT 2018
-  **** IP Build 2256618 on Thu Jun 14 22:10:49 MDT 2018
-    ** Copyright 1986-2018 Xilinx, Inc. All Rights Reserved.
+****** Vivado v2019.1 (64-bit)
+  **** SW Build 2552052 on Fri May 24 14:47:09 MDT 2019
+  **** IP Build 2548770 on Fri May 24 18:01:18 MDT 2019
+    ** Copyright 1986-2019 Xilinx, Inc. All Rights Reserved.
 
 start_gui
 ```
@@ -356,20 +367,20 @@ start_gui
 
 ```bash
 bash:
-$ docker exec -d xilinx_vivado_v2018.3 bash -c "xterm" &
+$ docker exec -d xilinx_vivado_v2019.1 bash -c "xterm" &
 $
 ```
 
 ```bash
 xterm:
-xilinx@xilinx_vivado_v2018.3:/opt/Xilinx$ which vivado
-/opt/Xilinx/Vivado/2018.3/bin/vivado
-xilinx@xilinx_vivado_v2018.3:/opt/Xilinx$ vivado
+xilinx@xilinx_vivado_v2019.1:/opt/Xilinx$ which vivado
+/opt/Xilinx/Vivado/2019.1/bin/vivado
+xilinx@xilinx_vivado_v2019.1:/opt/Xilinx$ vivado
 
-****** Vivado v2018.3 (64-bit)
-  **** SW Build 2258646 on Thu Jun 14 20:02:38 MDT 2018
-  **** IP Build 2256618 on Thu Jun 14 22:10:49 MDT 2018
-    ** Copyright 1986-2018 Xilinx, Inc. All Rights Reserved.
+****** Vivado v2019.1 (64-bit)
+  **** SW Build 2552052 on Fri May 24 14:47:09 MDT 2019
+  **** IP Build 2548770 on Fri May 24 18:01:18 MDT 2019
+    ** Copyright 1986-2019 Xilinx, Inc. All Rights Reserved.
 
 start_gui
 ```
@@ -379,7 +390,7 @@ start_gui
 
 ```bash
 bash:
-$ docker exec -d xilinx_vivado_v2018.3 bash -c "/opt/Xilinx/Vivado/2018.3/bin/vivado"
+$ docker exec -d xilinx_vivado_v2019.1 bash -c "/opt/Xilinx/Vivado/2019.1/bin/vivado"
 ```
 
 ### Setup the License in the Vivado Gui
@@ -392,8 +403,8 @@ $ docker exec -d xilinx_vivado_v2018.3 bash -c "/opt/Xilinx/Vivado/2018.3/bin/vi
 	- The special escape sequence is __*<CTRL-P><CTRL-Q>*__
 ```bash:
 bash:
-xilinx@xilinx_vivado_v2018.3:/opt/Xilinx$$ read escape sequence
-[1]+  Done                    docker exec -d xilinx_vivado_v2018.3 bash -c "xterm"
+xilinx@xilinx_vivado_v2019.1:/opt/Xilinx$ read escape sequence
+[1]+  Done                    docker exec -d xilinx_vivado_v2019.1 bash -c "xterm"
 ```
 - The container should still be running, even if Vivado has been closed
 - Verify that the container is still running in the background
@@ -401,7 +412,7 @@ xilinx@xilinx_vivado_v2018.3:/opt/Xilinx$$ read escape sequence
 bash:
 $ docker ps
 CONTAINER ID        IMAGE                   COMMAND             CREATED             STATUS              PORTS               NAMES
-4c5ae631bb27        xilinx-vivado:v2018.3   "/bin/bash"         26 minutes ago      Up 26 minutes                           xilinx_vivado_v2018.3
+7c0d7e6e5e6e        xilinx-vivado:v2019.1   "/bin/bash"         3 hours ago         Up 3 hours                              xilinx_vivado_v2019.1
 $
 ```
 
@@ -426,15 +437,15 @@ $
 - Stop the running container first
 ```bash
 bash:
-$ docker stop xilinx_vivado_v2018.3
-xilinx_vivado_v2018.3
+$ docker stop xilinx_vivado_v2019.1
+xilinx_vivado_v2019.1
 ```
 
 - Commit the current state of the container to a new (temporary) docker image
 ```bash
 bash:
-$ docker commit xilinx_vivado_v2018.3 xilinx-vivado-licensed:v2018.3
-sha256:72921a63caebd4406a4f25b4c816e4ef64816ebdccc3504ccec5048bfccf7628
+$ docker commit xilinx_vivado_v2019.1 xilinx-vivado-licensed:v2019.1
+sha256:609aa98e800984ca49f181fbce11250426735c90e2ce8ec20da48aa972454cf0
 ```
 
 - Verify the new image saved properly to your local docker repository
@@ -442,30 +453,30 @@ sha256:72921a63caebd4406a4f25b4c816e4ef64816ebdccc3504ccec5048bfccf7628
 bash:
 $ docker image ls
 REPOSITORY               TAG                 IMAGE ID            CREATED             SIZE
-xilinx-vivado-licensed   v2018.3             72921a63caeb        28 seconds ago      43.3GB
-xilinx-vivado            v2018.3             9682fb401a2a        8 hours ago         43.3GB
+xilinx-vivado-licensed   v2019.1             609aa98e8009        4 seconds ago       52.5GB
+xilinx-vivado            v2019.1             0570aa89c8b9        12 hours ago        52.5GB
+ubuntu                   18.04.1             4112b3ccf856        45 hours ago        83.5MB
 ```
 
 - Save a copy of the committed docker image to a local tar archive
 ```bash
 bash:
-$ docker save -o xlnx-vivado-v2018.3_image_backup_licensed_02deadbeef99.tar xilinx-vivado-licensed:v2018.3
+$ docker save -o xilinx-vivado-v2019.1_image_backup_licensed_02deadbeef99.tar xilinx-vivado-licensed:v2019.1
 ```
 
 - Verify the new archive saved to your local machine
 ```bash
 bash:
-$ ls -al xlnx-vivado-v2018.3*
--rw------- 1 xilinx xilinx 43454688256 Feb 27 20:21 xlnx-vivado-v2018.3_image_backup_licensed_02deadbeef99.tar
+$ ls -al xilinx-vivado-v2019.1*-rw------- 1 xilinx xilinx 52804712960 Jun 24 10:52 xilinx-vivado-v2019.1_image_backup_licensed_02deadbeef99.tar
 ```
 
 - Remove the new (temporary) docker image
 ```bash
 bash:
-$ docker rmi xilinx-vivado-licensed:v2018.3
-Untagged: xilinx-vivado-licensed:v2018.3
-Deleted: sha256:72921a63caebd4406a4f25b4c816e4ef64816ebdccc3504ccec5048bfccf7628
-Deleted: sha256:09194595939252613c12cc20680cc48b279f93f2bad59fdcf885aa4396bea8d2
+$ docker rmi xilinx-vivado-licensed:v2019.1 
+Untagged: xilinx-vivado-licensed:v2019.1
+Deleted: sha256:609aa98e800984ca49f181fbce11250426735c90e2ce8ec20da48aa972454cf0
+Deleted: sha256:c4135f812fccdb72b9e71b47a5ad080180379334ee036d79d1078b3bc84f21fc
 ```
 
 ### Example: Restore a container from a backup archive image
@@ -477,74 +488,79 @@ Deleted: sha256:09194595939252613c12cc20680cc48b279f93f2bad59fdcf885aa4396bea8d2
 - Restore a working Vivado environment from the archived image (using the one created in the above instructions)
 ```bash
 bash:
-$ docker load -i xlnx-vivado-v2018.3_container_backup_licensed_02deadbeef99.tar
+$ docker load -i xilinx-vivado-v2019.1_image_backup_licensed_02deadbeef99.tar
+c3b2ee02139b: Loading layer [==================================================>]  193.5kB/193.5kB
+Loaded image: xilinx-vivado-licensed:v2019.1
 ```
 
 - List the local docker images
 ```bash
 bash:
 $ docker image ls
-REPOSITORY                        TAG                 IMAGE ID            CREATED             SIZE
-xilinx-vivado-licensed            v2018.3             72921a63caeb        41 hours ago        43.3GB
+REPOSITORY               TAG                 IMAGE ID            CREATED             SIZE
+xilinx-vivado-licensed   v2019.1             609aa98e8009        33 minutes ago      52.5GB
+xilinx-vivado            v2019.1             0570aa89c8b9        12 hours ago        52.5GB
+ubuntu                   18.04.1             4112b3ccf856        46 hours ago        83.5MB
+
 ```
 
 - See that the loaded image has a complete history, Note: intermediate image stages don't exist in the local repository.
 ```bash
-$ docker history xilinx-vivado-licensed:v2018.3
+$ docker history xilinx-vivado-licensed:v2019.1
 IMAGE               CREATED             CREATED BY                                      SIZE                COMMENT
-72921a63caeb        41 hours ago        /bin/bash                                       91.5kB              
-<missing>           2 days ago          |11 BUILD_DEBUG=1 HOME_DIR=/home/xilinx INST…   3.14MB              
-<missing>           2 days ago          |11 BUILD_DEBUG=1 HOME_DIR=/home/xilinx INST…   41.8GB              
-<missing>           2 days ago          /bin/sh -c #(nop)  ARG XLNX_VIVADO_BATCH_CON…   0B                  
-<missing>           2 days ago          /bin/sh -c #(nop)  ARG XLNX_VIVADO_OFFLINE_I…   0B                  
-<missing>           2 days ago          |9 BUILD_DEBUG=1 HOME_DIR=/home/xilinx INSTA…   3.16MB              
-<missing>           2 days ago          /bin/sh -c #(nop)  ARG XTERM_CONFIG_FILE        0B                  
-<missing>           2 days ago          /bin/sh -c #(nop)  ARG KEYBOARD_CONFIG_FILE     0B                  
-<missing>           2 days ago          |7 BUILD_DEBUG=1 HOME_DIR=/home/xilinx INSTA…   30.9MB              
-<missing>           2 days ago          /bin/sh -c #(nop)  ARG BUILD_DEBUG              0B                  
-<missing>           2 days ago          /bin/sh -c #(nop)  ARG INSTALL_SERVER_URL       0B                  
-<missing>           2 days ago          /bin/sh -c #(nop)  ARG XLNX_MALI_BINARY         0B                  
-<missing>           2 days ago          /bin/sh -c #(nop)  ARG XLNX_DOWNLOAD_LOCATION   0B                  
-<missing>           2 days ago          /bin/sh -c #(nop)  ARG XLNX_INSTALL_LOCATION    0B                  
-<missing>           2 days ago          /bin/sh -c #(nop)  ENV DEBIAN_FRONTEND=nonin…   0B                  
-<missing>           2 days ago          /bin/sh -c #(nop)  USER xilinx                  0B                  
-<missing>           2 days ago          /bin/sh -c #(nop)  ARG HOME_DIR                 0B                  
-<missing>           2 days ago          /bin/sh -c #(nop)  ARG USER_ACCT                0B                  
-<missing>           2 days ago          /bin/sh -c #(nop)  LABEL author=Jason Moss      0B                  
-<missing>           2 days ago          |7 BUILD_DEBUG=1 GIT_USER_EMAIL=Xilinx.User@…   79B                 
-<missing>           2 days ago          /bin/sh -c #(nop)  ARG GIT_USER_EMAIL           0B                  
-<missing>           2 days ago          /bin/sh -c #(nop)  ARG GIT_USER_NAME            0B                  
-<missing>           2 days ago          |5 BUILD_DEBUG=1 HOME_DIR=/home/xilinx INSTA…   1.06GB              
-<missing>           2 days ago          /bin/sh -c #(nop)  ARG BUILD_DEBUG              0B                  
-<missing>           2 days ago          /bin/sh -c #(nop)  ARG INSTALL_SERVER_URL       0B                  
-<missing>           2 days ago          /bin/sh -c #(nop)  ARG XLNX_PETALINUX_INSTAL…   0B                  
-<missing>           2 days ago          /bin/sh -c #(nop)  ARG XLNX_INSTALL_LOCATION    0B                  
-<missing>           2 days ago          /bin/sh -c #(nop)  ENV DEBIAN_FRONTEND=nonin…   0B                  
-<missing>           2 days ago          /bin/sh -c #(nop)  USER xilinx                  0B                  
-<missing>           2 days ago          /bin/sh -c #(nop)  ARG HOME_DIR                 0B                  
-<missing>           2 days ago          /bin/sh -c #(nop)  ARG USER_ACCT                0B                  
-<missing>           2 days ago          /bin/sh -c #(nop)  LABEL author=Jason Moss      0B                  
-<missing>           2 days ago          |4 BUILD_DEBUG=1 HOME_DIR=/home/xilinx USER_…   38.3MB              
-<missing>           2 days ago          /bin/sh -c #(nop)  ARG XLNX_INSTALL_LOCATION    0B                  
-<missing>           2 days ago          /bin/sh -c #(nop)  ARG HOME_DIR                 0B                  
-<missing>           2 days ago          /bin/sh -c #(nop)  ARG USER_ACCT                0B                  
-<missing>           2 days ago          |1 BUILD_DEBUG=1 /bin/sh -c if [ $BUILD_DEBU…   37.6MB              
-<missing>           2 days ago          |1 BUILD_DEBUG=1 /bin/sh -c if [ $BUILD_DEBU…   254MB               
-<missing>           2 days ago          /bin/sh -c #(nop)  ARG BUILD_DEBUG              0B                  
-<missing>           2 days ago          /bin/sh -c #(nop)  ENV DEBIAN_FRONTEND=nonin…   0B                  
-<missing>           2 days ago          /bin/sh -c #(nop)  LABEL author=Jason Moss      0B                  
-<missing>           3 days ago                                                          88.3MB              Imported from -
+609aa98e8009        33 minutes ago      /bin/bash                                       154kB               
+<missing>           12 hours ago        |11 BUILD_DEBUG=1 HOME_DIR=/home/xilinx INST…   3.14MB              
+<missing>           12 hours ago        |11 BUILD_DEBUG=1 HOME_DIR=/home/xilinx INST…   50.5GB              
+<missing>           13 hours ago        /bin/sh -c #(nop)  ARG XLNX_VIVADO_BATCH_CON…   0B                  
+<missing>           13 hours ago        /bin/sh -c #(nop)  ARG XLNX_VIVADO_OFFLINE_I…   0B                  
+<missing>           13 hours ago        |9 BUILD_DEBUG=1 HOME_DIR=/home/xilinx INSTA…   3.17MB              
+<missing>           13 hours ago        /bin/sh -c #(nop)  ARG XTERM_CONFIG_FILE        0B                  
+<missing>           13 hours ago        /bin/sh -c #(nop)  ARG KEYBOARD_CONFIG_FILE     0B                  
+<missing>           13 hours ago        |7 BUILD_DEBUG=1 HOME_DIR=/home/xilinx INSTA…   163MB               
+<missing>           13 hours ago        /bin/sh -c #(nop)  ARG BUILD_DEBUG              0B                  
+<missing>           13 hours ago        /bin/sh -c #(nop)  ARG INSTALL_SERVER_URL       0B                  
+<missing>           13 hours ago        /bin/sh -c #(nop)  ARG XLNX_MALI_BINARY         0B                  
+<missing>           13 hours ago        /bin/sh -c #(nop)  ARG XLNX_DOWNLOAD_LOCATION   0B                  
+<missing>           13 hours ago        /bin/sh -c #(nop)  ARG XLNX_INSTALL_LOCATION    0B                  
+<missing>           13 hours ago        /bin/sh -c #(nop)  ENV DEBIAN_FRONTEND=nonin…   0B                  
+<missing>           13 hours ago        /bin/sh -c #(nop)  USER xilinx                  0B                  
+<missing>           13 hours ago        /bin/sh -c #(nop)  ARG HOME_DIR                 0B                  
+<missing>           13 hours ago        /bin/sh -c #(nop)  ARG USER_ACCT                0B                  
+<missing>           13 hours ago        /bin/sh -c #(nop)  LABEL author=Jason Moss      0B                  
+<missing>           13 hours ago        |7 BUILD_DEBUG=1 GIT_USER_EMAIL=Xilinx.User@…   79B                 
+<missing>           13 hours ago        /bin/sh -c #(nop)  ARG GIT_USER_EMAIL           0B                  
+<missing>           13 hours ago        /bin/sh -c #(nop)  ARG GIT_USER_NAME            0B                  
+<missing>           13 hours ago        |5 BUILD_DEBUG=1 HOME_DIR=/home/xilinx INSTA…   1.37GB              
+<missing>           13 hours ago        /bin/sh -c #(nop)  ARG BUILD_DEBUG              0B                  
+<missing>           13 hours ago        /bin/sh -c #(nop)  ARG INSTALL_SERVER_URL       0B                  
+<missing>           13 hours ago        /bin/sh -c #(nop)  ARG XLNX_PETALINUX_INSTAL…   0B                  
+<missing>           13 hours ago        /bin/sh -c #(nop)  ARG XLNX_INSTALL_LOCATION    0B                  
+<missing>           13 hours ago        /bin/sh -c #(nop)  ENV DEBIAN_FRONTEND=nonin…   0B                  
+<missing>           13 hours ago        /bin/sh -c #(nop)  USER xilinx                  0B                  
+<missing>           13 hours ago        /bin/sh -c #(nop)  ARG HOME_DIR                 0B                  
+<missing>           13 hours ago        /bin/sh -c #(nop)  ARG USER_ACCT                0B                  
+<missing>           13 hours ago        /bin/sh -c #(nop)  LABEL author=Jason Moss      0B                  
+<missing>           13 hours ago        |4 BUILD_DEBUG=1 HOME_DIR=/home/xilinx USER_…   39.4MB              
+<missing>           13 hours ago        /bin/sh -c #(nop)  ARG XLNX_INSTALL_LOCATION    0B                  
+<missing>           13 hours ago        /bin/sh -c #(nop)  ARG HOME_DIR                 0B                  
+<missing>           13 hours ago        /bin/sh -c #(nop)  ARG USER_ACCT                0B                  
+<missing>           13 hours ago        |1 BUILD_DEBUG=1 /bin/sh -c if [ $BUILD_DEBU…   39.2MB              
+<missing>           13 hours ago        |1 BUILD_DEBUG=1 /bin/sh -c if [ $BUILD_DEBU…   276MB               
+<missing>           13 hours ago        /bin/sh -c #(nop)  ARG BUILD_DEBUG              0B                  
+<missing>           13 hours ago        /bin/sh -c #(nop)  ENV DEBIAN_FRONTEND=nonin…   0B                  
+<missing>           13 hours ago        /bin/sh -c #(nop)  LABEL author=Jason Moss      0B                  
+<missing>           46 hours ago                                                        83.5MB              Imported from -
 ```
 
 - Create a running container based on the loaded image
 ```bash
 bash:
-$ ../../../tools/bash/run_image_x11_macaddr.sh  xilinx-vivado-licensed:v2018.3 xilinx_vivado_loaded_licensed_v2018.3 02:de:ad:be:ef:99
-DOCKER_IMAGE_NAME: xilinx-vivado-licensed:v2018.3
-DOCKER_CONTAINER_NAME: xilinx_vivado_loaded_licensed_v2018.3
+$ ../../../tools/bash/run_image_x11_macaddr.sh xilinx-vivado-licensed:v2019.1 xilinx_vivado_licensed_v2019.1 02:de:ad:be:ef:99
+DOCKER_IMAGE_NAME: xilinx-vivado-licensed:v2019.1
+DOCKER_CONTAINER_NAME: xilinx_vivado_licensed_v2019.1
 DOCKER_CONTAINER_MACADDR: 02:de:ad:be:ef:99
 access control disabled, clients can connect from any host
-c75206901573880b92a05eb86f83d2bee334d0051a00bafac50677f9806b117f
+82002ddc214e71ad6bca7e7d8251ced9f6fd70d88a91ef66b5caa4eef5e75065
 ```
 
 ## Archive a Docker Container filesystem or Create a new Image from a filesystem archive
@@ -554,23 +570,22 @@ c75206901573880b92a05eb86f83d2bee334d0051a00bafac50677f9806b117f
 - Export a copy of a running docker container to an image archive
 ```bash
 bash:
-$ docker export -o xlnx-vivado-v2018.3_container_backup_licensed_02deadbeef99.tar xilinx_vivado_loaded_licensed_v2018.3
+$ docker export -o xlnx-vivado-v2019.1_container_backup_licensed_02deadbeef99.tar xilinx_vivado_licensed_v2019.1
 ```
 
 - Verify the new filesystem archive saved to your local machine
 ```bash
 bash:
-$ ls -al xlnx-vivado-v2018.3*
--rw------- 1 xilinx xilinx 42831595008 Mar  1 13:27 xlnx-vivado-v2018.3_container_backup_licensed_02deadbeef99.tar
--rw------- 1 xilinx xilinx 43454688256 Feb 27 20:21 xlnx-vivado-v2018.3_image_backup_licensed_02deadbeef99.tar
+$ ls -al xlnx-vivado-v2019.1* 
+-rw------- 1 rjmoss rjmoss 52095706112 Jun 24 11:20 xlnx-vivado-v2019.1_container_backup_licensed_02deadbeef99.tar
 ```
 
 ### Use __*docker import*__ to create a new docker image based on this filesystem archive
 - Restore a working Vivado  Image from the archived container (using the one created in the above instructions)
 ```bash
 bash:
-$ docker import xlnx-vivado-v2018.3_container_backup_licensed_02deadbeef99.tar xilinx-vivado-licensed-imported-container:v2018.3
-sha256:8b500f7ccec99dc751f38fb25670dc5ab8acce66419cd462e8ef336b9466a6d5
+$ docker import xlnx-vivado-v2019.1_container_backup_licensed_02deadbeef99.tar xilinx-vivado-licensed-imported-container:v2019.1
+sha256:1d0bd14a4116d2ae55ebd83d020748a8f2f20a003dc547df7a537393dc213531
 ```
 
 - List the local docker images
@@ -578,23 +593,27 @@ sha256:8b500f7ccec99dc751f38fb25670dc5ab8acce66419cd462e8ef336b9466a6d5
 bash:
 $ docker image ls
 REPOSITORY                                  TAG                 IMAGE ID            CREATED             SIZE
+xilinx-vivado-licensed-imported-container   v2019.1             1d0bd14a4116        36 seconds ago      51.8GB
+xilinx-vivado-licensed                      v2019.1             609aa98e8009        About an hour ago   52.5GB
+xilinx-vivado                               v2019.1             0570aa89c8b9        12 hours ago        52.5GB
+ubuntu                                      18.04.1             4112b3ccf856        46 hours ago        83.5MB
 xilinx-vivado-licensed-imported             v2018.3             8b500f7ccec9        50 seconds ago      42.7GB
 ```
 
 - See that the loaded image based on the filesystem archive has a clean history (knows nothing about how the filesystem was built)
 ```bash
-$ docker history xilinx-vivado-licensed-imported:v2018.3
+$ docker history xilinx-vivado-licensed-imported-container:v2019.1 
 IMAGE               CREATED              CREATED BY          SIZE                COMMENT
-8b500f7ccec9        About a minute ago                       42.7GB              Imported from -                 
+1d0bd14a4116        About a minute ago                       51.8GB              Imported from -              
 ```
 
 - Create a running container based on the imported image
 ```bash
 bash:
-$ ../../../tools/bash/run_image_x11_macaddr.sh  xilinx-vivado-licensed-imported:v2018.3 xilinx_vivado_imported_licensed_v2018.3 02:de:ad:be:ef:99
-DOCKER_IMAGE_NAME: xilinx-vivado-licensed-imported:v2018.3
-DOCKER_CONTAINER_NAME: xilinx_vivado_imported_licensed_v2018.3
-DOCKER_CONTAINER_MACADDR: 
+$ ../../../tools/bash/run_image_x11_macaddr.sh  xilinx-vivado-licensed-imported-container:v2019.1 xilinx_vivado_imported_licensed_v2019.1 02:de:ad:be:ef:99
+DOCKER_IMAGE_NAME: xilinx-vivado-licensed-imported-container:v2019.1
+DOCKER_CONTAINER_NAME: xilinx_vivado_imported_licensed_v2019.1
+DOCKER_CONTAINER_MACADDR: 02:de:ad:be:ef:99
 access control disabled, clients can connect from any host
-ec4c1e79da765dfc0aa1e12d5e7516522d59a2da7499311c616997e90a6f286a
+83757c039e8e76677e9b5f85e701870c50df817a6ea580ba75d4a83918432db8
 ```
