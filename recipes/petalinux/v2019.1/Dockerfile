@@ -1,4 +1,4 @@
-# Dockerfile.petalinux_v2019.1
+# Dockerfile
 ########################################################################################
 # Maintainer:
 #	- Jason Moss (jason.moss@avnet.com)
