@@ -67,7 +67,7 @@ DOCKER_BASE_OS_TAG=16.04.3
 # To force rebuild, set DOCKER_CACHE='--no-cache'
 # DOCKER_CACHE='--no-cache'
 # Turn off use of cached images
-DOCKER_CACHE='--no-cache'
+#DOCKER_CACHE='--no-cache'
 
 # Location the build is executed from
 DOCKER_BUILD_WORKING_DIR=`pwd`
