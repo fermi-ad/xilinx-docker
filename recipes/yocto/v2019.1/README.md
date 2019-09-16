@@ -126,25 +126,25 @@ $ cp _generated/depends/* depends/
 bash:
 $ ./build_image.sh
 ...
-Removing intermediate container 7c112eda12f5
- ---> 3eaadab2e2ec
-Successfully built 3eaadab2e2ec
+Removing intermediate container 2946039588d5                           
+ ---> c32c06236868
+Successfully built c32c06236868
 Successfully tagged xilinx-yocto:v2019.1
 + '[' 1 -ne 0 ']'
 + set +x
 -----------------------------------
 Shutting down Python HTTP Server...
 -----------------------------------
-Killing process ID 30557
+Killing process ID 11220
 -----------------------------------
-+ kill 30557
++ kill 11220
 + '[' 1 -ne 0 ']'
 + set +x
-./build_image.sh: line 189: 30557 Terminated              python3 -m http.server
+./build_image.sh: line 189: 11220 Terminated              python3 -m http.server
 -----------------------------------
 Image Build Complete...
-STARTED :Wed Jul 24 14:21:28 EDT 2019
-ENDED   :Wed Jul 24 14:26:06 EDT 2019
+STARTED :Mon Sep 16 09:22:52 EDT 2019
+ENDED   :Mon Sep 16 09:33:25 EDT 2019
 -----------------------------------
 ```
 
@@ -156,7 +156,7 @@ ENDED   :Wed Jul 24 14:26:06 EDT 2019
 bash:
 $ docker image ls
 REPOSITORY               TAG                 IMAGE ID            CREATED             SIZE
-xilinx-yocto             v2019.1             3eaadab2e2ec        5 minutes ago       2.76GB
+xilinx-yocto             v2019.1             c32c06236868        32 minutes ago      2.77GB
 ubuntu                   18.04.1             4112b3ccf856        4 weeks ago         83.5MB
 
 $ ../../../tools/bash/run_image_x11_macaddr.sh xilinx-yocto:v2019.1 xilinx_yocto_v2019.1 02:de:ad:be:ef:92
