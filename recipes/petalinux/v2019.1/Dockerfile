@@ -173,7 +173,9 @@ RUN if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi \
 # dependency for autoinstall of petalinux \
 		expect \
 # used to strip windows line terminations from autoinstall scripts in powershell \
-		dos2unix
+		dos2unix \
+# Added 9.27.2019 for RFSoC ZCU111 Build Support \
+		idn
 # Already Installed \
 #		sudo \
 #		locales \
