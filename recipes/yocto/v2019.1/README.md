@@ -502,17 +502,19 @@ xilinx@xilinx_yocto_v2019:/srv/shared/yocto/v2019.1/builds/zcu106$
 - Ref: https://xilinx-wiki.atlassian.net/wiki/spaces/A/pages/18841671/Using+meta-xilinx-tools+layer
 - for v2019.1+ the XSCT tool is provided as a binary tarball and the Xilinx SDK does not need to be installed
 - for v2018.2 and earlier, the Xilinx SDK must be installed manually and configured in the __*conf/local.conf*__
+	- Uncomment the line defining __*XILINX_SDK_TOOLCHAIN*__ for v2018.2 and earlier builds
 - This example is ased on my workflow and how I organize files and folders for development, which are located on a local machine hard drives and NAS storage locations that are mounted/accessible to the local development machine running the docker container.
 - Edit or append the configuration file: __*./conf/local.conf*__
 - Example modifications appended to the configuration file:
 ```bash
 bash:
 xilinx@xilinx_yocto_v2019:/srv/shared/yocto/v2019.1/builds/zcu106$ tail conf/local.conf
+...
 MACHINE = "zcu106-zynqmp"
 SSTATE_MIRRORS = "file://.* file:///srv/sstate-mirrors/sstate-rel-v2019.1/aarch64"
 SSTATE_DIR = "/srv/sstate-cache/v2019.1"
 DL_DIR = "/srv/sstate-cache/downloads"
-XILINX_SDK_TOOLCHAIN = "/opt/Xilinx/SDK/2019.1"
+#XILINX_SDK_TOOLCHAIN = "/opt/Xilinx/SDK/2018.2"
 HDF_BASE = "file://"
 HDF_PATH = "/srv/hardware_definitions/xilinx-zcu106-2019.1/hardware/xilinx-zcu106-2019.1/xilinx-zcu106-2019.1.hdf"
 HDF_FILE = "xilinx-zcu106-2019.1.hdf"
@@ -543,7 +545,7 @@ xilinx@xilinx_yocto_v2019:/srv/shared/yocto/v2019.1/builds/zcu106$
 	- __*DL_DIR = "/srv/sstate-cache/downloads"*__
 - Set the SDK toolchain (for compiling FSBL, PMUFW, ...) (__*XILINX_SDK_TOOLCHAIN*__)
 	- Use the SDK toolchain installed in the docker container
-	- __*XILINX_SDK_TOOLCHAIN = "/opt/Xilinx/SDK/2019.1"*__
+	- __*XILINX_SDK_TOOLCHAIN = "/opt/Xilinx/SDK/2018.2"*__
 - Set the SDK toolchain version (__*XILINX_VER_MAIN*__)
 	- __*XILINX_VER_MAIN = "2019.1"*__
 - Set the hardware definition for the target platform (__*HDF_BASE*__, __*HDF_PATH*__, __*HDF_FILE*__)
