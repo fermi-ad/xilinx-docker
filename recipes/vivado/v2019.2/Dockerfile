@@ -255,8 +255,8 @@ RUN if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi \
 	&& cd $XLNX_DOWNLOAD_LOCATION/tmp \
 	&& mkdir -p "${XLNX_MALI_BINARY%/*}" \
 	&& wget -nv $INSTALL_SERVER_URL/$XLNX_MALI_BINARY -O $XLNX_MALI_BINARY \
-	&& tar xf $XLNX_MALI_BINARY mali/rel-v2019.2/downloads-mali.tar \
-	&& tar xf mali/rel-v2019.2/downloads-mali.tar \
+	&& tar xf $XLNX_MALI_BINARY mali/rel-v2019.1/downloads-mali.tar \
+	&& tar xf mali/rel-v2019.1/downloads-mali.tar \
 	&& mv $XLNX_DOWNLOAD_LOCATION/tmp/downloads-mali/* $XLNX_INSTALL_LOCATION \
 	&& rm -rf $XLNX_DOWNLOAD_LOCATION/tmp
 

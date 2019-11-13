@@ -206,9 +206,10 @@ Checking for dependencies...
 Base docker image [found] (ubuntu:18.04.1)
 Keyboard Configuration: [Good] configs/keyboard_settings.conf
 Xilinx MALI Binaries: [Good] depends/mali-400-userspace.tar
-Xilinx Vivado Web Installer: [Good] depends/Xilinx_Vivado_SDK_Web_2019.1_0524_1430_Lin64.bin
-Xilinx Vivado Offline Installer: [Good] depends/Xilinx_Vivado_SDK_Web_2019.1_0524_1430_Lin64.tar.gz
+Xilinx Vivado Web Installer: [Good] depends/Xilinx_Unified_2019.2_1024_1831_Lin64.bin
+Xilinx Vivado Offline Installer: [Good] depends/Xilinx_Unified_2019.2_1024_1831_Lin64.bin.tar.gz
 XTerm Configuration File: [Good] configs/XTerm
+-----------------------------------
 
 ...
 
