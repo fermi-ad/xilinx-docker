@@ -353,14 +353,14 @@ drwxr-xr-x 1 xilinx xilinx 4096 Jun 24 14:01 ..
 
 ```bash
 bash:
-$ docker attach xilinx_vivado_v2019.1
-xilinx@xilinx_vivado_v2019.1:/opt/Xilinx$ which vivado
-/opt/Xilinx/Vivado/2019.1/bin/vivado
-xilinx@xilinx_vivado_v2019.1:/opt/Xilinx$ vivado
+$ docker attach xilinx_vivado_v2019.2
+xilinx@xilinx_vivado_v2019.2:/opt/Xilinx$ which vivado
+/opt/Xilinx/Vivado/2019.2/bin/vivado
+xilinx@xilinx_vivado_v2019.2:/opt/Xilinx$ vivado
 
-****** Vivado v2019.1 (64-bit)
-  **** SW Build 2552052 on Fri May 24 14:47:09 MDT 2019
-  **** IP Build 2548770 on Fri May 24 18:01:18 MDT 2019
+****** Vivado v2019.2 (64-bit)
+  **** SW Build 2700185 on Thu Oct 24 18:45:48 MDT 2019
+  **** IP Build 2699827 on Thu Oct 24 21:16:38 MDT 2019
     ** Copyright 1986-2019 Xilinx, Inc. All Rights Reserved.
 
 start_gui
@@ -371,19 +371,19 @@ start_gui
 
 ```bash
 bash:
-$ docker exec -d xilinx_vivado_v2019.1 bash -c "xterm" &
+$ docker exec -d xilinx_vivado_v2019.2 bash -c "xterm" &
 $
 ```
 
 ```bash
 xterm:
-xilinx@xilinx_vivado_v2019.1:/opt/Xilinx$ which vivado
-/opt/Xilinx/Vivado/2019.1/bin/vivado
-xilinx@xilinx_vivado_v2019.1:/opt/Xilinx$ vivado
+xilinx@xilinx_vivado_v2019.2:/opt/Xilinx$ which vivado
+/opt/Xilinx/Vivado/2019.2/bin/vivado
+xilinx@xilinx_vivado_v2019.2:/opt/Xilinx$ vivado
 
-****** Vivado v2019.1 (64-bit)
-  **** SW Build 2552052 on Fri May 24 14:47:09 MDT 2019
-  **** IP Build 2548770 on Fri May 24 18:01:18 MDT 2019
+****** Vivado v2019.2 (64-bit)
+  **** SW Build 2700185 on Thu Oct 24 18:45:48 MDT 2019
+  **** IP Build 2699827 on Thu Oct 24 21:16:38 MDT 2019
     ** Copyright 1986-2019 Xilinx, Inc. All Rights Reserved.
 
 start_gui
@@ -394,7 +394,7 @@ start_gui
 
 ```bash
 bash:
-$ docker exec -d xilinx_vivado_v2019.1 bash -c "/opt/Xilinx/Vivado/2019.1/bin/vivado"
+$ docker exec -d xilinx_vivado_v2019.2 bash -c "/opt/Xilinx/Vivado/2019.1/bin/vivado"
 ```
 
 ### Setup the License in the Vivado Gui
@@ -407,8 +407,8 @@ $ docker exec -d xilinx_vivado_v2019.1 bash -c "/opt/Xilinx/Vivado/2019.1/bin/vi
 	- The special escape sequence is __*<CTRL-P><CTRL-Q>*__
 ```bash:
 bash:
-xilinx@xilinx_vivado_v2019.1:/opt/Xilinx$ read escape sequence
-[1]+  Done                    docker exec -d xilinx_vivado_v2019.1 bash -c "xterm"
+xilinx@xilinx_vivado_v2019.2:/opt/Xilinx$ read escape sequence
+[1]+  Done                    docker exec -d xilinx_vivado_v2019.2 bash -c "xterm"
 ```
 - The container should still be running, even if Vivado has been closed
 - Verify that the container is still running in the background
@@ -416,9 +416,11 @@ xilinx@xilinx_vivado_v2019.1:/opt/Xilinx$ read escape sequence
 bash:
 $ docker ps
 CONTAINER ID        IMAGE                   COMMAND             CREATED             STATUS              PORTS               NAMES
-7c0d7e6e5e6e        xilinx-vivado:v2019.1   "/bin/bash"         3 hours ago         Up 3 hours                              xilinx_vivado_v2019.1
+b0b1e2622199        xilinx-vivado:v2019.2   "/bin/bash"         13 minutes ago      Up 13 minutes                           xilinx_vivado_v2019.2
 $
 ```
+
+< --- UPDATE FROM HERE FOR v2019.2 --- >
 
 # Backup and Sharing of Working Containers and Images
 - Docker images and containers can be backed up to tar archive files
