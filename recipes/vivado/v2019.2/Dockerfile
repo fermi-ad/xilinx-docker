@@ -306,9 +306,9 @@ RUN if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi \
 	&& echo "export LANG=en_US.UTF-8" >> $HOME_DIR/.bashrc \
 	&& export "LANG=en_US.UTF-8" \
 # Setup bashrc to source petalinux settings on login \
-	&& echo ". $XLNX_INSTALL_LOCATION/Vivado/2019.1/settings64.sh" >> $HOME_DIR/.bashrc \
+	&& echo ". $XLNX_INSTALL_LOCATION/Vivado/2019.2/settings64.sh" >> $HOME_DIR/.bashrc \
 # Setup LD_LIBRARY_PATH to include Vivado included Linux libraries \
-	&& echo "export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$XLNX_INSTALL_LOCATION/Vivado/2019.1/lib/lnx64.o/" >> $HOME_DIR/.bashrc \
+	&& echo "export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$XLNX_INSTALL_LOCATION/Vivado/2019.2/lib/lnx64.o/" >> $HOME_DIR/.bashrc \
 # Setup installer permissions \
   	&& chmod a+x xsetup \
 # Run Setup in batch mode to install Vivado \
