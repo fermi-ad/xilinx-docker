@@ -257,7 +257,7 @@ RUN if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi \
 	&& wget -nv $INSTALL_SERVER_URL/$XLNX_MALI_BINARY -O $XLNX_MALI_BINARY \
 	&& tar xf $XLNX_MALI_BINARY mali/rel-v2019.1/downloads-mali.tar \
 	&& tar xf mali/rel-v2019.1/downloads-mali.tar \
-	&& mv $XLNX_DOWNLOAD_LOCATION/tmp/downloads-mali/* $XLNX_INSTALL_LOCATION \
+	&& mv $XLNX_DOWNLOAD_LOCATION/tmp/downloads-mali/* $XLNX_DOWNLOAD_LOCATION \
 	&& rm -rf $XLNX_DOWNLOAD_LOCATION/tmp
 
 # Arguments can be filled at build time using the '--build-arg' option

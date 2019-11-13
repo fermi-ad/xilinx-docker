@@ -215,8 +215,8 @@ XTerm Configuration File: [Good] configs/XTerm
 
 -----------------------------------
 Image Build Complete...
-STARTED :Sun Jun 23 22:36:49 EDT 2019
-ENDED   :Sun Jun 23 23:00:23 EDT 2019
+STARTED :Wed Nov 13 12:33:07 EST 2019
+ENDED   :Wed Nov 13 13:24:07 EST 2019
 -----------------------------------
 ```
 
@@ -230,19 +230,19 @@ ENDED   :Sun Jun 23 23:00:23 EDT 2019
 bash:
 $ docker image ls
 REPOSITORY               TAG                 IMAGE ID            CREATED             SIZE
-xilinx-vivado            v2019.1             0570aa89c8b9        9 hours ago         52.5GB
+xilinx-vivado            v2019.2             c1cd64478a0d        About an hour ago   53.4GB
 ubuntu                   18.04.1             4112b3ccf856        42 hours ago        83.5MB
 ```
 
 - Use the included tool script to create a Container based on the Vivado image
 ```bash
 bash:
-$ ../../../tools/bash/run_image_x11_macaddr.sh xilinx-vivado:v2019.1 xilinx_vivado_v2019.1 02:de:ad:be:ef:99
-DOCKER_IMAGE_NAME: xilinx-vivado:v2019.1
-DOCKER_CONTAINER_NAME: xilinx_vivado_v2019.1
+$ ../../../tools/bash/run_image_x11_macaddr.sh xilinx-vivado:v2019.2 xilinx_vivado_v2019.2 02:de:ad:be:ef:99
+DOCKER_IMAGE_NAME: xilinx-vivado:v2019.2
+DOCKER_CONTAINER_NAME: xilinx_vivado_v2019.2
 DOCKER_CONTAINER_MACADDR: 02:de:ad:be:ef:99
 access control disabled, clients can connect from any host
-7c0d7e6e5e6eb0646cff6e2836ebfeab2b0632c6ca56668c230ec995c1f128e0
+b0b1e2622199dc0457bab07db89c07624fc7f64a13414e1e9ef1d8fe73c54f10
 ```
 
 - List containers on the local system
@@ -250,13 +250,13 @@ access control disabled, clients can connect from any host
 bash:
 $ docker ps -a
 CONTAINER ID        IMAGE                   COMMAND             CREATED             STATUS              PORTS               NAMES
-7c0d7e6e5e6e        xilinx-vivado:v2019.1   "/bin/bash"         15 seconds ago      Up 14 seconds                           xilinx_vivado_v2019.1                         xilinx_vivado_v2018.3
+b0b1e2622199        xilinx-vivado:v2019.2   "/bin/bash"         25 seconds ago      Up 24 seconds                           xilinx_vivado_v2019.2
 ```
 
 - Verify the container is setup with the MAC address specified (for Vivado Licensing)
 ```bash
 bash:
-$ docker inspect xilinx_vivado_v2019.1 | grep MacAddress
+$ docker inspect xilinx_vivado_v2019.2 | grep MacAddress
             "MacAddress": "02:de:ad:be:ef:99",
             "MacAddress": "02:de:ad:be:ef:99",
                     "MacAddress": "02:de:ad:be:ef:99",
@@ -273,7 +273,7 @@ $ docker inspect xilinx_vivado_v2019.1 | grep MacAddress
 - Launch an X-windows terminal shell for access to the container
 ```bash
 bash:
-$ docker exec -d xilinx_vivado_v2019.1 bash -c "xterm" &
+$ docker exec -d xilinx_vivado_v2019.2 bash -c "xterm" &
 ```
 
 ### Method #2: Launch an xterm session after attaching to the running container
@@ -281,7 +281,7 @@ $ docker exec -d xilinx_vivado_v2019.1 bash -c "xterm" &
 - This xterm session is not tied to a local terminal session
 ```bash
 bash:
-$ docker attach xilinx_vivado_v2019.1
+$ docker attach xilinx_vivado_v2019.2
 xilinx@xilinx_vivado_v2019.1:/opt/Xilinx$ xterm &
 [1] 25
 xilinx@xilinx_vivado_v2019.1:/opt/Xilinx$
@@ -299,22 +299,22 @@ xilinx@xilinx_vivado_v2019.1:/opt/Xilinx$
 - From the host OS terminal, show which folders are mounted/shared in the container
 ```bash
 bash:
-$ docker inspect --format '{{range .Mounts}}{{println .Source .Destination}}{{end}}' xilinx_vivado_v2019.1
-/srv/tftpboot /tftpboot
-/srv/hardware_definitions /srv/hardware_definitions
+$ docker inspect --format '{{range .Mounts}}{{println .Source .Destination}}{{end}}' xilinx_vivado_v2019.2
+/xilinx/local/trds /srv/trds
 /tmp/.X11-unix /tmp/.X11-unix
-/srv/software/xilinx /srv/software
 /srv/shared /srv/shared
 /xilinx/local/sstate-mirrors /srv/sstate-mirrors
 /xilinx/local/sstate-cache /srv/sstate-cache
-/home/xilinx/.Xauthority /home/xilinx/.Xauthority
-/xilinx/local/trds /srv/trds
+/srv/tftpboot /tftpboot
+/srv/software/xilinx /srv/software
+/home/rjmoss/.Xauthority /home/xilinx/.Xauthority
+/srv/hardware_definitions /srv/hardware_definitions
 ```
 
 - From an xterm session associated with the running container, verify you can see the license file on a shared drive
 ```bash
 xterm:
-xilinx@xilinx_vivado_v2019.1:/opt/Xilinx$ ls -al /srv/shared/licenses
+xilinx@xilinx_vivado_v2019.2:/opt/Xilinx$ ls -al /srv/shared/licenses
 total 40
 drwxrwxr-x 2 xilinx xilinx  4096 Nov 29 17:53 .
 drwxr-xr-x 4 xilinx xilinx  4096 Nov 29 17:53 ..
