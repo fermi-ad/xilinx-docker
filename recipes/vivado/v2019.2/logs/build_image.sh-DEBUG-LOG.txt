@@ -20,7 +20,7 @@ DOCKER_BUILD_WORKING_DIR=/xilinx/local/repositories/gitlab/xilinx-docker/recipes
 -----------------------------------
 Launching Python HTTP Server...
 -----------------------------------
-+ SERVER_PID=19894
++ SERVER_PID=24501
 + python3 -m http.server
 ++ ifconfig docker0
 ++ grep 'inet\s'
@@ -29,7 +29,7 @@ Launching Python HTTP Server...
 + '[' 1 -ne 0 ']'
 + set +x
 SERVER_IP=172.17.0.1
-SERVER_PID=19894
+SERVER_PID=24501
 -----------------------------------
 -----------------------------------
 Building the Docker Image...
@@ -58,24 +58,24 @@ Arguments...
   --build-arg XTERM_CONFIG_FILE="configs/XTerm"
 -----------------------------------
 + docker build --no-cache -f ./Dockerfile --target xilinx_install_vivado_v2019.2 -t xilinx-vivado:v2019.2 --build-arg USER_ACCT=xilinx --build-arg HOME_DIR=/home/xilinx --build-arg 'GIT_USER_NAME=Xilinx User' --build-arg GIT_USER_EMAIL=Xilinx.User@dummyaddress.com --build-arg KEYBOARD_CONFIG_FILE=configs/keyboard_settings.conf --build-arg XLNX_INSTALL_LOCATION=/opt/Xilinx --build-arg XLNX_DOWNLOAD_LOCATION=/opt/Xilinx/downloads --build-arg XLNX_MALI_BINARY=depends/mali-400-userspace.tar --build-arg INSTALL_SERVER_URL=172.17.0.1:8000 --build-arg XLNX_VIVADO_BATCH_CONFIG_FILE=configs/xlnx_vivado_system_edition.config --build-arg XLNX_VIVADO_OFFLINE_INSTALLER=depends/Xilinx_Unified_2019.2_1024_1831_Lin64.bin.tar.gz --build-arg BUILD_DEBUG=1 --build-arg XTERM_CONFIG_FILE=configs/XTerm .
-Sending build context to Docker daemon  89.09kB
 Serving HTTP on 0.0.0.0 port 8000 (http://0.0.0.0:8000/) ...
+Sending build context to Docker daemon  29.37GB
 Step 1/43 : FROM ubuntu:18.04.1 AS base_os_vivado_v2019.2
  ---> b60255a70f17
 Step 2/43 : LABEL author="Jason Moss"
- ---> Running in 45a02f096448
-Removing intermediate container 45a02f096448
- ---> 5d6471500a43
+ ---> Running in 2d065945f119
+Removing intermediate container 2d065945f119
+ ---> 309ed1b0e6c9
 Step 3/43 : ENV DEBIAN_FRONTEND=noninteractive
- ---> Running in c5682ed26e4f
-Removing intermediate container c5682ed26e4f
- ---> a6f1dc8dab32
+ ---> Running in edcce832982c
+Removing intermediate container edcce832982c
+ ---> 852a25304a7b
 Step 4/43 : ARG BUILD_DEBUG
- ---> Running in b6fa3ebce31d
-Removing intermediate container b6fa3ebce31d
- ---> 75361678a467
+ ---> Running in df3c812dc651
+Removing intermediate container df3c812dc651
+ ---> 6ec1f7e44f7f
 Step 5/43 : RUN if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi      && echo "APT::Install-Recommends false;" > /etc/apt/apt.conf.d/00norecommends   && echo "APT::AutoRemove::RecommendsImportant false;" >> /etc/apt/apt.conf.d/00norecommends     && echo "APT::Install-Suggests false;" > /etc/apt/apt.conf.d/00nosuggests       && echo "APT::AutoRemove::SuggestsImportant false;" >> /etc/apt/apt.conf.d/00nosuggests         && apt-get update       && apt-get install -y           apt-utils               vim     && apt-get install locales      && locale-gen en_US.UTF-8       && dpkg-reconfigure             --frontend $DEBIAN_FRONTEND locales
- ---> Running in 0a13e7da0a9d
+ ---> Running in 03e3519a24fc
 + echo APT::Install-Recommends false;
 + echo APT::AutoRemove::RecommendsImportant false;
 + echo APT::Install-Suggests false;
@@ -84,22 +84,22 @@ Step 5/43 : RUN if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi      && echo "APT::In
 Get:1 http://security.ubuntu.com/ubuntu bionic-security InRelease [88.7 kB]
 Hit:2 http://archive.ubuntu.com/ubuntu bionic InRelease
 Get:3 http://archive.ubuntu.com/ubuntu bionic-updates InRelease [88.7 kB]
-Get:4 http://security.ubuntu.com/ubuntu bionic-security/main amd64 Packages [565 kB]
-Get:5 http://archive.ubuntu.com/ubuntu bionic-backports InRelease [74.6 kB]
-Get:6 http://archive.ubuntu.com/ubuntu bionic/universe amd64 Packages [8570 kB]
-Get:7 http://security.ubuntu.com/ubuntu bionic-security/main Translation-en [186 kB]
-Get:8 http://archive.ubuntu.com/ubuntu bionic/universe Translation-en [4941 kB]
-Get:9 http://security.ubuntu.com/ubuntu bionic-security/restricted amd64 Packages [12.9 kB]
-Get:10 http://archive.ubuntu.com/ubuntu bionic/multiverse amd64 Packages [151 kB]
-Get:11 http://security.ubuntu.com/ubuntu bionic-security/restricted Translation-en [4232 B]
-Get:12 http://security.ubuntu.com/ubuntu bionic-security/universe amd64 Packages [618 kB]
-Get:13 http://archive.ubuntu.com/ubuntu bionic/multiverse Translation-en [108 kB]
-Get:14 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 Packages [795 kB]
-Get:15 http://security.ubuntu.com/ubuntu bionic-security/universe Translation-en [206 kB]
-Get:16 http://security.ubuntu.com/ubuntu bionic-security/multiverse amd64 Packages [5692 B]
-Get:17 http://archive.ubuntu.com/ubuntu bionic-updates/main Translation-en [282 kB]
-Get:18 http://security.ubuntu.com/ubuntu bionic-security/multiverse Translation-en [2532 B]
-Get:19 http://archive.ubuntu.com/ubuntu bionic-updates/restricted amd64 Packages [22.0 kB]
+Get:4 http://security.ubuntu.com/ubuntu bionic-security/main amd64 Packages [572 kB]
+Get:5 http://security.ubuntu.com/ubuntu bionic-security/main Translation-en [189 kB]
+Get:6 http://security.ubuntu.com/ubuntu bionic-security/restricted amd64 Packages [13.2 kB]
+Get:7 http://archive.ubuntu.com/ubuntu bionic-backports InRelease [74.6 kB]
+Get:8 http://security.ubuntu.com/ubuntu bionic-security/restricted Translation-en [4292 B]
+Get:9 http://security.ubuntu.com/ubuntu bionic-security/universe amd64 Packages [619 kB]
+Get:10 http://security.ubuntu.com/ubuntu bionic-security/universe Translation-en [206 kB]
+Get:11 http://security.ubuntu.com/ubuntu bionic-security/multiverse amd64 Packages [5904 B]
+Get:12 http://security.ubuntu.com/ubuntu bionic-security/multiverse Translation-en [2568 B]
+Get:13 http://archive.ubuntu.com/ubuntu bionic/universe amd64 Packages [8570 kB]
+Get:14 http://archive.ubuntu.com/ubuntu bionic/universe Translation-en [4941 kB]
+Get:15 http://archive.ubuntu.com/ubuntu bionic/multiverse amd64 Packages [151 kB]
+Get:16 http://archive.ubuntu.com/ubuntu bionic/multiverse Translation-en [108 kB]
+Get:17 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 Packages [795 kB]
+Get:18 http://archive.ubuntu.com/ubuntu bionic-updates/main Translation-en [282 kB]
+Get:19 http://archive.ubuntu.com/ubuntu bionic-updates/restricted amd64 Packages [21.9 kB]
 Get:20 http://archive.ubuntu.com/ubuntu bionic-updates/restricted Translation-en [6128 B]
 Get:21 http://archive.ubuntu.com/ubuntu bionic-updates/universe amd64 Packages [1024 kB]
 Get:22 http://archive.ubuntu.com/ubuntu bionic-updates/universe Translation-en [315 kB]
@@ -109,7 +109,7 @@ Get:25 http://archive.ubuntu.com/ubuntu bionic-backports/main amd64 Packages [25
 Get:26 http://archive.ubuntu.com/ubuntu bionic-backports/main Translation-en [1644 B]
 Get:27 http://archive.ubuntu.com/ubuntu bionic-backports/universe amd64 Packages [4024 B]
 Get:28 http://archive.ubuntu.com/ubuntu bionic-backports/universe Translation-en [1856 B]
-Fetched 18.1 MB in 9s (1932 kB/s)
+Fetched 18.1 MB in 2min 24s (125 kB/s)
 Reading package lists...
 + apt-get install -y apt-utils vim
 Reading package lists...
@@ -153,7 +153,7 @@ Get:17 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 libpython3.6 a
 Get:18 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 vim-runtime all 2:8.0.1453-1ubuntu1.1 [5435 kB]
 Get:19 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 vim amd64 2:8.0.1453-1ubuntu1.1 [1152 kB]
 debconf: delaying package configuration, since apt-utils is not installed
-Fetched 14.8 MB in 43s (344 kB/s)
+Fetched 14.8 MB in 1min 35s (156 kB/s)
 (Reading database ... 4035 files and directories currently installed.)
 Preparing to unpack .../libapt-pkg5.0_1.6.12_amd64.deb ...
 Unpacking libapt-pkg5.0:amd64 (1.6.12) over (1.6.3) ...
@@ -279,7 +279,7 @@ Need to get 3612 kB of archives.
 After this operation, 14.5 MB of additional disk space will be used.
 Get:1 http://archive.ubuntu.com/ubuntu bionic/main amd64 locales all 2.27-3ubuntu1 [3612 kB]
 Preconfiguring packages ...
-Fetched 3612 kB in 1s (3444 kB/s)
+Fetched 3612 kB in 35s (105 kB/s)
 Selecting previously unselected package locales.
 (Reading database ... 6641 files and directories currently installed.)
 Preparing to unpack .../locales_2.27-3ubuntu1_all.deb ...
@@ -295,10 +295,10 @@ Generation complete.
 Generating locales (this might take a while)...
   en_US.UTF-8... done
 Generation complete.
-Removing intermediate container 0a13e7da0a9d
- ---> e7df8d5bc74b
+Removing intermediate container 03e3519a24fc
+ ---> 501a9d884f0b
 Step 6/43 : RUN if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi      && apt-get install -y           dialog          debconf-utils   && echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections
- ---> Running in dcae6a5fe4d3
+ ---> Running in bde220a96929
 + apt-get install -y dialog debconf-utils
 Reading package lists...
 Building dependency tree...
@@ -321,7 +321,7 @@ Get:1 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 debconf all 1.5
 Get:2 http://archive.ubuntu.com/ubuntu bionic-updates/universe amd64 debconf-utils all 1.5.66ubuntu1 [56.6 kB]
 Get:3 http://archive.ubuntu.com/ubuntu bionic/universe amd64 dialog amd64 1.3-20171209-1 [217 kB]
 Preconfiguring packages ...
-Fetched 397 kB in 1s (266 kB/s)
+Fetched 397 kB in 3s (158 kB/s)
 (Reading database ... 7259 files and directories currently installed.)
 Preparing to unpack .../debconf_1.5.66ubuntu1_all.deb ...
 Unpacking debconf (1.5.66ubuntu1) over (1.5.66) ...
@@ -335,24 +335,24 @@ Preparing to unpack .../dialog_1.3-20171209-1_amd64.deb ...
 Unpacking dialog (1.3-20171209-1) ...
 Setting up dialog (1.3-20171209-1) ...
 Setting up debconf-utils (1.5.66ubuntu1) ...
-+ + echo debconf debconf/frontend select Noninteractive
-debconf-set-selections
-Removing intermediate container dcae6a5fe4d3
- ---> 2d70d67e49ee
++ echo debconf debconf/frontend select Noninteractive
++ debconf-set-selections
+Removing intermediate container bde220a96929
+ ---> 33e4487ceb96
 Step 7/43 : ARG USER_ACCT
- ---> Running in 7760d48e2fad
-Removing intermediate container 7760d48e2fad
- ---> 7e1653c74638
+ ---> Running in 81ea65f8596c
+Removing intermediate container 81ea65f8596c
+ ---> c45f831374e4
 Step 8/43 : ARG HOME_DIR
- ---> Running in fe04e1cf8204
-Removing intermediate container fe04e1cf8204
- ---> 37ad86206731
+ ---> Running in 9dfd80c29980
+Removing intermediate container 9dfd80c29980
+ ---> f4f48256d56d
 Step 9/43 : ARG XLNX_INSTALL_LOCATION
- ---> Running in e7a6a181e6ff
-Removing intermediate container e7a6a181e6ff
- ---> 4fc90cb3ad70
+ ---> Running in 086ebb221cbc
+Removing intermediate container 086ebb221cbc
+ ---> 8086c5739bab
 Step 10/43 : RUN if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi     && apt-get install -y           sudo    && adduser              --disabled-password             --gecos ''     --shell /bin/bash                --home $HOME_DIR                $USER_ACCT      && echo                 "$USER_ACCT ALL=(ALL) NOPASSWD: ALL"            >> /etc/sudoers        && mkdir -p $XLNX_INSTALL_LOCATION       && chown -R $USER_ACCT:$USER_ACCT $XLNX_INSTALL_LOCATION        && echo "dash dash/sh boolean false" | debconf-set-selections   && DEBIAN_FRONTEND=$DEBIAN_FRONTEND dpkg-reconfigure dash
- ---> Running in ba3aaf5a6d94
+ ---> Running in 47b9a138459f
 + apt-get install -y sudo
 Reading package lists...
 Building dependency tree...
@@ -363,7 +363,7 @@ The following NEW packages will be installed:
 Need to get 428 kB of archives.
 After this operation, 1765 kB of additional disk space will be used.
 Get:1 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 sudo amd64 1.8.21p2-3ubuntu1.1 [428 kB]
-Fetched 428 kB in 4s (105 kB/s)
+Fetched 428 kB in 4s (116 kB/s)
 Selecting previously unselected package sudo.
 (Reading database ... 7481 files and directories currently installed.)
 Preparing to unpack .../sudo_1.8.21p2-3ubuntu1.1_amd64.deb ...
@@ -385,71 +385,71 @@ Removing 'diversion of /bin/sh to /bin/sh.distrib by dash'
 Adding 'diversion of /bin/sh to /bin/sh.distrib by bash'
 Removing 'diversion of /usr/share/man/man1/sh.1.gz to /usr/share/man/man1/sh.distrib.1.gz by dash'
 Adding 'diversion of /usr/share/man/man1/sh.1.gz to /usr/share/man/man1/sh.distrib.1.gz by bash'
-Removing intermediate container ba3aaf5a6d94
- ---> d6d2f1554848
+Removing intermediate container 47b9a138459f
+ ---> a9d7ef75f962
 Step 11/43 : FROM base_os_vivado_v2019.2 AS xilinx_install_depends_vivado_v2019.2
- ---> d6d2f1554848
+ ---> a9d7ef75f962
 Step 12/43 : LABEL author="Jason Moss"
- ---> Running in 654bf2dcfee5
-Removing intermediate container 654bf2dcfee5
- ---> 7db4eac761fe
+ ---> Running in 52e2c8c16fc9
+Removing intermediate container 52e2c8c16fc9
+ ---> eb7638c95fcd
 Step 13/43 : ARG USER_ACCT
- ---> Running in 5f3b012ead80
-Removing intermediate container 5f3b012ead80
- ---> dfd3d9723ccf
+ ---> Running in 5c4f80a6a758
+Removing intermediate container 5c4f80a6a758
+ ---> 99752a551e48
 Step 14/43 : ARG HOME_DIR
- ---> Running in 37976f27553c
-Removing intermediate container 37976f27553c
- ---> a8a147815bba
+ ---> Running in 1402ff052617
+Removing intermediate container 1402ff052617
+ ---> 3af1724efa34
 Step 15/43 : USER $USER_ACCT
- ---> Running in eddffcd01a3d
-Removing intermediate container eddffcd01a3d
- ---> 9244bc00c01a
+ ---> Running in 3af7758e141a
+Removing intermediate container 3af7758e141a
+ ---> 5d3a0ef514ec
 Step 16/43 : ENV DEBIAN_FRONTEND=noninteractive
- ---> Running in a727e5ffeaae
-Removing intermediate container a727e5ffeaae
- ---> 12f91e362b20
+ ---> Running in b139a6abe7ce
+Removing intermediate container b139a6abe7ce
+ ---> b97ba778e1a4
 Step 17/43 : ARG XLNX_INSTALL_LOCATION
- ---> Running in f86c668fbbaf
-Removing intermediate container f86c668fbbaf
- ---> 16befd56d4fc
+ ---> Running in 5bd4d26674e0
+Removing intermediate container 5bd4d26674e0
+ ---> 5851475d640b
 Step 18/43 : ARG XLNX_PETALINUX_INSTALLER
- ---> Running in ea2c79743a97
-Removing intermediate container ea2c79743a97
- ---> ca8d97e3c365
+ ---> Running in c3be1ae68686
+Removing intermediate container c3be1ae68686
+ ---> 27a95621c198
 Step 19/43 : ARG INSTALL_SERVER_URL
- ---> Running in 2c218c99f01f
-Removing intermediate container 2c218c99f01f
- ---> 8374c6581deb
+ ---> Running in b50b0111446b
+Removing intermediate container b50b0111446b
+ ---> 7981d06a1522
 Step 20/43 : ARG BUILD_DEBUG
- ---> Running in 73106e332951
-Removing intermediate container 73106e332951
- ---> 4085eed8b707
+ ---> Running in 461ceb8b06c6
+Removing intermediate container 461ceb8b06c6
+ ---> c526ec1cddd9
 Step 21/43 : RUN if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi     && mkdir -p $XLNX_INSTALL_LOCATION/tmp  && cd $XLNX_INSTALL_LOCATION/tmp        && sudo dpkg --add-architecture i386    && sudo apt-get update  && sudo apt-get install -y      && sudo apt-get install -y              tofrodos                iproute2                gawk            xvfb   git              make            net-tools               libncurses5-dev             update-inetd                tftpd           zlib1g-dev:i386                 libssl-dev     flex             bison           libselinux1             gnupg           wget            diffstat                chrpath                 socat           xterm           autoconf                libtool-bin             tar             unzip           texinfo                 zlib1g-dev              gcc-multilib            build-essential                libsdl1.2-dev            libglib2.0-dev          screen          pax             gzip            python3-gi              less            lsb-release             fakeroot       cpio             rsync           xorg            expect          dos2unix        && sudo apt-get install -y              libboost-signals-dev            google-perftools       default-jre              libgtk2.0-0
- ---> Running in 234ab9e0cd02
+ ---> Running in f8220354e1de
 + mkdir -p /opt/Xilinx/tmp
 + cd /opt/Xilinx/tmp
 + sudo dpkg --add-architecture i386
 + sudo apt-get update
-Hit:1 http://security.ubuntu.com/ubuntu bionic-security InRelease
-Hit:2 http://archive.ubuntu.com/ubuntu bionic InRelease
-Get:3 http://security.ubuntu.com/ubuntu bionic-security/main i386 Packages [397 kB]
-Hit:4 http://archive.ubuntu.com/ubuntu bionic-updates InRelease
-Hit:5 http://archive.ubuntu.com/ubuntu bionic-backports InRelease
-Get:6 http://archive.ubuntu.com/ubuntu bionic/main i386 Packages [1007 kB]
-Get:7 http://security.ubuntu.com/ubuntu bionic-security/restricted i386 Packages [4280 B]
-Get:8 http://security.ubuntu.com/ubuntu bionic-security/universe i386 Packages [595 kB]
-Get:9 http://security.ubuntu.com/ubuntu bionic-security/multiverse i386 Packages [4292 B]
-Get:10 http://archive.ubuntu.com/ubuntu bionic/restricted i386 Packages [9156 B]
-Get:11 http://archive.ubuntu.com/ubuntu bionic/universe i386 Packages [8531 kB]
+Hit:1 http://archive.ubuntu.com/ubuntu bionic InRelease
+Hit:2 http://security.ubuntu.com/ubuntu bionic-security InRelease
+Hit:3 http://archive.ubuntu.com/ubuntu bionic-updates InRelease
+Hit:4 http://archive.ubuntu.com/ubuntu bionic-backports InRelease
+Get:5 http://archive.ubuntu.com/ubuntu bionic/main i386 Packages [1007 kB]
+Get:6 http://security.ubuntu.com/ubuntu bionic-security/main i386 Packages [402 kB]
+Get:7 http://archive.ubuntu.com/ubuntu bionic/restricted i386 Packages [9156 B]
+Get:8 http://archive.ubuntu.com/ubuntu bionic/universe i386 Packages [8531 kB]
+Get:9 http://security.ubuntu.com/ubuntu bionic-security/restricted i386 Packages [4280 B]
+Get:10 http://security.ubuntu.com/ubuntu bionic-security/universe i386 Packages [596 kB]
+Get:11 http://security.ubuntu.com/ubuntu bionic-security/multiverse i386 Packages [4292 B]
 Get:12 http://archive.ubuntu.com/ubuntu bionic/multiverse i386 Packages [144 kB]
 Get:13 http://archive.ubuntu.com/ubuntu bionic-updates/main i386 Packages [613 kB]
 Get:14 http://archive.ubuntu.com/ubuntu bionic-updates/restricted i386 Packages [9260 B]
 Get:15 http://archive.ubuntu.com/ubuntu bionic-updates/universe i386 Packages [990 kB]
-Get:16 http://archive.ubuntu.com/ubuntu bionic-updates/multiverse i386 Packages [6928 B]
+Get:16 http://archive.ubuntu.com/ubuntu bionic-updates/multiverse i386 Packages [6924 B]
 Get:17 http://archive.ubuntu.com/ubuntu bionic-backports/main i386 Packages [2516 B]
 Get:18 http://archive.ubuntu.com/ubuntu bionic-backports/universe i386 Packages [4028 B]
-Fetched 12.3 MB in 29s (426 kB/s)
+Fetched 12.3 MB in 6s (2208 kB/s)
 Reading package lists...
 + sudo apt-get install -y
 Reading package lists...
@@ -1014,7 +1014,7 @@ Get:380 http://archive.ubuntu.com/ubuntu bionic/main i386 zlib1g-dev i386 1:1.2.
 Get:381 http://archive.ubuntu.com/ubuntu bionic/universe amd64 dos2unix amd64 7.3.4-3 [351 kB]
 Get:382 http://archive.ubuntu.com/ubuntu bionic/main amd64 socat amd64 1.7.3.2-2ubuntu2 [342 kB]
 Preconfiguring packages ...
-Fetched 150 MB in 2min 54s (861 kB/s)
+Fetched 150 MB in 4min 13s (591 kB/s)
 (Reading database ... 7536 files and directories currently installed.)
 Preparing to unpack .../perl-base_5.26.1-6ubuntu0.3_amd64.deb ...
 Unpacking perl-base (5.26.1-6ubuntu0.3) over (5.26.1-6ubuntu0.2) ...
@@ -2227,8 +2227,8 @@ Setting up libpsl5:amd64 (0.19.1-5build1) ...
 Setting up tzdata (2019c-0ubuntu0.18.04) ...
 
 Current default time zone: 'Etc/UTC'
-Local time is now:      Wed Nov 13 17:39:52 UTC 2019.
-Universal Time is now:  Wed Nov 13 17:39:52 UTC 2019.
+Local time is now:      Thu Nov 14 14:10:08 UTC 2019.
+Universal Time is now:  Thu Nov 14 14:10:08 UTC 2019.
 Run 'dpkg-reconfigure tzdata' if you wish to change it.
 
 Setting up libelf1:amd64 (0.170-0.4ubuntu0.1) ...
@@ -2738,7 +2738,7 @@ Get:52 http://archive.ubuntu.com/ubuntu bionic/universe amd64 libboost-signals1.
 Get:53 http://archive.ubuntu.com/ubuntu bionic/universe amd64 libboost-signals-dev amd64 1.65.1.0ubuntu1 [2996 B]
 Get:54 http://archive.ubuntu.com/ubuntu bionic/main amd64 libgtk2.0-common all 2.24.32-1ubuntu1 [125 kB]
 Get:55 http://archive.ubuntu.com/ubuntu bionic/main amd64 libgtk2.0-0 amd64 2.24.32-1ubuntu1 [1769 kB]
-Fetched 56.7 MB in 27s (2087 kB/s)
+Fetched 56.7 MB in 9min 20s (101 kB/s)
 Selecting previously unselected package fontconfig.
 (Reading database ... 27361 files and directories currently installed.)
 Preparing to unpack .../00-fontconfig_2.12.6-0ubuntu2_amd64.deb ...
@@ -3124,96 +3124,96 @@ Running hooks in /etc/ca-certificates/update.d...
 
 done.
 done.
-Removing intermediate container 234ab9e0cd02
- ---> e59a8bd6b80e
+Removing intermediate container f8220354e1de
+ ---> 20cd81beac43
 Step 22/43 : ARG GIT_USER_NAME
- ---> Running in 39a4458e247d
-Removing intermediate container 39a4458e247d
- ---> 34d072735127
+ ---> Running in 2cc8d33eeb89
+Removing intermediate container 2cc8d33eeb89
+ ---> 98d5c9493333
 Step 23/43 : ARG GIT_USER_EMAIL
- ---> Running in 1161e0e1ede0
-Removing intermediate container 1161e0e1ede0
- ---> 3571c89566f3
+ ---> Running in f74e4e7211da
+Removing intermediate container f74e4e7211da
+ ---> 918abac015dd
 Step 24/43 : RUN if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi     && git config   --global user.name $GIT_USER_NAME       && git config   --global user.email $GIT_USER_EMAIL    && git config    --global color.ui true
- ---> Running in fcc68b5fcf13
+ ---> Running in 15a87eabc82d
 + git config --global user.name Xilinx User
 + git config --global user.email Xilinx.User@dummyaddress.com
 + git config --global color.ui true
-Removing intermediate container fcc68b5fcf13
- ---> e057573437e6
+Removing intermediate container 15a87eabc82d
+ ---> 3225cbfadcfd
 Step 25/43 : FROM xilinx_install_depends_vivado_v2019.2 AS xilinx_install_vivado_v2019.2
- ---> e057573437e6
+ ---> 3225cbfadcfd
 Step 26/43 : LABEL author="Jason Moss"
- ---> Running in 01d6ac6e9d9c
-Removing intermediate container 01d6ac6e9d9c
- ---> d838d57696d2
+ ---> Running in 4ea149d52324
+Removing intermediate container 4ea149d52324
+ ---> 7c33248dbcc9
 Step 27/43 : ARG USER_ACCT
- ---> Running in 3e4033ef73f6
-Removing intermediate container 3e4033ef73f6
- ---> a75753f5b444
+ ---> Running in f55c4bb948f6
+Removing intermediate container f55c4bb948f6
+ ---> b9f6fa5fda1a
 Step 28/43 : ARG HOME_DIR
- ---> Running in b809122ef5f1
-Removing intermediate container b809122ef5f1
- ---> 43e17b35a3f1
+ ---> Running in 8c81825a0360
+Removing intermediate container 8c81825a0360
+ ---> 49f1b9d24543
 Step 29/43 : USER $USER_ACCT
- ---> Running in 245ccf88a145
-Removing intermediate container 245ccf88a145
- ---> 4c0519e317bf
+ ---> Running in 9d912dc426c7
+Removing intermediate container 9d912dc426c7
+ ---> ed666b796e30
 Step 30/43 : ENV DEBIAN_FRONTEND=noninteractive
- ---> Running in 5b49322c20bf
-Removing intermediate container 5b49322c20bf
- ---> 13cce048889a
+ ---> Running in 747ef38de797
+Removing intermediate container 747ef38de797
+ ---> ad1fc320411c
 Step 31/43 : ARG XLNX_INSTALL_LOCATION
- ---> Running in a26620b6f754
-Removing intermediate container a26620b6f754
- ---> 7db3c90170c9
+ ---> Running in 6dd52287d388
+Removing intermediate container 6dd52287d388
+ ---> dd825f0c4605
 Step 32/43 : ARG XLNX_DOWNLOAD_LOCATION
- ---> Running in 8e70536458e9
-Removing intermediate container 8e70536458e9
- ---> 93eeb39ebe2c
+ ---> Running in f165649ec8ab
+Removing intermediate container f165649ec8ab
+ ---> e7442b1028bf
 Step 33/43 : ARG XLNX_MALI_BINARY
- ---> Running in fadfe920a739
-Removing intermediate container fadfe920a739
- ---> 2b092ae7ebd6
+ ---> Running in f2a207a42fd5
+Removing intermediate container f2a207a42fd5
+ ---> 862b6177e862
 Step 34/43 : ARG INSTALL_SERVER_URL
- ---> Running in e0740777eb7b
-Removing intermediate container e0740777eb7b
- ---> 8f702fb4e0c1
+ ---> Running in c2ded245bdad
+Removing intermediate container c2ded245bdad
+ ---> 2ff390f285d9
 Step 35/43 : ARG BUILD_DEBUG
- ---> Running in c4c3e165b429
-Removing intermediate container c4c3e165b429
- ---> 6d2a7ecbd304
-Step 36/43 : RUN if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi     && mkdir -p $XLNX_DOWNLOAD_LOCATION/tmp         && cd $XLNX_DOWNLOAD_LOCATION/tmp       && mkdir -p "${XLNX_MALI_BINARY%/*}"    && wget -nv $INSTALL_SERVER_URL/$XLNX_MALI_BINARY -O $XLNX_MALI_BINARY  && tar xf $XLNX_MALI_BINARY mali/rel-v2019.1/downloads-mali.tar         && tar xf mali/rel-v2019.1/downloads-mali.tar   && mv $XLNX_DOWNLOAD_LOCATION/tmp/downloads-mali/* $XLNX_INSTALL_LOCATION       && rm -rf $XLNX_DOWNLOAD_LOCATION/tmp
- ---> Running in d9a3c711955c
+ ---> Running in 2935a8202fce
+Removing intermediate container 2935a8202fce
+ ---> 4362ef053e32
+Step 36/43 : RUN if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi     && mkdir -p $XLNX_DOWNLOAD_LOCATION/tmp         && cd $XLNX_DOWNLOAD_LOCATION/tmp       && mkdir -p "${XLNX_MALI_BINARY%/*}"    && wget -nv $INSTALL_SERVER_URL/$XLNX_MALI_BINARY -O $XLNX_MALI_BINARY  && tar xf $XLNX_MALI_BINARY mali/rel-v2019.1/downloads-mali.tar         && tar xf mali/rel-v2019.1/downloads-mali.tar   && mv $XLNX_DOWNLOAD_LOCATION/tmp/downloads-mali/* $XLNX_DOWNLOAD_LOCATION      && rm -rf $XLNX_DOWNLOAD_LOCATION/tmp
+ ---> Running in 16047362259d
 + mkdir -p /opt/Xilinx/downloads/tmp
 + cd /opt/Xilinx/downloads/tmp
 + mkdir -p depends
 + wget -nv 172.17.0.1:8000/depends/mali-400-userspace.tar -O depends/mali-400-userspace.tar
-172.17.0.2 - - [13/Nov/2019 12:42:27] "GET /depends/mali-400-userspace.tar HTTP/1.1" 200 -
-2019-11-13 17:42:28 URL:http://172.17.0.1:8000/depends/mali-400-userspace.tar [572887040/572887040] -> "depends/mali-400-userspace.tar" [1]
+172.17.0.2 - - [14/Nov/2019 09:21:40] "GET /depends/mali-400-userspace.tar HTTP/1.1" 200 -
+2019-11-14 14:21:45 URL:http://172.17.0.1:8000/depends/mali-400-userspace.tar [572887040/572887040] -> "depends/mali-400-userspace.tar" [1]
 + tar xf depends/mali-400-userspace.tar mali/rel-v2019.1/downloads-mali.tar
 + tar xf mali/rel-v2019.1/downloads-mali.tar
-+ mv /opt/Xilinx/downloads/tmp/downloads-mali/git2_gitenterprise.xilinx.com.Graphics.mali400-xlnx-userspace.git.tar.gz /opt/Xilinx
++ mv /opt/Xilinx/downloads/tmp/downloads-mali/git2_gitenterprise.xilinx.com.Graphics.mali400-xlnx-userspace.git.tar.gz /opt/Xilinx/downloads
 + rm -rf /opt/Xilinx/downloads/tmp
-Removing intermediate container d9a3c711955c
- ---> e1a59ba9b598
+Removing intermediate container 16047362259d
+ ---> 81c8582ba9f2
 Step 37/43 : ARG KEYBOARD_CONFIG_FILE
- ---> Running in 91fa95953fc7
-Removing intermediate container 91fa95953fc7
- ---> 38ecc9e803a0
+ ---> Running in fde92b69a1db
+Removing intermediate container fde92b69a1db
+ ---> d5521091113a
 Step 38/43 : ARG XTERM_CONFIG_FILE
- ---> Running in 498c44035b4f
-Removing intermediate container 498c44035b4f
- ---> 305e07e685bd
+ ---> Running in e4faebfd739f
+Removing intermediate container e4faebfd739f
+ ---> f6e9857d1216
 Step 39/43 : RUN if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi     && export TERM=xterm    && cd $XLNX_INSTALL_LOCATION/tmp        && mkdir -p "${KEYBOARD_CONFIG_FILE%/*}"       && wget -nv $INSTALL_SERVER_URL/$KEYBOARD_CONFIG_FILE -O $KEYBOARD_CONFIG_FILE   && cat $KEYBOARD_CONFIG_FILE    && sudo DEBIAN_FRONTEND=$DEBIAN_FRONTEND apt-get install -y keyboard-configuration      && sudo DEBIAN_FRONTEND=$DEBIAN_FRONTEND debconf-set-selections < $KEYBOARD_CONFIG_FILE         && sudo DEBIAN_FRONTEND=$DEBIAN_FRONTEND dpkg-reconfigure keyboard-configuration        && mkdir -p "${XTERM_CONFIG_FILE%/*}"   && wget -nv $INSTALL_SERVER_URL/$XTERM_CONFIG_FILE -O $XTERM_CONFIG_FILE        && cat $XTERM_CONFIG_FILE       && cp $XTERM_CONFIG_FILE $HOME_DIR
- ---> Running in 329e3ccdc86b
+ ---> Running in 954697b84275
 + export TERM=xterm
 + TERM=xterm
 + cd /opt/Xilinx/tmp
 + mkdir -p configs
 + wget -nv 172.17.0.1:8000/configs/keyboard_settings.conf -O configs/keyboard_settings.conf
-172.17.0.2 - - [13/Nov/2019 12:42:34] "GET /configs/keyboard_settings.conf HTTP/1.1" 200 -
-2019-11-13 17:42:34 URL:http://172.17.0.1:8000/configs/keyboard_settings.conf [1554/1554] -> "configs/keyboard_settings.conf" [1]
+172.17.0.2 - - [14/Nov/2019 09:21:51] "GET /configs/keyboard_settings.conf HTTP/1.1" 200 -
+2019-11-14 14:21:51 URL:http://172.17.0.1:8000/configs/keyboard_settings.conf [1554/1554] -> "configs/keyboard_settings.conf" [1]
 + cat configs/keyboard_settings.conf
 keyboard-configuration  console-setup/detect    detect-keyboard
 keyboard-configuration  keyboard-configuration/modelcode        string  pc105
@@ -3250,8 +3250,8 @@ Your console font configuration will be updated the next time your system
 boots. If you want to update it now, run 'setupcon' from a virtual console.
 + mkdir -p configs
 + wget -nv 172.17.0.1:8000/configs/XTerm -O configs/XTerm
-172.17.0.2 - - [13/Nov/2019 12:42:36] "GET /configs/XTerm HTTP/1.1" 200 -
-2019-11-13 17:42:36 URL:http://172.17.0.1:8000/configs/XTerm [227/227] -> "configs/XTerm" [1]
+172.17.0.2 - - [14/Nov/2019 09:21:53] "GET /configs/XTerm HTTP/1.1" 200 -
+2019-11-14 14:21:53 URL:http://172.17.0.1:8000/configs/XTerm [227/227] -> "configs/XTerm" [1]
 + cat configs/XTerm
 XTerm*Background: black
 XTerm*Foreground: green
@@ -3262,23 +3262,23 @@ XTerm*rightScrollBar: true
 XTerm*ScrollBar: true
 XTerm*scrollTtyOutput: false
 XTerm*selectToClipboard: true+ cp configs/XTerm /home/xilinx
-Removing intermediate container 329e3ccdc86b
- ---> 3b92dc1d4328
+Removing intermediate container 954697b84275
+ ---> 1be4850e6dac
 Step 40/43 : ARG XLNX_VIVADO_OFFLINE_INSTALLER
- ---> Running in c0b7b150ed0d
-Removing intermediate container c0b7b150ed0d
- ---> 2b6979dfb281
+ ---> Running in 3fd1f525d833
+Removing intermediate container 3fd1f525d833
+ ---> ceddef98847d
 Step 41/43 : ARG XLNX_VIVADO_BATCH_CONFIG_FILE
- ---> Running in f2fcae8ff1c0
-Removing intermediate container f2fcae8ff1c0
- ---> 4d24d5bff634
-Step 42/43 : RUN if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi     && cd $XLNX_INSTALL_LOCATION/tmp        && mkdir -p "${XLNX_VIVADO_BATCH_CONFIG_FILE%/*}"       && wget -nv $INSTALL_SERVER_URL/$XLNX_VIVADO_BATCH_CONFIG_FILE -O $XLNX_VIVADO_BATCH_CONFIG_FILE        && cat $XLNX_VIVADO_BATCH_CONFIG_FILE   && mkdir -p "${XLNX_VIVADO_OFFLINE_INSTALLER%/*}"       && wget -nv --no-cache $INSTALL_SERVER_URL/$XLNX_VIVADO_OFFLINE_INSTALLER -O $XLNX_VIVADO_OFFLINE_INSTALLER     && chmod a+x $XLNX_VIVADO_OFFLINE_INSTALLER     && tar -zxf $XLNX_VIVADO_OFFLINE_INSTALLER && ls -al    && echo "cd $XLNX_INSTALL_LOCATION" >> $HOME_DIR/.bashrc        && echo "export LANG=en_US.UTF-8" >> $HOME_DIR/.bashrc  && export "LANG=en_US.UTF-8"    && echo ". $XLNX_INSTALL_LOCATION/Vivado/2019.1/settings64.sh" >> $HOME_DIR/.bashrc     && echo "export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$XLNX_INSTALL_LOCATION/Vivado/2019.1/lib/lnx64.o/" >> $HOME_DIR/.bashrc        && chmod a+x xsetup     && cd $XLNX_INSTALL_LOCATION/tmp        && ./xsetup             --agree XilinxEULA,3rdPartyEULA,WebTalkTerms            --config $XLNX_VIVADO_BATCH_CONFIG_FILE                 --batch INSTALL         && cd $HOME_DIR         && rm -rf $XLNX_INSTALL_LOCATION/tmp
- ---> Running in df3cd2fa7709
+ ---> Running in a952ef6bb680
+Removing intermediate container a952ef6bb680
+ ---> 0d3e335b8ae1
+Step 42/43 : RUN if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi     && cd $XLNX_INSTALL_LOCATION/tmp        && mkdir -p "${XLNX_VIVADO_BATCH_CONFIG_FILE%/*}"       && wget -nv $INSTALL_SERVER_URL/$XLNX_VIVADO_BATCH_CONFIG_FILE -O $XLNX_VIVADO_BATCH_CONFIG_FILE        && cat $XLNX_VIVADO_BATCH_CONFIG_FILE   && mkdir -p "${XLNX_VIVADO_OFFLINE_INSTALLER%/*}"       && wget -nv --no-cache $INSTALL_SERVER_URL/$XLNX_VIVADO_OFFLINE_INSTALLER -O $XLNX_VIVADO_OFFLINE_INSTALLER     && chmod a+x $XLNX_VIVADO_OFFLINE_INSTALLER     && tar -zxf $XLNX_VIVADO_OFFLINE_INSTALLER && ls -al    && echo "cd $XLNX_INSTALL_LOCATION" >> $HOME_DIR/.bashrc        && echo "export LANG=en_US.UTF-8" >> $HOME_DIR/.bashrc  && export "LANG=en_US.UTF-8"    && echo ". $XLNX_INSTALL_LOCATION/Vivado/2019.2/settings64.sh" >> $HOME_DIR/.bashrc     && echo "export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$XLNX_INSTALL_LOCATION/Vivado/2019.2/lib/lnx64.o/" >> $HOME_DIR/.bashrc        && chmod a+x xsetup     && cd $XLNX_INSTALL_LOCATION/tmp        && ./xsetup             --agree XilinxEULA,3rdPartyEULA,WebTalkTerms            --config $XLNX_VIVADO_BATCH_CONFIG_FILE                 --batch INSTALL         && cd $HOME_DIR         && rm -rf $XLNX_INSTALL_LOCATION/tmp
+ ---> Running in 30fd61142e67
 + cd /opt/Xilinx/tmp
 + mkdir -p configs
 + wget -nv 172.17.0.1:8000/configs/xlnx_vivado_system_edition.config -O configs/xlnx_vivado_system_edition.config
-172.17.0.2 - - [13/Nov/2019 12:42:38] "GET /configs/xlnx_vivado_system_edition.config HTTP/1.1" 200 -
-2019-11-13 17:42:38 URL:http://172.17.0.1:8000/configs/xlnx_vivado_system_edition.config [1839/1839] -> "configs/xlnx_vivado_system_edition.config" [1]
+172.17.0.2 - - [14/Nov/2019 09:21:56] "GET /configs/xlnx_vivado_system_edition.config HTTP/1.1" 200 -
+2019-11-14 14:21:56 URL:http://172.17.0.1:8000/configs/xlnx_vivado_system_edition.config [1839/1839] -> "configs/xlnx_vivado_system_edition.config" [1]
 + cat configs/xlnx_vivado_system_edition.config
 #### Vivado HL System Edition Install Configuration ####
 Edition=Vivado HL System Edition
@@ -3315,18 +3315,18 @@ EnableDiskUsageOptimization=1
 
 + mkdir -p depends
 + wget -nv --no-cache 172.17.0.1:8000/depends/Xilinx_Unified_2019.2_1024_1831_Lin64.bin.tar.gz -O depends/Xilinx_Unified_2019.2_1024_1831_Lin64.bin.tar.gz
-172.17.0.2 - - [13/Nov/2019 12:42:38] "GET /depends/Xilinx_Unified_2019.2_1024_1831_Lin64.bin.tar.gz HTTP/1.1" 200 -
-2019-11-13 17:47:47 URL:http://172.17.0.1:8000/depends/Xilinx_Unified_2019.2_1024_1831_Lin64.bin.tar.gz [29365103057/29365103057] -> "depends/Xilinx_Unified_2019.2_1024_1831_Lin64.bin.tar.gz" [1]
+172.17.0.2 - - [14/Nov/2019 09:21:56] "GET /depends/Xilinx_Unified_2019.2_1024_1831_Lin64.bin.tar.gz HTTP/1.1" 200 -
+2019-11-14 14:26:15 URL:http://172.17.0.1:8000/depends/Xilinx_Unified_2019.2_1024_1831_Lin64.bin.tar.gz [29365103057/29365103057] -> "depends/Xilinx_Unified_2019.2_1024_1831_Lin64.bin.tar.gz" [1]
 + chmod a+x depends/Xilinx_Unified_2019.2_1024_1831_Lin64.bin.tar.gz
 + tar -zxf depends/Xilinx_Unified_2019.2_1024_1831_Lin64.bin.tar.gz
 + ls -al
 total 84
 drwxr-xr-x 1 xilinx xilinx  4096 Nov 13 14:36 .
-drwxr-xr-x 1 xilinx xilinx  4096 Nov 13 17:42 ..
+drwxr-xr-x 1 xilinx xilinx  4096 Nov 14 14:21 ..
 drwxr-xr-x 2 xilinx xilinx  4096 Nov 13 14:36 bin
-drwxr-xr-x 1 xilinx xilinx  4096 Nov 13 17:42 configs
+drwxr-xr-x 1 xilinx xilinx  4096 Nov 14 14:21 configs
 drwxr-xr-x 3 xilinx xilinx  4096 Nov 13 14:36 data
-drwxr-xr-x 2 xilinx xilinx  4096 Nov 13 17:42 depends
+drwxr-xr-x 2 xilinx xilinx  4096 Nov 14 14:21 depends
 drwxr-xr-x 4 xilinx xilinx  4096 Nov 13 14:36 lib
 drwxr-xr-x 2 xilinx xilinx 36864 Nov 13 14:35 payload
 drwxr-xr-x 2 xilinx xilinx  4096 Nov 13 14:36 scripts
@@ -3336,15 +3336,15 @@ drwxr-xr-x 4 xilinx xilinx  4096 Nov 13 14:36 tps
 + echo 'export LANG=en_US.UTF-8'
 + export LANG=en_US.UTF-8
 + LANG=en_US.UTF-8
-+ echo '. /opt/Xilinx/Vivado/2019.1/settings64.sh'
-+ echo 'export LD_LIBRARY_PATH=:/opt/Xilinx/Vivado/2019.1/lib/lnx64.o/'
++ echo '. /opt/Xilinx/Vivado/2019.2/settings64.sh'
++ echo 'export LD_LIBRARY_PATH=:/opt/Xilinx/Vivado/2019.2/lib/lnx64.o/'
 + chmod a+x xsetup
 + cd /opt/Xilinx/tmp
 + ./xsetup --agree XilinxEULA,3rdPartyEULA,WebTalkTerms --config configs/xlnx_vivado_system_edition.config --batch INSTALL
 Running in batch mode...
 Copyright (c) 1986-2019 Xilinx, Inc.  All rights reserved.
 
-INFO : Log file location - /home/xilinx/.Xilinx/xinstall/xinstall_1573667642085.log
+INFO : Log file location - /home/xilinx/.Xilinx/xinstall/xinstall_1573741932336.log
 INFO : Installing Edition: Vivado HL System Edition
 INFO : Installation directory is /opt/Xilinx
 .
@@ -3354,31 +3354,31 @@ INFO : Log file is copied to : /opt/Xilinx/.xinstall/Vivado_2019.2/xinstall.log
 INFO : Installation completed successfully.
 + cd /home/xilinx
 + rm -rf /opt/Xilinx/tmp
-Removing intermediate container df3cd2fa7709
- ---> c3f9c0f811e2
+Removing intermediate container 30fd61142e67
+ ---> 7ab8cbeca1e4
 Step 43/43 : RUN if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi     && sudo apt-get clean   && sudo rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*   && sudo echo 'debconf debconf/frontend select Dialog' | sudo debconf-set-selections
- ---> Running in 89e34bbb96cb
+ ---> Running in be9d431a56a7
 + sudo apt-get clean
 + sudo rm -rf /var/lib/apt/lists/archive.ubuntu.com_ubuntu_dists_bionic-backports_InRelease /var/lib/apt/lists/archive.ubuntu.com_ubuntu_dists_bionic-backports_main_binary-amd64_Packages /var/lib/apt/lists/archive.ubuntu.com_ubuntu_dists_bionic-backports_main_binary-i386_Packages /var/lib/apt/lists/archive.ubuntu.com_ubuntu_dists_bionic-backports_main_i18n_Translation-en /var/lib/apt/lists/archive.ubuntu.com_ubuntu_dists_bionic-backports_universe_binary-amd64_Packages /var/lib/apt/lists/archive.ubuntu.com_ubuntu_dists_bionic-backports_universe_binary-i386_Packages /var/lib/apt/lists/archive.ubuntu.com_ubuntu_dists_bionic-backports_universe_i18n_Translation-en /var/lib/apt/lists/archive.ubuntu.com_ubuntu_dists_bionic-updates_InRelease /var/lib/apt/lists/archive.ubuntu.com_ubuntu_dists_bionic-updates_main_binary-amd64_Packages /var/lib/apt/lists/archive.ubuntu.com_ubuntu_dists_bionic-updates_main_binary-i386_Packages /var/lib/apt/lists/archive.ubuntu.com_ubuntu_dists_bionic-updates_main_i18n_Translation-en /var/lib/apt/lists/archive.ubuntu.com_ubuntu_dists_bionic-updates_multiverse_binary-amd64_Packages /var/lib/apt/lists/archive.ubuntu.com_ubuntu_dists_bionic-updates_multiverse_binary-i386_Packages /var/lib/apt/lists/archive.ubuntu.com_ubuntu_dists_bionic-updates_multiverse_i18n_Translation-en /var/lib/apt/lists/archive.ubuntu.com_ubuntu_dists_bionic-updates_restricted_binary-amd64_Packages /var/lib/apt/lists/archive.ubuntu.com_ubuntu_dists_bionic-updates_restricted_binary-i386_Packages /var/lib/apt/lists/archive.ubuntu.com_ubuntu_dists_bionic-updates_restricted_i18n_Translation-en /var/lib/apt/lists/archive.ubuntu.com_ubuntu_dists_bionic-updates_universe_binary-amd64_Packages /var/lib/apt/lists/archive.ubuntu.com_ubuntu_dists_bionic-updates_universe_binary-i386_Packages /var/lib/apt/lists/archive.ubuntu.com_ubuntu_dists_bionic-updates_universe_i18n_Translation-en /var/lib/apt/lists/archive.ubuntu.com_ubuntu_dists_bionic_InRelease /var/lib/apt/lists/archive.ubuntu.com_ubuntu_dists_bionic_main_binary-amd64_Packages /var/lib/apt/lists/archive.ubuntu.com_ubuntu_dists_bionic_main_binary-i386_Packages /var/lib/apt/lists/archive.ubuntu.com_ubuntu_dists_bionic_main_i18n_Translation-en /var/lib/apt/lists/archive.ubuntu.com_ubuntu_dists_bionic_multiverse_binary-amd64_Packages /var/lib/apt/lists/archive.ubuntu.com_ubuntu_dists_bionic_multiverse_binary-i386_Packages /var/lib/apt/lists/archive.ubuntu.com_ubuntu_dists_bionic_multiverse_i18n_Translation-en /var/lib/apt/lists/archive.ubuntu.com_ubuntu_dists_bionic_restricted_binary-amd64_Packages /var/lib/apt/lists/archive.ubuntu.com_ubuntu_dists_bionic_restricted_binary-i386_Packages /var/lib/apt/lists/archive.ubuntu.com_ubuntu_dists_bionic_restricted_i18n_Translation-en /var/lib/apt/lists/archive.ubuntu.com_ubuntu_dists_bionic_universe_binary-amd64_Packages /var/lib/apt/lists/archive.ubuntu.com_ubuntu_dists_bionic_universe_binary-i386_Packages /var/lib/apt/lists/archive.ubuntu.com_ubuntu_dists_bionic_universe_i18n_Translation-en /var/lib/apt/lists/auxfiles /var/lib/apt/lists/lock /var/lib/apt/lists/partial /var/lib/apt/lists/security.ubuntu.com_ubuntu_dists_bionic-security_InRelease /var/lib/apt/lists/security.ubuntu.com_ubuntu_dists_bionic-security_main_binary-amd64_Packages /var/lib/apt/lists/security.ubuntu.com_ubuntu_dists_bionic-security_main_binary-i386_Packages /var/lib/apt/lists/security.ubuntu.com_ubuntu_dists_bionic-security_main_i18n_Translation-en /var/lib/apt/lists/security.ubuntu.com_ubuntu_dists_bionic-security_multiverse_binary-amd64_Packages /var/lib/apt/lists/security.ubuntu.com_ubuntu_dists_bionic-security_multiverse_binary-i386_Packages /var/lib/apt/lists/security.ubuntu.com_ubuntu_dists_bionic-security_multiverse_i18n_Translation-en /var/lib/apt/lists/security.ubuntu.com_ubuntu_dists_bionic-security_restricted_binary-amd64_Packages /var/lib/apt/lists/security.ubuntu.com_ubuntu_dists_bionic-security_restricted_binary-i386_Packages /var/lib/apt/lists/security.ubuntu.com_ubuntu_dists_bionic-security_restricted_i18n_Translation-en /var/lib/apt/lists/security.ubuntu.com_ubuntu_dists_bionic-security_universe_binary-amd64_Packages /var/lib/apt/lists/security.ubuntu.com_ubuntu_dists_bionic-security_universe_binary-i386_Packages /var/lib/apt/lists/security.ubuntu.com_ubuntu_dists_bionic-security_universe_i18n_Translation-en /tmp/hsperfdata_root /tmp/hsperfdata_xilinx '/var/tmp/*'
 + sudo echo 'debconf debconf/frontend select Dialog'
 + sudo debconf-set-selections
-Removing intermediate container 89e34bbb96cb
- ---> c1cd64478a0d
-Successfully built c1cd64478a0d
+Removing intermediate container be9d431a56a7
+ ---> fdada1630a17
+Successfully built fdada1630a17
 Successfully tagged xilinx-vivado:v2019.2
 + '[' 1 -ne 0 ']'
 + set +x
 -----------------------------------
 Shutting down Python HTTP Server...
 -----------------------------------
-Killing process ID 19894
+Killing process ID 24501
 -----------------------------------
-+ kill 19894
++ kill 24501
 + '[' 1 -ne 0 ']'
 + set +x
-./build_image.sh: line 198: 19894 Terminated              python3 -m http.server
+./build_image.sh: line 198: 24501 Terminated              python3 -m http.server
 -----------------------------------
 Image Build Complete...
-STARTED :Wed Nov 13 12:33:07 EST 2019
-ENDED   :Wed Nov 13 13:24:07 EST 2019
+STARTED :Thu Nov 14 08:52:47 EST 2019
+ENDED   :Thu Nov 14 10:03:12 EST 2019
 -----------------------------------
