@@ -1,6 +1,8 @@
 # xilinx-docker
 
-A collection of recipes and tools to enable Xilinx FPGA-based embedded development in docker containers.
+Do you need traceable, repeatable build environments for your Xilinx Development Tools?  
+
+This repository provides a collection of recipes and tools that enable Xilinx FPGA-based embedded development workflows in docker-ce containers.  Use the container recipes to build docker containers from scratch (not using existing base containers) that run Xilinx FPGA Development Tools.
 
 Before getting started with any recipes, Take a look at the __*./documentation/host-os-setup/*__ section of this repository to make sure you have:
 1. Installed and configured Docker-CE on your local host machine
