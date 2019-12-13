@@ -39,7 +39,7 @@ $ docker run ... -v /tmp/.X11-unix:/tmp/.X11-unix
 
 #### SSTATE Mirrors, SSTATE Cache and Download Directory
 - Petalinux sstate-mirror
-  
+
 #### Example: Share the local Petalinux SSTATE Mirror
 ```bash
 bash:
@@ -55,7 +55,7 @@ $ docker run ... -v /srv/sstate-cache/v2018.2/
 ```
 
 - Yocto downloads directory
-  
+
 #### Example: Share the local download directory
 ```bash
 bash:
@@ -65,7 +65,7 @@ $ docker run ... -v /srv/downloads/
 #### TFTP Server, Shared host folder
 - TFTP Server Folder
 
-#### Example: TFTP server folder 
+#### Example: TFTP server folder
 ```bash
 bash:
 $ docker run ... -v /srv/tftpboot:/tftpboot
@@ -97,7 +97,7 @@ $ sudo apt-get install apt-transport-https ca-certificates curl software-propert
 ### Install the docker GPG key
 ```bash
 bash:
-$ curl fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add
+$ curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add
 ```
 
 ### Verify the fingerprint ending in OEBFCD88
@@ -107,7 +107,7 @@ $ sudo apt-key fingerprint 0EBFCD88
 pub   rsa4096 2017-02-22 [SCEA]
       9DC8 5822 9FC7 DD38 854A  E2D8 8D81 803C 0EBF CD88
 uid           [ unknown] Docker Release (CE deb) <docker@docker.com>
-sub   rsa4096 2017-02-22 [S]  
+sub   rsa4096 2017-02-22 [S]
 ```
 
 ### Add the stable docker-ce repository
@@ -130,7 +130,7 @@ docker-ce | 18.03.1~ce~3-0~ubuntu | https://download.docker.com/linux/ubuntu bio
 ### Install version 18.09.0
 ```bash
 bash:
-$ sudo apt-get install docker-ce=18.09.0~3-0~ubuntu-bionic
+$ sudo apt-get install docker-ce=5:18.09.0~3-0~ubuntu-bionic
 ```
 
 ### Install version 18.06.1
@@ -145,10 +145,10 @@ bash:
 $ sudo docker run hello-world
 Unable to find image 'hello-world:latest' locally
 latest: Pulling from library/hello-world
-d1725b59e92d: Pull complete 
+d1725b59e92d: Pull complete
 Digest: sha256:0add3ace90ecb4adbf7777e9aacf18357296e799f81cabc9fde470971e499788
 Status: Downloaded newer image for hello-world:latest
-  
+
 Hello from Docker!
 This message shows that your installation appears to be working correctly.
 
@@ -259,30 +259,30 @@ $ sudo service docker status
     docker.service - Docker Application Container Engine
        Loaded: loaded (/lib/systemd/system/docker.service; enabled; vendor preset: enabled)
        Active: active (running) since Wed 2018-08-29 16:23:41 EDT; 33min ago
-         Docs: https://docs.docker.com
+	 Docs: https://docs.docker.com
      Main PID: 5401 (dockerd)
-        Tasks: 40
+	Tasks: 40
        CGroup: /system.slice/docker.service
-               ├─5401 /usr/bin/dockerd -H fd://
-               └─5426 docker-containerd --config /var/run/docker/containerd/containerd.toml
+	       ├─5401 /usr/bin/dockerd -H fd://
+	       └─5426 docker-containerd --config /var/run/docker/containerd/containerd.toml
 
     Aug 29 16:24:31 <MACHINE_NAME> dockerd[5401]: time="2018-08-29T16:24:31.986607981-04:00" level=info msg="No non-localhost
     Aug 29 16:24:31 <MACHINE_NAME> dockerd[5401]: time="2018-08-29T16:24:31.986642407-04:00" level=info msg="IPv6 enabled; Ad
     Aug 29 16:24:32 <MACHINE_NAME> dockerd[5401]: time="2018-08-29T16:24:32-04:00" level=info msg="shim docker-containerd-shi
     Aug 29 16:24:32 <MACHINE_NAME> dockerd[5401]: time="2018-08-29T16:24:32-04:00" level=info msg="shim reaped" id=5307d2c39d
-    Aug 29 16:24:32 <MACHINE_NAME> dockerd[5401]: time="2018-08-29T16:24:32.477525675-04:00" level=info msg="ignoring event" 
+    Aug 29 16:24:32 <MACHINE_NAME> dockerd[5401]: time="2018-08-29T16:24:32.477525675-04:00" level=info msg="ignoring event"
     Aug 29 16:33:09 <MACHINE_NAME> dockerd[5401]: time="2018-08-29T16:33:09.752338020-04:00" level=info msg="No non-localhost
     Aug 29 16:33:09 <MACHINE_NAME> dockerd[5401]: time="2018-08-29T16:33:09.752441404-04:00" level=info msg="IPv6 enabled; Ad
     Aug 29 16:33:09 <MACHINE_NAME> dockerd[5401]: time="2018-08-29T16:33:09-04:00" level=info msg="shim docker-containerd-shi
     Aug 29 16:33:10 <MACHINE_NAME> dockerd[5401]: time="2018-08-29T16:33:10-04:00" level=info msg="shim reaped" id=4152d1f9f7
-    Aug 29 16:33:10 <MACHINE_NAME> dockerd[5401]: time="2018-08-29T16:33:10.333768846-04:00" level=info msg="ignoring event" 
+    Aug 29 16:33:10 <MACHINE_NAME> dockerd[5401]: time="2018-08-29T16:33:10.333768846-04:00" level=info msg="ignoring event"
 ```
 
 ## Change the location of docker's storage (cache, etc..)
 
-### Modify docker's startup script to define the new location: 
+### Modify docker's startup script to define the new location:
 - In: __*/lib/systemd/system/docker.service*__:
-  - Note: The syntax changes from Docker 18.06 to 18.09 
+  - Note: The syntax changes from Docker 18.06 to 18.09
 
 #### In Docker CE 18.09+
 ```
@@ -343,18 +343,18 @@ $ systemctl start docker
 ```
 
 ### Check that docker is running in the new location
-```bash 
+```bash
 bash:
 $ sudo service docker status
     docker.service - Docker Application Container Engine
        Loaded: loaded (/lib/systemd/system/docker.service; enabled; vendor preset: enabled)
        Active: active (running) since Wed 2018-08-29 16:23:41 EDT; 33min ago
-         Docs: https://docs.docker.com
+	 Docs: https://docs.docker.com
      Main PID: 5401 (dockerd)
-        Tasks: 40
+	Tasks: 40
        CGroup: /system.slice/docker.service
-               ├─5401 /usr/bin/dockerd -g /net/docker/path -H fd://
-               └─5426 docker-containerd --config /var/run/docker/containerd/containerd.toml
+	       ├─5401 /usr/bin/dockerd -g /net/docker/path -H fd://
+	       └─5426 docker-containerd --config /var/run/docker/containerd/containerd.toml
 ```
 
 ## Enable BuildKit (experimental feature in 18.06.x)
@@ -365,12 +365,12 @@ bash:
 $ sudo vi /etc/docker/daemon.json
 ...
 {
-        "storage-driver": "overlay2",
-        "log-driver": "json-file",
-        "log-opts": {
-                "max-size": "100m"
-        },
-        "experimental":true
+	"storage-driver": "overlay2",
+	"log-driver": "json-file",
+	"log-opts": {
+		"max-size": "100m"
+	},
+	"experimental":true
 }
 ```
 
