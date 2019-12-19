@@ -33,6 +33,13 @@
 			- https://www.xilinx.com/support/answers/72950.html
 - Place the installer binary (or a link to it) in the ./depends folder
 
+## Download the MALI Userspace Binaries
+- Xilinx requires a valid xilinx.com account in order to download the MALI Userspace Binaries.
+	- MALI Userspace Binaries for v2019.1 and earlier (used with v2019.2)
+		- Download Link:
+			- https://www.xilinx.com/products/design-tools/embedded-software/petalinux-sdk/arm-mali-400-software-download.html
+- Place the installer binary (or a link to it) in the ./depends folder
+
 ## Setting the Host IP Address
 - Currently the build scripts pull the correct host IP address from the system, so there is no need to set this manually.
 
