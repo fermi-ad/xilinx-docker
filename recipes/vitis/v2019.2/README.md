@@ -238,8 +238,8 @@ XTerm Configuration File: [Good] configs/XTerm
 
 -----------------------------------
 Image Build Complete...
-STARTED :Fri Dec 20 21:50:56 EST 2019
-ENDED   :Fri Dec 20 23:00:41 EST 2019
+STARTED :Sun Dec 22 21:58:53 EST 2019
+ENDED   :Sun Dec 22 23:09:23 EST 2019
 -----------------------------------
 ```
 
@@ -253,11 +253,11 @@ ENDED   :Fri Dec 20 23:00:41 EST 2019
 bash:
 $ docker image ls
 REPOSITORY               TAG                 IMAGE ID            CREATED             SIZE
-xilinx-vivado            v2019.2             fdada1630a17        52 seconds ago      53.4GB
+xilinx-vitis             v2019.2             d0113786a6eb        14 minutes ago      93.7GB
 ubuntu                   18.04.1             4112b3ccf856        42 hours ago        83.5MB
 ```
 
-
+< ---- RESUME README UPDATES HERE --->
 
 
 
