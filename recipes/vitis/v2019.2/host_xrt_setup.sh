@@ -48,5 +48,5 @@ sudo python -m pip install --upgrade numpy
 sudo apt install ./$XLNX_XRT_PREBUILT_INSTALLER
 
 # Clone the XRT Repository locally for easy access
-git clone $XLNX_XRT_GIT_REPO $INSTAL_DEPENDS_DIR/xrt_source/
+git clone $XLNX_XRT_GIT_REPO $INSTALL_DEPENDS_DIR/xrt_source/
 

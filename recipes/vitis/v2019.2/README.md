@@ -221,11 +221,10 @@ $ ./build_image.sh
 -----------------------------------
 Checking for dependencies...
 -----------------------------------
-Base docker image [found] (ubuntu:18.04.1)
+Base docker image [found] (ubuntu:18.04.2)
 Keyboard Configuration: [Good] configs/keyboard_settings.conf
-Xilinx MALI Binaries: [Good] depends/mali-400-userspace.tar
-Xilinx Vivado Web Installer: [Good] depends/Xilinx_Unified_2019.2_1024_1831_Lin64.bin
-Xilinx Vivado Offline Installer: [Good] depends/Xilinx_Unified_2019.2_1024_1831_Lin64.bin.tar.gz
+Xilinx Unified Web Installer: [Good] depends/Xilinx_Unified_2019.2_1024_1831_Lin64.bin
+Xilinx Unified Offline Installer: [Good] depends/Xilinx_Unified_2019.2_1024_1831_Lin64.bin.tar.gz
 XTerm Configuration File: [Good] configs/XTerm
 -----------------------------------
 
@@ -233,8 +232,8 @@ XTerm Configuration File: [Good] configs/XTerm
 
 -----------------------------------
 Image Build Complete...
-STARTED :Thu Nov 14 08:52:47 EST 2019
-ENDED   :Thu Nov 14 10:03:12 EST 2019
+STARTED :Fri Dec 20 21:50:56 EST 2019
+ENDED   :Fri Dec 20 23:00:41 EST 2019
 -----------------------------------
 ```
 

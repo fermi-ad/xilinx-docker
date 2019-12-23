@@ -62,16 +62,6 @@ else
 	echo "Base docker image [found] ("$DOCKER_BASE_OS:$DOCKER_BASE_OS_TAG")"
 fi
 
-# Check for Xilinx MALI binaries
-if [ -f $XLNX_MALI_BINARY ] || [ -L $XLNX_MALI_BINARY ]; then
-	echo "Xilinx MALI Binaries: [Good] "$XLNX_MALI_BINARY
-else
-	echo "ERROR: Xilinx MALI Binaries: [Missing] "$XLNX_MALI_BINARY
-	echo "Download the Xilinx MALI Binaries here:"
-	echo "https://www.xilinx.com/products/design-tools/embedded-software/petalinux-sdk/arm-mali-400-software-download.html"
-	exit $EX_OSFILE
-fi
-
 # Test for dependencies required to run this script
 # 1. Unified Web Installer
 
@@ -189,7 +179,7 @@ if [ $BUILD_DEBUG -ne 0 ]; then set +x; fi
 echo "-----------------------------------"
 echo "Install support packages..."
 echo "-----------------------------------"
-# Install WGET and download the MALI user-space binaries
+# Install WGET for transferring installers to container
 
 if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi
 
@@ -260,17 +250,17 @@ docker exec -it $DOCKER_CONTAINER_NAME \
 if [ $BUILD_DEBUG -ne 0 ]; then set +x; fi
 
 echo "-----------------------------------"
-echo " - Extract the SDK Installer and generate a batch mode config..."
+echo " - Extract the Unified Installer and generate a batch mode config..."
 echo "-----------------------------------"
-# Extract the SDK Web Installer and run configGen
+# Extract the Unified Web Installer and run configGen
 
 if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi
 
 docker exec -it $DOCKER_CONTAINER_NAME \
 	bash -c "if [ ${BUILD_DEBUG} -ne 0 ]; then set -x; fi \
 	&& cd ${HOME_DIR}/downloads/tmp \
-	&& ${XLNX_UNIFIED_WEB_INSTALLER} --noexec --nox11 --target xsdk_tmp \
-	&& cd xsdk_tmp \
+	&& ${XLNX_UNIFIED_WEB_INSTALLER} --noexec --nox11 --target xUnified_tmp \
+	&& cd xUnified_tmp \
 	&& ./xsetup -b ConfigGen -p ${XLNX_TOOL_INSTALLER_NAME} -l ${XLNX_INSTALL_LOCATION} \
 	&& cd ${HOME_DIR}/downloads/tmp \
 	&& mkdir -p ${XLNX_UNIFIED_BATCH_CONFIG_FILE%/*} \
@@ -303,7 +293,7 @@ if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi
 
 docker exec -it $DOCKER_CONTAINER_NAME \
 	bash -c "if [ ${BUILD_DEBUG} -ne 0 ]; then set -x; fi \
-	&& cd ${HOME_DIR}/downloads/tmp/xsdk_tmp \
+	&& cd ${HOME_DIR}/downloads/tmp/xUnified_tmp \
 	&& ./xsetup --agree XilinxEULA,3rdPartyEULA,WebTalkTerms --config ${XLNX_UNIFIED_BATCH_CONFIG_FILE} \
 	&& cd ${HOME_DIR}/downloads/tmp \
 	&& mkdir -p ${XLNX_UNIFIED_OFFLINE_INSTALLER%/*} \
@@ -312,7 +302,7 @@ docker exec -it $DOCKER_CONTAINER_NAME \
 
 if [ $BUILD_DEBUG -ne 0 ]; then set +x; fi
 
-# copy sdk offline installer from container to host
+# copy Unified offline installer from container to host
 echo "-----------------------------------"
 echo "Copying Xilinx Unified offline installer to host ..."
 echo "-----------------------------------"
