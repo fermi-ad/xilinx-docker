@@ -334,8 +334,8 @@ echo "-----------------------------------"
 
 if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi
 
-#docker rm -f $DOCKER_CONTAINER_NAME
-#docker rmi -f $DOCKER_IMAGE_NAME:$DOCKER_IMAGE_VERSION
+docker rm -f $DOCKER_CONTAINER_NAME
+docker rmi -f $DOCKER_IMAGE_NAME:$DOCKER_IMAGE_VERSION
 
 if [ $BUILD_DEBUG -ne 0 ]; then set +x; fi
 

@@ -182,7 +182,8 @@ $ ./generate_depends.sh
 			- ```/opt/Xilinx/Downloads/2019.2```
 		- Disk Space Required:
 			- ```Download Size: 27.22 GB```
-			- ```Disk Space Required: 27.22 GB```
+			- ```Zip Archive Size: 27.22 GB```
+			- ```Disk Space Required: 54.44 GB```
 		- Download Platform
 			- ```Linux```
 	- Download the files for offline install: ```Download```
@@ -192,9 +193,14 @@ $ ./generate_depends.sh
 
 ```bash
 bash:
--rw-r--r-- 1 xilinx xilinx 1554 Dec 18 14:19 keyboard_settings.conf
--rw-r--r-- 1 xilinx xilinx 1940 Dec 18 14:19 xlnx_unified_vitis.config
--rw-rw-r-- 1 xilinx xilinx  227 Dec 18 14:19 XTerm
+-----------------------------------
+Dependencies Generated:
+-----------------------------------
+-rw-r--r-- 1 xilinx xilinx 1554 Dec 22 20:13 _generated/configs/keyboard_settings.conf
+-rw-r--r-- 1 xilinx xilinx 1940 Dec 22 20:16 _generated/configs/xlnx_unified_vitis.config
+-rw-r--r-- 1 xilinx xilinx 29365113733 Dec 22 21:38 _generated/depends/Xilinx_Unified_2019.2_1024_1831_Lin64.bin.tar.gz
+-----------------------------------
+
 ```
 
 - Copy the generated dependencies to the dependency folder
@@ -236,6 +242,24 @@ STARTED :Fri Dec 20 21:50:56 EST 2019
 ENDED   :Fri Dec 20 23:00:41 EST 2019
 -----------------------------------
 ```
+
+## Create a working container (running in daemon mode) based on the vitis image
+- The container is started in __interactive daemon__ mode
+- You may also specify the MAC address of the container (making it easier to deal with tool licenses that are tied to a machine's MAC address)
+- Note: For Windows Powershell, use __*Select-String*__  in place of __*grep*__ to find the MacAddress
+
+- List local docker images
+```bash
+bash:
+$ docker image ls
+REPOSITORY               TAG                 IMAGE ID            CREATED             SIZE
+xilinx-vivado            v2019.2             fdada1630a17        52 seconds ago      53.4GB
+ubuntu                   18.04.1             4112b3ccf856        42 hours ago        83.5MB
+```
+
+
+
+
 
 - Test ZCU104 DPU Examples
 - https://github.com/Xilinx/Vitis-AI/blob/master/mpsoc/README.md
