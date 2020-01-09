@@ -110,12 +110,33 @@ powershell:
 ## X-Windows Server Installation (VcXsrv)
 - Highlights from https://sourceforge.net/projects/vcxsrv/
 
-#### VcXsrv Configuration (Post Installation)
+### VcXsrv Configuration (Post Installation)
 - Download  VcXsrv
     - https://sourceforge.net/projects/vcxsrv/files/latest/download
 - Install
-    - Execute the 'vcxsrv-64.1.20.1.3.installer.exe'
+    - Execute the installer
+        - Example: 'vcxsrv-64.1.20.5.1.installer.exe'
 - Reboot (if required)
+
+### Run and Configure the X-Windows Server
+- From the Windows Start Menu Select:
+    - ```VcXsrv -> XLaunch```
+- For Display Settings, Configure:
+    - ```[*] Multiple Windows```
+    - ```Display Number [-1]```
+- For Client Startup, Configure:
+    - ```[*] Start no client```
+- For Extra Settings, Configure:
+    - ```[X] Clipboard```
+        - ```[X] Primary Selection```
+    - ```[X] Native opengl```
+    - ```[X] Disable access control```
+- Save the configuration
+    - Use default location: ```config.xlaunch```
+- Finish configuration
+- Check the Windows Taskbar for the XLaunch status icon
+    - Hover over the icon to view X display assignment
+        - Example: ```<Computer Name>:0.0 - 0 clients```
 
 ## Docker Installation
 - Highlights from https://store.docker.com/editions/community/docker-ce-desktop-windows
@@ -124,6 +145,44 @@ powershell:
 - Install Docker Community Edition for Windows
     - Execute the __Docker for Windows Installer.exe__
 - Reboot (if required)
+
+## Powershell Security Policy Configuration (Post Installation)
+- By default powershell scripts are disabled
+- Reference documentation:
+    - [Microsoft Powershell Execution Policies](https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_execution_policies?view=powershell-6)
+        - [Get-ExecutionPolicy Command Reference](https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.security/get-executionpolicy?view=powershell-6)
+        - [Set-ExecutionPolicy Command Reference](https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.security/set-executionpolicy?view=powershell-6)
+- Configure the execution policy to allow local user scripts to be executed
+```powershell
+PS C:\Users\xilinx> Get-ExecutionPolicy -List
+
+        Scope ExecutionPolicy
+        ----- ---------------
+MachinePolicy       Undefined
+   UserPolicy       Undefined
+      Process       Undefined
+  CurrentUser       Undefined
+ LocalMachine       Undefined
+
+
+PS C:\Users\xilinx> Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
+
+Execution Policy Change
+The execution policy helps protect you from scripts that you do not trust. Changing the execution policy might expose
+you to the security risks described in the about_Execution_Policies help topic at
+https:/go.microsoft.com/fwlink/?LinkID=135170. Do you want to change the execution policy?
+[Y] Yes  [A] Yes to All  [N] No  [L] No to All  [S] Suspend  [?] Help (default is "N"): A
+
+PS C:\Users\xilinx> Get-ExecutionPolicy -List
+
+        Scope ExecutionPolicy
+        ----- ---------------
+MachinePolicy       Undefined
+   UserPolicy       Undefined
+      Process       Undefined
+  CurrentUser    RemoteSigned
+ LocalMachine       Undefined
+```
 
 ## Docker Configuration (Post Installation)
 
@@ -193,6 +252,32 @@ Deleted: sha256:428c97da766c4c13b19088a471de6b622b038f3ae8efa10ec5a37d6d31a2df0b
 ```
 
 # Miscellaneous notes and tips:
+
+## Create a Local Windows 10 User Account to share files with Docker Containers
+- Windows Start Menu -> Run
+    - Type ```netplwiz``` to launch User Account configuration
+- Launch the local user management interface
+    - Select the 'Advanced' Tab
+        - Under the 'Advanced user management' section click the ```Advanced``` button
+- Select 'Users' under 'Local Users and Groups (Local)'
+    - From the menu select 'Action -> New User'
+        - Setup a Docker Host Account:
+            - User Name: ```DockerHost```
+            - Password/Confirm Password: ```<you choose>```
+            - Uncheck: ```[ ] User must change password at next login```
+            - Check: ```[X] User cannot change password```
+            - Check: ```[X] Password never expires```
+    - Complete user creation
+
+## Share a folder/file with docker account
+- In File Explorer, right click the file or folder you want to share and select 'Properties'
+- Select the 'Sharing' Tab
+    - Select 'Advanced Sharing'
+        - Select 'Permissions'
+            - Click 'Add' and locate the ```DockerHost``` user
+                - Give the user ```Full Control``` permissions of the shared drive
+- Complete the sharing configuration
+- When prompted by Docker, give Docker permission to use this DockerHost account to access shared folders inside of the container
 
 ## Check the Windows Docker daemon log
 - Open the Docker logfile
