@@ -9,7 +9,8 @@ There are two ways to configure a Windows 10 Host to work with Linux Docker cont
 1.  Use Docker on Windows with Microsoft Powershell
 - This requires maintenance of a separate set of powershell scripts for container manipulation
 
-2.  Use Docker CLI with Ubuntu on Microsoft Windows Subsystem for Linux with Docker on Windows
+2.  Use Windows Subsystem for Linux to control Docker for Windows
+- This requires configuration of Docker CLI with Ubuntu on Microsoft Windows Subsystem for Linux
 - This allows you to use a unified set of scripts
 
 ### Host Software Overview
@@ -23,120 +24,6 @@ There are two ways to configure a Windows 10 Host to work with Linux Docker cont
 - Docker v18.06.1-ce+
     - Note: As of docker v18.06.1-ce there is an issue with tar support for files > 8GB in size.
     - See: https://github.com/moby/moby/issues/37581
-
-## Enable the Windows Subsystem for Linux and Windows Powershell
-- Highlights from https://docs.microsoft.com/en-us/windows/wsl/install-win10
-- Open the optional features menu
-    - Method 1
-        - Click on __Start Menu__
-            - Type __optionalfeatures__
-    - Method 2
-        - Click on __Start Menu__
-            - Select __Settings -> Apps__
-            - On the right hand side, select __Programs and Features__ under Related settings
-            - On the left hand side, select __Turn Windows features on or off__
-- Enable Windows Powershell (if not already enabled)
-    - Check 'Windows Powershell 2.0'
-
-- Enable Windows Subsystem for Linux (of not already enabled)
-    - Check 'Windows Subsystem for Linux'
-- Reboot
-
-## Install Ubuntu 18.04 on top of WSL
-- More information on Ubuntu WSL can be found here:
-    - https://wiki.ubuntu.com/WSL
-- Get Ubuntu 18.04 for Windows 10 WSL:
-    - https://www.microsoft.com/en-us/p/ubuntu-1804-lts/9n9tngvndl3q?activetab=pivot:overviewtab
-- Launch Ubuntu once downloaded to complete installation and setup
-    - The installer will launch a bash terminal
-    - Setup a user account and password (Example: xilinx / xilinx)
-```bash
-Installing, this may take a few minutes...
-Please create a default UNIX user account.  The username does not need to match your Windows username.
-For more information visit: https://aka.ms/wslusers
-Enter new UNIX username: xilinx
-Enter new UNIX password: 
-Retype new UNIX password: 
-passwd: passsword upated successfully
-Installation successful!
-To run a command as administrator (user "root"), use "sudo <command>".
-See "man sudo_root" for details.
-
-xilinx@DESKTOP-JPVULS8:~$
-```
-    - Close the terminal session
-
-### Grab the latest updates to Ubuntu
-- Note: Package management on WSL is a manual process
-    - Updates will not be downloaded and/or installed automatically
-- Launch a Bash Terminal
-    - 'Start Menu -> Run'
-        - Type 'bash' to launch a bash shell
-- Run 'sudo apt-get update' to pull down the latest pacakge updates
-```bash
-To run a command as administrator (user "root"), use "sudo <command>".
-See "man sudo_root" for details.
-
-xilinx@DESKTOP-JPVULS8:/mnt/c/Windows/system32$ sudo apt-get update
-[sudo] password for xilinx:
-Hit:1 http://archive.ubuntu.com/ubuntu bionic InRelease
-Get:2 http://security.ubuntu.com/ubuntu bionic-security InRelease [88.7 kB]
-
-...
-
-Get:28 http://archive.ubuntu.com/ubuntu bionic-backports/universe Translation-en [1900 B]
-Fetched 18.2 MB in 28s (662 kB/s)
-Reading package lists... Done
-xilinx@DESKTOP-JPVULS8:/mnt/c/Windows/system32$
-```
-
-- Check the Ubuntu version
-```bash
-xilinx@DESKTOP-JPVULS8:/mnt/c/Windows/system32$ lsb_release -a
-No LSB modules are available.
-Distributor ID: Ubuntu
-Description:    Ubuntu 18.04.2 LTS
-Release:        18.04
-Codename:       bionic
-```
-
-- Run 'sudo apt-get upgrade' to install the latest package updates
-```bash
-...
-```selector-common
-  libapt-inst2.0 libapt-pkg5.0 libbind9-160 libblkid1 libbz2-1.0 libcom-err2 libcurl3-gnutls libcurl4 libdb5.3
-  libdbus-1-3 libdevmapper-event1.02.1 libdevmapper1.02.1 libdns-export1100 libdns1100 libdrm-common libdrm2 libelf1
-  libexpat1 libext2fs2 libfdisk1 libgcc1 libgcrypt20 libglib2.0-0 libglib2.0-data libgnutls30 libidn2-0 libirs160
-  libisc-export169 libisc169 libisccc160 libisccfg160 libldap-2.4-2 libldap-common liblvm2app2.2 liblvm2cmd2.02
-  liblwres160 libmagic-mgc libmagic1 libmount1 libmspack0 libnss-systemd libpam-systemd libpcap0.8 libprocps6
-  libpython3.6 libpython3.6-minimal libpython3.6-stdlib libseccomp2 libsmartcols1 libsqlite3-0 libss2 libssl1.1
-  libstdc++6 libsystemd0 libudev1 libuuid1 libxslt1.1 libzstd1 lvm2 mount netplan.io nplan open-vm-tools openssl patch
-  procps python3-apport python3-cryptography python3-distupgrade python3-gdbm python3-jinja2 python3-problem-report
-  python3-software-properties python3.6 python3.6-minimal snapd software-properties-common sosreport sudo systemd
-  systemd-sysv tmux tzdata ubuntu-minimal ubuntu-release-upgrader-core ubuntu-server ubuntu-standard udev
-  unattended-upgrades update-notifier-common util-linux uuid-runtime vim vim-common vim-runtime vim-tiny xkb-data xxd
-130 upgraded, 0 newly installed, 0 to remove and 2 not upgraded.
-Need to get 58.9 MB of archives.
-After this operation, 776 kB of additional disk space will be used.
-Do you want to continue? [Y/n] Y
-
-...
-
-Processing triggers for plymouth-theme-ubuntu-text (0.9.3-1ubuntu7.18.04.2) ...
-update-initramfs: deferring update (trigger activated)
-Processing triggers for initramfs-tools (0.130ubuntu3.9) ...
-xilinx@DESKTOP-JPVULS8:/mnt/c/Windows/system32$
-```
-
-- Check the Ubuntu version (which has been upgraded)
-```bash
-xilinx@DESKTOP-JPVULS8:/mnt/c/Windows/system32$ lsb_release -a
-No LSB modules are available.
-Distributor ID: Ubuntu
-Description:    Ubuntu 18.04.3 LTS
-Release:        18.04
-Codename:       bionic
-```
 
 ## Turn on support for Hard/Soft link creation in Windows 10
 - Install Developer Mode support
@@ -184,7 +71,9 @@ Codename:       bionic
     - Execute the __Docker for Windows Installer.exe__
 - Reboot (if required)
 
-## Powershell Security Policy Configuration (Post Installation)
+## Configure Windows Powershell
+
+### Powershell Security Policy Configuration (Post Installation)
 - By default powershell scripts are disabled
 - Reference documentation:
     - [Microsoft Powershell Execution Policies](https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_execution_policies?view=powershell-6)
@@ -273,7 +162,7 @@ hello-world         latest                   4ab4c602aa5e        5 days ago     
 ```
 
 - Remove the existing container(s) and image(s)
-	- Use __*docker rm <CONTAINER_ID>*__ for containers
+    - Use __*docker rm <CONTAINER_ID>*__ for containers
     - Use __*docker rmi <IMAGE_ID>*__ for images
 ```powershell
 powershell:
@@ -314,6 +203,125 @@ Deleted: sha256:428c97da766c4c13b19088a471de6b622b038f3ae8efa10ec5a37d6d31a2df0b
                 - Give the user ```Full Control``` permissions of the shared drive
 - Complete the sharing configuration
 - When prompted by Docker, give Docker permission to use this DockerHost account to access shared folders inside of the container
+
+# Configure Windows Subsystem for Linux - Docker for Windows workflow
+
+## Enable the Windows Subsystem for Linux and Windows Powershell
+- Highlights from https://docs.microsoft.com/en-us/windows/wsl/install-win10
+- Open the optional features menu
+    - Method 1
+        - Click on __Start Menu__
+            - Type __optionalfeatures__
+    - Method 2
+        - Click on __Start Menu__
+            - Select __Settings -> Apps__
+            - On the right hand side, select __Programs and Features__ under Related settings
+            - On the left hand side, select __Turn Windows features on or off__
+- Enable Windows Powershell (if not already enabled)
+    - Check 'Windows Powershell 2.0'
+
+- Enable Windows Subsystem for Linux (of not already enabled)
+    - Check 'Windows Subsystem for Linux'
+- Reboot
+
+## Install Ubuntu 18.04 on top of WSL
+- More information on Ubuntu WSL can be found here:
+    - https://wiki.ubuntu.com/WSL
+- Get Ubuntu 18.04 for Windows 10 WSL:
+    - https://www.microsoft.com/en-us/p/ubuntu-1804-lts/9n9tngvndl3q?activetab=pivot:overviewtab
+- Launch Ubuntu once downloaded to complete installation and setup
+    - The installer will launch a bash terminal
+    - Setup a user account and password (Example: xilinx / xilinx)
+```bash
+Installing, this may take a few minutes...
+Please create a default UNIX user account.  The username does not need to match your Windows username.
+For more information visit: https://aka.ms/wslusers
+Enter new UNIX username: xilinx
+Enter new UNIX password: 
+Retype new UNIX password: 
+passwd: passsword upated successfully
+Installation successful!
+To run a command as administrator (user "root"), use "sudo <command>".
+See "man sudo_root" for details.
+
+xilinx@DESKTOP-JPVULS8:~$
+```
+- Close the terminal session
+
+### Grab the latest updates to Ubuntu
+- Note: Package management on WSL is a manual process
+    - Updates will not be downloaded and/or installed automatically
+- Launch a Bash Terminal
+    - 'Start Menu -> Run'
+        - Type 'bash' to launch a bash shell
+- Run 'sudo apt-get update' to pull down the latest pacakge updates
+```bash
+To run a command as administrator (user "root"), use "sudo <command>".
+See "man sudo_root" for details.
+
+xilinx@DESKTOP-JPVULS8:/mnt/c/Windows/system32$ sudo apt-get update
+[sudo] password for xilinx:
+Hit:1 http://archive.ubuntu.com/ubuntu bionic InRelease
+Get:2 http://security.ubuntu.com/ubuntu bionic-security InRelease [88.7 kB]
+
+...
+
+Get:28 http://archive.ubuntu.com/ubuntu bionic-backports/universe Translation-en [1900 B]
+Fetched 18.2 MB in 28s (662 kB/s)
+Reading package lists... Done
+xilinx@DESKTOP-JPVULS8:/mnt/c/Windows/system32$
+```
+
+- Check the Ubuntu version
+```bash
+xilinx@DESKTOP-JPVULS8:/mnt/c/Windows/system32$ lsb_release -a
+No LSB modules are available.
+Distributor ID: Ubuntu
+Description:    Ubuntu 18.04.2 LTS
+Release:        18.04
+Codename:       bionic
+```
+
+- Run 'sudo apt-get upgrade' to install the latest package updates
+```bash
+...
+```selector-common
+  libapt-inst2.0 libapt-pkg5.0 libbind9-160 libblkid1 libbz2-1.0 libcom-err2 libcurl3-gnutls libcurl4 libdb5.3
+  libdbus-1-3 libdevmapper-event1.02.1 libdevmapper1.02.1 libdns-export1100 libdns1100 libdrm-common libdrm2 libelf1
+  libexpat1 libext2fs2 libfdisk1 libgcc1 libgcrypt20 libglib2.0-0 libglib2.0-data libgnutls30 libidn2-0 libirs160
+  libisc-export169 libisc169 libisccc160 libisccfg160 libldap-2.4-2 libldap-common liblvm2app2.2 liblvm2cmd2.02
+  liblwres160 libmagic-mgc libmagic1 libmount1 libmspack0 libnss-systemd libpam-systemd libpcap0.8 libprocps6
+  libpython3.6 libpython3.6-minimal libpython3.6-stdlib libseccomp2 libsmartcols1 libsqlite3-0 libss2 libssl1.1
+  libstdc++6 libsystemd0 libudev1 libuuid1 libxslt1.1 libzstd1 lvm2 mount netplan.io nplan open-vm-tools openssl patch
+  procps python3-apport python3-cryptography python3-distupgrade python3-gdbm python3-jinja2 python3-problem-report
+  python3-software-properties python3.6 python3.6-minimal snapd software-properties-common sosreport sudo systemd
+  systemd-sysv tmux tzdata ubuntu-minimal ubuntu-release-upgrader-core ubuntu-server ubuntu-standard udev
+  unattended-upgrades update-notifier-common util-linux uuid-runtime vim vim-common vim-runtime vim-tiny xkb-data xxd
+130 upgraded, 0 newly installed, 0 to remove and 2 not upgraded.
+Need to get 58.9 MB of archives.
+After this operation, 776 kB of additional disk space will be used.
+Do you want to continue? [Y/n] Y
+
+...
+
+Processing triggers for plymouth-theme-ubuntu-text (0.9.3-1ubuntu7.18.04.2) ...
+update-initramfs: deferring update (trigger activated)
+Processing triggers for initramfs-tools (0.130ubuntu3.9) ...
+xilinx@DESKTOP-JPVULS8:/mnt/c/Windows/system32$
+```
+
+- Check the Ubuntu version (which has been upgraded)
+```bash
+xilinx@DESKTOP-JPVULS8:/mnt/c/Windows/system32$ lsb_release -a
+No LSB modules are available.
+Distributor ID: Ubuntu
+Description:    Ubuntu 18.04.3 LTS
+Release:        18.04
+Codename:       bionic
+```
+
+##
+
 
 # Miscellaneous notes and tips:
 
