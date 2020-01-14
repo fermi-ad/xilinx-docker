@@ -4,6 +4,13 @@
 # Installing Docker on Windows 10
 
 ## Host Configuration
+There are two ways to configure a Windows 10 Host to work with Linux Docker containers.
+
+1.  Use Docker on Windows with Microsoft Powershell
+- This requires maintenance of a separate set of powershell scripts for container manipulation
+
+2.  Use Docker CLI with Ubuntu on Microsoft Windows Subsystem for Linux with Docker on Windows
+- This allows you to use a unified set of scripts
 
 ### Host Software Overview
 - Windows 10
@@ -16,71 +23,6 @@
 - Docker v18.06.1-ce+
     - Note: As of docker v18.06.1-ce there is an issue with tar support for files > 8GB in size.
     - See: https://github.com/moby/moby/issues/37581
-
-### Using link to dependencies in Windows
-- Building a docker image with Xilinx tools requires the use of installer binaries that can be large
-- By default, docker builds a context that inclues a cache of these installer files if they are in the working docker path during a build
-- Although it's against the docker philosophy, using a link to a dependency which lives outside of the docker context can speed up the creation of your docker image and significantly reduce the amount of memory required to build and store an image
-- For Windows Hosts, use the __*mklink <LINK_NAME> <TARGET>*__ command syntax to create a symbolic link in the __*./depends*__ directory
-
-#### Example: Create a link to the Petalinux Installer __petalinux-v2018.2-final-installer.run__
-- From a command prompt launched as __Administrator__
-```cmd
-command prompt:
-> C:\checkouts\xilinx_docker> cd build_environments\v2018.2\depends
-> C:\checkouts\xilinx_docker\build_environments\v2018.2\depends> mklink petalinux-v2018.2-final-installer.run S:\Xilinx\Downloads\petalinux-v2018.2-final-installer.run
-```
-
-### Special files/paths on host OS related to building embedded Linux
-- These paths are specific to a host OS configuration and may be in different locations on other development machines.  The locations below reflect the setup of a reference development machine used in this repository.
-- Sharing folders on the host filesystem with a container allows you to keep a single copy of important files (installers for instance) and reuse these across multiple development environments.
-- To share folders you much enable 'File and Printer Sharing' in your firewall settings
-    - Example: Norton Security v22.16+
-        - Open Norton Security -> Settings -> Firewall
-        - Open General Settings (Tab) -> Smart Firewall (Section) -> Public Network Exceptions (Configure[+])
-        - Check 'Allow' for 'File and Printer Sharing'
-
-#### SSTATE Mirrors, SSTATE Cache and Download Directory
-- Petalinux sstate-mirror
-
-#### Example: Share the local Petalinux SSTATE Mirror
-```powershell
-powershell:
-> docker run argument: ```-v d:\srv\sstate-mirrors:/srv/sstate-mirrors
-```
-
-- Yocto sstate-cache
-
-#### Example: Share the local yocto SSTATE cache
-```powershell
-powershell:
-> docker run argument: ```-v d:\srv\sstate-cache\v2018.2:/srv/sstate-cache
-```
-
-- Yocto downloads directory
-  
-#### Example: Share the local download directory
-```powershell
-bash:
-> docker run ... -v d:\srv\downloads\:/srv/downloads
-```
-
-#### TFTP Server, Shared host folder
-- TFTP Server Folder
-
-#### Example: TFTP server folder 
-```powershell
-powershell:
-> docker run ... -v d:\srv\tftpboot:/tftpboot
-```
-
-- Shared host folder
-
-#### Example: Shared host folder
-```powershell
-powershell:
-> docker run ... -v d:\srv\shared:/shared
-```
 
 ## Enable the Windows Subsystem for Linux and Windows Powershell
 - Highlights from https://docs.microsoft.com/en-us/windows/wsl/install-win10
@@ -99,6 +41,102 @@ powershell:
 - Enable Windows Subsystem for Linux (of not already enabled)
     - Check 'Windows Subsystem for Linux'
 - Reboot
+
+## Install Ubuntu 18.04 on top of WSL
+- More information on Ubuntu WSL can be found here:
+    - https://wiki.ubuntu.com/WSL
+- Get Ubuntu 18.04 for Windows 10 WSL:
+    - https://www.microsoft.com/en-us/p/ubuntu-1804-lts/9n9tngvndl3q?activetab=pivot:overviewtab
+- Launch Ubuntu once downloaded to complete installation and setup
+    - The installer will launch a bash terminal
+    - Setup a user account and password (Example: xilinx / xilinx)
+```bash
+Installing, this may take a few minutes...
+Please create a default UNIX user account.  The username does not need to match your Windows username.
+For more information visit: https://aka.ms/wslusers
+Enter new UNIX username: xilinx
+Enter new UNIX password: 
+Retype new UNIX password: 
+passwd: passsword upated successfully
+Installation successful!
+To run a command as administrator (user "root"), use "sudo <command>".
+See "man sudo_root" for details.
+
+xilinx@DESKTOP-JPVULS8:~$
+```
+    - Close the terminal session
+
+### Grab the latest updates to Ubuntu
+- Note: Package management on WSL is a manual process
+    - Updates will not be downloaded and/or installed automatically
+- Launch a Bash Terminal
+    - 'Start Menu -> Run'
+        - Type 'bash' to launch a bash shell
+- Run 'sudo apt-get update' to pull down the latest pacakge updates
+```bash
+To run a command as administrator (user "root"), use "sudo <command>".
+See "man sudo_root" for details.
+
+xilinx@DESKTOP-JPVULS8:/mnt/c/Windows/system32$ sudo apt-get update
+[sudo] password for xilinx:
+Hit:1 http://archive.ubuntu.com/ubuntu bionic InRelease
+Get:2 http://security.ubuntu.com/ubuntu bionic-security InRelease [88.7 kB]
+
+...
+
+Get:28 http://archive.ubuntu.com/ubuntu bionic-backports/universe Translation-en [1900 B]
+Fetched 18.2 MB in 28s (662 kB/s)
+Reading package lists... Done
+xilinx@DESKTOP-JPVULS8:/mnt/c/Windows/system32$
+```
+
+- Check the Ubuntu version
+```bash
+xilinx@DESKTOP-JPVULS8:/mnt/c/Windows/system32$ lsb_release -a
+No LSB modules are available.
+Distributor ID: Ubuntu
+Description:    Ubuntu 18.04.2 LTS
+Release:        18.04
+Codename:       bionic
+```
+
+- Run 'sudo apt-get upgrade' to install the latest package updates
+```bash
+...
+```selector-common
+  libapt-inst2.0 libapt-pkg5.0 libbind9-160 libblkid1 libbz2-1.0 libcom-err2 libcurl3-gnutls libcurl4 libdb5.3
+  libdbus-1-3 libdevmapper-event1.02.1 libdevmapper1.02.1 libdns-export1100 libdns1100 libdrm-common libdrm2 libelf1
+  libexpat1 libext2fs2 libfdisk1 libgcc1 libgcrypt20 libglib2.0-0 libglib2.0-data libgnutls30 libidn2-0 libirs160
+  libisc-export169 libisc169 libisccc160 libisccfg160 libldap-2.4-2 libldap-common liblvm2app2.2 liblvm2cmd2.02
+  liblwres160 libmagic-mgc libmagic1 libmount1 libmspack0 libnss-systemd libpam-systemd libpcap0.8 libprocps6
+  libpython3.6 libpython3.6-minimal libpython3.6-stdlib libseccomp2 libsmartcols1 libsqlite3-0 libss2 libssl1.1
+  libstdc++6 libsystemd0 libudev1 libuuid1 libxslt1.1 libzstd1 lvm2 mount netplan.io nplan open-vm-tools openssl patch
+  procps python3-apport python3-cryptography python3-distupgrade python3-gdbm python3-jinja2 python3-problem-report
+  python3-software-properties python3.6 python3.6-minimal snapd software-properties-common sosreport sudo systemd
+  systemd-sysv tmux tzdata ubuntu-minimal ubuntu-release-upgrader-core ubuntu-server ubuntu-standard udev
+  unattended-upgrades update-notifier-common util-linux uuid-runtime vim vim-common vim-runtime vim-tiny xkb-data xxd
+130 upgraded, 0 newly installed, 0 to remove and 2 not upgraded.
+Need to get 58.9 MB of archives.
+After this operation, 776 kB of additional disk space will be used.
+Do you want to continue? [Y/n] Y
+
+...
+
+Processing triggers for plymouth-theme-ubuntu-text (0.9.3-1ubuntu7.18.04.2) ...
+update-initramfs: deferring update (trigger activated)
+Processing triggers for initramfs-tools (0.130ubuntu3.9) ...
+xilinx@DESKTOP-JPVULS8:/mnt/c/Windows/system32$
+```
+
+- Check the Ubuntu version (which has been upgraded)
+```bash
+xilinx@DESKTOP-JPVULS8:/mnt/c/Windows/system32$ lsb_release -a
+No LSB modules are available.
+Distributor ID: Ubuntu
+Description:    Ubuntu 18.04.3 LTS
+Release:        18.04
+Codename:       bionic
+```
 
 ## Turn on support for Hard/Soft link creation in Windows 10
 - Install Developer Mode support
@@ -251,8 +289,6 @@ Deleted: sha256:4ab4c602aa5eed5528a6620ff18a1dc4faef0e1ab3a5eddeddb410714478c67f
 Deleted: sha256:428c97da766c4c13b19088a471de6b622b038f3ae8efa10ec5a37d6d31a2df0b
 ```
 
-# Miscellaneous notes and tips:
-
 ## Create a Local Windows 10 User Account to share files with Docker Containers
 - Windows Start Menu -> Run
     - Type ```netplwiz``` to launch User Account configuration
@@ -269,7 +305,7 @@ Deleted: sha256:428c97da766c4c13b19088a471de6b622b038f3ae8efa10ec5a37d6d31a2df0b
             - Check: ```[X] Password never expires```
     - Complete user creation
 
-## Share a folder/file with docker account
+### Share folders/files with docker account
 - In File Explorer, right click the file or folder you want to share and select 'Properties'
 - Select the 'Sharing' Tab
     - Select 'Advanced Sharing'
@@ -278,6 +314,23 @@ Deleted: sha256:428c97da766c4c13b19088a471de6b622b038f3ae8efa10ec5a37d6d31a2df0b
                 - Give the user ```Full Control``` permissions of the shared drive
 - Complete the sharing configuration
 - When prompted by Docker, give Docker permission to use this DockerHost account to access shared folders inside of the container
+
+# Miscellaneous notes and tips:
+
+## Setup a SSTATE-MIRROR on a Windows 10 Shared Folder
+Note: The example below is for Petalinux v2019.2
+Note: The example below uses the folder 'd:\srv\shared\sstate-mirrors\' on the Windows Filesystem to host the Mirror contents
+- Download the shared state mirror bundle from Xilinx
+    - https://www.xilinx.com/support/download/index.html/content/xilinx/en/downloadNav/embedded-design-tools.html
+- Example: v2019.2 Petalinux SSTATE-MIRROR
+    - [aarch64 sstate-cache - 16.57 GB](https://www.xilinx.com/member/forms/download/xef.html?filename=sstate_aarch64_2019.2.tar.gz)
+    - [arm sstate-cache - 8.54 GB](https://www.xilinx.com/member/forms/download/xef.html?filename=sstate_arm_2019.2.tar.gz)
+    - [downloads - 22.29 GB](https://www.xilinx.com/member/forms/download/xef.html?filename=downloads_2019.2.tar.gz)
+- Decompress all three archives into the folder shared with Docker
+    - Use 7Zip or an equivalent windows tool
+```powershell
+
+```
 
 ## Check the Windows Docker daemon log
 - Open the Docker logfile
@@ -308,27 +361,67 @@ Deleted: sha256:428c97da766c4c13b19088a471de6b622b038f3ae8efa10ec5a37d6d31a2df0b
     	- Under __Disk image location__ note the location and name of the (.vhdx) file 
     		(ex: X:\devtools\hyper-v\Virtual Hard Disks\MobyLinuxVM.vhdx)
 
-## Enable BuildKit (experimental feature in 18.06.x)
-- Turn on experimental features (set {"experimental":true} in /etc/docker/daemon.json)
-```powershell
-powershell:
-PS > Edit the file C:\Users\<username>\.docker\daemon.json
-{
-    "registry-mirrors": [],
-    "insecure-registries": [],
-    "debug": true,
-    "experimental": true,
-    "storage-driver": "overlay2",
-    "log-driver": "json-file",
-    "log-opts": {
-        "max-size": "100m"
-    }
-}
+### Using link to dependencies in Windows
+- Building a docker image with Xilinx tools requires the use of installer binaries that can be large
+- By default, docker builds a context that inclues a cache of these installer files if they are in the working docker path during a build
+- Although it's against the docker philosophy, using a link to a dependency which lives outside of the docker context can speed up the creation of your docker image and significantly reduce the amount of memory required to build and store an image
+- For Windows Hosts, use the __*mklink <LINK_NAME> <TARGET>*__ command syntax to create a symbolic link in the __*./depends*__ directory
+
+#### Example: Create a link to the Petalinux Installer __petalinux-v2018.2-final-installer.run__
+- From a command prompt launched as __Administrator__
+```cmd
+command prompt:
+> C:\checkouts\xilinx_docker> cd build_environments\v2018.2\depends
+> C:\checkouts\xilinx_docker\build_environments\v2018.2\depends> mklink petalinux-v2018.2-final-installer.run S:\Xilinx\Downloads\petalinux-v2018.2-final-installer.run
 ```
 
-- Enable Buildkit during a build (prefix 'docker build' with DOCKER_BUILDKIT=1)
+### Special files/paths on host OS related to building embedded Linux
+- These paths are specific to a host OS configuration and may be in different locations on other development machines.  The locations below reflect the setup of a reference development machine used in this repository.
+- Sharing folders on the host filesystem with a container allows you to keep a single copy of important files (installers for instance) and reuse these across multiple development environments.
+- To share folders you much enable 'File and Printer Sharing' in your firewall settings
+    - Example: Norton Security v22.16+
+        - Open Norton Security -> Settings -> Firewall
+        - Open General Settings (Tab) -> Smart Firewall (Section) -> Public Network Exceptions (Configure[+])
+        - Check 'Allow' for 'File and Printer Sharing'
 
+#### SSTATE Mirrors, SSTATE Cache and Download Directory
+- Petalinux sstate-mirror
+
+#### Example: Share the local Petalinux SSTATE Mirror
 ```powershell
 powershell:
-PS > $ DOCKER_BUILDKIT=1 docker build ...
+> docker run argument: ```-v d:\srv\sstate-mirrors:/srv/sstate-mirrors
+```
+
+- Yocto sstate-cache
+
+#### Example: Share the local yocto SSTATE cache
+```powershell
+powershell:
+> docker run argument: ```-v d:\srv\sstate-cache\v2018.2:/srv/sstate-cache
+```
+
+- Yocto downloads directory
+  
+#### Example: Share the local download directory
+```powershell
+bash:
+> docker run ... -v d:\srv\downloads\:/srv/downloads
+```
+
+#### TFTP Server, Shared host folder
+- TFTP Server Folder
+
+#### Example: TFTP server folder 
+```powershell
+powershell:
+> docker run ... -v d:\srv\tftpboot:/tftpboot
+```
+
+- Shared host folder
+
+#### Example: Shared host folder
+```powershell
+powershell:
+> docker run ... -v d:\srv\shared:/shared
 ```
