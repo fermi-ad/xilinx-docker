@@ -78,7 +78,7 @@ if ($BUILD_DEBUG -ne 0) {
 }
 
 # Determine the local IP Address# Get the ip address of the virtual ethernet adapter
-$SERVER_IP = Get-NetIPAddress -AddressFamily IPV4 -InterfaceAlias 'vEthernet (Default Switch)'
+$SERVER_IP = Get-NetIPAddress -AddressFamily IPV4 -InterfaceAlias 'vEthernet (DockerNAT)*'
 $SERVER_IP = $SERVER_IP.IPAddress.ToString()
 
 if ($BUILD_DEBUG -ne 0) {
