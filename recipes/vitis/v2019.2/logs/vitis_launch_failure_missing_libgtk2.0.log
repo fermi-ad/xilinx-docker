@@ -1,0 +1,44 @@
+# Solved the following below error by installing libgtk2.0-0
+$ sudo apt-get install libgtk2.0-0
+--------------------------------------------------------
+
+Launching Vitis with command /opt/Xilinx/Vitis/2019.2/eclipse/lnx64.o/eclipse -vmargs -Xms64m -Xmx4G -Dorg.eclipse.swt.internal.gtk.cairoGraphics=false -Dosgi.configuration.area=@user.home/.Xilinx/Vitis/2019.2 --add-modules=ALL-SYSTEM --add-modules=jdk.incubator.httpclient --add-opens=java.base/java.nio=ALL-UNNAMED --add-opens=java.desktop/sun.swing=ALL-UNNAMED --add-opens=java.desktop/javax.swing=ALL-UNNAMED --add-opens=java.desktop/javax.swing.tree=ALL-UNNAMED --add-opens=java.desktop/javax.swing.plaf.basic=ALL-UNNAMED --add-opens=java.desktop/javax.swing.plaf.synth=ALL-UNNAMED --add-opens=java.desktop/com.sun.awt=ALL-UNNAMED --add-opens=java.desktop/sun.awt.X11=ALL-UNNAMED &
+xilinx@xilinx_vitis_v2019:/srv/trds/rdf0428-zcu106-vcu-trd-2019-2/pl$ Eclipse:
+An error has occurred. See the log file
+/home/xilinx/.Xilinx/Vitis/2019.2/1577060710428.log.
+
+xilinx@xilinx_vitis_v2019:/srv/trds/rdf0428-zcu106-vcu-trd-2019-2/pl$ cat /home/xilinx/.Xilinx/Vitis/2019.2/1577060710428.log 
+!SESSION 2019-12-23 00:25:10.276 -----------------------------------------------
+eclipse.buildId=2019.2
+java.version=9.0.4
+java.vendor=Oracle Corporation
+BootLoader constants: OS=linux, ARCH=x86_64, WS=gtk, NL=en_US
+Command-line arguments:  -os linux -ws gtk -arch x86_64
+
+!ENTRY org.eclipse.osgi 4 0 2019-12-23 00:25:11.375
+!MESSAGE Application error
+!STACK 1
+java.lang.UnsatisfiedLinkError: org.eclipse.swt.internal.gtk.OS._cachejvmptr()V
+        at org.eclipse.swt.internal.gtk.OS._cachejvmptr(Native Method)
+        at org.eclipse.swt.internal.gtk.OS.cachejvmptr(OS.java:481)
+        at org.eclipse.swt.internal.gtk.OS.<clinit>(OS.java:92)
+        at org.eclipse.swt.internal.Converter.wcsToMbcs(Converter.java:134)
+        at org.eclipse.swt.internal.Converter.wcsToMbcs(Converter.java:80)
+        at org.eclipse.swt.widgets.Display.<clinit>(Display.java:142)
+        at org.eclipse.ui.internal.Workbench.createDisplay(Workbench.java:772)
+        at org.eclipse.ui.PlatformUI.createDisplay(PlatformUI.java:160)
+        at com.xilinx.ide.application.ui.Application.createDisplay(Application.java:107)
+        at com.xilinx.ide.application.ui.Application.start(Application.java:61)
+        at org.eclipse.equinox.internal.app.EclipseAppHandle.run(EclipseAppHandle.java:196)
+        at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.runApplication(EclipseAppLauncher.java:134)
+        at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.start(EclipseAppLauncher.java:104)
+        at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:388)
+        at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:243)
+        at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+        at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+        at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+        at java.base/java.lang.reflect.Method.invoke(Unknown Source)
+        at org.eclipse.equinox.launcher.Main.invokeFramework(Main.java:656)
+        at org.eclipse.equinox.launcher.Main.basicRun(Main.java:592)
+        at org.eclipse.equinox.launcher.Main.run(Main.java:1498)
+        at org.eclipse.equinox.launcher.Main.main(Main.java:1471)
