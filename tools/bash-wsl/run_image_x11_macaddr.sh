@@ -114,7 +114,7 @@ docker run \
 	-h $DOCKER_CONTAINER_NAME \
 	-v /d/xilinx/srv/sstate-mirrors:/srv/sstate-mirrors \
 	-v /d/xilinx/srv/tftpboot:/tftpboot \
-	-v /d/xilinx/srv/software/xilinx:/srv/software \
+	-v /d/xilinx/srv/software:/srv/software \
 	-v /d/xilinx/srv/shared:/srv/shared \
 	-e DISPLAY=$SERVER_IP$DISPLAY \
 	--mac-address $DOCKER_CONTAINER_MACADDR \
