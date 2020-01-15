@@ -97,10 +97,10 @@ DISPLAY=":0.0"
 docker run \
 	--name $DOCKER_CONTAINER_NAME \
 	-h $DOCKER_CONTAINER_NAME \
-	-v /mnt/d/srv/sstate-mirrors:/srv/sstate-mirrors \
-	-v /mnt/d/srv/tftpboot:/tftpboot \
-	-v /mnt/d/srv/software/xilinx:/srv/software \
-	-v /mnt/d/srv/shared:/srv/shared \
+	-v /mnt/d/srv/xilinx/sstate-mirrors:/srv/sstate-mirrors \
+	-v /mnt/d/srv/xilinx/tftpboot:/tftpboot \
+	-v /mnt/d/srv/xilinx/software/xilinx:/srv/software \
+	-v /mnt/d/srv/xilinx/shared:/srv/shared \
 	-e DISPLAY=$SERVER_IP$DISPLAY \
 	--mac-address $DOCKER_CONTAINER_MACADDR \
 	--user 1000:1000 \

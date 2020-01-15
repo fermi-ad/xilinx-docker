@@ -695,6 +695,11 @@ Note: The example below uses the folder 'd:\srv\shared\sstate-mirrors\' on the W
 
 ```
 
+```bash
+wsl:
+
+```
+
 ## Check the Windows Docker daemon log
 - Open the Docker logfile
 	- Right click on the Docker (whale) icon in the task bar and select 'Diagnose and Feedback'
