@@ -94,13 +94,28 @@ DISPLAY=":0.0"
 # - set the container hostname (for networking and terminal identification purposes)
 # - this makes it easier to associate xterm sessions with a running container
 
+
+# docker run \
+# 	--name $DOCKER_CONTAINER_NAME \
+# 	-h $DOCKER_CONTAINER_NAME \
+#     -v 'd:\xilinx\srv\sstate-mirrors':/srv/sstate-mirrors \
+#     -v 'd:\xilinx\srv\sstate-cache':/srv/sstate-cache \
+#     -v 'd:\xilinx\srv\tftpboot':/tftpboot \
+#     -v 'd:\xilinx\srv\software':/srv/software \
+#     -v 'd:\xilinx\srv\hardware_definitions':/srv/ \
+# 	-e DISPLAY=$SERVER_IP$DISPLAY \
+# 	--mac-address $DOCKER_CONTAINER_MACADDR \
+# 	--user 1000:1000 \
+# 	-itd $DOCKER_IMAGE_NAME \
+# 	/bin/bash
+
 docker run \
 	--name $DOCKER_CONTAINER_NAME \
 	-h $DOCKER_CONTAINER_NAME \
-	-v /mnt/d/srv/xilinx/sstate-mirrors:/srv/sstate-mirrors \
-	-v /mnt/d/srv/xilinx/tftpboot:/tftpboot \
-	-v /mnt/d/srv/xilinx/software/xilinx:/srv/software \
-	-v /mnt/d/srv/xilinx/shared:/srv/shared \
+	-v /d/xilinx/srv/sstate-mirrors:/srv/sstate-mirrors \
+	-v /d/xilinx/srv/tftpboot:/tftpboot \
+	-v /d/xilinx/srv/software/xilinx:/srv/software \
+	-v /d/xilinx/srv/shared:/srv/shared \
 	-e DISPLAY=$SERVER_IP$DISPLAY \
 	--mac-address $DOCKER_CONTAINER_MACADDR \
 	--user 1000:1000 \
