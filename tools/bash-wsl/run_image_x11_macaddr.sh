@@ -113,6 +113,7 @@ docker run \
 	--name $DOCKER_CONTAINER_NAME \
 	-h $DOCKER_CONTAINER_NAME \
 	-v /d/xilinx/srv/sstate-mirrors:/srv/sstate-mirrors \
+	-v /d/xilinx/srv/sstate-cache:/srv/sstate-cache \
 	-v /d/xilinx/srv/tftpboot:/tftpboot \
 	-v /d/xilinx/srv/software:/srv/software \
 	-v /d/xilinx/srv/shared:/srv/shared \

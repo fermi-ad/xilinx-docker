@@ -276,7 +276,7 @@ xilinx@DESKTOP-JPVULS8:~$
 To run a command as administrator (user "root"), use "sudo <command>".
 See "man sudo_root" for details.
 
-xilinx@DESKTOP-JPVULS8:/mnt/c/Windows/system32$ sudo apt-get update
+xilinx@DESKTOP-JPVULS8:/c/Windows/system32$ sudo apt-get update
 [sudo] password for xilinx:
 Hit:1 http://archive.ubuntu.com/ubuntu bionic InRelease
 Get:2 http://security.ubuntu.com/ubuntu bionic-security InRelease [88.7 kB]
@@ -286,12 +286,12 @@ Get:2 http://security.ubuntu.com/ubuntu bionic-security InRelease [88.7 kB]
 Get:28 http://archive.ubuntu.com/ubuntu bionic-backports/universe Translation-en [1900 B]
 Fetched 18.2 MB in 28s (662 kB/s)
 Reading package lists... Done
-xilinx@DESKTOP-JPVULS8:/mnt/c/Windows/system32$
+xilinx@DESKTOP-JPVULS8:/c/Windows/system32$
 ```
 
 - Check the Ubuntu version
 ```bash
-xilinx@DESKTOP-JPVULS8:/mnt/c/Windows/system32$ lsb_release -a
+xilinx@DESKTOP-JPVULS8:/c/Windows/system32$ lsb_release -a
 No LSB modules are available.
 Distributor ID: Ubuntu
 Description:    Ubuntu 18.04.2 LTS
@@ -324,12 +324,12 @@ Do you want to continue? [Y/n] Y
 Processing triggers for plymouth-theme-ubuntu-text (0.9.3-1ubuntu7.18.04.2) ...
 update-initramfs: deferring update (trigger activated)
 Processing triggers for initramfs-tools (0.130ubuntu3.9) ...
-xilinx@DESKTOP-JPVULS8:/mnt/c/Windows/system32$
+xilinx@DESKTOP-JPVULS8:/c/Windows/system32$
 ```
 
 - Check the Ubuntu version (which has been upgraded)
 ```bash
-xilinx@DESKTOP-JPVULS8:/mnt/c/Windows/system32$ lsb_release -a
+xilinx@DESKTOP-JPVULS8:/c/Windows/system32$ lsb_release -a
 No LSB modules are available.
 Distributor ID: Ubuntu
 Description:    Ubuntu 18.04.3 LTS
@@ -337,10 +337,24 @@ Release:        18.04
 Codename:       bionic
 ```
 
+### Configure how Windows Subsystem for Linux mounts external volumes
+- This change the default mount point from '/<drive-letter>' to '/<drive-letter>' which matches how Docker for Windows handles shared volumes
+- This will allow you to create containers with shared volumes that match docker for window
+```bash
+xilinx@DESKTOP-JPVULS8:/c/Windows/system32$ sudo vi /etc/wsl.conf
+[sudo] password for xilinx:
+# Setup mount point for volumes
+[automount]
+root = /
+options = "metadata"
+```
+
+- Restart your machine to have the new automount apply
+
 ### Install Docker inside of the Windows Subsystem for Linux
 - Install Docker package dependencies
 ```bash
-xilinx@DESKTOP-JPVULS8:/mnt/c/Windows/system32$ sudo apt-get install -y \
+xilinx@DESKTOP-JPVULS8:/c/Windows/system32$ sudo apt-get install -y \
 apt-transport-https \
 ca-certificates \
 curl \
@@ -375,13 +389,13 @@ Setting up apt-transport-https (1.6.12) ...
 
 - Download and install Docker's PGP key
 ```bash
-xilinx@DESKTOP-JPVULS8:/mnt/c/Windows/system32$ curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+xilinx@DESKTOP-JPVULS8:/c/Windows/system32$ curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
 OK
 ```
 
 - Verify Key fingerprint
 ```bash
-xilinx@DESKTOP-JPVULS8:/mnt/c/Windows/system32$ sudo apt-key fingerprint 0EBFCD88
+xilinx@DESKTOP-JPVULS8:/c/Windows/system32$ sudo apt-key fingerprint 0EBFCD88
 pub   rsa4096 2017-02-22 [SCEA]
       9DC8 5822 9FC7 DD38 854A  E2D8 8D81 803C 0EBF CD88
 uid           [ unknown] Docker Release (CE deb) <docker@docker.com>
@@ -390,7 +404,7 @@ sub   rsa4096 2017-02-22 [S]
 
 - Add the stable docker repository
 ```bash
-xilinx@DESKTOP-JPVULS8:/mnt/c/Windows/system32$ sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+xilinx@DESKTOP-JPVULS8:/c/Windows/system32$ sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
 Hit:1 https://download.docker.com/linux/ubuntu bionic InRelease
 Hit:2 http://security.ubuntu.com/ubuntu bionic-security InRelease
 Hit:3 http://archive.ubuntu.com/ubuntu bionic InRelease
@@ -401,7 +415,7 @@ Reading package lists... Done
 
 - Update the apt package list
 ```bash
-xilinx@DESKTOP-JPVULS8:/mnt/c/Windows/system32$ sudo apt-get update -y
+xilinx@DESKTOP-JPVULS8:/c/Windows/system32$ sudo apt-get update -y
 Hit:1 https://download.docker.com/linux/ubuntu bionic InRelease
 Hit:2 http://security.ubuntu.com/ubuntu bionic-security InRelease
 Hit:3 http://archive.ubuntu.com/ubuntu bionic InRelease
@@ -412,7 +426,7 @@ Reading package lists... Done
 
 - Install Docker-CE in Windows Subsystem for Linux 
 ```bash
-xilinx@DESKTOP-JPVULS8:/mnt/c/Windows/system32$ sudo apt-get install -y docker-ce
+xilinx@DESKTOP-JPVULS8:/c/Windows/system32$ sudo apt-get install -y docker-ce
 Reading package lists... Done
 Building dependency tree
 Reading state information... Done
@@ -443,7 +457,7 @@ Processing triggers for ureadahead (0.100.0-21) ...
 
 - Give yourself docker permissions
 ```bash
-xilinx@DESKTOP-JPVULS8:/mnt/c/Windows/system32$ sudo usermode -aG docker $USER
+xilinx@DESKTOP-JPVULS8:/c/Windows/system32$ sudo usermode -aG docker $USER
 ```
 
 - Close the Bash terminal
@@ -454,7 +468,7 @@ xilinx@DESKTOP-JPVULS8:/mnt/c/Windows/system32$ sudo usermode -aG docker $USER
 
 - Verify that your user account is in the docker group
 ```bash
-xilinx@DESKTOP-JPVULS8:/mnt/c/Windows/system32$ groups
+xilinx@DESKTOP-JPVULS8:/c/Windows/system32$ groups
 xilinx adm dialout cdrom floppy sudo audio dip video plugdev lxd netdev docker
 ```
 
@@ -465,7 +479,7 @@ xilinx adm dialout cdrom floppy sudo audio dip video plugdev lxd netdev docker
 - We're going to install the python version using pip
 - Install python and pip in your Windows Subsystem for Linux
 ```bash
-xilinx@DESKTOP-JPVULS8:/mnt/c/Windows/system32$ sudo apt-get install python python-pip
+xilinx@DESKTOP-JPVULS8:/c/Windows/system32$ sudo apt-get install python python-pip
 [sudo] password for xilinx:
 Reading package lists... Done
 Building dependency tree
@@ -485,7 +499,7 @@ Processing triggers for libc-bin (2.27-3ubuntu1) ...
 
 - Install Docker compose
 ```bash
-xilinx@DESKTOP-JPVULS8:/mnt/c/Windows/system32$ pip install --user docker-compose
+xilinx@DESKTOP-JPVULS8:/c/Windows/system32$ pip install --user docker-compose
 Collecting docker-compose
   Downloading https://files.pythonhosted.org/packages/a3/05/cb792e714139a3f95e2ae85da74f2a327d6fd4a49753d35721539b9bcbfb/docker_compose-1.25.1-py2.py3-none-any.whl (138kB)
     100% |████████████████████████████████| 143kB 2.8MB/s
@@ -497,7 +511,7 @@ Successfully installed PyYAML-3.13 attrs-19.3.0 ... docker-compose-1.25.1 ... we
 ## Configure your WSL path to include $Home/.local/bin
 - Add the docker-compose installation path to your local shell path
 ```bash
-xilinx@DESKTOP-JPVULS8:/mnt/c/Windows/system32$ cat ~/.profile
+xilinx@DESKTOP-JPVULS8:/c/Windows/system32$ cat ~/.profile
 # ~/.profile: executed by the command interpreter for login shells.
 # This file is not read by bash(1), if ~/.bash_profile or ~/.bash_login
 # exists.
@@ -527,7 +541,7 @@ if [ -d "$HOME/.local/bin" ] ; then
 fi
 
 # Add xilinx-docker repository scripts to path
-export PATH="$PATH:/mnt/d/repositories/gitlab/xilinx-docker/tools/bash"
+export PATH="$PATH:/d/repositories/gitlab/xilinx-docker/tools/bash"
 
 # Add docker compose in pip to the path
 export PATH="$PATH:$HoME/.local/bin"
@@ -543,18 +557,18 @@ export PATH="$PATH:$HoME/.local/bin"
 ## Setup WSL to connect to Docker for Windows
 - Setup the DOCKER_HOST environment variable in your bash resource file
 ```bash
-xilinx@DESKTOP-JPVULS8:/mnt/c/Windows/system32$ echo \
+xilinx@DESKTOP-JPVULS8:/c/Windows/system32$ echo \
 "export DOCKER_HOST=tcp://localhost:2375" >> ~/.bashrc
-xilinx@DESKTOP-JPVULS8:/mnt/c/Windows/system32$ cat ~/.bashrc
+xilinx@DESKTOP-JPVULS8:/c/Windows/system32$ cat ~/.bashrc
 ...
 export DOCKER_HOST=tcp://localhost:2375
 ```
 
 ## Reload your profile and bashrc
 ```bash
-xilinx@DESKTOP-JPVULS8:/mnt/c/Windows/system32$ source ~/.profile
-xilinx@DESKTOP-JPVULS8:/mnt/c/Windows/system32$ source ~/.bashrc
-xilinx@DESKTOP-JPVULS8:/mnt/c/Windows/system32$ echo $DOCKER_HOST
+xilinx@DESKTOP-JPVULS8:/c/Windows/system32$ source ~/.profile
+xilinx@DESKTOP-JPVULS8:/c/Windows/system32$ source ~/.bashrc
+xilinx@DESKTOP-JPVULS8:/c/Windows/system32$ echo $DOCKER_HOST
 tcp://localhost:2375
 ```
 
@@ -562,7 +576,7 @@ tcp://localhost:2375
 
 ### Verify the docker-ce installation is complete (by running hello world)
 ```bash
-xilinx@DESKTOP-JPVULS8:/mnt/c/Windows/system32$ docker run hello-world
+xilinx@DESKTOP-JPVULS8:/c/Windows/system32$ docker run hello-world
 Unable to find image 'hello-world:latest' locally
 latest: Pulling from library/hello-world
 1b930d010525: Pull complete                                                                                             Digest: sha256:9572f7cdcee8591948c2963463447a53466950b3fc15a247fcad1917ca215a2f
@@ -593,14 +607,14 @@ For more examples and ideas, visit:
 ### Remove the hello world docker container(s) and image(s)
 - List the docker containers
 ```bash
-xilinx@DESKTOP-JPVULS8:/mnt/c/Windows/system32$ docker ps -a
+xilinx@DESKTOP-JPVULS8:/c/Windows/system32$ docker ps -a
 CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS                      PORTS               NAMES
 fa4b966ac848        hello-world         "/hello"            36 seconds ago      Exited (0) 35 seconds ago                       fervent_liskov
 ```
 
 - List the docker images
 ```bash
-xilinx@DESKTOP-JPVULS8:/mnt/c/Windows/system32$ docker image ls
+xilinx@DESKTOP-JPVULS8:/c/Windows/system32$ docker image ls
 REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
 hello-world         latest              fce289e99eb9        12 months ago       1.84kB
 ```
@@ -609,9 +623,9 @@ hello-world         latest              fce289e99eb9        12 months ago       
     - Use __*docker rm <CONTAINER_ID>*__ for containers
     - Use __*docker rmi <IMAGE_ID>*__ for images
 ```bash
-xilinx@DESKTOP-JPVULS8:/mnt/c/Windows/system32$ docker rm fervent_liskov
+xilinx@DESKTOP-JPVULS8:/c/Windows/system32$ docker rm fervent_liskov
 fervent_liskov
-xilinx@DESKTOP-JPVULS8:/mnt/c/Windows/system32$ docker rmi hello-world
+xilinx@DESKTOP-JPVULS8:/c/Windows/system32$ docker rmi hello-world
 Untagged: hello-world:latest
 Untagged: hello-world@sha256:9572f7cdcee8591948c2963463447a53466950b3fc15a247fcad1917ca215a2f
 Deleted: sha256:fce289e99eb9bca977dae136fbe2a82b6b7d4c372474c9235adc1741675f587e
@@ -623,7 +637,7 @@ Deleted: sha256:af0b15c8625bb1938f1d7b17081031f649fd14e6b233688eea3c5483994a66a3
 ## Check WSL Disk Space Usage from a WSL Bash Shell
 - Install NCDU
 ```bash
-xilinx@DESKTOP-JPVULS8:/mnt/c/Windows/system32$ sudo apt-get install -y ncdu
+xilinx@DESKTOP-JPVULS8:/c/Windows/system32$ sudo apt-get install -y ncdu
 Reading package lists... Done
 Building dependency tree
 Reading state information... Done
@@ -648,9 +662,9 @@ Processing triggers for man-db (2.8.3-2ubuntu0.1) ...
 - Check disk usage of the actual WSL environment (exclude the windows mounted volumes)
 - Note: This reports approximately 5GB total.
 ```bashrc
-xilinx@DESKTOP-JPVULS8:/mnt/c/Windows/system32$ ncdu --exclude /mnt
+xilinx@DESKTOP-JPVULS8:/c/Windows/system32$ ncdu --exclude 
 ncdu 1.12 ~ Use the arrow keys to navigate, press ? for help
---- /mnt/c/Windows/system32 --------------------------------------------------------------------------------------------
+--- /c/Windows/system32 --------------------------------------------------------------------------------------------
     2.1 GiB [##########] /DriverStore                                                                                     250.4 MiB [#         ] /winevt
 . 171.7 MiB [          ] /drivers
 . 148.9 MiB [          ] /spool
@@ -680,7 +694,9 @@ H  14.8 MiB [          ]  vmms.exe
 Total disk usage:   5.0 GiB  Apparent size:   5.0 GiB  Items: 17751                        
 ```
 
-## Setup a SSTATE-MIRROR on a Windows 10 Shared Folder
+< === Experimental as of 1/22/2020 === > 
+
+## Setup a SSTATE-MIRROR, SSTATE-CACHE and Petalinux Build folder on a Windows 10 Shared Folder
 Note: The example below is for Petalinux v2019.2
 Note: The example below uses the folder 'd:\srv\shared\sstate-mirrors\' on the Windows Filesystem to host the Mirror contents
 - Download the shared state mirror bundle from Xilinx
@@ -689,15 +705,37 @@ Note: The example below uses the folder 'd:\srv\shared\sstate-mirrors\' on the W
     - [aarch64 sstate-cache - 16.57 GB](https://www.xilinx.com/member/forms/download/xef.html?filename=sstate_aarch64_2019.2.tar.gz)
     - [arm sstate-cache - 8.54 GB](https://www.xilinx.com/member/forms/download/xef.html?filename=sstate_arm_2019.2.tar.gz)
     - [downloads - 22.29 GB](https://www.xilinx.com/member/forms/download/xef.html?filename=downloads_2019.2.tar.gz)
-- Decompress all three archives into the folder shared with Docker
-    - Use 7Zip or an equivalent windows tool
-```powershell
 
-```
+- Decompress the sstate mirror content into the folder shared with Docker
+    - Do this through a WSL Bash Shell
+    - This 
 
 ```bash
 wsl:
+xilinx@DESKTOP-JPVULS8:/d/xilinx/srv/sstate-mirrors$ mkdir -p sstate-rel-v2019.2
+xilinx@DESKTOP-JPVULS8:/d/xilinx/srv/sstate-mirrors$ tar -zxvf sstate_aarch64_2019.2.tar.gz -C ./sstate-rel-v2019.2
+...
+sstate_aarch64_2019.2/aarch64/universal-4.8/cf/sstate:wayland-native:x86_64-linux:1.16.0:r0:x86_64:3:cfdf3b535e712aee35636fcdb1b6061d_populate_sysroot.tgz.siginfo
+```
 
+- Decompress the download mirror content into the folder shared with Docker
+
+```bash
+xilinx@DESKTOP-JPVULS8:/d/xilinx/srv/sstate-mirrors$ tar -zxvf downloads_2019.2.tar.gz -C ./sstate-rel-v2019.2
+...
+downloads/zlib-1.2.11.tar.xz
+```
+
+- Create a sstate-cache folder in the folder shared with Docker
+
+```bash
+xilinx@DESKTOP-JPVULS8:/d/xilinx/srv$ mkdir -p sstate-cache 
+```
+
+- Create a petalinux build folder in the folder shared with Docker
+
+```bash
+xilinx@DESKTOP-JPVULS8:/d/xilinx/srv$ mkdir -p petalinux
 ```
 
 ## Check the Windows Docker daemon log
@@ -758,7 +796,12 @@ command prompt:
 #### Example: Share the local Petalinux SSTATE Mirror
 ```powershell
 powershell:
-> docker run argument: ```-v d:\srv\sstate-mirrors:/srv/sstate-mirrors
+> docker run ... -v d:\xilinx\srv\sstate-mirrors:/srv/sstate-mirrors
+```
+
+```bash
+wsl:
+$ docker run ... -v /d/xilinx/srv/sstate-mirrors:/srv/sstate-mirrors
 ```
 
 - Yocto sstate-cache
@@ -766,7 +809,12 @@ powershell:
 #### Example: Share the local yocto SSTATE cache
 ```powershell
 powershell:
-> docker run argument: ```-v d:\srv\sstate-cache\v2018.2:/srv/sstate-cache
+> docker run ... -v d:\xilinx\srv\sstate-cache\v2018.2:/srv/sstate-cache
+```
+
+```bash
+wsl:
+$ docker run ... -v /d/xilinx/srv/sstate-cache:/srv/sstate-cache
 ```
 
 - Yocto downloads directory
@@ -774,7 +822,12 @@ powershell:
 #### Example: Share the local download directory
 ```powershell
 bash:
-> docker run ... -v d:\srv\downloads\:/srv/downloads
+> docker run ... -v d:\xilinx\srv\downloads\:/srv/downloads
+```
+
+```bash
+wsl:
+$ docker run ... -v /d/xilinx/srv/sstate-cache:/srv/sstate-cache
 ```
 
 #### TFTP Server, Shared host folder
@@ -783,7 +836,7 @@ bash:
 #### Example: TFTP server folder 
 ```powershell
 powershell:
-> docker run ... -v d:\srv\tftpboot:/tftpboot
+> docker run ... -v d:\xilinx\srv\tftpboot:/tftpboot
 ```
 
 - Shared host folder
@@ -791,5 +844,5 @@ powershell:
 #### Example: Shared host folder
 ```powershell
 powershell:
-> docker run ... -v d:\srv\shared:/shared
+> docker run ... -v d:\xilinx\srv\shared:/shared
 ```
