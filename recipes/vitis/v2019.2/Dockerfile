@@ -79,6 +79,8 @@ RUN if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi \
 	&& echo \
 		"$USER_ACCT ALL=(ALL) NOPASSWD: ALL" \
 		>> /etc/sudoers \
+# Add user to the dialout group for serial port access \
+	&& sudo adduser $USER_ACCT dialout \
 # Create the Xilinx install folder and add appropriate permissions \
 	&& mkdir -p $XLNX_INSTALL_LOCATION \
 	&& chown -R $USER_ACCT:$USER_ACCT $XLNX_INSTALL_LOCATION \
@@ -150,7 +152,7 @@ RUN if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi \
 	 tar \
 	 unzip \
 	 gzip \
-	 less 
+	 less \
 
 ARG GIT_USER_NAME
 ARG GIT_USER_EMAIL
