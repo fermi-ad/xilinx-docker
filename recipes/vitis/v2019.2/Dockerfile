@@ -80,7 +80,7 @@ RUN if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi \
 		"$USER_ACCT ALL=(ALL) NOPASSWD: ALL" \
 		>> /etc/sudoers \
 # Add user to the dialout group for serial port access \
-	&& sudo adduser $USER_ACCT dialout \
+	&& sudo adduser -a -G dialout $USER_ACCT \
 # Create the Xilinx install folder and add appropriate permissions \
 	&& mkdir -p $XLNX_INSTALL_LOCATION \
 	&& chown -R $USER_ACCT:$USER_ACCT $XLNX_INSTALL_LOCATION \
