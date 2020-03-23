@@ -152,7 +152,7 @@ RUN if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi \
 	 tar \
 	 unzip \
 	 gzip \
-	 less \
+	 less
 
 ARG GIT_USER_NAME
 ARG GIT_USER_EMAIL
