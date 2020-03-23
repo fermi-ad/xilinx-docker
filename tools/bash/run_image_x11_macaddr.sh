@@ -8,6 +8,9 @@
 #	- Jason Moss (jason.moss@avnet.com)
 #	- Xilinx Applications Engineer, Embedded Software
 #
+# Updated:
+#   - 3/23/2020:  Add /dev:/dev mapping to container for access to JTAG
+#
 # Created: 
 #	- 1/9/2019
 #
@@ -105,6 +108,10 @@ xhost +
 # '-h $DOCKER_CONTAINER_NAME'
 #	- set the container hostname (for networking and terminal identification purposes)
 #	- this makes it easier to associate xterm sessions with a running container
+# 
+# '-v /dev:/dev \'
+#	- Share the /dev devices so Vitis/SDK has access to JTAG debugging connection
+
 
 docker run \
 	--name $DOCKER_CONTAINER_NAME \
@@ -118,6 +125,7 @@ docker run \
 	-v /srv/software/xilinx:/srv/software \
 	-v /srv/hardware_definitions:/srv/hardware_definitions \
 	-v /srv/shared:/srv/shared \
+	-v /dev:/dev \
 	-e DISPLAY=$DISPLAY \
 	--mac-address $DOCKER_CONTAINER_MACADDR \
 	--user 1000:1000 \

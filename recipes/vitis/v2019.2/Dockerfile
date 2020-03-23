@@ -136,6 +136,7 @@ RUN if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi \
 	 less \
 	 fakeroot \
 	 xorg \
+	 make \
 # Non-required packages for productivity \
 	 tofrodos \
 	 dos2unix \
