@@ -10,6 +10,7 @@
 #
 # Updated:
 #   - 3/23/2020:  Add /dev:/dev mapping to container for access to JTAG
+#   - 3/24/2020:  Add automatic CGROUP definition for container create to access /dev/ttyUSB*
 #
 # Created: 
 #	- 1/9/2019
@@ -52,12 +53,15 @@ if [[ $# -ne 3 ]]; then
 	docker ps -a
 	exit 1
 else
+	# Determine the CGROUP for /dev/ttyUSB* on the local host
+	export DOCKER_TTYUSB_CGROUP=`ls -l /dev/ttyUSB* | sed 's/,/ /g' | awk '{print $5}' | head -n 1`
 	echo "DOCKER_IMAGE_NAME: $1"
 	DOCKER_IMAGE_NAME=$1
 	echo "DOCKER_CONTAINER_NAME: $2"
 	DOCKER_CONTAINER_NAME=$2
 	echo "DOCKER_CONTAINER_MACADDR: $3"
 	DOCKER_CONTAINER_MACADDR=$3
+	echo "DOCKER_TTYUSB_CGROUP=$DOCKER_TTYUSB_CGROUP"
 fi
 
 # Enable sharing of x session
@@ -115,6 +119,7 @@ xhost +
 
 docker run \
 	--name $DOCKER_CONTAINER_NAME \
+	--device-cgroup-rule "c $DOCKER_TTYUSB_CGROUP:* rwm" \
 	-h $DOCKER_CONTAINER_NAME \
 	-v /tmp/.X11-unix:/tmp/.X11-unix \
 	-v ~/.Xauthority:/home/xilinx/.Xauthority \

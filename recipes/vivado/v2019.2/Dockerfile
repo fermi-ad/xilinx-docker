@@ -4,6 +4,9 @@
 #	- Jason Moss (jason.moss@avnet.com)
 #	- Xilinx Applications Engineer, Embedded Software
 #
+# Updates:
+#	- 3/24/2020: Add xilinx user to dialout group, install minicom to use /dev/ttyUSB* devices from shell
+#
 # Created: 
 #	- 11/11/2019
 #
@@ -79,6 +82,8 @@ RUN if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi \
 	&& echo \
 		"$USER_ACCT ALL=(ALL) NOPASSWD: ALL" \
 		>> /etc/sudoers \
+# Add user to the dialout group for serial port access \
+	&& adduser $USER_ACCT dialout \
 # Create the Xilinx install folder and add appropriate permissions \
 	&& mkdir -p $XLNX_INSTALL_LOCATION \
 	&& chown -R $USER_ACCT:$USER_ACCT $XLNX_INSTALL_LOCATION \
@@ -189,8 +194,9 @@ RUN if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi \
 # 	&& sudo apt-get update \
 # # Install the latest libstdc++6 \
 # 	&& sudo apt-get install -y \
-# 		libstdc++6
-
+# 		libstdc++6 \
+# Add minicom for /dev/ttyUSB* access from command line \
+	 minicom
 
 ARG GIT_USER_NAME
 ARG GIT_USER_EMAIL

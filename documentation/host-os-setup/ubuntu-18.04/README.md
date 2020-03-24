@@ -242,6 +242,36 @@ Deleted: sha256:4ab4c602aa5eed5528a6620ff18a1dc4faef0e1ab3a5eddeddb410714478c67f
 Deleted: sha256:428c97da766c4c13b19088a471de6b622b038f3ae8efa10ec5a37d6d31a2df0b
 ```
 
+## Provide docker container access to /dev/ttyUSB* devices
+- Three requirements:
+  - Add useraccount in container to the 'dialout' group
+    - This is done in the Dockerfile recipe
+```bash
+bash:
+$ useradd xilinx dialout
+```
+  - Mount `/dev` from the host in the container
+    - This allows you to always access dynamic /dev/tty* assigned devices
+```bash
+docker run \
+...
+  -v /dev:/dev \
+...
+```
+
+  - Create the container with the right cgroup permissions
+    - See the 'run_image_x11_macaddr.sh' shell script for how the -device-cgroup-rule is constructed on the fly when creating containers
+```bash
+...
+  # Determine the CGROUP for /dev/ttyUSB* on the local host
+  export DOCKER_TTYUSB_CGROUP=`ls -l /dev/ttyUSB* | sed 's/,/ /g' | awk '{print $5}' | head -n 1`
+...
+docker run \
+...
+  --device-cgroup-rule "c $DOCKER_TTYUSB_CGROUP:* rwm" \
+...
+```
+
 # Miscellaneous notes and tips:
 
 ## Check the Ubuntu 16.04+ docker daemon log

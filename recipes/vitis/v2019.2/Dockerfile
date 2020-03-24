@@ -4,6 +4,9 @@
 #	- Jason Moss (jason.moss@avnet.com)
 #	- Xilinx Applications Engineer, Embedded Software
 #
+# Updates:
+#	- 3/24/2020: Add xilinx user to dialout group, install minicom to use /dev/ttyUSB* devices from shell
+#
 # Created: 
 #	- 12/17/2019
 #
@@ -80,7 +83,7 @@ RUN if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi \
 		"$USER_ACCT ALL=(ALL) NOPASSWD: ALL" \
 		>> /etc/sudoers \
 # Add user to the dialout group for serial port access \
-	&& sudo adduser -a -G dialout $USER_ACCT \
+	&& adduser $USER_ACCT dialout \
 # Create the Xilinx install folder and add appropriate permissions \
 	&& mkdir -p $XLNX_INSTALL_LOCATION \
 	&& chown -R $USER_ACCT:$USER_ACCT $XLNX_INSTALL_LOCATION \
@@ -100,7 +103,7 @@ LABEL author="Jason Moss"
 ARG USER_ACCT
 ARG HOME_DIR
 
-# Switch to the user account
+# Switch to the user account, dump group configuration
 USER $USER_ACCT
 ENV DEBIAN_FRONTEND=noninteractive
 
@@ -152,7 +155,9 @@ RUN if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi \
 	 tar \
 	 unzip \
 	 gzip \
-	 less
+	 less \
+# Add minicom for /dev/ttyUSB* access from command line \
+	 minicom
 
 ARG GIT_USER_NAME
 ARG GIT_USER_EMAIL
@@ -228,6 +233,7 @@ RUN if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi \
 	&& cat $XTERM_CONFIG_FILE \
 	&& cp $XTERM_CONFIG_FILE $HOME_DIR
 
+
 # Arguments can be filled at build time using the '--build-arg' option
 ARG XLNX_UNIFIED_OFFLINE_INSTALLER
 ARG XLNX_UNIFIED_BATCH_CONFIG_FILE
@@ -271,6 +277,7 @@ RUN if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi \
 
 # Cleanup apt cache and temporary files to reduce image size
 RUN if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi \
+# Print information about users \
 	&& sudo apt-get clean \
 	&& sudo rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
 	&& sudo echo 'debconf debconf/frontend select Dialog' | sudo debconf-set-selections
