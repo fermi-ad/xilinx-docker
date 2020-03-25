@@ -214,6 +214,7 @@ ARG BUILD_DEBUG
 # Arguments can be filled at build time using the '--build-arg' option
 ARG KEYBOARD_CONFIG_FILE
 ARG XTERM_CONFIG_FILE
+ARG MINICOM_CONFIG_FILE
 
 # Configure the Keyboard (not required for Unified installation, but needed for SDK)
 RUN if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi \
@@ -231,8 +232,12 @@ RUN if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi \
 	&& mkdir -p "${XTERM_CONFIG_FILE%/*}" \
 	&& wget -nv $INSTALL_SERVER_URL/$XTERM_CONFIG_FILE -O $XTERM_CONFIG_FILE \
 	&& cat $XTERM_CONFIG_FILE \
-	&& cp $XTERM_CONFIG_FILE $HOME_DIR
-
+	&& cp $XTERM_CONFIG_FILE $HOME_DIR \
+# Copy Minicom configuration file \
+	&& mkdir -p "${MINICOM_CONFIG_FILE%/*}" \
+	&& wget -nv $INSTALL_SERVER_URL/$MINICOM_CONFIG_FILE -O $MINICOM_CONFIG_FILE \
+	&& cat $MINICOM_CONFIG_FILE \
+	&& cp $MINICOM_CONFIG_FILE $HOME_DIR
 
 # Arguments can be filled at build time using the '--build-arg' option
 ARG XLNX_UNIFIED_OFFLINE_INSTALLER

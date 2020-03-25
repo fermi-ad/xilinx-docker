@@ -135,7 +135,7 @@ XLNX_MALI_BINARY=$INSTALL_DEPENDS_DIR/mali-400-userspace.tar
 KEYBOARD_CONFIG_FILE=$INSTALL_CONFIGS_DIR/keyboard_settings.conf
 
 # Configuration file for xterm sessions inside of the docker container
-# XTERM_CONFIG_FILE: XTerm session configuratino file
+# XTERM_CONFIG_FILE: XTerm session configuration file
 #	Changes color scheme and font to something more readable (default is white background)
 #   Changes scrollback to 1 million lines and enables the scroll bar
 #   Notes on Copy-Paste with the host:
@@ -149,6 +149,11 @@ KEYBOARD_CONFIG_FILE=$INSTALL_CONFIGS_DIR/keyboard_settings.conf
 #			- Host clipboard contents from host copy maintained in separate buffer (CTRL-V)
 #-------------
 XTERM_CONFIG_FILE=$INSTALL_CONFIGS_DIR/XTerm
+
+# Configuration Files for minicom session inside of the docker container
+# MINICOM_CONFIG_FILE: Minicom default settings configuration file
+#   115200-8-N-1, no hardware flow control by default
+MINICOM_CONFIG_FILE=$INSTALL_CONFIGS_DIR/.minirc.dfl
 
 # Xilinx Unified Installer batch mode: Batch mode install configuration template
 #	for headless install of Xilinx Tool components

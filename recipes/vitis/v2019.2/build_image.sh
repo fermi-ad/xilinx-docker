@@ -147,6 +147,7 @@ echo " 	--build-arg XLNX_UNIFIED_BATCH_CONFIG_FILE=\"${XLNX_UNIFIED_BATCH_CONFIG
 echo " 	--build-arg XLNX_UNIFIED_OFFLINE_INSTALLER=\"${XLNX_UNIFIED_OFFLINE_INSTALLER}\""
 echo "  --build-arg BUILD_DEBUG=\"${BUILD_DEBUG}\""
 echo "  --build-arg XTERM_CONFIG_FILE=\"${XTERM_CONFIG_FILE}\""
+echo "  --build-arg MINICOM_CONFIG_FILE=\"${MINICOM_CONFIG_FILE}\""
 echo "-----------------------------------"
 
 if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi
@@ -166,6 +167,7 @@ docker build $DOCKER_CACHE -f ./$DOCKER_FILE_NAME \
   	--build-arg XLNX_UNIFIED_OFFLINE_INSTALLER="${XLNX_UNIFIED_OFFLINE_INSTALLER}" \
  	--build-arg BUILD_DEBUG="${BUILD_DEBUG}" \
   	--build-arg XTERM_CONFIG_FILE="${XTERM_CONFIG_FILE}" \
+  	--build-arg MINICOM_CONFIG_FILE="${MINICOM_CONFIG_FILE}" \
   	$DOCKER_INSTALL_DIR
 
 if [ $BUILD_DEBUG -ne 0 ]; then set +x; fi
