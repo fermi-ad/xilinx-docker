@@ -1,0 +1,100 @@
+##############################################
+# Determine version of librxtxSerial library
+# - Ref: https://forums.xilinx.com/t5/Embedded-Development-Tools/SDK-2016-1-crashes-on-Ubuntu-15-04-with-OpenJDK-1-8/td-p/711538
+##############################################
+xilinx@xilinx_vitis_licensed_v2019:/opt/Xilinx$ find . -name librxtxSerial.so
+./Vitis/2019.2/eclipse/lnx64.o/plugins/gnu.io.rxtx.linux.x86_64_2.1.7.3_v20071015/os/linux/x86_64/librxtxSerial.so
+
+xilinx@xilinx_vitis_licensed_v2019:/opt/Xilinx$ readelf -d Vitis/2019.2/eclipse/lnx64.o/plugins/gnu.io.rxtx.linux.x86_64_2.1.7.3_v20071015/os/linux/x86_64/librxtxSerial.so 
+
+Dynamic section at offset 0xce08 contains 22 entries:
+  Tag        Type                         Name/Value
+ 0x0000000000000001 (NEEDED)             Shared library: [libpthread.so.0]
+ 0x0000000000000001 (NEEDED)             Shared library: [libc.so.6]
+ 0x000000000000000e (SONAME)             Library soname: [librxtxSerial-2.1-7.so]
+ 0x000000000000000c (INIT)               0x35b8
+ 0x000000000000000d (FINI)               0x9c28
+ 0x0000000000000004 (HASH)               0x190
+ 0x0000000000000005 (STRTAB)             0x19d8
+ 0x0000000000000006 (SYMTAB)             0x6d0
+ 0x000000000000000a (STRSZ)              3975 (bytes)
+ 0x000000000000000b (SYMENT)             24 (bytes)
+ 0x0000000000000003 (PLTGOT)             0x20cfe8
+ 0x0000000000000002 (PLTRELSZ)           2448 (bytes)
+ 0x0000000000000014 (PLTREL)             RELA
+ 0x0000000000000017 (JMPREL)             0x2c28
+ 0x0000000000000007 (RELA)               0x2b38
+ 0x0000000000000008 (RELASZ)             240 (bytes)
+ 0x0000000000000009 (RELAENT)            24 (bytes)
+ 0x000000006ffffffe (VERNEED)            0x2af8
+ 0x000000006fffffff (VERNEEDNUM)         2
+ 0x000000006ffffff0 (VERSYM)             0x2960
+ 0x000000006ffffff9 (RELACOUNT)          2
+ 0x0000000000000000 (NULL)               0x0
+
+
+##############################################
+# Setup correct /var/lock permissions
+# - Ref: https://bugs.gentoo.org/416439
+# - 
+##############################################
+- List original permissions
+xilinx@xilinx_vitis_v2019:/opt/Xilinx$ stat /var/lock
+  File: /var/lock -> /run/lock
+  Size: 9               Blocks: 0          IO Block: 4096   symbolic link
+Device: 38h/56d Inode: 23857410    Links: 1
+Access: (0777/lrwxrwxrwx)  Uid: (    0/    root)   Gid: (    0/    root)
+Access: 2019-02-09 22:22:33.241730481 +0000
+Modify: 2019-02-09 22:22:32.093727648 +0000
+Change: 2019-12-18 15:18:31.694680669 +0000
+ Birth: -
+
+xilinx@xilinx_vitis_v2019:/opt/Xilinx$ ls -ll /var/lock
+lrwxrwxrwx 1 root root 9 Feb  9  2019 /var/lock -> /run/lock
+
+xilinx@xilinx_vitis_v2019:/opt/Xilinx$ stat /run/lock
+  File: /run/lock
+  Size: 4096            Blocks: 8          IO Block: 4096   directory
+Device: 38h/56d Inode: 22940368    Links: 1
+Access: (1777/drwxrwxrwt)  Uid: (    0/    root)   Gid: (    0/    root)
+Access: 2019-12-18 15:18:31.714680701 +0000
+Modify: 2019-02-09 22:22:32.089727638 +0000
+Change: 2020-03-25 17:08:02.986725563 +0000
+ Birth: -
+
+xilinx@xilinx_vitis_v2019:/opt/Xilinx$ ls -ll /run/lock -d
+drwxrwxrwt 1 root root 4096 Feb  9  2019 /run/lock
+
+
+- Add current user to the group
+xilinx@xilinx_vitis_v2019:/opt/Xilinx$ sudo adduser xilinx uucp
+
+- Add uucp group permissions to /var/lock
+xilinx@xilinx_vitis_v2019:/opt/Xilinx$ sudo chgrp uucp /var/lock
+
+- Add uucp group write permissions to /var/lock
+xilinx@xilinx_vitis_v2019:/opt/Xilinx$ sudo chmod g+w /var/lock
+
+- Check new permissions
+xilinx@xilinx_vitis_v2019:/opt/Xilinx$ stat /var/lock
+  File: /var/lock -> /run/lock
+  Size: 9               Blocks: 0          IO Block: 4096   symbolic link
+Device: 38h/56d Inode: 23857410    Links: 1
+Access: (0777/lrwxrwxrwx)  Uid: (    0/    root)   Gid: (    0/    root)
+Access: 2019-02-09 22:22:33.241730481 +0000
+Modify: 2019-02-09 22:22:32.093727648 +0000
+Change: 2019-12-18 15:18:31.694680669 +0000
+ Birth: -
+
+xilinx@xilinx_vitis_v2019:/opt/Xilinx$ ls -ll /var/lock
+lrwxrwxrwx 1 root root 9 Feb  9  2019 /var/lock -> /run/lock
+
+xilinx@xilinx_vitis_v2019:/opt/Xilinx$ stat /run/lock
+  File: /run/lock
+  Size: 4096            Blocks: 8          IO Block: 4096   directory
+Device: 38h/56d Inode: 22940368    Links: 1
+Access: (1777/drwxrwxrwt)  Uid: (    0/    root)   Gid: (   10/    uucp)
+Access: 2020-03-25 17:09:30.850800133 +0000
+Modify: 2019-02-09 22:22:32.089727638 +0000
+Change: 2020-03-25 17:17:42.039208925 +0000
+ Birth: -
