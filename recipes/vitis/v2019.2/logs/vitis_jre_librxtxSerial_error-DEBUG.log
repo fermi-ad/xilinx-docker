@@ -35,8 +35,6 @@ Dynamic section at offset 0xce08 contains 22 entries:
 
 ##############################################
 # Setup correct /var/lock permissions
-# - Ref: https://bugs.gentoo.org/416439
-# - 
 ##############################################
 - List original permissions
 xilinx@xilinx_vitis_v2019:/opt/Xilinx$ stat /var/lock
