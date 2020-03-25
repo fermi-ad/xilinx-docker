@@ -9,3 +9,6 @@
 
 # Keep the XTerm configuration file
 !XTerm
+
+# Keep the Minicom configuration file
+!.minirc.dfl
