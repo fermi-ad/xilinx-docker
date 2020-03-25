@@ -85,6 +85,15 @@ else
 	exit $EX_OSFILE
 fi
 
+# Check for Minicom configuration file
+if [ -f $MINICOM_CONFIG_FILE ] || [ -L $MINICOM_CONFIG_FILE ]; then
+	echo "Minicom Configuration File: [Good] "$MINICOM_CONFIG_FILE
+else
+	# File does not exist
+	echo "ERROR: Minicom Configuration File: [Missing] "$MINICOM_CONFIG_FILE
+	exit $EX_OSFILE
+fi
+
 # Create docker folder
 echo "-----------------------------------"
 echo "Docker Build Context (Working)..."
