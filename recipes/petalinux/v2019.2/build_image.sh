@@ -83,6 +83,15 @@ else
 	exit $EX_OSFILE
 fi
 
+# Check for Minicom configuration file
+if [ -f $MINICOM_CONFIG_FILE ] || [ -L $MINICOM_CONFIG_FILE ]; then
+	echo "Minicom Configuration File: [Good] "$MINICOM_CONFIG_FILE
+else
+	# File does not exist
+	echo "ERROR: Minicom Configuration File: [Missing] "$MINICOM_CONFIG_FILE
+	exit $EX_OSFILE
+fi
+
 # Create docker folder
 echo "-----------------------------------"
 echo "Docker Build Context (Working)..."
@@ -146,6 +155,7 @@ echo "  --build-arg XLNX_PETALINUX_AUTOINSTALL_SCRIPT=\"${XLNX_PETALINUX_AUTOINS
 echo "  --build-arg XLNX_PETALINUX_INSTALL_DIR=\"${XLNX_PETALINUX_INSTALL_DIR}\""
 echo "  --build-arg BUILD_DEBUG=\"${BUILD_DEBUG}\""
 echo "  --build-arg XTERM_CONFIG_FILE=\"${XTERM_CONFIG_FILE}\""
+echo "  --build-arg MINICOM_CONFIG_FILE=\"${MINICOM_CONFIG_FILE}\""
 echo "-----------------------------------"
 
 if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi
@@ -167,6 +177,7 @@ docker build $DOCKER_CACHE -f ./$DOCKER_FILE_NAME \
  	--build-arg XLNX_PETALINUX_INSTALL_DIR="${XLNX_PETALINUX_INSTALL_DIR}" \
  	--build-arg BUILD_DEBUG="${BUILD_DEBUG}" \
  	--build-arg XTERM_CONFIG_FILE="${XTERM_CONFIG_FILE}" \
+   	--build-arg MINICOM_CONFIG_FILE="${MINICOM_CONFIG_FILE}" \
   	$DOCKER_INSTALL_DIR
 
 if [ $BUILD_DEBUG -ne 0 ]; then set +x; fi

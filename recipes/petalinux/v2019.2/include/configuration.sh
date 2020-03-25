@@ -156,6 +156,11 @@ KEYBOARD_CONFIG_FILE=$INSTALL_CONFIGS_DIR/keyboard_settings.conf
 #-------------
 XTERM_CONFIG_FILE=$INSTALL_CONFIGS_DIR/XTerm
 
+# Configuration Files for minicom session inside of the docker container
+# MINICOM_CONFIG_FILE: Minicom default settings configuration file
+#   115200-8-N-1, no hardware flow control by default
+MINICOM_CONFIG_FILE=$INSTALL_CONFIGS_DIR/.minirc.dfl
+
 # Xilinx Petalinux Autoinstall Script
 #  for headless installation of Petalinux
 XLNX_PETALINUX_AUTOINSTALL_SCRIPT=autoinstall_petalinux.sh
