@@ -133,6 +133,6 @@ docker run \
 	-v /dev:/dev \
 	-e DISPLAY=$DISPLAY \
 	--mac-address $DOCKER_CONTAINER_MACADDR \
-	--user 1000:1000 \
+	--user xilinx \
 	-itd $DOCKER_IMAGE_NAME \
 	/bin/bash

@@ -1,4 +1,4 @@
-$ ./build_image.sh 
+rjmoss@dxindustries-desktop:/xilinx/local/repositories/gitlab/xilinx-docker/recipes/vitis/v2019.2$ ./build_image.sh 
 -----------------------------------
 Checking for dependencies...
 -----------------------------------
@@ -20,7 +20,7 @@ DOCKER_BUILD_WORKING_DIR=/xilinx/local/repositories/gitlab/xilinx-docker/recipes
 -----------------------------------
 Launching Python HTTP Server...
 -----------------------------------
-+ SERVER_PID=5303
++ SERVER_PID=25927
 + python3 -m http.server
 ++ ifconfig docker0
 ++ grep 'inet\s'
@@ -29,7 +29,7 @@ Launching Python HTTP Server...
 + '[' 1 -ne 0 ']'
 + set +x
 SERVER_IP=172.17.0.1
-SERVER_PID=5303
+SERVER_PID=25927
 -----------------------------------
 -----------------------------------
 Building the Docker Image...
@@ -58,57 +58,42 @@ Arguments...
   --build-arg MINICOM_CONFIG_FILE="configs/.minirc.dfl"
 -----------------------------------
 + docker build -f ./Dockerfile --target xilinx_install_vitis_v2019.2 -t xilinx-vitis:v2019.2 --build-arg USER_ACCT=xilinx --build-arg HOME_DIR=/home/xilinx --build-arg 'GIT_USER_NAME=Xilinx User' --build-arg GIT_USER_EMAIL=Xilinx.User@dummyaddress.com --build-arg KEYBOARD_CONFIG_FILE=configs/keyboard_settings.conf --build-arg XLNX_INSTALL_LOCATION=/opt/Xilinx --build-arg XLNX_DOWNLOAD_LOCATION=/opt/Xilinx/downloads --build-arg INSTALL_SERVER_URL=172.17.0.1:8000 --build-arg XLNX_UNIFIED_BATCH_CONFIG_FILE=configs/xlnx_unified_vitis.config --build-arg XLNX_UNIFIED_OFFLINE_INSTALLER=depends/Xilinx_Unified_2019.2_1024_1831_Lin64.bin.tar.gz --build-arg BUILD_DEBUG=1 --build-arg XTERM_CONFIG_FILE=configs/XTerm --build-arg MINICOM_CONFIG_FILE=configs/.minirc.dfl .
-Traceback (most recent call last):emon  64.06MB
-  File "/usr/lib/python3.6/runpy.py", line 193, in _run_module_as_main
-    "__main__", mod_spec)
-  File "/usr/lib/python3.6/runpy.py", line 85, in _run_code
-    exec(code, run_globals)
-  File "/usr/lib/python3.6/http/server.py", line 1211, in <module>
-    test(HandlerClass=handler_class, port=args.port, bind=args.bind)
-  File "/usr/lib/python3.6/http/server.py", line 1185, in test
-    with ServerClass(server_address, HandlerClass) as httpd:
-  File "/usr/lib/python3.6/socketserver.py", line 456, in __init__
-    self.server_bind()
-  File "/usr/lib/python3.6/http/server.py", line 136, in server_bind
-    socketserver.TCPServer.server_bind(self)
-  File "/usr/lib/python3.6/socketserver.py", line 470, in server_bind
-    self.socket.bind(self.server_address)
-OSError: [Errno 98] Address already in use
+Serving HTTP on 0.0.0.0 port 8000 (http://0.0.0.0:8000/) ...
 Sending build context to Docker daemon  239.4MB
 Step 1/42 : FROM ubuntu:18.04.2 AS base_os_vitis_v2019.2
  ---> 1c767f5d46fe
 Step 2/42 : LABEL author="Jason Moss"
- ---> Running in 427e4ed0c3c4
-Removing intermediate container 427e4ed0c3c4
- ---> bccdf55bd3fd
+ ---> Running in 058a63407a1e
+Removing intermediate container 058a63407a1e
+ ---> 6fd86712e2c2
 Step 3/42 : ENV DEBIAN_FRONTEND=noninteractive
- ---> Running in b6432ddb8fd7
-Removing intermediate container b6432ddb8fd7
- ---> 455ecbe84403
+ ---> Running in 7e7b0e1d8c98
+Removing intermediate container 7e7b0e1d8c98
+ ---> 4019a358a83a
 Step 4/42 : ARG BUILD_DEBUG
- ---> Running in 7aeb5500e955
-Removing intermediate container 7aeb5500e955
- ---> f05643b602fa
+ ---> Running in ecbae6bb8a05
+Removing intermediate container ecbae6bb8a05
+ ---> 600e784dafe2
 Step 5/42 : RUN if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi      && echo "APT::Install-Recommends false;" > /etc/apt/apt.conf.d/00norecommends   && echo "APT::AutoRemove::RecommendsImportant false;" >> /etc/apt/apt.conf.d/00norecommends  && echo "APT::Install-Suggests false;" > /etc/apt/apt.conf.d/00nosuggests       && echo "APT::AutoRemove::SuggestsImportant false;" >> /etc/apt/apt.conf.d/00nosuggests     && apt-get update        && apt-get install -y           apt-utils               vim     && apt-get install locales      && locale-gen en_US.UTF-8       && dpkg-reconfigure             --frontend $DEBIAN_FRONTEND locales
- ---> Running in 962785288ef6
+ ---> Running in ef454c7b3c09
 + echo APT::Install-Recommends false;
 + echo APT::AutoRemove::RecommendsImportant false;
 + echo APT::Install-Suggests false;
 + echo APT::AutoRemove::SuggestsImportant false;
 + apt-get update
-Hit:1 http://archive.ubuntu.com/ubuntu bionic InRelease
-Get:2 http://security.ubuntu.com/ubuntu bionic-security InRelease [88.7 kB]
+Get:1 http://security.ubuntu.com/ubuntu bionic-security InRelease [88.7 kB]
+Hit:2 http://archive.ubuntu.com/ubuntu bionic InRelease
 Get:3 http://archive.ubuntu.com/ubuntu bionic-updates InRelease [88.7 kB]
-Get:4 http://archive.ubuntu.com/ubuntu bionic-backports InRelease [74.6 kB]
-Get:5 http://security.ubuntu.com/ubuntu bionic-security/main amd64 Packages [670 kB]
-Get:6 http://archive.ubuntu.com/ubuntu bionic/universe amd64 Packages [8570 kB]
-Get:7 http://security.ubuntu.com/ubuntu bionic-security/main Translation-en [216 kB]
-Get:8 http://security.ubuntu.com/ubuntu bionic-security/restricted amd64 Packages [27.1 kB]
-Get:9 http://security.ubuntu.com/ubuntu bionic-security/restricted Translation-en [7260 B]
-Get:10 http://security.ubuntu.com/ubuntu bionic-security/universe amd64 Packages [652 kB]
-Get:11 http://security.ubuntu.com/ubuntu bionic-security/universe Translation-en [216 kB]
-Get:12 http://security.ubuntu.com/ubuntu bionic-security/multiverse amd64 Packages [6968 B]
-Get:13 http://security.ubuntu.com/ubuntu bionic-security/multiverse Translation-en [2732 B]
+Get:4 http://security.ubuntu.com/ubuntu bionic-security/main amd64 Packages [670 kB]
+Get:5 http://security.ubuntu.com/ubuntu bionic-security/main Translation-en [216 kB]
+Get:6 http://security.ubuntu.com/ubuntu bionic-security/restricted amd64 Packages [27.1 kB]
+Get:7 http://security.ubuntu.com/ubuntu bionic-security/restricted Translation-en [7260 B]
+Get:8 http://security.ubuntu.com/ubuntu bionic-security/universe amd64 Packages [652 kB]
+Get:9 http://security.ubuntu.com/ubuntu bionic-security/universe Translation-en [216 kB]
+Get:10 http://security.ubuntu.com/ubuntu bionic-security/multiverse amd64 Packages [6968 B]
+Get:11 http://security.ubuntu.com/ubuntu bionic-security/multiverse Translation-en [2732 B]
+Get:12 http://archive.ubuntu.com/ubuntu bionic-backports InRelease [74.6 kB]
+Get:13 http://archive.ubuntu.com/ubuntu bionic/universe amd64 Packages [8570 kB]
 Get:14 http://archive.ubuntu.com/ubuntu bionic/universe Translation-en [4941 kB]
 Get:15 http://archive.ubuntu.com/ubuntu bionic/multiverse amd64 Packages [151 kB]
 Get:16 http://archive.ubuntu.com/ubuntu bionic/multiverse Translation-en [108 kB]
@@ -122,9 +107,9 @@ Get:23 http://archive.ubuntu.com/ubuntu bionic-updates/multiverse amd64 Packages
 Get:24 http://archive.ubuntu.com/ubuntu bionic-updates/multiverse Translation-en [4664 B]
 Get:25 http://archive.ubuntu.com/ubuntu bionic-backports/main amd64 Packages [2512 B]
 Get:26 http://archive.ubuntu.com/ubuntu bionic-backports/main Translation-en [1644 B]
-Get:27 http://archive.ubuntu.com/ubuntu bionic-backports/universe amd64 Packages [4916 B]
+Get:27 http://archive.ubuntu.com/ubuntu bionic-backports/universe amd64 Packages [4020 B]
 Get:28 http://archive.ubuntu.com/ubuntu bionic-backports/universe Translation-en [1900 B]
-Fetched 18.5 MB in 4s (5134 kB/s)
+Fetched 18.5 MB in 4s (5002 kB/s)
 Reading package lists...
 + apt-get install -y apt-utils vim
 Reading package lists...
@@ -168,7 +153,7 @@ Get:17 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 libpython3.6 a
 Get:18 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 vim-runtime all 2:8.0.1453-1ubuntu1.3 [5436 kB]
 Get:19 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 vim amd64 2:8.0.1453-1ubuntu1.3 [1153 kB]
 debconf: delaying package configuration, since apt-utils is not installed
-Fetched 14.8 MB in 2s (9799 kB/s)
+Fetched 14.8 MB in 2s (9328 kB/s)
 (Reading database ... 4037 files and directories currently installed.)
 Preparing to unpack .../libapt-pkg5.0_1.6.12_amd64.deb ...
 Unpacking libapt-pkg5.0:amd64 (1.6.12) over (1.6.8) ...
@@ -294,7 +279,7 @@ Need to get 3612 kB of archives.
 After this operation, 14.5 MB of additional disk space will be used.
 Get:1 http://archive.ubuntu.com/ubuntu bionic/main amd64 locales all 2.27-3ubuntu1 [3612 kB]
 Preconfiguring packages ...
-Fetched 3612 kB in 1s (3635 kB/s)
+Fetched 3612 kB in 1s (3599 kB/s)
 Selecting previously unselected package locales.
 (Reading database ... 6643 files and directories currently installed.)
 Preparing to unpack .../locales_2.27-3ubuntu1_all.deb ...
@@ -310,10 +295,10 @@ Generation complete.
 Generating locales (this might take a while)...
   en_US.UTF-8... done
 Generation complete.
-Removing intermediate container 962785288ef6
- ---> 1ef4299f6077
+Removing intermediate container ef454c7b3c09
+ ---> 2b7065d086fe
 Step 6/42 : RUN if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi      && apt-get install -y           dialog          debconf-utils   && echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections
- ---> Running in 4b8e18ae6c47
+ ---> Running in 235ca58e6cdc
 + apt-get install -y dialog debconf-utils
 Reading package lists...
 Building dependency tree...
@@ -336,7 +321,7 @@ Get:1 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 debconf all 1.5
 Get:2 http://archive.ubuntu.com/ubuntu bionic-updates/universe amd64 debconf-utils all 1.5.66ubuntu1 [56.6 kB]
 Get:3 http://archive.ubuntu.com/ubuntu bionic/universe amd64 dialog amd64 1.3-20171209-1 [217 kB]
 Preconfiguring packages ...
-Fetched 397 kB in 1s (458 kB/s)
+Fetched 397 kB in 1s (509 kB/s)
 (Reading database ... 7261 files and directories currently installed.)
 Preparing to unpack .../debconf_1.5.66ubuntu1_all.deb ...
 Unpacking debconf (1.5.66ubuntu1) over (1.5.66) ...
@@ -350,24 +335,24 @@ Preparing to unpack .../dialog_1.3-20171209-1_amd64.deb ...
 Unpacking dialog (1.3-20171209-1) ...
 Setting up dialog (1.3-20171209-1) ...
 Setting up debconf-utils (1.5.66ubuntu1) ...
-+ echo debconf debconf/frontend select Noninteractive
-+ debconf-set-selections
-Removing intermediate container 4b8e18ae6c47
- ---> 46bdc5d71505
++ + echo debconf debconf/frontend select Noninteractive
+debconf-set-selections
+Removing intermediate container 235ca58e6cdc
+ ---> 14b9775a9204
 Step 7/42 : ARG USER_ACCT
- ---> Running in 7ea6c794e790
-Removing intermediate container 7ea6c794e790
- ---> b122dd39c4c8
+ ---> Running in 662c441e886c
+Removing intermediate container 662c441e886c
+ ---> 7bf7e3566127
 Step 8/42 : ARG HOME_DIR
- ---> Running in b9bc34079bdf
-Removing intermediate container b9bc34079bdf
- ---> d1672cd195e8
+ ---> Running in 8c9de46bec22
+Removing intermediate container 8c9de46bec22
+ ---> 1d507e52adf1
 Step 9/42 : ARG XLNX_INSTALL_LOCATION
- ---> Running in 8d0fef0e43b8
-Removing intermediate container 8d0fef0e43b8
- ---> 1fa170ca99b3
-Step 10/42 : RUN if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi     && apt-get install -y           sudo    && adduser              --disabled-password             --gecos ''              --shell /bin/bash   --home $HOME_DIR                 $USER_ACCT      && echo                 "$USER_ACCT ALL=(ALL) NOPASSWD: ALL"            >> /etc/sudoers         && adduser $USER_ACCT dialout   && mkdir -p $XLNX_INSTALL_LOCATION   && chown -R $USER_ACCT:$USER_ACCT $XLNX_INSTALL_LOCATION        && echo "dash dash/sh boolean false" | debconf-set-selections   && DEBIAN_FRONTEND=$DEBIAN_FRONTEND dpkg-reconfigure dash
- ---> Running in 35efc34171f1
+ ---> Running in 339606056e2e
+Removing intermediate container 339606056e2e
+ ---> 74dfb89650d6
+Step 10/42 : RUN if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi     && apt-get install -y           sudo    && adduser              --disabled-password             --gecos ''              --shell /bin/bash   --home $HOME_DIR                 $USER_ACCT      && echo                 "$USER_ACCT ALL=(ALL) NOPASSWD: ALL"            >> /etc/sudoers         && adduser $USER_ACCT dialout   && adduser $USER_ACCT uucp  && chgrp uucp /var/lock  && chmod g+w /var/lock  && mkdir -p $XLNX_INSTALL_LOCATION      && chown -R $USER_ACCT:$USER_ACCT $XLNX_INSTALL_LOCATION        && echo "dash dash/sh boolean false" | debconf-set-selections        && DEBIAN_FRONTEND=$DEBIAN_FRONTEND dpkg-reconfigure dash
+ ---> Running in 0a7b74ead7e2
 + apt-get install -y sudo
 Reading package lists...
 Building dependency tree...
@@ -378,7 +363,7 @@ The following NEW packages will be installed:
 Need to get 427 kB of archives.
 After this operation, 1765 kB of additional disk space will be used.
 Get:1 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 sudo amd64 1.8.21p2-3ubuntu1.2 [427 kB]
-Fetched 427 kB in 1s (625 kB/s)
+Fetched 427 kB in 1s (621 kB/s)
 Selecting previously unselected package sudo.
 (Reading database ... 7483 files and directories currently installed.)
 Preparing to unpack .../sudo_1.8.21p2-3ubuntu1.2_amd64.deb ...
@@ -395,6 +380,12 @@ Copying files from `/etc/skel' ...
 Adding user `xilinx' to group `dialout' ...
 Adding user xilinx to group dialout
 Done.
++ adduser xilinx uucp
+Adding user `xilinx' to group `uucp' ...
+Adding user xilinx to group uucp
+Done.
++ chgrp uucp /var/lock
++ chmod g+w /var/lock
 + mkdir -p /opt/Xilinx
 + chown -R xilinx:xilinx /opt/Xilinx
 + echo dash dash/sh boolean false
@@ -404,48 +395,57 @@ Removing 'diversion of /bin/sh to /bin/sh.distrib by dash'
 Adding 'diversion of /bin/sh to /bin/sh.distrib by bash'
 Removing 'diversion of /usr/share/man/man1/sh.1.gz to /usr/share/man/man1/sh.distrib.1.gz by dash'
 Adding 'diversion of /usr/share/man/man1/sh.1.gz to /usr/share/man/man1/sh.distrib.1.gz by bash'
-Removing intermediate container 35efc34171f1
- ---> 41d26cadd7cf
+Removing intermediate container 0a7b74ead7e2
+ ---> 86991fe26f55
 Step 11/42 : FROM base_os_vitis_v2019.2 AS xilinx_install_depends_vitis_v2019.2
- ---> 41d26cadd7cf
+ ---> 86991fe26f55
 Step 12/42 : LABEL author="Jason Moss"
- ---> Running in 7fd58b381d9e
-Removing intermediate container 7fd58b381d9e
- ---> 51177cd7f16f
+ ---> Running in 653e128c68cc
+Removing intermediate container 653e128c68cc
+ ---> 7599c5243dbd
 Step 13/42 : ARG USER_ACCT
- ---> Running in 394443d498a5
-Removing intermediate container 394443d498a5
- ---> 6197373f6b33
+ ---> Running in dacb21b04cd5
+Removing intermediate container dacb21b04cd5
+ ---> 702d5573669a
 Step 14/42 : ARG HOME_DIR
- ---> Running in d709258774f4
-Removing intermediate container d709258774f4
- ---> 8910b0058700
+ ---> Running in 5f1c3686163e
+Removing intermediate container 5f1c3686163e
+ ---> 03693912cf84
 Step 15/42 : USER $USER_ACCT
- ---> Running in 504363fce1b2
-Removing intermediate container 504363fce1b2
- ---> 8690ec7b2cdb
+ ---> Running in bce6e685ecca
+Removing intermediate container bce6e685ecca
+ ---> 5d7b67c6b6dd
 Step 16/42 : ENV DEBIAN_FRONTEND=noninteractive
- ---> Running in d615f84f3c4c
-Removing intermediate container d615f84f3c4c
- ---> 1738ceafd623
+ ---> Running in 98b0b6f20791
+Removing intermediate container 98b0b6f20791
+ ---> d21dfcbfb91c
 Step 17/42 : ARG XLNX_INSTALL_LOCATION
- ---> Running in a410dcb6c33f
-Removing intermediate container a410dcb6c33f
- ---> f656dd7ddb59
+ ---> Running in 371cafe14dc6
+Removing intermediate container 371cafe14dc6
+ ---> 02bde903166c
 Step 18/42 : ARG XLNX_PETALINUX_INSTALLER
- ---> Running in e31ff63b3622
-Removing intermediate container e31ff63b3622
- ---> 861eaf24fcbc
+ ---> Running in 51a6df0f33e7
+Removing intermediate container 51a6df0f33e7
+ ---> e30bf6e6d292
 Step 19/42 : ARG INSTALL_SERVER_URL
- ---> Running in f2f89704ec67
-Removing intermediate container f2f89704ec67
- ---> 65fd57db6ae3
+ ---> Running in a4c2fe887bec
+Removing intermediate container a4c2fe887bec
+ ---> 4dd5199e9f34
 Step 20/42 : ARG BUILD_DEBUG
- ---> Running in 3ca5c10e8831
-Removing intermediate container 3ca5c10e8831
- ---> 80779faad3da
-Step 21/42 : RUN if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi     && mkdir -p $XLNX_INSTALL_LOCATION/tmp  && cd $XLNX_INSTALL_LOCATION/tmp        && sudo dpkg --add-architecture i386    && sudo apt-get update       && sudo apt-get install -y      ocl-icd-dev      ocl-icd-libopencl1      opencl-headers      ocl-icd-opencl-dev          libgtk2.0-0     gcc     libboost-signals-dev    google-perftools        less         fakeroot        xorg    make    tofrodos        dos2unix        iproute2        gawk    git     wget    diffstat        xterm   xvfb    tar     unzip   gzip    less    minicom
- ---> Running in 26c553deced3
+ ---> Running in 6b4a186352c9
+Removing intermediate container 6b4a186352c9
+ ---> 91e88f094fd1
+Step 21/42 : RUN if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi     && whoami       && w    && id $USER_ACCT        && groups       && mkdir -p $XLNX_INSTALL_LOCATION/tmp  && cd $XLNX_INSTALL_LOCATION/tmp    && sudo dpkg --add-architecture i386     && sudo apt-get update  && sudo apt-get install -y      ocl-icd-dev      ocl-icd-libopencl1      opencl-headers      ocl-icd-opencl-dev          libgtk2.0-0     gcc  libboost-signals-dev    google-perftools        less    fakeroot        xorg    make    tofrodos        dos2unix        iproute2        gawk    git     wget    diffstat        xterm   xvfb    tar     unzip        gzip    less    minicom
+ ---> Running in 16b19df5d432
++ whoami
+xilinx
++ w
+ 02:38:47 up 2 days, 11:13,  0 users,  load average: 2.12, 1.87, 1.29
+USER     TTY      FROM             LOGIN@   IDLE   JCPU   PCPU WHAT
++ id xilinx
+uid=1000(xilinx) gid=1000(xilinx) groups=1000(xilinx),10(uucp),20(dialout)
++ groups
+xilinx uucp dialout
 + mkdir -p /opt/Xilinx/tmp
 + cd /opt/Xilinx/tmp
 + sudo dpkg --add-architecture i386
@@ -467,8 +467,8 @@ Get:14 http://archive.ubuntu.com/ubuntu bionic-updates/restricted i386 Packages 
 Get:15 http://archive.ubuntu.com/ubuntu bionic-updates/universe i386 Packages [1012 kB]
 Get:16 http://archive.ubuntu.com/ubuntu bionic-updates/multiverse i386 Packages [7480 B]
 Get:17 http://archive.ubuntu.com/ubuntu bionic-backports/main i386 Packages [2516 B]
-Get:18 http://archive.ubuntu.com/ubuntu bionic-backports/universe i386 Packages [4916 B]
-Fetched 12.5 MB in 3s (3924 kB/s)
+Get:18 http://archive.ubuntu.com/ubuntu bionic-backports/universe i386 Packages [4016 B]
+Fetched 12.5 MB in 3s (3895 kB/s)
 Reading package lists...
 + sudo apt-get install -y ocl-icd-dev ocl-icd-libopencl1 opencl-headers ocl-icd-opencl-dev libgtk2.0-0 gcc libboost-signals-dev google-perftools less fakeroot xorg make tofrodos dos2unix iproute2 gawk git wget diffstat xterm xvfb tar unzip gzip less minicom
 Reading package lists...
@@ -882,10 +882,10 @@ Get:265 http://archive.ubuntu.com/ubuntu bionic/universe amd64 opencl-clhpp-head
 Get:266 http://archive.ubuntu.com/ubuntu bionic/universe amd64 opencl-headers all 2.2~2018.02.21-gb5c3680-1 [2728 B]
 Get:267 http://archive.ubuntu.com/ubuntu bionic/main amd64 ocl-icd-opencl-dev amd64 2.2.11-1ubuntu1 [2512 B]
 Preconfiguring packages ...
-Fetched 123 MB in 9s (13.0 MB/s)
-Selecting previously unselected package liblocale-gettext-perl.
-(Reading database ... 7538 files and directories currently installed.)
-Preparing to unpack .../liblocale-gettext-perl_1.07-3build2_amd64.deb ...
+Fetched 123 MB in 10s (13.0 MB/s)
+Selecting previously unselected package liblocale-gettext-perl.                                                                                                                                              
+(Reading database ... 7538 files and directories currently installed.)                                                                                                                                       
+Preparing to unpack .../liblocale-gettext-perl_1.07-3build2_amd64.deb ...                                                                                                                                    
 Unpacking liblocale-gettext-perl (1.07-3build2) ...
 Selecting previously unselected package keyboard-configuration.
 Preparing to unpack .../keyboard-configuration_1.178ubuntu2.9_all.deb ...
@@ -2000,82 +2000,82 @@ Updating certificates in /etc/ssl/certs...
 Running hooks in /etc/ca-certificates/update.d...
 done.
 Processing triggers for libgdk-pixbuf2.0-0:amd64 (2.36.11-2) ...
-Removing intermediate container 26c553deced3
- ---> ec1028073f52
+Removing intermediate container 16b19df5d432
+ ---> dfe0ca484dc2
 Step 22/42 : ARG GIT_USER_NAME
- ---> Running in 73cdb0b6657c
-Removing intermediate container 73cdb0b6657c
- ---> c7c869e6693d
+ ---> Running in f27267f2e3cf
+Removing intermediate container f27267f2e3cf
+ ---> e73fb62a14a8
 Step 23/42 : ARG GIT_USER_EMAIL
- ---> Running in 2963d28063eb
-Removing intermediate container 2963d28063eb
- ---> a1e61bb74e5e
+ ---> Running in 077511fcf29a
+Removing intermediate container 077511fcf29a
+ ---> 65f87bb87ee6
 Step 24/42 : RUN if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi     && git config   --global user.name $GIT_USER_NAME       && git config   --global user.email $GIT_USER_EMAIL     && git config   --global color.ui true
- ---> Running in 39d60810e869
+ ---> Running in 08bcf7b42544
 + git config --global user.name Xilinx User
 + git config --global user.email Xilinx.User@dummyaddress.com
 + git config --global color.ui true
-Removing intermediate container 39d60810e869
- ---> 8e1f24170291
+Removing intermediate container 08bcf7b42544
+ ---> b7ac06218a98
 Step 25/42 : FROM xilinx_install_depends_vitis_v2019.2 AS xilinx_install_vitis_v2019.2
- ---> 8e1f24170291
+ ---> b7ac06218a98
 Step 26/42 : LABEL author="Jason Moss"
- ---> Running in 5996b9f5ec35
-Removing intermediate container 5996b9f5ec35
- ---> 7f6435809aa4
+ ---> Running in aee3b8dab5f5
+Removing intermediate container aee3b8dab5f5
+ ---> 0b5876d98746
 Step 27/42 : ARG USER_ACCT
- ---> Running in eac39508ef34
-Removing intermediate container eac39508ef34
- ---> a56b2d90c759
+ ---> Running in 20ba5c2bf23d
+Removing intermediate container 20ba5c2bf23d
+ ---> 46fb450d8991
 Step 28/42 : ARG HOME_DIR
- ---> Running in 19bc302bcecd
-Removing intermediate container 19bc302bcecd
- ---> 7a538400a7d2
+ ---> Running in a64bc75b917c
+Removing intermediate container a64bc75b917c
+ ---> 688e8cda2362
 Step 29/42 : USER $USER_ACCT
- ---> Running in e883b7c925fd
-Removing intermediate container e883b7c925fd
- ---> 7298ac233bf1
+ ---> Running in 5cc16b84193f
+Removing intermediate container 5cc16b84193f
+ ---> 198bd4f49635
 Step 30/42 : ENV DEBIAN_FRONTEND=noninteractive
- ---> Running in 6f1f09cf1ab9
-Removing intermediate container 6f1f09cf1ab9
- ---> fdbc78a0f04a
+ ---> Running in 8ba589b8aefb
+Removing intermediate container 8ba589b8aefb
+ ---> 0210ebf8980b
 Step 31/42 : ARG XLNX_INSTALL_LOCATION
- ---> Running in 909175e9f7e1
-Removing intermediate container 909175e9f7e1
- ---> 9aad74af9e4c
+ ---> Running in a5f677ecb832
+Removing intermediate container a5f677ecb832
+ ---> 83ea4970f64f
 Step 32/42 : ARG XLNX_DOWNLOAD_LOCATION
- ---> Running in 3a8f66f79008
-Removing intermediate container 3a8f66f79008
- ---> a30362646d52
+ ---> Running in fd8b23fab9bf
+Removing intermediate container fd8b23fab9bf
+ ---> 20b4d071a48c
 Step 33/42 : ARG INSTALL_SERVER_URL
- ---> Running in 5d923416e6e3
-Removing intermediate container 5d923416e6e3
- ---> 981a1aa8a925
+ ---> Running in 2c473ca0c261
+Removing intermediate container 2c473ca0c261
+ ---> dcda7b95364e
 Step 34/42 : ARG BUILD_DEBUG
- ---> Running in 97332cdfe20e
-Removing intermediate container 97332cdfe20e
- ---> dec83b7663b0
+ ---> Running in 79e3f10a6fec
+Removing intermediate container 79e3f10a6fec
+ ---> 3292e13bc66f
 Step 35/42 : ARG KEYBOARD_CONFIG_FILE
- ---> Running in 90c6d61c032a
-Removing intermediate container 90c6d61c032a
- ---> 395497c11064
+ ---> Running in dc602c688527
+Removing intermediate container dc602c688527
+ ---> e414182c9927
 Step 36/42 : ARG XTERM_CONFIG_FILE
- ---> Running in 09101d71620b
-Removing intermediate container 09101d71620b
- ---> 0274cf2796bd
+ ---> Running in 1f050af09518
+Removing intermediate container 1f050af09518
+ ---> ad20eeebac21
 Step 37/42 : ARG MINICOM_CONFIG_FILE
- ---> Running in 90d0aafbc59f
-Removing intermediate container 90d0aafbc59f
- ---> c8ea022a487f
+ ---> Running in 1bc8355b983d
+Removing intermediate container 1bc8355b983d
+ ---> 8288f09b32c2
 Step 38/42 : RUN if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi     && export TERM=xterm    && cd $XLNX_INSTALL_LOCATION/tmp        && mkdir -p "${KEYBOARD_CONFIG_FILE%/*}"        && wget -nv $INSTALL_SERVER_URL/$KEYBOARD_CONFIG_FILE -O $KEYBOARD_CONFIG_FILE       && cat $KEYBOARD_CONFIG_FILE    && sudo DEBIAN_FRONTEND=$DEBIAN_FRONTEND apt-get install -y keyboard-configuration      && sudo DEBIAN_FRONTEND=$DEBIAN_FRONTEND debconf-set-selections < $KEYBOARD_CONFIG_FILE      && sudo DEBIAN_FRONTEND=$DEBIAN_FRONTEND dpkg-reconfigure keyboard-configuration        && mkdir -p "${XTERM_CONFIG_FILE%/*}"   && wget -nv $INSTALL_SERVER_URL/$XTERM_CONFIG_FILE -O $XTERM_CONFIG_FILE     && cat $XTERM_CONFIG_FILE       && cp $XTERM_CONFIG_FILE $HOME_DIR      && mkdir -p "${MINICOM_CONFIG_FILE%/*}"         && wget -nv $INSTALL_SERVER_URL/$MINICOM_CONFIG_FILE -O $MINICOM_CONFIG_FILE         && cat $MINICOM_CONFIG_FILE     && cp $MINICOM_CONFIG_FILE $HOME_DIR
- ---> Running in eb7dfae475bd
+ ---> Running in 2ff1ddec3ad7
 + export TERM=xterm
 + TERM=xterm
 + cd /opt/Xilinx/tmp
 + mkdir -p configs
 + wget -nv 172.17.0.1:8000/configs/keyboard_settings.conf -O configs/keyboard_settings.conf
-172.17.0.2 - - [24/Mar/2020 23:23:45] "GET /configs/keyboard_settings.conf HTTP/1.1" 200 -
-2020-03-25 03:23:45 URL:http://172.17.0.1:8000/configs/keyboard_settings.conf [1554/1554] -> "configs/keyboard_settings.conf" [1]
+172.17.0.2 - - [25/Mar/2020 22:41:51] "GET /configs/keyboard_settings.conf HTTP/1.1" 200 -
+2020-03-26 02:41:51 URL:http://172.17.0.1:8000/configs/keyboard_settings.conf [1554/1554] -> "configs/keyboard_settings.conf" [1]
 + cat configs/keyboard_settings.conf
 keyboard-configuration  console-setup/ask_detect        boolean false
 keyboard-configuration  console-setup/detect    detect-keyboard
@@ -2112,8 +2112,8 @@ Your console font configuration will be updated the next time your system
 boots. If you want to update it now, run 'setupcon' from a virtual console.
 + mkdir -p configs
 + wget -nv 172.17.0.1:8000/configs/XTerm -O configs/XTerm
-172.17.0.2 - - [24/Mar/2020 23:23:47] "GET /configs/XTerm HTTP/1.1" 200 -
-2020-03-25 03:23:47 URL:http://172.17.0.1:8000/configs/XTerm [227/227] -> "configs/XTerm" [1]
+172.17.0.2 - - [25/Mar/2020 22:41:52] "GET /configs/XTerm HTTP/1.1" 200 -
+2020-03-26 02:41:52 URL:http://172.17.0.1:8000/configs/XTerm [227/227] -> "configs/XTerm" [1]
 + cat configs/XTerm
 XTerm*Background: black
 XTerm*Foreground: green
@@ -2126,8 +2126,8 @@ XTerm*scrollTtyOutput: false
 XTerm*selectToClipboard: true+ cp configs/XTerm /home/xilinx
 + mkdir -p configs
 + wget -nv 172.17.0.1:8000/configs/.minirc.dfl -O configs/.minirc.dfl
-172.17.0.2 - - [24/Mar/2020 23:23:47] "GET /configs/.minirc.dfl HTTP/1.1" 200 -
-2020-03-25 03:23:47 URL:http://172.17.0.1:8000/configs/.minirc.dfl [191/191] -> "configs/.minirc.dfl" [1]
+172.17.0.2 - - [25/Mar/2020 22:41:52] "GET /configs/.minirc.dfl HTTP/1.1" 200 -
+2020-03-26 02:41:52 URL:http://172.17.0.1:8000/configs/.minirc.dfl [191/191] -> "configs/.minirc.dfl" [1]
 + cat configs/.minirc.dfl
 # Machine-generated file - use setup menu in minicom to change parameters.
 pu baudrate         115200
@@ -2136,23 +2136,23 @@ pu parity           N
 pu stopbits         1
 pu rtscts           No
 + cp configs/.minirc.dfl /home/xilinx
-Removing intermediate container eb7dfae475bd
- ---> d89b9b538840
+Removing intermediate container 2ff1ddec3ad7
+ ---> 023c677f3700
 Step 39/42 : ARG XLNX_UNIFIED_OFFLINE_INSTALLER
- ---> Running in f63ff6d61081
-Removing intermediate container f63ff6d61081
- ---> 423e4dfebac6
+ ---> Running in 19846c004894
+Removing intermediate container 19846c004894
+ ---> 72e0efa09d60
 Step 40/42 : ARG XLNX_UNIFIED_BATCH_CONFIG_FILE
- ---> Running in cabb0eaab723
-Removing intermediate container cabb0eaab723
- ---> 919a7beba38f
+ ---> Running in f3aedc083095
+Removing intermediate container f3aedc083095
+ ---> 33576de3eaf1
 Step 41/42 : RUN if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi     && cd $XLNX_INSTALL_LOCATION/tmp        && mkdir -p "${XLNX_UNIFIED_BATCH_CONFIG_FILE%/*}"      && wget -nv $INSTALL_SERVER_URL/$XLNX_UNIFIED_BATCH_CONFIG_FILE -O $XLNX_UNIFIED_BATCH_CONFIG_FILE   && cat $XLNX_UNIFIED_BATCH_CONFIG_FILE          && mkdir -p "${XLNX_UNIFIED_OFFLINE_INSTALLER%/*}"      && wget -nv --no-cache $INSTALL_SERVER_URL/$XLNX_UNIFIED_OFFLINE_INSTALLER -O $XLNX_UNIFIED_OFFLINE_INSTALLER        && chmod a+x $XLNX_UNIFIED_OFFLINE_INSTALLER    && tar -zxf $XLNX_UNIFIED_OFFLINE_INSTALLER && ls -al   && echo "cd $XLNX_INSTALL_LOCATION" >> $HOME_DIR/.bashrc     && echo "export LANG=en_US.UTF-8" >> $HOME_DIR/.bashrc  && export "LANG=en_US.UTF-8"    && echo ". $XLNX_INSTALL_LOCATION/Vitis/2019.2/settings64.sh" >> $HOME_DIR/.bashrc  && echo "export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$XLNX_INSTALL_LOCATION/Unified/2019.2/lib/lnx64.o/" >> $HOME_DIR/.bashrc        && chmod a+x xsetup     && sudo apt-get install -y              xz-utils    && ./xsetup              --agree XilinxEULA,3rdPartyEULA,WebTalkTerms            --config $XLNX_UNIFIED_BATCH_CONFIG_FILE                --batch INSTALL         && cd $HOME_DIR         && rm -rf $XLNX_INSTALL_LOCATION/tmp
- ---> Running in f1c3cd2ca563
+ ---> Running in d11b43830e78
 + cd /opt/Xilinx/tmp
 + mkdir -p configs
 + wget -nv 172.17.0.1:8000/configs/xlnx_unified_vitis.config -O configs/xlnx_unified_vitis.config
-172.17.0.2 - - [24/Mar/2020 23:23:49] "GET /configs/xlnx_unified_vitis.config HTTP/1.1" 200 -
-2020-03-25 03:23:49 URL:http://172.17.0.1:8000/configs/xlnx_unified_vitis.config [1940/1940] -> "configs/xlnx_unified_vitis.config" [1]
+172.17.0.2 - - [25/Mar/2020 22:41:55] "GET /configs/xlnx_unified_vitis.config HTTP/1.1" 200 -
+2020-03-26 02:41:55 URL:http://172.17.0.1:8000/configs/xlnx_unified_vitis.config [1940/1940] -> "configs/xlnx_unified_vitis.config" [1]
 + cat configs/xlnx_unified_vitis.config
 #### Vitis Unified Software Platform Install Configuration ####
 Edition=Vitis Unified Software Platform
@@ -2189,18 +2189,18 @@ EnableDiskUsageOptimization=1
 
 + mkdir -p depends
 + wget -nv --no-cache 172.17.0.1:8000/depends/Xilinx_Unified_2019.2_1024_1831_Lin64.bin.tar.gz -O depends/Xilinx_Unified_2019.2_1024_1831_Lin64.bin.tar.gz
-172.17.0.2 - - [24/Mar/2020 23:23:49] "GET /depends/Xilinx_Unified_2019.2_1024_1831_Lin64.bin.tar.gz HTTP/1.1" 200 -
-2020-03-25 03:28:59 URL:http://172.17.0.1:8000/depends/Xilinx_Unified_2019.2_1024_1831_Lin64.bin.tar.gz [29365113733/29365113733] -> "depends/Xilinx_Unified_2019.2_1024_1831_Lin64.bin.tar.gz" [1]
+172.17.0.2 - - [25/Mar/2020 22:41:55] "GET /depends/Xilinx_Unified_2019.2_1024_1831_Lin64.bin.tar.gz HTTP/1.1" 200 -
+2020-03-26 02:46:28 URL:http://172.17.0.1:8000/depends/Xilinx_Unified_2019.2_1024_1831_Lin64.bin.tar.gz [29365113733/29365113733] -> "depends/Xilinx_Unified_2019.2_1024_1831_Lin64.bin.tar.gz" [1]
 + chmod a+x depends/Xilinx_Unified_2019.2_1024_1831_Lin64.bin.tar.gz
 + tar -zxf depends/Xilinx_Unified_2019.2_1024_1831_Lin64.bin.tar.gz
 + ls -al
 total 84
 drwxr-xr-x 1 xilinx xilinx  4096 Dec 23 02:20 .
-drwxr-xr-x 1 xilinx xilinx  4096 Mar 25 03:20 ..
+drwxr-xr-x 1 xilinx xilinx  4096 Mar 26 02:38 ..
 drwxr-xr-x 2 xilinx xilinx  4096 Dec 23 02:20 bin
-drwxr-xr-x 1 xilinx xilinx  4096 Mar 25 03:23 configs
+drwxr-xr-x 1 xilinx xilinx  4096 Mar 26 02:41 configs
 drwxr-xr-x 3 xilinx xilinx  4096 Dec 23 02:20 data
-drwxr-xr-x 2 xilinx xilinx  4096 Mar 25 03:23 depends
+drwxr-xr-x 2 xilinx xilinx  4096 Mar 26 02:41 depends
 drwxr-xr-x 4 xilinx xilinx  4096 Dec 23 02:20 lib
 drwxr-xr-x 2 xilinx xilinx 36864 Dec 23 02:19 payload
 drwxr-xr-x 2 xilinx xilinx  4096 Dec 23 02:20 scripts
@@ -2223,7 +2223,7 @@ The following NEW packages will be installed:
 Need to get 83.8 kB of archives.
 After this operation, 438 kB of additional disk space will be used.
 Get:1 http://archive.ubuntu.com/ubuntu bionic/main amd64 xz-utils amd64 5.2.2-1.3 [83.8 kB]
-Fetched 83.8 kB in 0s (177 kB/s)
+Fetched 83.8 kB in 1s (165 kB/s)
 Selecting previously unselected package xz-utils.
 (Reading database ... 45085 files and directories currently installed.)
 Preparing to unpack .../xz-utils_5.2.2-1.3_amd64.deb ...
@@ -2245,12 +2245,12 @@ Processing triggers for man-db (2.8.3-2ubuntu0.1) ...
 Running in batch mode...
 Copyright (c) 1986-2020 Xilinx, Inc.  All rights reserved.
 
-INFO : Log file location - /home/xilinx/.Xilinx/xinstall/xinstall_1585107286517.log
+INFO : Log file location - /home/xilinx/.Xilinx/xinstall/xinstall_1585191138567.log
 INFO : Installing Edition: Vitis Unified Software Platform
 INFO : Installation directory is /opt/Xilinx
 .
-INFO : Installing.............................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................
-INFO : Running post-install tasks....................
+INFO : Installing.............................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................                                                                                                                                                                                   
+INFO : Running post-install tasks....................                                                                                                                                                        
 WARN : 
 ######## Execution of Pre/Post Installation Tasks Failed ########
 Warning: Xilinx software was installed successfully, but an unexpected status was returned from the following post installation task(s) xargs: file: No such file or directory sed: no input files xargs: file: No such file or directory sed: no input files xargs: file: No such file or directory sed: no input files...
@@ -2258,31 +2258,31 @@ INFO : Log file is copied to : /opt/Xilinx/.xinstall/Vivado_2019.2/xinstall.log
 INFO : Installation completed successfully.For the platforms: please visit xilinx.com and review the "Getting Started Guide" UG1301
 + cd /home/xilinx
 + rm -rf /opt/Xilinx/tmp
-Removing intermediate container f1c3cd2ca563
- ---> 5dfb5489d12f
+Removing intermediate container d11b43830e78
+ ---> 5c935a8658db
 Step 42/42 : RUN if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi     && sudo apt-get clean   && sudo rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*   && sudo echo 'debconf debconf/frontend select Dialog' | sudo debconf-set-selections
- ---> Running in a1bd15a5c3f9
+ ---> Running in 190ef54c9df6
 + sudo apt-get clean
 + sudo rm -rf /var/lib/apt/lists/archive.ubuntu.com_ubuntu_dists_bionic-backports_InRelease /var/lib/apt/lists/archive.ubuntu.com_ubuntu_dists_bionic-backports_main_binary-amd64_Packages /var/lib/apt/lists/archive.ubuntu.com_ubuntu_dists_bionic-backports_main_binary-i386_Packages /var/lib/apt/lists/archive.ubuntu.com_ubuntu_dists_bionic-backports_main_i18n_Translation-en /var/lib/apt/lists/archive.ubuntu.com_ubuntu_dists_bionic-backports_universe_binary-amd64_Packages /var/lib/apt/lists/archive.ubuntu.com_ubuntu_dists_bionic-backports_universe_binary-i386_Packages /var/lib/apt/lists/archive.ubuntu.com_ubuntu_dists_bionic-backports_universe_i18n_Translation-en /var/lib/apt/lists/archive.ubuntu.com_ubuntu_dists_bionic-updates_InRelease /var/lib/apt/lists/archive.ubuntu.com_ubuntu_dists_bionic-updates_main_binary-amd64_Packages /var/lib/apt/lists/archive.ubuntu.com_ubuntu_dists_bionic-updates_main_binary-i386_Packages /var/lib/apt/lists/archive.ubuntu.com_ubuntu_dists_bionic-updates_main_i18n_Translation-en /var/lib/apt/lists/archive.ubuntu.com_ubuntu_dists_bionic-updates_multiverse_binary-amd64_Packages /var/lib/apt/lists/archive.ubuntu.com_ubuntu_dists_bionic-updates_multiverse_binary-i386_Packages /var/lib/apt/lists/archive.ubuntu.com_ubuntu_dists_bionic-updates_multiverse_i18n_Translation-en /var/lib/apt/lists/archive.ubuntu.com_ubuntu_dists_bionic-updates_restricted_binary-amd64_Packages /var/lib/apt/lists/archive.ubuntu.com_ubuntu_dists_bionic-updates_restricted_binary-i386_Packages /var/lib/apt/lists/archive.ubuntu.com_ubuntu_dists_bionic-updates_restricted_i18n_Translation-en /var/lib/apt/lists/archive.ubuntu.com_ubuntu_dists_bionic-updates_universe_binary-amd64_Packages /var/lib/apt/lists/archive.ubuntu.com_ubuntu_dists_bionic-updates_universe_binary-i386_Packages /var/lib/apt/lists/archive.ubuntu.com_ubuntu_dists_bionic-updates_universe_i18n_Translation-en /var/lib/apt/lists/archive.ubuntu.com_ubuntu_dists_bionic_InRelease /var/lib/apt/lists/archive.ubuntu.com_ubuntu_dists_bionic_main_binary-amd64_Packages /var/lib/apt/lists/archive.ubuntu.com_ubuntu_dists_bionic_main_binary-i386_Packages /var/lib/apt/lists/archive.ubuntu.com_ubuntu_dists_bionic_main_i18n_Translation-en /var/lib/apt/lists/archive.ubuntu.com_ubuntu_dists_bionic_multiverse_binary-amd64_Packages /var/lib/apt/lists/archive.ubuntu.com_ubuntu_dists_bionic_multiverse_binary-i386_Packages /var/lib/apt/lists/archive.ubuntu.com_ubuntu_dists_bionic_multiverse_i18n_Translation-en /var/lib/apt/lists/archive.ubuntu.com_ubuntu_dists_bionic_restricted_binary-amd64_Packages /var/lib/apt/lists/archive.ubuntu.com_ubuntu_dists_bionic_restricted_binary-i386_Packages /var/lib/apt/lists/archive.ubuntu.com_ubuntu_dists_bionic_restricted_i18n_Translation-en /var/lib/apt/lists/archive.ubuntu.com_ubuntu_dists_bionic_universe_binary-amd64_Packages /var/lib/apt/lists/archive.ubuntu.com_ubuntu_dists_bionic_universe_binary-i386_Packages /var/lib/apt/lists/archive.ubuntu.com_ubuntu_dists_bionic_universe_i18n_Translation-en /var/lib/apt/lists/auxfiles /var/lib/apt/lists/lock /var/lib/apt/lists/partial /var/lib/apt/lists/security.ubuntu.com_ubuntu_dists_bionic-security_InRelease /var/lib/apt/lists/security.ubuntu.com_ubuntu_dists_bionic-security_main_binary-amd64_Packages /var/lib/apt/lists/security.ubuntu.com_ubuntu_dists_bionic-security_main_binary-i386_Packages /var/lib/apt/lists/security.ubuntu.com_ubuntu_dists_bionic-security_main_i18n_Translation-en /var/lib/apt/lists/security.ubuntu.com_ubuntu_dists_bionic-security_multiverse_binary-amd64_Packages /var/lib/apt/lists/security.ubuntu.com_ubuntu_dists_bionic-security_multiverse_binary-i386_Packages /var/lib/apt/lists/security.ubuntu.com_ubuntu_dists_bionic-security_multiverse_i18n_Translation-en /var/lib/apt/lists/security.ubuntu.com_ubuntu_dists_bionic-security_restricted_binary-amd64_Packages /var/lib/apt/lists/security.ubuntu.com_ubuntu_dists_bionic-security_restricted_binary-i386_Packages /var/lib/apt/lists/security.ubuntu.com_ubuntu_dists_bionic-security_restricted_i18n_Translation-en /var/lib/apt/lists/security.ubuntu.com_ubuntu_dists_bionic-security_universe_binary-amd64_Packages /var/lib/apt/lists/security.ubuntu.com_ubuntu_dists_bionic-security_universe_binary-i386_Packages /var/lib/apt/lists/security.ubuntu.com_ubuntu_dists_bionic-security_universe_i18n_Translation-en /tmp/hsperfdata_xilinx '/var/tmp/*'
-+ sudo debconf-set-selections
 + sudo echo 'debconf debconf/frontend select Dialog'
-Removing intermediate container a1bd15a5c3f9
- ---> 0648f1273c9e
-Successfully built 0648f1273c9e
++ sudo debconf-set-selections
+Removing intermediate container 190ef54c9df6
+ ---> 1fa099c6f609
+Successfully built 1fa099c6f609
 Successfully tagged xilinx-vitis:v2019.2
 + '[' 1 -ne 0 ']'
 + set +x
 -----------------------------------
 Shutting down Python HTTP Server...
 -----------------------------------
-Killing process ID 5303
+Killing process ID 25927
 -----------------------------------
-+ kill 5303
-./build_image.sh: line 193: kill: (5303) - No such process
++ kill 25927
 + '[' 1 -ne 0 ']'
 + set +x
+./build_image.sh: line 199: 25927 Terminated              python3 -m http.server
 -----------------------------------
 Image Build Complete...
-STARTED :Tue Mar 24 23:19:45 EDT 2020
-ENDED   :Wed Mar 25 00:33:09 EDT 2020
+STARTED :Wed Mar 25 22:37:47 EDT 2020
+ENDED   :Wed Mar 25 23:47:11 EDT 2020
 -----------------------------------
