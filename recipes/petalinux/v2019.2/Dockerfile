@@ -84,6 +84,13 @@ RUN if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi \
 		>> /etc/sudoers \
 # Add user to the dialout group for serial port access \
 	&& adduser $USER_ACCT dialout \
+# Setup Java librxtx permission for /var/lock so Vitis can user the /dev/ttyUSB devices properly without crashing \
+# Add current user to uucp group \
+	&& adduser $USER_ACCT uucp \
+# Give uucp group permission to /var/lock \
+	&& chgrp uucp /var/lock \
+# Give write permission to the group \
+	&& chmod g+w /var/lock \
 # Create the Xilinx install folder and add appropriate permissions \
 	&& mkdir -p $XLNX_INSTALL_LOCATION \
 	&& chown -R $USER_ACCT:$USER_ACCT $XLNX_INSTALL_LOCATION \
@@ -180,13 +187,13 @@ RUN if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi \
 # used to strip windows line terminations from autoinstall scripts in powershell \
 		dos2unix \
 # Added 9.27.2019 for RFSoC ZCU111 Build Support \
-		idn
+		idn \
 # Already Installed \
 #		sudo \
 #		locales \
 #		git \
 # Add minicom for /dev/ttyUSB* access from command line \
-	 minicom
+	 	minicom
 
 ARG GIT_USER_NAME
 ARG GIT_USER_EMAIL
