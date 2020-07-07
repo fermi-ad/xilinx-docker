@@ -1,0 +1,77 @@
+
+# Error log from Java Window
+
+```bash
+JVM terminated. Exit code=1
+/opt/Xilinx/Vitis/2020.1/tps/lnx64/jre9.0.4/bin/java
+-Xms64m
+-Xmx4G
+-Dorg.eclipse.swt.internal.gtk.cairoGraphics=false
+-Dosgi.configuration.area=@user.home/.Xilinx/Vitis/2020.1
+--add-modules=ALL-SYSTEM
+--add-modules=jdk.incubator.httpclient
+--add-opens=java.base/java.nio=ALL-UNNAMED
+--add-opens=java.desktop/sun.swing=ALL-UNNAMED
+--add-opens=java.desktop/javax.swing=ALL-UNNAMED
+--add-opens=java.desktop/javax.swing.tree=ALL-UNNAMED
+--add-opens=java.desktop/javax.swing.plaf.basic=ALL-UNNAMED
+--add-opens=java.desktop/javax.swing.plaf.synth=ALL-UNNAMED
+--add-opens=java.desktop/com.sun.awt=ALL-UNNAMED
+--add-opens=java.desktop/sun.awt.X11=ALL-UNNAMED
+-jar /opt/Xilinx/Vitis/2020.1/eclipse/lnx64.o//plugins/org.eclipse.equinox.launcher_1.5.0.v20180512-1130.jar
+-os linux
+-ws gtk
+-arch x86_64
+-showsplash
+-launcher /opt/Xilinx/Vitis/2020.1/eclipse/lnx64.o/eclipse
+-name Eclipse
+--launcher.library /opt/Xilinx/Vitis/2020.1/eclipse/lnx64.o//plugins/org.eclipse.equinox.launcher.gtk.linux.x86_64_1.1.700.v20180518-1200/eclipse_1705.so
+-startup /opt/Xilinx/Vitis/2020.1/eclipse/lnx64.o//plugins/org.eclipse.equinox.launcher_1.5.0.v20180512-1130.jar
+--launcher.overrideVmargs
+-exitdata 0
+-vm /opt/Xilinx/Vitis/2020.1/tps/lnx64/jre9.0.4/bin/java
+-vmargs
+-Xms64m
+-Xmx4G
+-Dorg.eclipse.swt.internal.gtk.cairoGraphics=false
+-Dosgi.configuration.area=@user.home/.Xilinx/Vitis/2020.1
+--add-modules=ALL-SYSTEM
+--add-modules=jdk.incubator.httpclient
+--add-opens=java.base/java.nio=ALL-UNNAMED
+--add-opens=java.desktop/sun.swing=ALL-UNNAMED
+--add-opens=java.desktop/javax.swing=ALL-UNNAMED
+--add-opens=java.desktop/javax.swing.tree=ALL-UNNAMED
+--add-opens=java.desktop/javax.swing.plaf.basic=ALL-UNNAMED
+--add-opens=java.desktop/javax.swing.plaf.synth=ALL-UNNAMED
+--add-opens=java.desktop/com.sun.awt=ALL-UNNAMED
+--add-opens=java.desktop/sun.awt.X11=ALL-UNNAMED
+-jar /opt/Xilinx/Vitis/2020.1/eclipse/lnx64.o//plugins/org.eclipse.equinox.launcher_1.5.0.v20180512-1130.jar 
+```
+
+# Error log from X-Term Console
+
+```bash
+xilinx@xilinx_vitis_v2020:/opt/Xilinx$ vitis
+
+****** Xilinx Vitis Development Environment
+****** Vitis v2020.1 (64-bit)
+  **** SW Build 2902540 on Wed May 27 19:55:13 MDT 2020
+    ** Copyright 1986-2020 Xilinx, Inc. All Rights Reserved.
+
+Launching Vitis with command /opt/Xilinx/Vitis/2020.1/eclipse/lnx64.o/eclipse -vmargs -Xms64m -Xmx4G -Dorg.eclipse.swt.internal.gtk.cairoGraphics=false -Dosgi.configuration.area=@user.home/.Xilinx/Vitis/2020.1 --add-modules=ALL-SYSTEM --add-modules=jdk.incubator.httpclient --add-opens=java.base/java.nio=ALL-UNNAMED --add-opens=java.desktop/sun.swing=ALL-UNNAMED --add-opens=java.desktop/javax.swing=ALL-UNNAMED --add-opens=java.desktop/javax.swing.tree=ALL-UNNAMED --add-opens=java.desktop/javax.swing.plaf.basic=ALL-UNNAMED --add-opens=java.desktop/javax.swing.plaf.synth=ALL-UNNAMED --add-opens=java.desktop/com.sun.awt=ALL-UNNAMED --add-opens=java.desktop/sun.awt.X11=ALL-UNNAMED &
+xilinx@xilinx_vitis_v2020:/opt/Xilinx$ The program 'Vitis IDE' received an X Window System error.
+This probably reflects a bug in the program.
+The error was 'BadAccess (attempt to access private resource denied)'.
+  (Details: serial 1338 error_code 10 request_code 130 minor_code 1)
+  (Note to programmers: normally, X errors are reported asynchronously;
+   that is, you will receive the error a while after causing it.
+   To debug your program, run it with the --sync command line
+   option to change this behavior. You can then get a meaningful
+   backtrace from your debugger if you break on the gdk_x_error() function.)
+```
+
+# Solution
+https://advancetechtutorial.blogspot.com/2018/11/how-solve-x-error-badaccess-attempt-to.html
+
+Add to /etc/environment:
+QT_X11_NO_MITSHM=1
