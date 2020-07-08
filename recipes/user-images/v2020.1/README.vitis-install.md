@@ -211,7 +211,7 @@ Save a copy of the current working container as a new image in your local Docker
 - This may take a short time while the changes are committed
 ```bash
 $ docker commit xilinx_vitis_install_v2020.1 xilinx-vitis-licensed:v2020.1
-sha256:12e78ac966fe3990870788c0515d28462d71e990b2a72dfe18a804542f2a7c4e
+sha256:3d64cba62109a12b608977874e3754afbc8c957d5d82898c700a2eff25bf73b6
 ```
 
 ### List images in the local docker repository
@@ -219,7 +219,7 @@ sha256:12e78ac966fe3990870788c0515d28462d71e990b2a72dfe18a804542f2a7c4e
 bash:
 $ docker image ls
 REPOSITORY                       TAG                  IMAGE ID            CREATED             SIZE
-xilinx-vitis-licensed           v2020.1              12e78ac966fe        47 seconds ago      53.2GB
+xilinx-vitis-licensed            v2020.1              3d64cba62109        3 minutes ago       72.2GB
 xilinx-ubuntu-18.04.2-user       v2020.1              5d774cff76ff        16 hours ago        2.01GB
 ubuntu                           18.04.2              76df73440f9c        12 days ago         88.3MB
 ```
