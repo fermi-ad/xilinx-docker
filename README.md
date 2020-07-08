@@ -4,18 +4,67 @@ Do you need traceable, repeatable build environments for your Xilinx Development
 
 This repository provides a collection of recipes and tools that enable Xilinx FPGA-based embedded development workflows in docker-ce containers.  Use the container recipes to build docker containers from scratch (not using existing base containers) that run Xilinx FPGA Development Tools.
 
-## Image Overview
-
-
 Before getting started with any recipes, Take a look at the __*./documentation/host-os-setup/*__ section of this repository to make sure you have:
 1. Installed and configured Docker-CE on your local host machine
 2. Installed and configured any support packages (python, xterm, ...) that are used by this workflow in conjunction with Docker
 
+## Docker Image Recipe Overview
+
+### Ubuntu Images
+
+These are the Base Ubuntu OS Images used as the basis for images
+
+| Ubuntu Release | Base Image   | User Image    |
+| -------------- | ----------   | ----------    |
+| 18.04.2        | [88.3MB][4b] | [2.01GB][4u]  |
+
+### Xilinx User Images (Manual Tool Installation)
+
+These user images include a tool-compatible Ubuntu OS installation and all (known) base Xilinx tool dependencies for that release.  Xilinx tools are installed and configured manually by each user to create the final user image.
+
+| Xilinx Release | Ubuntu Release  | Petalinux     | Vivado        | Vitis          | SDK |
+| -------------- | --------------  | ---------     | ------------  | ------------   | --- |
+| v2020.1        | [18.04.2][4mu]  | [10.7GB][4mp] | [53.2GB][4mv] | [72.2GB][4mvi] |     |
+
+### Xilinx User Images (Automated/Scripted Tool Installation)
+
+These user images include a tool-compatible Ubuntu OS installation with tool specific dependencies and the Xilinx tool pre-installed.  Xilinx tool installation is automated to support offline/archival and automation of development environment creation.  These images are slightly larger (by default) than the manually created counterparts due to the storage used for intermediate build staging during creation of these images.  These recipes are provided as examples and can further be optimized for size before deployment in your environment if necessary.
+
+| Xilinx Release | Ubuntu Release | Petalinux     | Vivado        | Vitis          | SDK |
+| -------------- | -------------- | ---------     | ------------  | ------------   | --- |
+| v2020.1        | [18.04.2][4b]  | [11.8GB][4ap] | [64GB][4av]   | [98.6GB][4avi] |     |
+
+[4b]: ./recipes/base-images/ubuntu-18.04.2/README.md
+[4u]: ./recipes/user-images/v2020.1/README.md
+[4mp]: ./recipes/user-images/v2020.1/README.petalinux-install.md
+[4mvi]: ./recipes/user-images/v2020.1/README.vivado-install.md
+[4mi]: ./recipes/user-images/v2020.1/README.vitis-install.md
+[4ap]: ./recipes/automated-images/petalinux/v2020.1/README.md
+[4av]: ./recipes/automated-images/vivado/v2020.1/README.md
+[4avi]: ./recipes/automated-images/vitis/v2020.1/README.md
+
+
 ## Workflow overviews
 
-There are two supported workflows
+The recipes in this repository support two separate development environment creation workflows.
+
 1. Manual Xilinx Tool installation
+
+The goal of this workflow is to quickly get up and running with the Xilinx tools in docker containers.
+
+- Scripted creation of the base OS with tool dependencies installed.
+- User manually installs Xilinx Tools
+- User commits changes to local repository to create new images including tools.
+
 2. Automated Xilinx Tool installation
+
+The goal of this workflow is to completely automate generation of docker containers with Xilinx tools.  This workflow is divided into two parts: (1) Dependency Generation and  (2) Automated Image Build.  T
+
+(1) Dependency Generation
+- This stage is used to generate OS configuration dependencies and download all necessary installer bundles to support a scripted Xilinx tool installation process.  This includes OS and Tool installer bundles and configuration files.
+
+(2) Automated Image Build
+- This stage is completely automated, creating a complete docker image with Xilinx tools pre-installed.
 
 ### Manual Xilinx Tool installation overview
 
