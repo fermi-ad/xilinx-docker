@@ -8,7 +8,26 @@ Before getting started with any recipes, Take a look at the __*./documentation/h
 1. Installed and configured Docker-CE on your local host machine
 2. Installed and configured any support packages (python, xterm, ...) that are used by this workflow in conjunction with Docker
 
-## The use of each recipe follows this common workflow:
+## Workflow overviews
+
+There are two supported workflows
+1. Manual Xilinx Tool installation
+2. Automated Xilinx Tool installation
+
+### Manual Xilinx Tool installation overview
+
+- []()
+
+### Automated Xilinx Tool installation overview
+
+- []()
+
+## Manual Xilinx Tool installation workflow
+
+
+
+
+## Automated Xilinx Tool installation workflow
 
 ### The following tasks are performed one time to setup each recipe for automated image creation
 - Any steps using a Xilinx Web Installer require a valid Xilinx account
