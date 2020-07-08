@@ -1,5 +1,27 @@
 [//]: # (Readme.md - Base Ubuntu User Image for v2020.1 Xilinx Tools)
 
+# Table of Contents
+
+## Generate an Ubuntu Docker Image
+
+- [Generate a base Ubuntu 18.04.2 image](#generate-a-base-ubuntu-18042-image)
+- [Generate an Ubuntu 18.04.2 user image](#generate-an-ubuntu-18042-user-image)
+
+## Working with the Ubuntu Docker Image
+
+- [Create a working container](#create-a-working-container)
+- [Interacting with a running container](#connect-to-the-running-container)
+
+## Install Xilinx Tools in the Docker Container
+
+- [Install Petalinux 2020.1](./README.petalinux-install.md)
+- [Install Vivado 2020.1](./README.vivado-install.md)
+- [Install Vitis 2020.1](./README.vitis-install.md)
+
+## Additional References
+
+- [Backup and Sharing of Docker Containers and Images](../../../documentation/backup-and-sharing-docker-images/README.md)
+
 # Organization
 ```
 -> .dockerignore
@@ -268,7 +290,7 @@ xilinx@xilinx_petalinux_v2020-1:/$
 ### Close the xterm session
 - Type 'exit' in the xterm session to close it
 - If you attached to the running container first before launching xterm, you must use a special escape sequence to __*detach*__ from the running container to leave it running in the background
-	- The special escape sequence is __*<CTRL-P><CTRL-Q>*__
+	- The special escape sequence is `<CTRL> P+Q` (hold down the CTRL key, press P followed by Q)
 ```bash:
 bash:
 xilinx@xilinx_petalinux_v2020-1:/$ read escape sequence
