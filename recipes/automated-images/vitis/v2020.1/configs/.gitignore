@@ -5,7 +5,7 @@
 
 # Keep the keyboard settings and batch mode installer configurations
 !keyboard_settings.conf
-!xlnx_vivado_system_edition.config
+!xlnx_unified_vitis.config
 
 # Keep the XTerm configuration file
 !XTerm
