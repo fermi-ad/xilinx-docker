@@ -8,10 +8,10 @@
 #	- Xilinx Applications Engineer, Embedded Software
 #
 # Created: 
-#	- 12/17/2019
+#	- 7/9/2020
 #
 # Unified Web Installer
-#	./Xilinx_Unified_2019.2_1024_1831_Lin64.bin --noexec --keep --nox11 --target unified_tmp
+#	./Xilinx_Unified_2020.1_0602_1208_Lin64.bin--noexec --keep --nox11 --target unified_tmp
 #	Creating directory unified_tmp
 #
 # Generate a batchmode configuration file
@@ -25,17 +25,15 @@
 #			6. Hardware Server
 #			7. Documentation Navigator (Standalone)
 #
-# Source configuration information for a v2019.2 Unified Image build
+# Source configuration information for a v2020.1 Unified Image build
 source include/configuration.sh
 
 # Set the Docker File for Vitis
-DOCKER_FILE_NAME=Dockerfile
-# Alternatively Set the Docker File for Vitis+Vivado
-#DOCKER_FILE_NAME=Dockerfile.full
+DOCKER_FILE_NAME=Dockerfile.generate_depends
 
 # Additional setup and overrides specificaly for dependency generation
 GENERATED_DIR=_generated
-DOCKER_FILE_STAGE="base_os_"$XLNX_TOOL_INFO"_"$XLNX_RELEASE_VERSION
+DOCKER_FILE_STAGE="base_os_depends_"$XLNX_RELEASE_VERSION
 DOCKER_IMAGE_NAME=dependency_generation
 DOCKER_IMAGE_VERSION=$XLNX_RELEASE_VERSION
 
@@ -64,6 +62,7 @@ fi
 
 # Test for dependencies required to run this script
 # 1. Unified Web Installer
+# 2. Unified Full Offline Installer
 
 # Check for dependency files in the build context
 # Since these builds use WGET instead of COPY or ADD
@@ -79,6 +78,16 @@ else
 	echo "ERROR: Xilinx Unified Web Installer: [Missing] "$XLNX_UNIFIED_WEB_INSTALLER
 	exit $EX_OSFILE
 fi
+
+# Check for Xilinx Full Offline Installer
+if [ -f $XLNX_UNIFIED_OFFLINE_INSTALLER ] || [ -L $XLNX_UNIFIED_OFFLINE_INSTALLER ]; then
+	echo "Xilinx Unified Web Installer: [Exists] "$XLNX_UNIFIED_OFFLINE_INSTALLER
+else
+	# File does not exist
+	echo "ERROR: Xilinx Unified Offline Installer: [Missing] "$XLNX_UNIFIED_OFFLINE_INSTALLER
+	exit $EX_OSFILE
+fi
+
 
 # Create docker folder
 echo "-----------------------------------"
@@ -228,7 +237,7 @@ docker cp $DOCKER_CONTAINER_NAME:$HOME_DIR/downloads/tmp/$KEYBOARD_CONFIG_FILE $
 if [ $BUILD_DEBUG -ne 0 ]; then set +x; fi
 
 echo "-----------------------------------"
-echo "Building Offline Unified Installer Bundle..."
+echo "Building Offline Installer Configuration File..."
 echo "-----------------------------------"
 echo " - Install dependencies and download Unified installer into container..."
 echo "-----------------------------------"
@@ -280,37 +289,7 @@ if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi
 
 mkdir -p $GENERATED_DIR/${XLNX_UNIFIED_BATCH_CONFIG_FILE%/*}
 docker cp $DOCKER_CONTAINER_NAME:$HOME_DIR/downloads/tmp/$XLNX_UNIFIED_BATCH_CONFIG_FILE $GENERATED_DIR/$XLNX_UNIFIED_BATCH_CONFIG_FILE
-
-if [ $BUILD_DEBUG -ne 0 ]; then set +x; fi
-
-echo "-----------------------------------"
-echo " - Launch Unified Setup to create a download bundle..."
-echo "-----------------------------------"
-# Launch Unified Setup in X11 Mode to create download bundle
-# Leave download location default (/opt/Xilinx/Downloads/<VERSION>)
-
-if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi
-
-docker exec -it $DOCKER_CONTAINER_NAME \
-	bash -c "if [ ${BUILD_DEBUG} -ne 0 ]; then set -x; fi \
-	&& cd ${HOME_DIR}/downloads/tmp/xUnified_tmp \
-	&& ./xsetup --agree XilinxEULA,3rdPartyEULA,WebTalkTerms --config ${XLNX_UNIFIED_BATCH_CONFIG_FILE} \
-	&& cd ${HOME_DIR}/downloads/tmp \
-	&& mkdir -p ${XLNX_UNIFIED_OFFLINE_INSTALLER%/*} \
-	&& tar -zcf ${XLNX_UNIFIED_OFFLINE_INSTALLER} -C /opt/Xilinx/Downloads/${XLNX_RELEASE_VERSION} . \
-	&& ls -al /opt/Xilinx/Downloads/${XLNX_RELEASE_VERSION}"
-
-if [ $BUILD_DEBUG -ne 0 ]; then set +x; fi
-
-# copy Unified offline installer from container to host
-echo "-----------------------------------"
-echo "Copying Xilinx Unified offline installer to host ..."
-echo "-----------------------------------"
-
-if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi
-
-mkdir -p $GENERATED_DIR/${XLNX_UNIFIED_OFFLINE_INSTALLER%/*}
-docker cp $DOCKER_CONTAINER_NAME:$HOME_DIR/downloads/tmp/$XLNX_UNIFIED_OFFLINE_INSTALLER $GENERATED_DIR/$XLNX_UNIFIED_OFFLINE_INSTALLER
+chmod +rw $GENERATED_DIR/$XLNX_UNIFIED_BATCH_CONFIG_FILE
 
 if [ $BUILD_DEBUG -ne 0 ]; then set +x; fi
 
@@ -357,5 +336,4 @@ echo "Dependencies Generated:"
 echo "-----------------------------------"
 ls -al $GENERATED_DIR/$KEYBOARD_CONFIG_FILE
 ls -al $GENERATED_DIR/$XLNX_UNIFIED_BATCH_CONFIG_FILE
-ls -al $GENERATED_DIR/$XLNX_UNIFIED_OFFLINE_INSTALLER
 echo "-----------------------------------"
