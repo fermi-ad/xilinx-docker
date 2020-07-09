@@ -1,19 +1,21 @@
 $ ./generate_depends.sh 
+$ ./generate_depends.sh 
 -----------------------------------
 Checking for dependencies...
 -----------------------------------
 Base docker image [found] (ubuntu:18.04.2)
 Xilinx Unified Web Installer: [Exists] depends/Xilinx_Unified_2020.1_0602_1208_Lin64.bin
+Xilinx Unified Web Installer: [Exists] depends/Xilinx_Unified_2020.1_0602_1208.tar.gz
 -----------------------------------
 Docker Build Context (Working)...
 -----------------------------------
 DOCKER_INSTALL_DIR=.
-DOCKER_BUILD_WORKING_DIR=/xilinx/local/repositories/gitlab/xilinx-docker/recipes/vitis/v2020.1
+DOCKER_BUILD_WORKING_DIR=/xilinx/local/repositories/gitlab/xilinx-docker/recipes/automated-images/vitis/v2020.1
 -----------------------------------
 -----------------------------------
 Launching Python HTTP Server...
 -----------------------------------
-+ SERVER_PID=29865
++ SERVER_PID=7559
 + python3 -m http.server
 ++ ifconfig docker0
 ++ grep 'inet\s'
@@ -22,14 +24,14 @@ Launching Python HTTP Server...
 + '[' 1 -ne 0 ']'
 + set +x
 SERVER_IP=172.17.0.1
-SERVER_PID=29865
+SERVER_PID=7559
 -----------------------------------
 -----------------------------------
 Building the Docker Image...
 -----------------------------------
 DOCKER_CACHE=
-DOCKER_FILE_NAME=Dockerfile
-DOCKER_FILE_STAGE=base_os_vitis_v2020.1
+DOCKER_FILE_NAME=Dockerfile.generate_depends
+DOCKER_FILE_STAGE=base_os_depends_v2020.1
 DOCKER_IMAGE=dependency_generation:v2020.1
 DOCKER_INSTALL_DIR=.
 INSTALL_SERVER_URL=172.17.0.1:8000
@@ -43,42 +45,86 @@ Arguments...
         --build-arg KEYBOARD_CONFIG_FILE="configs/keyboard_settings.conf"
   --build-arg XLNX_UNIFIED_WEB_INSTALLER="depends/Xilinx_Unified_2020.1_0602_1208_Lin64.bin"
   --build-arg XLNX_UNIFIED_BATCH_CONFIG_FILE="configs/xlnx_unified_vitis.config"
-  --build-arg XLNX_UNIFIED_OFFLINE_INSTALLER="depends/Xilinx_Unified_2020.1_0602_1208_Lin64.bin.tar.gz"
+  --build-arg XLNX_UNIFIED_OFFLINE_INSTALLER="depends/Xilinx_Unified_2020.1_0602_1208.tar.gz"
   --build-arg BUILD_DEBUG="1"
 -----------------------------------
-+ docker build -f ./Dockerfile --target base_os_vitis_v2020.1 -t dependency_generation:v2020.1 --build-arg USER_ACCT=xilinx --build-arg HOME_DIR=/home/xilinx --build-arg XLNX_INSTALL_LOCATION=/opt/Xilinx --build-arg INSTALL_SERVER_URL=172.17.0.1:8000 --build-arg KEYBOARD_CONFIG_FILE=configs/keyboard_settings.conf --build-arg BUILD_DEBUG=1 .
-Sending build context to Docker daemon  32.26kB
-Step 1/10 : FROM ubuntu:18.04.2 AS base_os_vitis_v2020.1
- ---> 76df73440f9c
++ docker build -f ./Dockerfile.generate_depends --target base_os_depends_v2020.1 -t dependency_generation:v2020.1 --build-arg USER_ACCT=xilinx --build-arg HOME_DIR=/home/xilinx --build-arg XLNX_INSTALL_LOCATION=/opt/Xilinx --build-arg INSTALL_SERVER_URL=172.17.0.1:8000 --build-arg KEYBOARD_CONFIG_FILE=configs/keyboard_settings.conf --build-arg BUILD_DEBUG=1 .
+Sending build context to Docker daemon  28.16kB
+Step 1/10 : FROM ubuntu:18.04.2 AS base_os_depends_v2020.1
+ ---> c31ac5f5c1b0
 Step 2/10 : LABEL author="Jason Moss"
  ---> Using cache
- ---> 0dc69754aacf
+ ---> d7278cbe3b4c
 Step 3/10 : ENV DEBIAN_FRONTEND=noninteractive
  ---> Using cache
- ---> d57e4440e6af
+ ---> fcdbc92a5e1e
 Step 4/10 : ARG BUILD_DEBUG
  ---> Using cache
- ---> ec0ca093dabb
+ ---> de4cf3feca56
 Step 5/10 : RUN if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi      && echo "APT::Install-Recommends false;" > /etc/apt/apt.conf.d/00norecommends   && echo "APT::AutoRemove::RecommendsImportant false;" >> /etc/apt/apt.conf.d/00norecommends     && echo "APT::Install-Suggests false;" > /etc/apt/apt.conf.d/00nosuggests       && echo "APT::AutoRemove::SuggestsImportant false;" >> /etc/apt/apt.conf.d/00nosuggests        && apt-get update        && apt-get install -y           apt-utils               vim     && apt-get install locales      && locale-gen en_US.UTF-8       && dpkg-reconfigure             --frontend $DEBIAN_FRONTEND locales
  ---> Using cache
- ---> 7a94b451e472
+ ---> d17b784b59b7
 Step 6/10 : RUN if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi      && apt-get install -y           dialog          debconf-utils   && echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections
  ---> Using cache
- ---> a991b93df2ed
+ ---> 520a5baf2bd2
 Step 7/10 : ARG USER_ACCT
  ---> Using cache
- ---> 4e8af4f3d9ff
+ ---> 0d9b9c04968d
 Step 8/10 : ARG HOME_DIR
  ---> Using cache
- ---> 3a6ba3a10852
+ ---> 5199be5a7fcd
 Step 9/10 : ARG XLNX_INSTALL_LOCATION
  ---> Using cache
- ---> fd747645729f
+ ---> 433d4e55cf69
 Step 10/10 : RUN if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi     && apt-get install -y           sudo    && adduser              --disabled-password             --gecos ''              --shell /bin/bash      --home $HOME_DIR                 $USER_ACCT      && echo                 "$USER_ACCT ALL=(ALL) NOPASSWD: ALL"            >> /etc/sudoers         && adduser $USER_ACCT dialout   && adduser $USER_ACCT uucp     && chgrp uucp /var/lock  && chmod g+w /var/lock  && mkdir -p $XLNX_INSTALL_LOCATION      && chown -R $USER_ACCT:$USER_ACCT $XLNX_INSTALL_LOCATION        && echo "dash dash/sh boolean false" | debconf-set-selections   && DEBIAN_FRONTEND=$DEBIAN_FRONTEND dpkg-reconfigure dash
- ---> Using cache
- ---> 6c2861c9f748
+Serving HTTP on 0.0.0.0 port 8000 (http://0.0.0.0:8000/) ...
+ ---> Running in 767a9a3dcf95
++ apt-get install -y sudo
+Reading package lists...
+Building dependency tree...
+Reading state information...
+The following NEW packages will be installed:
+  sudo
+0 upgraded, 1 newly installed, 0 to remove and 41 not upgraded.
+Need to get 427 kB of archives.
+After this operation, 1765 kB of additional disk space will be used.
+Get:1 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 sudo amd64 1.8.21p2-3ubuntu1.2 [427 kB]
+Fetched 427 kB in 1s (622 kB/s)
+Selecting previously unselected package sudo.
+(Reading database ... 7483 files and directories currently installed.)
+Preparing to unpack .../sudo_1.8.21p2-3ubuntu1.2_amd64.deb ...
+Unpacking sudo (1.8.21p2-3ubuntu1.2) ...
+Setting up sudo (1.8.21p2-3ubuntu1.2) ...
++ adduser --disabled-password --gecos  --shell /bin/bash --home /home/xilinx xilinx
+Adding user `xilinx' ...
+Adding new group `xilinx' (1000) ...
+Adding new user `xilinx' (1000) with group `xilinx' ...
+Creating home directory `/home/xilinx' ...
+Copying files from `/etc/skel' ...
++ echo xilinx ALL=(ALL) NOPASSWD: ALL
++ adduser xilinx dialout
+Adding user `xilinx' to group `dialout' ...
+Adding user xilinx to group dialout
+Done.
++ adduser xilinx uucp
+Adding user `xilinx' to group `uucp' ...
+Adding user xilinx to group uucp
+Done.
++ chgrp uucp /var/lock
++ chmod g+w /var/lock
++ mkdir -p /opt/Xilinx
++ chown -R xilinx:xilinx /opt/Xilinx
++ echo dash dash/sh boolean false
++ debconf-set-selections
++ DEBIAN_FRONTEND=noninteractive dpkg-reconfigure dash
+Removing 'diversion of /bin/sh to /bin/sh.distrib by dash'
+Adding 'diversion of /bin/sh to /bin/sh.distrib by bash'
+Removing 'diversion of /usr/share/man/man1/sh.1.gz to /usr/share/man/man1/sh.distrib.1.gz by dash'
+Adding 'diversion of /usr/share/man/man1/sh.1.gz to /usr/share/man/man1/sh.distrib.1.gz by bash'
+Removing intermediate container 767a9a3dcf95
+ ---> 3edad2d1d94d
 [Warning] One or more build-args [INSTALL_SERVER_URL KEYBOARD_CONFIG_FILE] were not consumed
-Successfully built 6c2861c9f748
+Successfully built 3edad2d1d94d
 Successfully tagged dependency_generation:v2020.1
 + xhost +
 access control disabled, clients can connect from any host
@@ -90,8 +136,7 @@ Create a base docker container...
 DOCKER_CONTAINER_NAME=
 -----------------------------------
 + docker run --name build_vitis_depends_v2020.1 -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=:0 -itd dependency_generation:v2020.1 /bin/bash
-Serving HTTP on 0.0.0.0 port 8000 (http://0.0.0.0:8000/) ...
-b76b89371e48197b51bdb92e149666ed27c30d36b084416c86d6f23b56afc71a
+dc110695c429892d370d0d9c90ad4b73bfc44b691435ef742edcc00e03e07490
 + '[' 1 -ne 0 ']'
 + set +x
 -----------------------------------
@@ -108,12 +153,12 @@ Recommended packages:
   publicsuffix ca-certificates
 The following NEW packages will be installed:
   libpsl5 wget
-0 upgraded, 2 newly installed, 0 to remove and 39 not upgraded.
+0 upgraded, 2 newly installed, 0 to remove and 41 not upgraded.
 Need to get 358 kB of archives.
 After this operation, 1030 kB of additional disk space will be used.
 Get:1 http://archive.ubuntu.com/ubuntu bionic/main amd64 libpsl5 amd64 0.19.1-5build1 [41.8 kB]
 Get:2 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 wget amd64 1.19.4-1ubuntu2.2 [316 kB]
-Fetched 358 kB in 1s (472 kB/s)
+Fetched 358 kB in 1s (504 kB/s)
 Selecting previously unselected package libpsl5:amd64.
 (Reading database ... 7538 files and directories currently installed.)
 Preparing to unpack .../libpsl5_0.19.1-5build1_amd64.deb ...
@@ -138,12 +183,12 @@ The following additional packages will be installed:
   liblocale-gettext-perl
 The following NEW packages will be installed:
   keyboard-configuration liblocale-gettext-perl
-0 upgraded, 2 newly installed, 0 to remove and 39 not upgraded.
+0 upgraded, 2 newly installed, 0 to remove and 41 not upgraded.
 Need to get 386 kB of archives.
 After this operation, 2675 kB of additional disk space will be used.
 Get:1 http://archive.ubuntu.com/ubuntu bionic/main amd64 liblocale-gettext-perl amd64 1.07-3build2 [16.6 kB]
 Get:2 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 keyboard-configuration all 1.178ubuntu2.9 [369 kB]
-Fetched 386 kB in 1s (508 kB/s)                
+Fetched 386 kB in 1s (511 kB/s)                
 Preconfiguring packages ...
 Selecting previously unselected package liblocale-gettext-perl.
 (Reading database ... 7554 files and directories currently installed.)
@@ -163,9 +208,6 @@ boots. If you want to update it now, run 'setupcon' from a virtual console.
                                                                        │                                                             │  
                                                                        │ Keyboard model:                                             │  
                                                                        │ ┌────^(-)─────────────────────────────────────────────────┐ │  
-                                                                       │ │    Chicony KU-0108                                      │ │  
-                                                                       │ │    Chicony KU-0420                                      │ │  
-                                                                       │ │    Classmate PC                                         │ │  
                                                                        │ │    Compaq Armada laptop                                 │ │  
                                                                        │ │    Compaq Easy Access                                   │ │  
                                                                        │ │    Compaq Internet (13 keys)                            │ │  
@@ -206,9 +248,7 @@ boots. If you want to update it now, run 'setupcon' from a virtual console.
                 │ The layout of keyboards varies per country, with some countries having multiple common layouts. Please select the country of origin for the keyboard of this computer.    │  
                 │                                                                                                                                                                           │  
                 │ Country of origin for the keyboard:                                                                                                                                       │  
-                │ ┌───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐ │  
-                │ │                                                              Afghani                                                                                                  │ │  
-                │ │                                                              Albanian                                                                                                 │ │  
+                │ ┌────^(-)───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐ │  
                 │ │                                                              Amharic                                                                                                  │ │  
                 │ │                                                              Arabic                                                                                                   │ │  
                 │ │                                                              Arabic (Morocco)                                                                                         │ │  
@@ -238,8 +278,7 @@ boots. If you want to update it now, run 'setupcon' from a virtual console.
                 │ │                                                              English (South Africa)                                                                                   │ │  
                 │ │                                                              English (UK)                                                                                             │ │  
                 │ │                                                              English (US)                                                                                             │ │  
-                │ │                                                              Esperanto                                                                                                │ │  
-                │ └────┴(+)───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────32%─────┘ │  
+                │ └────┴(+)───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────31%─────┘ │  
                 ├───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤  
                 │                                                             <  OK  >                               <Cancel>                                                               │  
                 └───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘  
@@ -247,7 +286,6 @@ boots. If you want to update it now, run 'setupcon' from a virtual console.
 
  Package configuration
  ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
 
 
 
@@ -287,11 +325,8 @@ boots. If you want to update it now, run 'setupcon' from a virtual console.
 
 
 
-
-
  Package configuration
  ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
 
 
 
@@ -331,11 +366,8 @@ boots. If you want to update it now, run 'setupcon' from a virtual console.
 
 
 
-
-
  Package configuration
  ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
 
 
 
@@ -375,8 +407,6 @@ boots. If you want to update it now, run 'setupcon' from a virtual console.
 
 
 
-
-
 Your console font configuration will be updated the next time your system
 boots. If you want to update it now, run 'setupcon' from a virtual console.
 + mkdir -p /home/xilinx/downloads/tmp
@@ -386,9 +416,9 @@ boots. If you want to update it now, run 'setupcon' from a virtual console.
 + grep keyboard-configuration
 + ls -al
 total 12
-drwxr-xr-x 3 root root 4096 Jul  3 13:47 .
-drwxr-xr-x 3 root root 4096 Jul  3 13:47 ..
-drwxr-xr-x 2 root root 4096 Jul  3 13:47 configs
+drwxr-xr-x 3 root root 4096 Jul  9 18:47 .
+drwxr-xr-x 3 root root 4096 Jul  9 18:47 ..
+drwxr-xr-x 2 root root 4096 Jul  9 18:47 configs
 + '[' 1 -ne 0 ']'
 + set +x
 -----------------------------------
@@ -399,16 +429,24 @@ Copying keyboard configuration to host...
 + '[' 1 -ne 0 ']'
 + set +x
 -----------------------------------
-Building Offline Unified Installer Bundle...
+Building Offline Installer Configuration File...
 -----------------------------------
  - Install dependencies and download Unified installer into container...
 -----------------------------------
 + docker exec -it build_vitis_depends_v2020.1 bash -c 'if [ 1 -ne 0 ]; then set -x; fi  && apt-get update       && apt-get -y install file xorg         && mkdir -p /home/xilinx/downloads/tmp  && cd /home/xilinx/downloads/tmp        && mkdir -p depends     && wget -nv 172.17.0.1:8000/depends/Xilinx_Unified_2020.1_0602_1208_Lin64.bin -O depends/Xilinx_Unified_2020.1_0602_1208_Lin64.bin      && chmod a+x depends/Xilinx_Unified_2020.1_0602_1208_Lin64.bin  && ls -al depends/Xilinx_Unified_2020.1_0602_1208_Lin64.bin'
 + apt-get update
-Hit:1 http://security.ubuntu.com/ubuntu bionic-security InRelease
-Hit:2 http://archive.ubuntu.com/ubuntu bionic InRelease
-Hit:3 http://archive.ubuntu.com/ubuntu bionic-updates InRelease
-Hit:4 http://archive.ubuntu.com/ubuntu bionic-backports InRelease
+Hit:1 http://archive.ubuntu.com/ubuntu bionic InRelease
+Get:2 http://security.ubuntu.com/ubuntu bionic-security InRelease [88.7 kB]
+Get:3 http://archive.ubuntu.com/ubuntu bionic-updates InRelease [88.7 kB]           
+Get:4 http://archive.ubuntu.com/ubuntu bionic-backports InRelease [74.6 kB]                     
+Get:5 http://security.ubuntu.com/ubuntu bionic-security/main amd64 Packages [781 kB] 
+Get:6 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 Packages [1008 kB]
+Get:7 http://security.ubuntu.com/ubuntu bionic-security/universe amd64 Packages [679 kB]   
+Get:8 http://archive.ubuntu.com/ubuntu bionic-updates/main Translation-en [340 kB]
+Get:9 http://archive.ubuntu.com/ubuntu bionic-updates/restricted amd64 Packages [76.1 kB]
+Get:10 http://archive.ubuntu.com/ubuntu bionic-updates/restricted Translation-en [17.1 kB]
+Get:11 http://archive.ubuntu.com/ubuntu bionic-updates/universe amd64 Packages [1091 kB]
+Fetched 4244 kB in 2s (2292 kB/s)                          
 Reading package lists... Done
 + apt-get -y install file xorg
 Reading package lists... Done
@@ -455,7 +493,7 @@ The following NEW packages will be installed:
   xinit xinput xkb-data xorg xorg-docs-core xserver-common xserver-xorg xserver-xorg-core xserver-xorg-input-all xserver-xorg-input-libinput
 The following packages will be upgraded:
   libsystemd0 libudev1
-2 upgraded, 222 newly installed, 0 to remove and 37 not upgraded.
+2 upgraded, 222 newly installed, 0 to remove and 39 not upgraded.
 Need to get 81.9 MB of archives.
 After this operation, 529 MB of additional disk space will be used.
 Get:1 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 libsystemd0 amd64 237-3ubuntu10.41 [207 kB]
@@ -476,7 +514,7 @@ Get:15 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 libapparmor1 a
 Get:16 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 libkmod2 amd64 24-1ubuntu3.4 [40.1 kB]
 Get:17 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 systemd amd64 237-3ubuntu10.41 [2914 kB]
 Get:18 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 systemd-sysv amd64 237-3ubuntu10.41 [14.7 kB]
-Get:19 http://archive.ubuntu.com/ubuntu bionic/main amd64 multiarch-support amd64 2.27-3ubuntu1 [6916 B]
+Get:19 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 multiarch-support amd64 2.27-3ubuntu1.2 [6920 B]
 Get:20 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 libxau6 amd64 1:1.0.8-1ubuntu1 [7556 B]
 Get:21 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 libbsd0 amd64 0.8.7-1ubuntu0.1 [41.6 kB]
 Get:22 http://archive.ubuntu.com/ubuntu bionic/main amd64 libxdmcp6 amd64 1:1.1.2-3 [10.7 kB]
@@ -606,31 +644,31 @@ Get:145 http://archive.ubuntu.com/ubuntu bionic/main amd64 libxi6 amd64 2:1.7.9-
 Get:146 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 libxkbcommon0 amd64 0.8.2-1~ubuntu18.04.1 [97.8 kB]
 Get:147 http://archive.ubuntu.com/ubuntu bionic/main amd64 libxrandr2 amd64 2:1.5.1-1 [18.1 kB]
 Get:148 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 libgtk-3-0 amd64 3.22.30-1ubuntu4 [2503 kB]
-Get:149 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 libvte-2.91-common all 0.52.2-1ubuntu1~18.04.2 [4288 B]
-Get:150 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 libvte-2.91-0 amd64 0.52.2-1ubuntu1~18.04.2 [160 kB]
-Get:151 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 gnome-terminal-data all 3.28.2-1ubuntu1~18.04.1 [32.1 kB]
-Get:152 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 gnome-terminal amd64 3.28.2-1ubuntu1~18.04.1 [160 kB]
-Get:153 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 libdrm-amdgpu1 amd64 2.4.101-2~18.04.1 [18.2 kB]
-Get:154 http://archive.ubuntu.com/ubuntu bionic/main amd64 libpciaccess0 amd64 0.14-1 [17.9 kB]
-Get:155 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 libdrm-intel1 amd64 2.4.101-2~18.04.1 [60.0 kB]
-Get:156 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 libdrm-nouveau2 amd64 2.4.101-2~18.04.1 [16.5 kB]
-Get:157 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 libdrm-radeon1 amd64 2.4.101-2~18.04.1 [21.7 kB]
-Get:158 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 libwayland-server0 amd64 1.16.0-1ubuntu1.1~18.04.3 [29.6 kB]
-Get:159 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 libgbm1 amd64 19.2.8-0ubuntu0~18.04.3 [28.1 kB]
-Get:160 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 libglapi-mesa amd64 19.2.8-0ubuntu0~18.04.3 [26.5 kB]
-Get:161 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 libx11-xcb1 amd64 2:1.6.4-3ubuntu0.2 [9376 B]
-Get:162 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 libxcb-dri2-0 amd64 1.13-2~ubuntu18.04 [6920 B]
-Get:163 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 libxcb-dri3-0 amd64 1.13-2~ubuntu18.04 [6568 B]
-Get:164 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 libxcb-present0 amd64 1.13-2~ubuntu18.04 [5552 B]
-Get:165 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 libxcb-sync1 amd64 1.13-2~ubuntu18.04 [8808 B]
-Get:166 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 libxcb-xfixes0 amd64 1.13-2~ubuntu18.04 [9352 B]
-Get:167 http://archive.ubuntu.com/ubuntu bionic/main amd64 libxshmfence1 amd64 1.3-1 [5028 B]
-Get:168 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 libegl-mesa0 amd64 19.2.8-0ubuntu0~18.04.3 [95.1 kB]
-Get:169 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 libglvnd0 amd64 1.0.0-2ubuntu2.3 [47.0 kB]
-Get:170 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 libegl1 amd64 1.0.0-2ubuntu2.3 [32.0 kB]
-Get:171 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 libegl1-mesa amd64 19.2.8-0ubuntu0~18.04.3 [6864 B]
-Get:172 http://archive.ubuntu.com/ubuntu bionic/main amd64 libfontenc1 amd64 1:1.1.3-1 [13.9 kB]
-Get:173 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 libllvm9 amd64 1:9-2~ubuntu18.04.2 [14.8 MB]
+Get:149 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 libvte-2.91-common all 0.52.2-1ubuntu1~18.04.2 [4288 B]                                                                                     
+Get:150 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 libvte-2.91-0 amd64 0.52.2-1ubuntu1~18.04.2 [160 kB]                                                                                        
+Get:151 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 gnome-terminal-data all 3.28.2-1ubuntu1~18.04.1 [32.1 kB]                                                                                   
+Get:152 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 gnome-terminal amd64 3.28.2-1ubuntu1~18.04.1 [160 kB]                                                                                       
+Get:153 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 libdrm-amdgpu1 amd64 2.4.101-2~18.04.1 [18.2 kB]                                                                                            
+Get:154 http://archive.ubuntu.com/ubuntu bionic/main amd64 libpciaccess0 amd64 0.14-1 [17.9 kB]                                                                                                                
+Get:155 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 libdrm-intel1 amd64 2.4.101-2~18.04.1 [60.0 kB]                                                                                             
+Get:156 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 libdrm-nouveau2 amd64 2.4.101-2~18.04.1 [16.5 kB]                                                                                           
+Get:157 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 libdrm-radeon1 amd64 2.4.101-2~18.04.1 [21.7 kB]                                                                                            
+Get:158 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 libwayland-server0 amd64 1.16.0-1ubuntu1.1~18.04.3 [29.6 kB]                                                                                
+Get:159 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 libgbm1 amd64 19.2.8-0ubuntu0~18.04.3 [28.1 kB]                                                                                             
+Get:160 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 libglapi-mesa amd64 19.2.8-0ubuntu0~18.04.3 [26.5 kB]                                                                                       
+Get:161 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 libx11-xcb1 amd64 2:1.6.4-3ubuntu0.2 [9376 B]                                                                                               
+Get:162 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 libxcb-dri2-0 amd64 1.13-2~ubuntu18.04 [6920 B]                                                                                             
+Get:163 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 libxcb-dri3-0 amd64 1.13-2~ubuntu18.04 [6568 B]                                                                                             
+Get:164 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 libxcb-present0 amd64 1.13-2~ubuntu18.04 [5552 B]                                                                                           
+Get:165 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 libxcb-sync1 amd64 1.13-2~ubuntu18.04 [8808 B]                                                                                              
+Get:166 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 libxcb-xfixes0 amd64 1.13-2~ubuntu18.04 [9352 B]                                                                                            
+Get:167 http://archive.ubuntu.com/ubuntu bionic/main amd64 libxshmfence1 amd64 1.3-1 [5028 B]                                                                                                                  
+Get:168 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 libegl-mesa0 amd64 19.2.8-0ubuntu0~18.04.3 [95.1 kB]                                                                                        
+Get:169 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 libglvnd0 amd64 1.0.0-2ubuntu2.3 [47.0 kB]                                                                                                  
+Get:170 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 libegl1 amd64 1.0.0-2ubuntu2.3 [32.0 kB]                                                                                                    
+Get:171 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 libegl1-mesa amd64 19.2.8-0ubuntu0~18.04.3 [6864 B]                                                                                         
+Get:172 http://archive.ubuntu.com/ubuntu bionic/main amd64 libfontenc1 amd64 1:1.1.3-1 [13.9 kB]                                                                                                               
+Get:173 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 libllvm9 amd64 1:9-2~ubuntu18.04.2 [14.8 MB]                                                                                                
 Get:174 http://archive.ubuntu.com/ubuntu bionic/main amd64 libsensors4 amd64 1:3.4.0-4 [28.8 kB]                                                                                                               
 Get:175 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 libgl1-mesa-dri amd64 19.2.8-0ubuntu0~18.04.3 [8811 kB]                                                                                     
 Get:176 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 libxcb-glx0 amd64 1.13-2~ubuntu18.04 [22.1 kB]                                                                                              
@@ -651,7 +689,7 @@ Get:190 http://archive.ubuntu.com/ubuntu bionic/main amd64 libxfont2 amd64 1:2.0
 Get:191 http://archive.ubuntu.com/ubuntu bionic/main amd64 libxkbfile1 amd64 1:1.0.9-2 [64.6 kB]                                                                                                               
 Get:192 http://archive.ubuntu.com/ubuntu bionic/main amd64 libxtst6 amd64 2:1.2.3-1 [12.8 kB]                                                                                                                  
 Get:193 http://archive.ubuntu.com/ubuntu bionic/main amd64 libxv1 amd64 2:1.0.11-1 [10.7 kB]                                                                                                                   
-Get:194 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 python3-httplib2 all 0.9.2+dfsg-1ubuntu0.1 [28.6 kB]                                                                                        
+Get:194 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 python3-httplib2 all 0.9.2+dfsg-1ubuntu0.2 [28.6 kB]                                                                                        
 Get:195 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 python3-problem-report all 2.20.9-0ubuntu7.15 [10.6 kB]                                                                                     
 Get:196 http://archive.ubuntu.com/ubuntu bionic/main amd64 python3-certifi all 2018.1.18-2 [144 kB]                                                                                                            
 Get:197 http://archive.ubuntu.com/ubuntu bionic/main amd64 python3-pkg-resources all 39.0.1-2 [98.8 kB]                                                                                                        
@@ -682,7 +720,7 @@ Get:221 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 xserver-xorg 
 Get:222 http://archive.ubuntu.com/ubuntu bionic/main amd64 libglu1-mesa amd64 9.0.0-2.1build1 [168 kB]                                                                                                         
 Get:223 http://archive.ubuntu.com/ubuntu bionic/main amd64 xorg-docs-core all 1:1.7.1-1.1 [41.8 kB]                                                                                                            
 Get:224 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 xorg amd64 1:7.7+19ubuntu7.1 [3076 B]                                                                                                       
-Fetched 81.9 MB in 9s (9475 kB/s)                                                                                                                                                                              
+Fetched 81.9 MB in 10s (8475 kB/s)                                                                                                                                                                             
 Extracting templates from packages: 100%
 Preconfiguring packages ...
 (Reading database ... 7593 files and directories currently installed.)
@@ -767,8 +805,8 @@ Selecting previously unselected package systemd-sysv.
 Preparing to unpack .../0-systemd-sysv_237-3ubuntu10.41_amd64.deb ...
 Unpacking systemd-sysv (237-3ubuntu10.41) ...
 Selecting previously unselected package multiarch-support.
-Preparing to unpack .../1-multiarch-support_2.27-3ubuntu1_amd64.deb ...
-Unpacking multiarch-support (2.27-3ubuntu1) ...
+Preparing to unpack .../1-multiarch-support_2.27-3ubuntu1.2_amd64.deb ...
+Unpacking multiarch-support (2.27-3ubuntu1.2) ...
 Selecting previously unselected package libxau6:amd64.
 Preparing to unpack .../2-libxau6_1%3a1.0.8-1ubuntu1_amd64.deb ...
 Unpacking libxau6:amd64 (1:1.0.8-1ubuntu1) ...
@@ -787,7 +825,7 @@ Unpacking libx11-data (2:1.6.4-3ubuntu0.2) ...
 Selecting previously unselected package libx11-6:amd64.
 Preparing to unpack .../7-libx11-6_2%3a1.6.4-3ubuntu0.2_amd64.deb ...
 Unpacking libx11-6:amd64 (2:1.6.4-3ubuntu0.2) ...
-Setting up multiarch-support (2.27-3ubuntu1) ...
+Setting up multiarch-support (2.27-3ubuntu1.2) ...
 Selecting previously unselected package libxext6:amd64.
 (Reading database ... 8750 files and directories currently installed.)
 Preparing to unpack .../000-libxext6_2%3a1.3.3-1_amd64.deb ...
@@ -1298,8 +1336,8 @@ Selecting previously unselected package libxv1:amd64.
 Preparing to unpack .../167-libxv1_2%3a1.0.11-1_amd64.deb ...
 Unpacking libxv1:amd64 (2:1.0.11-1) ...
 Selecting previously unselected package python3-httplib2.
-Preparing to unpack .../168-python3-httplib2_0.9.2+dfsg-1ubuntu0.1_all.deb ...
-Unpacking python3-httplib2 (0.9.2+dfsg-1ubuntu0.1) ...
+Preparing to unpack .../168-python3-httplib2_0.9.2+dfsg-1ubuntu0.2_all.deb ...
+Unpacking python3-httplib2 (0.9.2+dfsg-1ubuntu0.2) ...
 Selecting previously unselected package python3-problem-report.
 Preparing to unpack .../169-python3-problem-report_2.20.9-0ubuntu7.15_all.deb ...
 Unpacking python3-problem-report (2.20.9-0ubuntu7.15) ...
@@ -1509,7 +1547,7 @@ Setting up xfonts-encodings (1:1.0.4-2) ...
 Setting up cpp-7 (7.5.0-3ubuntu1~18.04) ...
 Setting up libdrm2:amd64 (2.4.101-2~18.04.1) ...
 Setting up libdrm-intel1:amd64 (2.4.101-2~18.04.1) ...
-Setting up python3-httplib2 (0.9.2+dfsg-1ubuntu0.1) ...
+Setting up python3-httplib2 (0.9.2+dfsg-1ubuntu0.2) ...
 Setting up libice6:amd64 (2:1.0.9-2) ...
 Setting up python3-requests (2.18.4-2ubuntu0.1) ...
 Setting up man-db (2.8.3-2ubuntu0.1) ...
@@ -1628,8 +1666,8 @@ Processing triggers for libgdk-pixbuf2.0-0:amd64 (2.36.11-2) ...
 + cd /home/xilinx/downloads/tmp
 + mkdir -p depends
 + wget -nv 172.17.0.1:8000/depends/Xilinx_Unified_2020.1_0602_1208_Lin64.bin -O depends/Xilinx_Unified_2020.1_0602_1208_Lin64.bin
-172.17.0.3 - - [03/Jul/2020 09:49:26] "GET /depends/Xilinx_Unified_2020.1_0602_1208_Lin64.bin HTTP/1.1" 200 -
-                                                                                                             2020-07-03 13:49:26 URL:http://172.17.0.1:8000/depends/Xilinx_Unified_2020.1_0602_1208_Lin64.bin [122567857/122567857] -> "depends/Xilinx_Unified_2020.1_0602_1208_Lin64.bin" [1]
+172.17.0.2 - - [09/Jul/2020 14:49:26] "GET /depends/Xilinx_Unified_2020.1_0602_1208_Lin64.bin HTTP/1.1" 200 -
+                                                                                                             2020-07-09 18:49:27 URL:http://172.17.0.1:8000/depends/Xilinx_Unified_2020.1_0602_1208_Lin64.bin [122567857/122567857] -> "depends/Xilinx_Unified_2020.1_0602_1208_Lin64.bin" [1]
 + chmod a+x depends/Xilinx_Unified_2020.1_0602_1208_Lin64.bin
 + ls -al depends/Xilinx_Unified_2020.1_0602_1208_Lin64.bin
 -rwxr-xr-x 1 root root 122567857 Jun  5 19:58 depends/Xilinx_Unified_2020.1_0602_1208_Lin64.bin
@@ -1649,7 +1687,7 @@ Uncompressing Xilinx Installer..................................................
 Running in batch mode...
 Copyright (c) 1986-2020 Xilinx, Inc.  All rights reserved.
 
-INFO : Log file location - /root/.Xilinx/xinstall/xinstall_1593784169758.log
+INFO : Log file location - /root/.Xilinx/xinstall/xinstall_1594320571219.log
 Select an Edition from the list:
 1. Vitis Unified Software Platform
 
@@ -1661,7 +1699,7 @@ INFO : Config file available at /root/.Xilinx/install_config.txt. Please use -c 
 + cp /root/.Xilinx/install_config.txt configs/xlnx_unified_vitis.config
 + vi configs/xlnx_unified_vitis.config
 + ls -al configs/xlnx_unified_vitis.config
--rw-r--r-- 1 root root 1797 Jul  3 13:57 configs/xlnx_unified_vitis.config
+-rw-r--r-- 1 root root 1797 Jul  9 18:50 configs/xlnx_unified_vitis.config
 + cat configs/xlnx_unified_vitis.config
 #### Vitis Unified Software Platform Install Configuration ####
 Edition=Vitis Unified Software Platform
@@ -1703,45 +1741,15 @@ Copying Xilinx Unified batch mode configurations to host ...
 -----------------------------------
 + mkdir -p _generated/configs
 + docker cp build_vitis_depends_v2020.1:/home/xilinx/downloads/tmp/configs/xlnx_unified_vitis.config _generated/configs/xlnx_unified_vitis.config
-+ '[' 1 -ne 0 ']'
-+ set +x
------------------------------------
- - Launch Unified Setup to create a download bundle...
------------------------------------
-+ docker exec -it build_vitis_depends_v2020.1 bash -c 'if [ 1 -ne 0 ]; then set -x; fi  && cd /home/xilinx/downloads/tmp/xUnified_tmp   && ./xsetup --agree XilinxEULA,3rdPartyEULA,WebTalkTerms --config configs/xlnx_unified_vitis.config     && cd /home/xilinx/downloads/tmp        && mkdir -p depends     && tar -zcf depends/Xilinx_Unified_2020.1_0602_1208_Lin64.bin.tar.gz -C /opt/Xilinx/Downloads/v2020.1 .        && ls -al /opt/Xilinx/Downloads/v2020.1'
-+ cd /home/xilinx/downloads/tmp/xUnified_tmp
-+ ./xsetup --agree XilinxEULA,3rdPartyEULA,WebTalkTerms --config configs/xlnx_unified_vitis.config
-
-(java:6300): dbind-WARNING **: 14:37:00.453: Couldn't connect to accessibility bus: Failed to connect to socket /tmp/dbus-JSBt9Nfr1N: Connection refused
-+ cd /home/xilinx/downloads/tmp
-+ mkdir -p depends
-+ tar -zcf depends/Xilinx_Unified_2020.1_0602_1208_Lin64.bin.tar.gz -C /opt/Xilinx/Downloads/v2020.1 .
-+ ls -al /opt/Xilinx/Downloads/v2020.1
-total 68
-drwxr-xr-x 8 root root  4096 Jul  3 14:59 .
-drwxr-xr-x 3 root root  4096 Jul  3 14:02 ..
-drwxr-xr-x 2 root root  4096 Jul  3 14:59 bin
-drwxr-xr-x 3 root root  4096 Jul  3 14:59 data
-drwxr-xr-x 4 root root  4096 Jul  3 14:59 lib
-drwxr-xr-x 2 root root 36864 Jul  3 14:56 payload
-drwxr-xr-x 2 root root  4096 Jul  3 14:59 scripts
-drwxr-xr-x 4 root root  4096 Jul  3 14:59 tps
--rwxr-xr-x 1 root root  2899 May 28 02:21 xsetup
-+ '[' 1 -ne 0 ']'
-+ set +x
------------------------------------
-Copying Xilinx Unified offline installer to host ...
------------------------------------
-+ mkdir -p _generated/depends
-+ docker cp build_vitis_depends_v2020.1:/home/xilinx/downloads/tmp/depends/Xilinx_Unified_2020.1_0602_1208_Lin64.bin.tar.gz _generated/depends/Xilinx_Unified_2020.1_0602_1208_Lin64.bin.tar.gz
++ chmod +rw _generated/configs/xlnx_unified_vitis.config
 + '[' 1 -ne 0 ']'
 + set +x
 -----------------------------------
 Shutting down Python HTTP Server...
 -----------------------------------
-Killing process ID 29865
+Killing process ID 7559
 -----------------------------------
-+ kill 29865
++ kill 7559
 + '[' 1 -ne 0 ']'
 + set +x
 -----------------------------------
@@ -1749,37 +1757,26 @@ Removing temporary docker resources...
 -----------------------------------
 + docker rm -f build_vitis_depends_v2020.1
 build_vitis_depends_v2020.1
-./generate_depends.sh: line 337: 29865 Terminated              python3 -m http.server
+./generate_depends.sh: line 316:  7559 Terminated              python3 -m http.server
 + docker rmi -f dependency_generation:v2020.1
 Untagged: dependency_generation:v2020.1
-Deleted: sha256:6c2861c9f7480d49b9458c03e589c1eabe275a36c6ea69c387d1e124d117f7c9
-Deleted: sha256:87d6b3cadc53ee2f6a3edd22633c30cd054061d161b8808abdef37129305c697
-Deleted: sha256:fd747645729f3b817d414cf313a3434d6cdba8d8fb3eb1fd8906def0d94bc368
-Deleted: sha256:3a6ba3a1085231b796082de96acfb3a86f755188da6bba833d893eb3fa59c792
-Deleted: sha256:4e8af4f3d9ff1a162acfac41fd59e8fc90035ccb0513c073df5dfb60824e3161
-Deleted: sha256:a991b93df2ed8b72a370f02aa4fbf2fd5a7a56fe4a3dc68d2ce244604c60fa52
-Deleted: sha256:3ca9de3769f668edd9834471da2de0a8f40a69d4bd98987953cb4bc2cc9cc891
-Deleted: sha256:7a94b451e472b26623c65d56835b622870d1ed5251cb03c0841e16d4e2300623
-Deleted: sha256:ad90ce7aecec9fc520d99ad6a73362a6cb67aa48f8318dced555484f408f7823
-Deleted: sha256:ec0ca093dabbc91a1f9b6b6d8949c86da31893c1b71938aa19ba7f9f4b8f8188
-Deleted: sha256:d57e4440e6af4afe4f4cf25d23b94bf7017fbb0d71f4313c921d20c591f6bf9c
-Deleted: sha256:0dc69754aacf4646d0f421f47161d4ddf707a20151d4ee37b1c38e6ae41784bd
+Deleted: sha256:3edad2d1d94db36f98d051ec0f3e600e19bc8d5833620f1df9b04b081195b4a3
+Deleted: sha256:c90368f7ed145659d589a16b1d4b36c59655bbf862096ea93f02c8f2048d5a02
 + '[' 1 -ne 0 ']'
 + set +x
 -----------------------------------
 Dependency Generation Complete
 -----------------------------------
-STARTED :Fri Jul 3 09:47:40 EDT 2020
-ENDED   :Fri Jul 3 11:27:25 EDT 2020
+STARTED :Thu Jul 9 14:47:32 EDT 2020
+ENDED   :Thu Jul 9 14:50:28 EDT 2020
 -----------------------------------
-DOCKER_FILE_NAME=Dockerfile
-DOCKER_FILE_STAGE=base_os_vitis_v2020.1
+DOCKER_FILE_NAME=Dockerfile.generate_depends
+DOCKER_FILE_STAGE=base_os_depends_v2020.1
 DOCKER_IMAGE=dependency_generation:v2020.1
 DOCKER_CONTAINER_NAME=build_vitis_depends_v2020.1
 -----------------------------------
 Dependencies Generated:
 -----------------------------------
--rw-r--r-- 1 rjmoss rjmoss 1554 Jul  3 09:47 _generated/configs/keyboard_settings.conf
--rw-r--r-- 1 rjmoss rjmoss 1797 Jul  3 09:57 _generated/configs/xlnx_unified_vitis.config
--rw-r--r-- 1 rjmoss rjmoss 32461871729 Jul  3 11:20 _generated/depends/Xilinx_Unified_2020.1_0602_1208_Lin64.bin.tar.gz
+-rw-r--r-- 1 rjmoss rjmoss 1554 Jul  9 14:47 _generated/configs/keyboard_settings.conf
+-rw-rw-r-- 1 rjmoss rjmoss 1797 Jul  9 14:50 _generated/configs/xlnx_unified_vitis.config
 -----------------------------------
