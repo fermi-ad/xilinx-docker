@@ -32,7 +32,8 @@ These user images include a tool-compatible Ubuntu OS installation with tool spe
 
 | Xilinx Release | Ubuntu Release | Petalinux     | Vivado        | Vitis          | SDK |
 | -------------- | -------------- | ---------     | ------------  | ------------   | --- |
-| v2020.1        | [18.04.2][4b]  | [11.8GB][4ap] | [64GB][4av]   | [98.6GB][4avi] |     |
+| v2020.1 (orig) | [18.04.2][4b]  | [11.8GB][4ap] | [64GB][4av]   | [98.6GB][4avi] |     |
+| v2020.1 (opt)  | [18.04.2][4b]  | [11.8GB][4ap] | [64GB][4av]   | [98.6GB][4avi] |     |
 
 [4b]: ./recipes/base-images/ubuntu-18.04.2/README.md
 [4u]: ./recipes/user-images/v2020.1/README.md
@@ -52,19 +53,18 @@ The recipes in this repository support two separate development environment crea
 
 The goal of this workflow is to quickly get up and running with the Xilinx tools in docker containers.
 
-- Scripted creation of the base OS with tool dependencies installed.
+- Scripted creation of the base OS with tool dependencies pre-installed.
 - User manually installs Xilinx Tools
 - User commits changes to local repository to create new images including tools.
 
 2. Automated Xilinx Tool installation
 
-The goal of this workflow is to completely automate generation of docker containers with Xilinx tools.  This workflow is divided into two parts: (1) Dependency Generation and  (2) Automated Image Build.  T
+The goal of this workflow is to completely automate creating docker containers with Xilinx tools pre-installed.  This workflow is broken down into two stages.  In the first stage you generate installation dependencies (configuration files) that are used in the second stage by the automated image build.
 
-(1) Dependency Generation
-- This stage is used to generate OS configuration dependencies and download all necessary installer bundles to support a scripted Xilinx tool installation process.  This includes OS and Tool installer bundles and configuration files.
-
-(2) Automated Image Build
-- This stage is completely automated, creating a complete docker image with Xilinx tools pre-installed.
+- Dependency Generation
+	- This stage is used to generate OS configuration dependencies to support a scripted Xilinx tool installation process.  This includes OS and Xilinx installer configuration files.
+- Automated Image Build
+	- This stage provides unattended creation of docker images with Xilinx tools pre-installed.
 
 ### Manual Xilinx Tool installation overview
 
@@ -88,7 +88,7 @@ The goal of this workflow is to completely automate generation of docker contain
 	- See each README file for required installer binaries
 2. Place a link to this installer in the recipe's __*depends*__ folder
 3. Build the required base os image for the recipe 
-4. Generate the remaining required dependencies using each recipe's __**generate_depends*__ script
+4. Generate the remaining required dependencies using each recipe's __*generate_depends*__ script
 	- This script is interactive (requiring user input)
 	- This script downloads additional required dependencies for each image
 	- This script uses each Xilinx Web Installers to generate a batch installation configuration for each tool
