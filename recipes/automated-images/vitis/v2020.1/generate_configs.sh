@@ -29,7 +29,7 @@
 source include/configuration.sh
 
 # Set the Docker File for Vitis
-DOCKER_FILE_NAME=Dockerfile.generate_depends
+DOCKER_FILE_NAME=Dockerfile.generate_configs
 
 # Additional setup and overrides specificaly for dependency generation
 GENERATED_DIR=_generated
@@ -62,7 +62,6 @@ fi
 
 # Test for dependencies required to run this script
 # 1. Unified Web Installer
-# 2. Unified Full Offline Installer
 
 # Check for dependency files in the build context
 # Since these builds use WGET instead of COPY or ADD
@@ -78,16 +77,6 @@ else
 	echo "ERROR: Xilinx Unified Web Installer: [Missing] "$XLNX_UNIFIED_WEB_INSTALLER
 	exit $EX_OSFILE
 fi
-
-# Check for Xilinx Full Offline Installer
-if [ -f $XLNX_UNIFIED_OFFLINE_INSTALLER ] || [ -L $XLNX_UNIFIED_OFFLINE_INSTALLER ]; then
-	echo "Xilinx Unified Web Installer: [Exists] "$XLNX_UNIFIED_OFFLINE_INSTALLER
-else
-	# File does not exist
-	echo "ERROR: Xilinx Unified Offline Installer: [Missing] "$XLNX_UNIFIED_OFFLINE_INSTALLER
-	exit $EX_OSFILE
-fi
-
 
 # Create docker folder
 echo "-----------------------------------"
@@ -268,8 +257,8 @@ if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi
 docker exec -it $DOCKER_CONTAINER_NAME \
 	bash -c "if [ ${BUILD_DEBUG} -ne 0 ]; then set -x; fi \
 	&& cd ${HOME_DIR}/downloads/tmp \
-	&& ${XLNX_UNIFIED_WEB_INSTALLER} --noexec --nox11 --target xUnified_tmp \
-	&& cd xUnified_tmp \
+	&& ${XLNX_UNIFIED_WEB_INSTALLER} --noexec --nox11 --target unified_tmp \
+	&& cd unified_tmp \
 	&& ./xsetup -b ConfigGen -p ${XLNX_TOOL_INSTALLER_NAME} -l ${XLNX_INSTALL_LOCATION} \
 	&& cd ${HOME_DIR}/downloads/tmp \
 	&& mkdir -p ${XLNX_UNIFIED_BATCH_CONFIG_FILE%/*} \
@@ -322,7 +311,7 @@ if [ $BUILD_DEBUG -ne 0 ]; then set +x; fi
 DOCKER_BUILD_END_TIME=`date`
 # Docker Image Build Complete
 echo "-----------------------------------"
-echo "Dependency Generation Complete"
+echo "Configuration Generation Complete"
 echo "-----------------------------------"
 echo "STARTED :"$DOCKER_BUILD_START_TIME
 echo "ENDED   :"$DOCKER_BUILD_END_TIME
@@ -332,8 +321,13 @@ echo "DOCKER_FILE_STAGE="$DOCKER_FILE_STAGE
 echo "DOCKER_IMAGE="$DOCKER_IMAGE_NAME":"$DOCKER_IMAGE_VERSION
 echo "DOCKER_CONTAINER_NAME="$DOCKER_CONTAINER_NAME
 echo "-----------------------------------"
-echo "Dependencies Generated:"
+echo "Configurations Generated:"
 echo "-----------------------------------"
 ls -al $GENERATED_DIR/$KEYBOARD_CONFIG_FILE
 ls -al $GENERATED_DIR/$XLNX_UNIFIED_BATCH_CONFIG_FILE
 echo "-----------------------------------"
+echo "Copying Configurations to the $INSTALL_CONFIGS_DIR Folder"
+echo "-----------------------------------"
+cp -f $GENERATED_DIR/$KEYBOARD_CONFIG_FILE $KEYBOARD_CONFIG_FILE
+cp -f $GENERATED_DIR/$XLNX_UNIFIED_BATCH_CONFIG_FILE $XLNX_UNIFIED_BATCH_CONFIG_FILE
+

@@ -91,7 +91,7 @@ $ sudo apt-get remove docker docker-ce docker-engine docker-io
 ### Install packages so apt can use HTTPS:
 ```bash
 bash:
-$ sudo apt-get install apt-transport-https ca-certificates curl software-properties-common
+$ sudo apt-get install apt-transport-https ca-certificates curl software-properties-common net-tools
 ```
 
 ### Install the docker GPG key

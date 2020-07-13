@@ -13,228 +13,17 @@
 # - Xilinx Vitis v2020.1 (Xilinx Vitis v2020.1 release)
 #
 #
-# Multi-stage build organization:
-# -------------------------------
-# 1. base_os_vitis_v2020.1							: Base Ubuntu 18.04.2 image with a few basics, locale setup and user account
-# 2. |___ xilinx_install_depends_vitis_v2020.1		: +Xilinx specific install dependencies
-# 3.      |___ xilinx_install_vitis_v2020.1				: +Xilinx Tool Installation
+# Single-stage optimized build organization:
+# ------------------------------------------
+# 1. xilinx-ubuntu-18.04.2-user:v2020.1				: Base Ubuntu 18.04.2 image with a few basics, locale setup and user account
+# 2. |___ xilinx_install_vitis_v2020.1				: +Xilinx Tool Installation
 ########################################################################################
-# Base OS Image:
-# --------------
-#	- Ubuntu 18.04.2
-#		- start with the base Ubuntu 18.04.2 build from Ubuntu release tarballs
-########################################################################################
-FROM ubuntu:18.04.2 AS base_os_vitis_v2020.1
+FROM xilinx-ubuntu-18.04.2-user:v2020.1 AS xilinx_install_vitis_v2020.1
 LABEL author="Jason Moss"
 
-# Address build bug: https://github.com/docker/docker/issues/4032
-ENV DEBIAN_FRONTEND=noninteractive
-
-# Turn on shell command expansion inside docker container IF Debug is configured
-ARG BUILD_DEBUG
-
-RUN if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi \
-# Configure APT to ignore recommended or suggested packages by default to keep the final image small \
-	&& echo "APT::Install-Recommends false;" > /etc/apt/apt.conf.d/00norecommends \
-	&& echo "APT::AutoRemove::RecommendsImportant false;" >> /etc/apt/apt.conf.d/00norecommends \
-	&& echo "APT::Install-Suggests false;" > /etc/apt/apt.conf.d/00nosuggests \
-	&& echo "APT::AutoRemove::SuggestsImportant false;" >> /etc/apt/apt.conf.d/00nosuggests \
-	&& apt-get update \
-# Install apt-utils which is needed by debconf for some of the other packages being installed \
-	&& apt-get install -y \
-		apt-utils \
-# Install vim for local file editing \
-		vim \
-# Install and setup locale \
-	&& apt-get install locales \
-	&& locale-gen en_US.UTF-8 \
-	&& dpkg-reconfigure \
-		--frontend $DEBIAN_FRONTEND locales
-
-# Install debconf-utils, dialog \
-RUN if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi \
-	&& apt-get install -y \
-		dialog \
-		debconf-utils \
-# Put debconf in non interactive mode \
-	&& echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections
-
-# Create a user account with no password and add user to sudoers
-# Install sudo and setup a user account, which is essential for Yocto and other tools
-# adduser command:  http://manpages.ubuntu.com/manpages/xenial/man8/adduser.8.html
 # Arguments can be filled at build time using the '--build-arg' option
 ARG USER_ACCT
 ARG HOME_DIR
-ARG XLNX_INSTALL_LOCATION
-
-RUN if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi \
-	&& apt-get install -y \
-		sudo \
-	&& adduser \
-		--disabled-password \
-		--gecos '' \
-		--shell /bin/bash \
-		--home $HOME_DIR \
-		$USER_ACCT \
-	&& echo \
-		"$USER_ACCT ALL=(ALL) NOPASSWD: ALL" \
-		>> /etc/sudoers \
-# Add user to the dialout group for serial port access \
-	&& adduser $USER_ACCT dialout \
-# Setup Java librxtx permission for /var/lock so Vitis can user the /dev/ttyUSB devices properly without crashing \
-# Add current user to uucp group \
-	&& adduser $USER_ACCT uucp \
-# Give uucp group permission to /var/lock \
-	&& chgrp uucp /var/lock \
-# Give write permission to the group \
-	&& chmod g+w /var/lock \
-# Create the Xilinx install folder and add appropriate permissions \
-	&& mkdir -p $XLNX_INSTALL_LOCATION \
-	&& chown -R $USER_ACCT:$USER_ACCT $XLNX_INSTALL_LOCATION \
-# Set BASH as the default shell \
-	&& echo "dash dash/sh boolean false" | debconf-set-selections \
-	&& DEBIAN_FRONTEND=$DEBIAN_FRONTEND dpkg-reconfigure dash
-
-########################################################################################
-# Xilinx Vitis Dependencies:
-# ---------------------------
-# - Includes Petalinux Dependencies and JRE needed for Eclipse in XSDK
-########################################################################################
-FROM base_os_vitis_v2020.1 AS xilinx_install_depends_vitis_v2020.1
-LABEL author="Jason Moss"
-
-# Re-use previous stage ARG
-ARG USER_ACCT
-ARG HOME_DIR
-
-# Switch to the user account, dump group configuration
-USER $USER_ACCT
-ENV DEBIAN_FRONTEND=noninteractive
-
-# Arguments can be filled at build time using the '--build-arg' option
-ARG XLNX_INSTALL_LOCATION
-ARG XLNX_PETALINUX_INSTALLER
-ARG INSTALL_SERVER_URL
-
-# Turn on shell command expansion inside docker container IF Debug is configured
-ARG BUILD_DEBUG
-
-# Setup install location folder permissions
-RUN if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi \
-	&& mkdir -p $XLNX_INSTALL_LOCATION/tmp \
-	&& cd $XLNX_INSTALL_LOCATION/tmp \
-# add i386 architecture for zlib1g-dev dependency \
-	&& sudo dpkg --add-architecture i386 \
-# required ubuntu packages \
-# https://www.xilinx.com/html_docs/xilinx2020_1/vitis_doc/dvy1591145410207.html \
-# need software-properties-common to use add-apt-repository command \
-	&& sudo apt-get install -y software-properties-common \
-	&& sudo add-apt-repository -y ppa:xorg-edgers/ppa \
-	&& sudo apt-get update \
-	&& sudo apt-get install -y \
-	 libgl1-mesa-glx \
-	 libgl1-mesa-dri \
-	 libgl1-mesa-dev \
-	&& sudo add-apt-repository --remove -y ppa:xorg-edgers/ppa \
-	&& sudo apt install -y \
-	 net-tools \
-	 unzip \
-	 gcc \
-	 g++ \
-	 python \
-#	&& ln -s /usr/bin/python2 /usr/bin/python \
-# vitis base dependencies - UG1400 \
-	&& sudo apt-get install -y \
-     ocl-icd-dev \
-     ocl-icd-libopencl1 \
-     opencl-headers \
-     ocl-icd-opencl-dev \
-# undocumented vitis dependencies \
-# ---------------------------- \
-# Failure to install QEMU data \
-# Setting it up...Failed to replace perl. Relocate script failed. Abort!, stderr: \
-# xargs: file: No such file or directory \
-# ---------------------------- \
-# Requires 'file' to be installed \
-	 file \
-# GTK is required by the Eclipse Standard Widget Toolkit (SWT) \
-	 libgtk2.0-0 \
-# petalinux-gblibc-x86_64-petalinux-image-minimal-aarch64-toolchain.sh requires this in post install
-	 gcc \
-# Install Vivado dependencies from ldd-recursive.pl in AR#66184 \
-# - See: https://www.xilinx.com/support/answers/66184.html \
-	 libboost-signals-dev \
-	 google-perftools \
-# Undocumented Vivado Depdencies \
-	 less \
-	 fakeroot \
-	 xorg \
-	 make \
-# Undocumented Vivado Dependency for running cmake \
-# Uncovered during OpenAMP Pre-built Example Generation \
-	 libidn11 \
-# Non-required packages for productivity \
-	 tofrodos \
-	 dos2unix \
-	 iproute2 \
-	 gawk \
-	 git \
-	 wget \
-	 diffstat \
-	 xterm \
-	 xvfb \
-	 tar \
-	 unzip \
-	 gzip \
-	 less \
-# Add minicom for /dev/ttyUSB* access from command line \
-	 minicom
-
-ARG GIT_USER_NAME
-ARG GIT_USER_EMAIL
-
-# Setup GIT with a dummy username and email address
-RUN if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi \
-	&& git config \
-	--global user.name $GIT_USER_NAME \
-	&& git config \
-	--global user.email $GIT_USER_EMAIL \
-	&& git config \
-	--global color.ui true
-
-########################################################################################
-# Download Xilinx Unified Web Installer
-# - Xilinx requires a valid xilinx.com account in order to download the Xilinx SDK Web Installer.
-#	- Xilinx Unified Installer v2020.1
-#		- Download Link: 
-#			- https://www.xilinx.com/member/forms/download/xef.html?filename=Xilinx_Unified_2020.1_1106_2127_Lin64.bin
-#		- Release Notes;
-#			- https://www.xilinx.com/support/download/index.html/content/xilinx/en/downloadNav/vitis-design-tools/2019-2.html
-#			- https://www.xilinx.com/support/documentation/sw_manuals/xilinx2019_2/ug973-vitis-release-notes-install-license.pdf
-# - Place the installer binary (or a link to it) in the ./depends folder
-# - Vitis v2020.1 Release Notes:
-#	- https://www.xilinx.com/html_docs/xilinx2019_2/vitis_doc/Chunk300137739.html
-#
-# Download the Xilinx Runtime (XRT)
-# - The Xilinx Runtime provides a software interface to Xilinx programmable logic devices.
-#	- Pre-built XRT Ubuntu 18.04 Package for v2020.1
-#		- Installation Instructions:
-#			- https://www.xilinx.com/html_docs/xilinx2019_2/vitis_doc/Chunk1674708719.html#pjr1542153622642
-#		- Download Link:
-#			- https://www.xilinx.com/bin/public/openDownload?filename=xrt_201920.2.3.1301_18.04-xrt.deb
-########################################################################################
-FROM xilinx_install_depends_vitis_v2020.1 AS xilinx_install_vitis_v2020.1
-LABEL author="Jason Moss"
-
-# Re-use previous stage ARG
-ARG USER_ACCT
-ARG HOME_DIR
-
-# Switch to the user account
-USER $USER_ACCT
-ENV DEBIAN_FRONTEND=noninteractive
-
-# Arguments can be filled at build time using the '--build-arg' option
 ARG XLNX_INSTALL_LOCATION
 ARG XLNX_DOWNLOAD_LOCATION
 ARG INSTALL_SERVER_URL
@@ -243,39 +32,18 @@ ARG INSTALL_SERVER_URL
 ARG BUILD_DEBUG
 
 # Arguments can be filled at build time using the '--build-arg' option
-ARG KEYBOARD_CONFIG_FILE
-ARG XTERM_CONFIG_FILE
-ARG MINICOM_CONFIG_FILE
-
-# Configure the Keyboard (not required for Unified installation, but needed for SDK)
-RUN if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi \
-	&& export TERM=xterm \
-	&& cd $XLNX_INSTALL_LOCATION/tmp \
-# Get Keyboard configuration file \
-	&& mkdir -p "${KEYBOARD_CONFIG_FILE%/*}" \
-	&& wget -nv $INSTALL_SERVER_URL/$KEYBOARD_CONFIG_FILE -O $KEYBOARD_CONFIG_FILE \
-	&& cat $KEYBOARD_CONFIG_FILE \
-# Configure Keyboard silently \
-	&& sudo DEBIAN_FRONTEND=$DEBIAN_FRONTEND apt-get install -y keyboard-configuration \
-	&& sudo DEBIAN_FRONTEND=$DEBIAN_FRONTEND debconf-set-selections < $KEYBOARD_CONFIG_FILE \
-	&& sudo DEBIAN_FRONTEND=$DEBIAN_FRONTEND dpkg-reconfigure keyboard-configuration \
-# Configure Xterm to change the color scheme and allow copy-paste with host \
-	&& mkdir -p "${XTERM_CONFIG_FILE%/*}" \
-	&& wget -nv $INSTALL_SERVER_URL/$XTERM_CONFIG_FILE -O $XTERM_CONFIG_FILE \
-	&& cat $XTERM_CONFIG_FILE \
-	&& cp $XTERM_CONFIG_FILE $HOME_DIR \
-# Copy Minicom configuration file \
-	&& mkdir -p "${MINICOM_CONFIG_FILE%/*}" \
-	&& wget -nv $INSTALL_SERVER_URL/$MINICOM_CONFIG_FILE -O $MINICOM_CONFIG_FILE \
-	&& cat $MINICOM_CONFIG_FILE \
-	&& cp $MINICOM_CONFIG_FILE $HOME_DIR
-
-# Arguments can be filled at build time using the '--build-arg' option
 ARG XLNX_UNIFIED_OFFLINE_INSTALLER
 ARG XLNX_UNIFIED_BATCH_CONFIG_FILE
+ARG XLNX_UNIFIED_INSTALLER_BASENAME
+
+# Switch to the user account
+USER $USER_ACCT
+ENV DEBIAN_FRONTEND=noninteractive
 
 # Get the Unified installer
 RUN if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi \
+	&& sudo mkdir -p $XLNX_INSTALL_LOCATION/tmp \
+	&& sudo chown -R $USER_ACCT:$USER_ACCT $XLNX_INSTALL_LOCATION \
  	&& cd $XLNX_INSTALL_LOCATION/tmp \
 # Get Xilinx Unified Installer Batch Mode configuration file \
  	&& mkdir -p "${XLNX_UNIFIED_BATCH_CONFIG_FILE%/*}" \
@@ -303,16 +71,14 @@ RUN if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi \
 # undocumented vitis post install dependencies \
 		xz-utils \
 # Run Setup in batch mode to install Unified \
-	&& ./xsetup -x \
+	&& ./xsetup \
   		--agree XilinxEULA,3rdPartyEULA,WebTalkTerms \
   		--config $XLNX_UNIFIED_BATCH_CONFIG_FILE \
   		--batch INSTALL \
 # Cleanup Temporary Files \
   	&& cd $HOME_DIR \
-  	&& rm -rf $XLNX_INSTALL_LOCATION/tmp
-
-# Cleanup apt cache and temporary files to reduce image size
-RUN if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi \
+  	&& rm -rf $XLNX_INSTALL_LOCATION/tmp \
+# Cleanup apt cache and temporary files to reduce image size \
 	&& sudo apt-get clean \
 	&& sudo rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
 	&& sudo echo 'debconf debconf/frontend select Dialog' | sudo debconf-set-selections

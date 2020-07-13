@@ -4,26 +4,25 @@
 ```
 -> .dockerignore
 -> build_image.sh
--> generate_depends.sh
+-> generate_configs.sh
 -> host_xrt_setup.sh
 -> Dockerfile
 -> configs/
+	-> .minirc.dfl
 	-> keyboard_settings.conf
 	-> xlnx_unified_vitis.config
 	-> XTerm
 -> depends/
 	-> Xilinx_Unified_2020.1_0602_1208_Lin64.bin
-	-> (Vitis_Xilinx_Unified_2020.1_0602_1208_Lin64.bin.tar.gz)
+	-> Xilinx_Unified_2020.1_0602_1208.tar.gz
 	-> xrt_202010.2.6.655_18.04-amd64-xrt.deb
 -> include/
 	-> configuration.sh
 ```
 
-< -- Update From Here --> 
-
 # Setup Host System for XRT
 ## Download xrtdeps.sh shell script
-- Package dependencies are listed in the shell script
+- Package configurations are listed in the shell script
 https://github.com/Xilinx/XRT/blob/master/src/runtime_src/tools/scripts/xrtdeps.sh
 - See UG1301 Getting Started Guide Alveo Accelerator Cards
 	- https://www.xilinx.com/support/documentation/boards_and_kits/accelerator-cards/ug1301-getting-started-guide-alveo-accelerator-cards.pdf
@@ -31,9 +30,9 @@ https://github.com/Xilinx/XRT/blob/master/src/runtime_src/tools/scripts/xrtdeps.
 $ wget -nv https://raw.githubusercontent.com/Xilinx/XRT/2020.1/src/runtime_src/tools/scripts/xrtdeps.sh -O depends/xrtdeps.sh
 ```
 
-# Need to determine XRT dependencies?
+# Need to determine XRT configurations?
 ## Download xrtdeps.sh shell script
-- Package dependencies are listed in the shell script
+- Package configurations are listed in the shell script
 https://github.com/Xilinx/XRT/blob/master/src/runtime_src/tools/scripts/xrtdeps.sh
 - See UG1301 Getting Started Guide Alveo Accelerator Cards
 	- https://www.xilinx.com/html_docs/accelerator_cards/alveo_doc_280/dwt1537506874594.html
@@ -56,6 +55,16 @@ https://github.com/Xilinx/XRT/blob/master/src/runtime_src/tools/scripts/xrtdeps.
 - Vitis v2020.1 Release Notes:
 	- https://www.xilinx.com/html_docs/xilinx2020_1/vitis_doc/wlk1553469789555.html
 
+## Download Xilinx Unified All OS Single-File Download Installer
+- Xilinx requires a valid xilinx.com account in order to download the Xilinx Unified Web Installer.
+	- Xilinx Unified Installer v2020.1
+		- Download Link: 
+			- https://www.xilinx.com/member/forms/download/xef.html?filename=Xilinx_Unified_2020.1_0602_1208.tar.gz
+		- Documentation:
+			- https://www.xilinx.com/html_docs/xilinx2020_1/vitis_doc/index.html
+- Place the installer binary (or a link to it) in the ./depends folder
+- Vitis v2020.1 Release Notes:
+	- https://www.xilinx.com/html_docs/xilinx2020_1/vitis_doc/wlk1553469789555.html
 
 ## Download the Xilinx Runtime (XRT)
 - The Xilinx Runtime provides a software interface to Xilinx programmable logic devices.
@@ -75,10 +84,13 @@ https://github.com/Xilinx/XRT/blob/master/src/runtime_src/tools/scripts/xrtdeps.
 
 ### Locate the local ipaddress
 - For Linux use __ifconfig__ to determine the host IP address
-- For Windows Powershell use __ipconfig__ to determine the host IP address
 
-## To Generate a base Ubuntu 18.04.2 image (one time)
-- For Linux, execute the image generation script __*../../base-images/ubuntu_18.04.2/build_image.sh*__
+## Configure build options
+- For Linux Hosts:
+	- Modify build options in the file __*./include/configuration.sh*__
+
+## Generate a base Ubuntu 18.04.2 image (one time)
+- Execute the image generation script __*../../base-images/ubuntu_18.04.2/build_image.sh*__
 
 ```bash
 $ pushd ../../base-images/ubuntu-18.04.2
@@ -115,14 +127,52 @@ Build Cache         0                   0                   0B                  
 + set +x
 ```
 
-## Generate Vitis Image Install Dependencies (one time)
+## Generate an Ubuntu 18.04.2 user image (one time)
+- Execute the image generation script __*../../../user-images/v2020.1/ubuntu-18.04.2-user/build_image.sh*__
+```bash
+$ pushd ../../../user-images/v2020.1/ubuntu-18.04.2-user/
+$ ./build_image.sh 
+-----------------------------------
+Checking for configurations...
+-----------------------------------
+Base docker image [found] (ubuntu:18.04.2)
+Keyboard Configuration: [Good] configs/keyboard_settings.conf
+XTerm Configuration File: [Good] configs/XTerm
+Minicom Configuration File: [Good] configs/.minirc.dfl
+-----------------------------------
+Docker Build Context (Working)...
+-----------------------------------
+...
+Removing intermediate container f0caed766af2
+ ---> 5d774cff76ff
+Successfully built 5d774cff76ff
+Successfully tagged xilinx-ubuntu-18.04.2-user:v2020.1
++ '[' 1 -ne 0 ']'
++ set +x
+-----------------------------------
+Shutting down Python HTTP Server...
+-----------------------------------
+Killing process ID 14815
+-----------------------------------
++ kill 14815
++ '[' 1 -ne 0 ']'
++ set +x
+./build_image.sh: line 171: 14815 Terminated              python3 -m http.server
+-----------------------------------
+Image Build Complete...
+STARTED :Mon Jul 6 15:58:02 EDT 2020
+ENDED   :Mon Jul 6 16:03:28 EDT 2020
+-----------------------------------
+```
 
-### Execute the dependency generation script
+## Generate Vitis Image Install Configuration Files (one time)
+
+### Execute the configuration file generation script
 
 - For Linux, execute the following script:
 ```bash
 bash:
-$ ./generate_depends.sh
+$ ./generate_configs.sh
 ```
 
 - Follow the build process in the terminal (manual interaction required)
@@ -137,10 +187,41 @@ $ ./generate_depends.sh
 	- Select Vitis Unified Software Platform: option ```1```
 	- The configuration opens in the ```vim``` editor
 	- Make the following modifications:
+		- ```Modules=...DocNav:0,...``` 
 		- ```CreateProgramGroupShortcuts=0```
 		- ```CreateDesktopShortcuts=0```
 		- ```CreateFileAssociation=0```
 	- Save with ```:wq```
+
+- Review the generated configurations
+
+```bash
+bash:
+-----------------------------------
+Configurations Generated:
+-----------------------------------
+-rw-r--r-- 1 xilinx xilinx 1554 Jul  3 09:47 _generated/configs/keyboard_settings.conf
+-rw-r--r-- 1 xilinx xilinx 1797 Jul  3 09:57 _generated/configs/xlnx_unified_vitis.config
+-----------------------------------
+
+```
+
+- Copy the generated configurations to the dependency folder
+
+```bash
+bash:
+$ cp _generated/configs/* configs/
+```
+
+## Generate Vitis Offline Installer Bundle (one time)
+
+### Execute the installer generation script
+
+- For Linux, execute the following script:
+```bash
+bash:
+$ ./generate_installer.sh
+```
 
 - Xilinx Unified Installer (download only)
 	- This should launch an X11-based Xilinx Unified Installer Setup window on your host
@@ -173,58 +254,33 @@ $ ./generate_depends.sh
 	- Download the files for offline install: ```Download```
 	- Finish the download: ```OK```
 
-- Review the generated dependencies
+- Review the generated installer bundle
 
 ```bash
 bash:
 -----------------------------------
-Dependencies Generated:
+Configurations Generated:
 -----------------------------------
--rw-r--r-- 1 xilinx xilinx 1554 Jul  3 09:47 _generated/configs/keyboard_settings.conf
--rw-r--r-- 1 xilinx xilinx 1797 Jul  3 09:57 _generated/configs/xlnx_unified_vitis.config
--rw-r--r-- 1 xilinx xilinx 32461871729 Jul  3 11:20 _generated/depends/Xilinx_Unified_2020.1_0602_1208_Lin64.bin.tar.gz
+-rw-r--r-- 1 xilinx xilinx 32461885648 Jul 10 21:43 _generated/depends/Xilinx_Unified_2020.1_0602_1208_Lin64.bin.tar.gz
 -----------------------------------
 
 ```
 
-- Copy the generated dependencies to the dependency folder
+- Create a link to the offline installer in the dependency folder
 
 ```bash
 bash:
-$ cp _generated/configs/* configs/
-$ cp _generated/depends/* depends/
+$ ln -s ../_generated/depends/Xilinx_Unified_2020.1_0602_1208_Lin64.bin.tar.gz depends/
 ```
 
 ## Build a v2020.1 Vitis Image (one time)
-
-### Configure build options
-- For Linux Hosts:
-	- Modify build options in the file __*./include/configuration.sh*__
-- For Windows Hosts:
-	- Modify build options in the file __*./include/configuration.ps1*__
 
 ### Execute the image build script
 - Note: The build error is expected Build times reflected below were on an HP ZBook 15 G3, on battery power, connected to a WiFi 4G Hotspot
 ```bash
 bash:
 $ ./build_image.sh
------------------------------------
-Checking for dependencies...
------------------------------------
-Base docker image [found] (ubuntu:18.04.2)
-Keyboard Configuration: [Good] configs/keyboard_settings.conf
-Xilinx Unified Web Installer: [Good] depends/Xilinx_Unified_2020.1_1024_1831_Lin64.bin
-Xilinx Unified Offline Installer: [Good] depends/Xilinx_Unified_2020.1_1024_1831_Lin64.bin.tar.gz
-XTerm Configuration File: [Good] configs/XTerm
------------------------------------
 
-...
-
------------------------------------
-Image Build Complete...
-STARTED :Sun Dec 22 21:58:53 EST 2019
-ENDED   :Sun Dec 22 23:09:23 EST 2019
------------------------------------
 ```
 
 ## Create a working container (running in daemon mode) based on the vitis image

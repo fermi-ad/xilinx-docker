@@ -26,6 +26,9 @@ These user images include a tool-compatible Ubuntu OS installation and all (know
 | -------------- | --------------  | ---------     | ------------  | ------------   | --- |
 | v2020.1        | [18.04.2][4mu]  | [10.7GB][4mp] | [53.2GB][4mv] | [72.2GB][4mvi] |     |
 
+Vitis - v2020.1 Full Installer (Automated) = 100.0GB Image
+
+
 ### Xilinx User Images (Automated/Scripted Tool Installation)
 
 These user images include a tool-compatible Ubuntu OS installation with tool specific dependencies and the Xilinx tool pre-installed.  Xilinx tool installation is automated to support offline/archival and automation of development environment creation.  These images are slightly larger (by default) than the manually created counterparts due to the storage used for intermediate build staging during creation of these images.  These recipes are provided as examples and can further be optimized for size before deployment in your environment if necessary.
@@ -34,6 +37,14 @@ These user images include a tool-compatible Ubuntu OS installation with tool spe
 | -------------- | -------------- | ---------     | ------------  | ------------   | --- |
 | v2020.1 (orig) | [18.04.2][4b]  | [11.8GB][4ap] | [64GB][4av]   | [98.6GB][4avi] |     |
 | v2020.1 (opt)  | [18.04.2][4b]  | [11.8GB][4ap] | [64GB][4av]   | [98.6GB][4avi] |     |
+
+#### Automated Image Build Times
+
+These build times are approximate, rounded to the nearest minute and reflect one particular build machine configuration.
+
+| Xilinx Release | Ubuntu Release | Petalinux     | Vivado        | Vitis         | SDK |
+| -------------- | -------------- | ------------- | ------------- | ------------- | --- |
+| v2020.1        | [ 0h,  6min]   | [ 0h, 10min ] | [ 0h, 49min ] | [ 1h, 21min ] |     |
 
 [4b]: ./recipes/base-images/ubuntu-18.04.2/README.md
 [4u]: ./recipes/user-images/v2020.1/README.md

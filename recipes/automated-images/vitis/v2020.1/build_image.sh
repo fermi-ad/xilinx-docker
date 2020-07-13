@@ -8,7 +8,7 @@
 #	- Xilinx Applications Engineer, Embedded Software
 #
 # Created: 
-#	- 7/3/2020
+#	- 7/9/2020
 #
 # Source configuration information for a v2019.2 Unified Image build
 source include/configuration.sh
@@ -73,6 +73,15 @@ if [ -f $XLNX_UNIFIED_OFFLINE_INSTALLER ] || [ -L $XLNX_UNIFIED_OFFLINE_INSTALLE
 else
 	# File does not exist
 	echo "ERROR: Xilinx Unified Offline Installer: [Missing] "$XLNX_UNIFIED_OFFLINE_INSTALLER
+	exit $EX_OSFILE
+fi
+
+# Check for Xilinx Batch Mode Configuratino File
+if [ -f $XLNX_UNIFIED_BATCH_CONFIG_FILE ] || [ -L $XLNX_UNIFIED_BATCH_CONFIG_FILE ]; then
+	echo "Xilinx Batch Mode Configuration File: [Good] "$XLNX_UNIFIED_BATCH_CONFIG_FILE
+else
+	# File does not exist
+	echo "ERROR: Xilinx Batch Mode Configuration File: [Missing] "$XLNX_UNIFIED_BATCH_CONFIG_FILE
 	exit $EX_OSFILE
 fi
 
@@ -146,17 +155,14 @@ echo "Arguments..."
 echo "-----------------------------------"
 echo "	--build-arg USER_ACCT=\"${USER_ACCT}\""
 echo " 	--build-arg HOME_DIR=\"${HOME_DIR}\""
-echo " 	--build-arg GIT_USER_NAME=\"${GIT_USER_NAME}\""
-echo " 	--build-arg GIT_USER_EMAIL=\"${GIT_USER_EMAIL}\""
 echo " 	--build-arg KEYBOARD_CONFIG_FILE=\"${KEYBOARD_CONFIG_FILE}\""
 echo "  --build-arg XLNX_INSTALL_LOCATION=\"${XLNX_INSTALL_LOCATION}\""
 echo " 	--build-arg XLNX_DOWNLOAD_LOCATION=\"${XLNX_DOWNLOAD_LOCATION}\""
 echo " 	--build-arg INSTALL_SERVER_URL=\"${SERVER_IP}:8000\""
 echo " 	--build-arg XLNX_UNIFIED_BATCH_CONFIG_FILE=\"${XLNX_UNIFIED_BATCH_CONFIG_FILE}\""
 echo " 	--build-arg XLNX_UNIFIED_OFFLINE_INSTALLER=\"${XLNX_UNIFIED_OFFLINE_INSTALLER}\""
+echo "  --build-arg XLNX_UNIFIED_INSTALLER_BASENAME=\"${XLNX_UNIFIED_INSTALLER_BASENAME}\""
 echo "  --build-arg BUILD_DEBUG=\"${BUILD_DEBUG}\""
-echo "  --build-arg XTERM_CONFIG_FILE=\"${XTERM_CONFIG_FILE}\""
-echo "  --build-arg MINICOM_CONFIG_FILE=\"${MINICOM_CONFIG_FILE}\""
 echo "-----------------------------------"
 
 if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi
@@ -166,17 +172,14 @@ docker build $DOCKER_CACHE -f ./$DOCKER_FILE_NAME \
  	-t $DOCKER_IMAGE_NAME:$DOCKER_IMAGE_VERSION \
  	--build-arg USER_ACCT="${USER_ACCT}" \
  	--build-arg HOME_DIR="${HOME_DIR}" \
- 	--build-arg GIT_USER_NAME="${GIT_USER_NAME}" \
- 	--build-arg GIT_USER_EMAIL="${GIT_USER_EMAIL}" \
  	--build-arg KEYBOARD_CONFIG_FILE="${KEYBOARD_CONFIG_FILE}" \
  	--build-arg XLNX_INSTALL_LOCATION="${XLNX_INSTALL_LOCATION}" \
  	--build-arg XLNX_DOWNLOAD_LOCATION="${XLNX_DOWNLOAD_LOCATION}" \
   	--build-arg INSTALL_SERVER_URL="${INSTALL_SERVER_URL}" \
   	--build-arg XLNX_UNIFIED_BATCH_CONFIG_FILE="${XLNX_UNIFIED_BATCH_CONFIG_FILE}" \
   	--build-arg XLNX_UNIFIED_OFFLINE_INSTALLER="${XLNX_UNIFIED_OFFLINE_INSTALLER}" \
+  	--build-arg XLNX_UNIFIED_INSTALLER_BASENAME="${XLNX_UNIFIED_INSTALLER_BASENAME}" \
  	--build-arg BUILD_DEBUG="${BUILD_DEBUG}" \
-  	--build-arg XTERM_CONFIG_FILE="${XTERM_CONFIG_FILE}" \
-  	--build-arg MINICOM_CONFIG_FILE="${MINICOM_CONFIG_FILE}" \
   	$DOCKER_INSTALL_DIR
 
 if [ $BUILD_DEBUG -ne 0 ]; then set +x; fi
