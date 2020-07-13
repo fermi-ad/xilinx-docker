@@ -48,23 +48,6 @@ fi
 # Since these builds use WGET instead of COPY or ADD
 # files links within the build context can point outside
 # the context and they will get transferred just fine.
-
-# Check for keyboard configuration file
-if [ -f $KEYBOARD_CONFIG_FILE ] || [ -L $KEYBOARD_CONFIG_FILE ]; then
-	echo "Keyboard Configuration: [Good] "$KEYBOARD_CONFIG_FILE
-else
-	echo "ERROR: Keyboard Configuration: [Missing] "$KEYBOARD_CONFIG_FILE
-	exit $EX_OSFILE
-fi
-
-# Check for Xilinx Unified Web Installer (Used to create a targeted offline installer)
-if [ -f $XLNX_UNIFIED_WEB_INSTALLER ] || [ -L $XLNX_UNIFIED_WEB_INSTALLER ]; then
-	echo "Xilinx Unified Web Installer: [Good] "$XLNX_UNIFIED_WEB_INSTALLER
-else
-	# File does not exist
-	echo "ERROR: Xilinx Unified Web Installer: [Missing] "$XLNX_UNIFIED_WEB_INSTALLER
-	exit $EX_OSFILE
-fi
 	
 # Check for Xilinx Unified Offline Installer
 if [ -f $XLNX_UNIFIED_OFFLINE_INSTALLER ] || [ -L $XLNX_UNIFIED_OFFLINE_INSTALLER ]; then
@@ -82,24 +65,6 @@ if [ -f $XLNX_UNIFIED_BATCH_CONFIG_FILE ] || [ -L $XLNX_UNIFIED_BATCH_CONFIG_FIL
 else
 	# File does not exist
 	echo "ERROR: Xilinx Batch Mode Configuration File: [Missing] "$XLNX_UNIFIED_BATCH_CONFIG_FILE
-	exit $EX_OSFILE
-fi
-
-# Check for XTerm configuration file
-if [ -f $XTERM_CONFIG_FILE ] || [ -L $XTERM_CONFIG_FILE ]; then
-	echo "XTerm Configuration File: [Good] "$XTERM_CONFIG_FILE
-else
-	# File does not exist
-	echo "ERROR: XTerm Configuration File: [Missing] "$XTERM_CONFIG_FILE
-	exit $EX_OSFILE
-fi
-
-# Check for Minicom configuration file
-if [ -f $MINICOM_CONFIG_FILE ] || [ -L $MINICOM_CONFIG_FILE ]; then
-	echo "Minicom Configuration File: [Good] "$MINICOM_CONFIG_FILE
-else
-	# File does not exist
-	echo "ERROR: Minicom Configuration File: [Missing] "$MINICOM_CONFIG_FILE
 	exit $EX_OSFILE
 fi
 
@@ -155,7 +120,6 @@ echo "Arguments..."
 echo "-----------------------------------"
 echo "	--build-arg USER_ACCT=\"${USER_ACCT}\""
 echo " 	--build-arg HOME_DIR=\"${HOME_DIR}\""
-echo " 	--build-arg KEYBOARD_CONFIG_FILE=\"${KEYBOARD_CONFIG_FILE}\""
 echo "  --build-arg XLNX_INSTALL_LOCATION=\"${XLNX_INSTALL_LOCATION}\""
 echo " 	--build-arg XLNX_DOWNLOAD_LOCATION=\"${XLNX_DOWNLOAD_LOCATION}\""
 echo " 	--build-arg INSTALL_SERVER_URL=\"${SERVER_IP}:8000\""
@@ -172,7 +136,6 @@ docker build $DOCKER_CACHE -f ./$DOCKER_FILE_NAME \
  	-t $DOCKER_IMAGE_NAME:$DOCKER_IMAGE_VERSION \
  	--build-arg USER_ACCT="${USER_ACCT}" \
  	--build-arg HOME_DIR="${HOME_DIR}" \
- 	--build-arg KEYBOARD_CONFIG_FILE="${KEYBOARD_CONFIG_FILE}" \
  	--build-arg XLNX_INSTALL_LOCATION="${XLNX_INSTALL_LOCATION}" \
  	--build-arg XLNX_DOWNLOAD_LOCATION="${XLNX_DOWNLOAD_LOCATION}" \
   	--build-arg INSTALL_SERVER_URL="${INSTALL_SERVER_URL}" \
