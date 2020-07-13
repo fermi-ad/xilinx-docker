@@ -280,26 +280,90 @@ $ ln -s ../_generated/depends/Xilinx_Unified_2020.1_0602_1208_Lin64.bin.tar.gz d
 ```bash
 bash:
 $ ./build_image.sh
-
+...
+Successfully built f1a8261359dd
+Successfully tagged xilinx-vitis:v2020.1
+...
+-----------------------------------
+Image Build Complete...
+STARTED :Sun Jul 12 07:23:41 EDT 2020
+ENDED   :Sun Jul 12 08:44:42 EDT 2020
+-----------------------------------
 ```
 
 ## Create a working container (running in daemon mode) based on the vitis image
 - The container is started in __interactive daemon__ mode
 - You may also specify the MAC address of the container (making it easier to deal with tool licenses that are tied to a machine's MAC address)
-- Note: For Windows Powershell, use __*Select-String*__  in place of __*grep*__ to find the MacAddress
+- Make sure you mount at least one host folder so the docker container can access the Petalinux installer
+- Example: using `-v /srv/software/xilinx:/srv/software`
+	- gives access to host files under `/srv/software/xilinx` in the Docker container
+	- `/srv/software` is the mounted location inside of the Docker container
+	- `/srv/software/xilinx/` is the location of the Xilinx installers, bsps, etc...
+	- `/srv/software/licenses/` is the location of the Xilinx license files
 
-- List local docker images
+### List images in the local docker repository
 ```bash
 bash:
 $ docker image ls
-REPOSITORY               TAG                 IMAGE ID            CREATED             SIZE
-xilinx-vitis             v2020.1             d0113786a6eb        14 minutes ago      93.7GB
-ubuntu                   18.04.1             4112b3ccf856        42 hours ago        83.5MB
+REPOSITORY                       TAG                  IMAGE ID            CREATED             SIZE
+xilinx-vitis                     v2020.1              f1a8261359dd        10 minutes ago      99.1GB
+xilinx-ubuntu-18.04.2-user       v2020.1              371b01c68a88        2 days ago          2.01GB
+ubuntu                           18.04.2              c31ac5f5c1b0        4 days ago          88.3MB
 ```
 
-< ---- RESUME README UPDATES HERE --->
+#### Create a working container manually
 
+```bash
+$ docker run \
+	--name xilinx_vitis_v2020.1 \
+	--device-cgroup-rule "c 188:* rwm" \
+	-h xilinx_vitis_v2020-1 \
+	-v /tmp/.X11-unix:/tmp/.X11-unix \
+	-v ~/.Xauthority:/home/xilinx/.Xauthority \
+	-v /srv/software/xilinx:/srv/software \
+	-v /dev:/dev \
+	-e DISPLAY=$DISPLAY \
+	--mac-address "02:de:ad:be:ef:91" \
+	--user xilinx \
+	-itd xilinx-vitis:v2020.1 \
+	/bin/bash
+e2dbfb4434279a519b2350849ff5f04e45727c71e4b6009f59c34481e0bc14db
+```
 
+#### Verify the container was created and the MAC Address was set properly
 
-- Test ZCU104 DPU Examples
-- https://github.com/Xilinx/Vitis-AI/blob/master/mpsoc/README.md
+```bash
+$ docker ps -a
+CONTAINER ID        IMAGE                  COMMAND             CREATED             STATUS              PORTS               NAMES
+e2dbfb443427        xilinx-vitis:v2020.1   "/bin/bash"         11 seconds ago      Up 9 seconds                            xilinx_vitis_v2020.1
+```
+
+## Connect to the running container
+
+### Launch an xterm session in the running container from the host command line
+- Launch an X-windows terminal shell for access to the container
+```bash
+bash:
+$ docker exec -it xilinx_vitis_v2020.1 bash -c "xterm" &
+```
+- This launches an X-windows terminal shell and sources the Petalinux settings script
+```bash
+xterm:
+xilinx@xilinx_vitis_v2020-1:/$
+```
+
+## Execute Vitis Tools
+- Launch Vitis from the working container
+```bash
+xterm:
+xilinx@xilinx_vitis_v2020-1:/opt/Xilinx$ vitis
+
+****** Xilinx Vitis Development Environment
+****** Vitis v2020.1 (64-bit)
+  **** SW Build 2902540 on Wed May 27 19:55:13 MDT 2020
+    ** Copyright 1986-2020 Xilinx, Inc. All Rights Reserved.
+
+Launching Vitis with command /opt/Xilinx/Vitis/2020.1/eclipse/lnx64.o/eclipse -vmargs -Xms64m -Xmx4G -Dorg.eclipse.swt.internal.gtk.cairoGraphics=false -Dosgi.configuration.area=@user.home/.Xilinx/Vitis/2020.1 --add-modules=ALL-SYSTEM --add-modules=jdk.incubator.httpclient --add-opens=java.base/java.nio=ALL-UNNAMED --add-opens=java.desktop/sun.swing=ALL-UNNAMED --add-opens=java.desktop/javax.swing=ALL-UNNAMED --add-opens=java.desktop/javax.swing.tree=ALL-UNNAMED --add-opens=java.desktop/javax.swing.plaf.basic=ALL-UNNAMED --add-opens=java.desktop/javax.swing.plaf.synth=ALL-UNNAMED --add-opens=java.desktop/com.sun.awt=ALL-UNNAMED --add-opens=java.desktop/sun.awt.X11=ALL-UNNAMED &
+xilinx@xilinx_vitis_v2020-1:/opt/Xilinx$
+```
+
