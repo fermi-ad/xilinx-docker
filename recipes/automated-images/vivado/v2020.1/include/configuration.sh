@@ -9,7 +9,7 @@
 #	- Xilinx Applications Engineer, Embedded Software
 #
 # Created: 
-#	- 6/25/2020
+#	- 7/13/2020
 #
 #######################################################################################
 # Docker Build Script Debug Tracing
@@ -158,22 +158,22 @@ XTERM_CONFIG_FILE=$INSTALL_CONFIGS_DIR/XTerm
 #   115200-8-N-1, no hardware flow control by default
 MINICOM_CONFIG_FILE=$INSTALL_CONFIGS_DIR/.minirc.dfl
 
-# Xilinx Vivado batch mode: Batch mode install configuration template
-#	for headless install of Xilinx SDK components
-# xlnx_vivado_system_edition = Vivado System Edition installation
-# ??? = Vivado ??? Edition installation
-XLNX_VIVADO_BATCH_CONFIG_FILE=$INSTALL_CONFIGS_DIR/xlnx_vivado_system_edition.config
+# Xilinx Unified Installer batch mode: Batch mode install configuration template
+#	for headless install of Xilinx Tool components
+XLNX_UNIFIED_BATCH_CONFIG_FILE=$INSTALL_CONFIGS_DIR/xlnx_unified_$XLNX_TOOL_INFO.config
 
-# Xilinx Vivado Web-based installer
-# XLNX_XSDK_WEBINSTALLER: Official web-based installer for the SDK release
-XLNX_VIVADO_WEB_INSTALLER=$INSTALL_DEPENDS_DIR/Xilinx_Unified_2020.1_0602_1208_Lin64.bin
+# Xilinx Unified Web-based installer
+XLNX_UNIFIED_INSTALLER_BASENAME=Xilinx_Unified_2020.1_0602_1208
+XLNX_UNIFIED_WEB_INSTALLER=$INSTALL_DEPENDS_DIR/${XLNX_UNIFIED_INSTALLER_BASENAME}_Lin64.bin
 
-# Xilinx Vivado Pre-downloaded offline install bundle
+# Xilinx Unified Pre-downloaded offline install bundle
 # - This is downloaded and created by:
 #   1. Running the web-installer with the batch mode configuration
 #   2. Downloading the files for offline install
 #   3. Manually archiving files in a tarball
-XLNX_VIVADO_OFFLINE_INSTALLER=$INSTALL_DEPENDS_DIR/Xilinx_Unified_2020.1_0602_1208_Lin64.bin.tar.gz
+#XLNX_UNIFIED_OFFLINE_INSTALLER=$INSTALL_DEPENDS_DIR/Xilinx_Unified_2020.1_0602_1208_Lin64.bin.tar.gz
+XLNX_UNIFIED_FULL_INSTALLER=$INSTALL_DEPENDS_DIR/${XLNX_UNIFIED_INSTALLER_BASENAME}.tar.gz
+XLNX_UNIFIED_OFFLINE_INSTALLER=${XLNX_UNIFIED_WEB_INSTALLER}.tar.gz
 
 # Local Python3 http server to transfer files into container
 # INSTALL_SERVER_URL: Set automatically later in this script when
@@ -185,7 +185,3 @@ INSTALL_SERVER_URL=0.0.0.0:8000
 
 # Define File system error code
 EX_OSFILE=72
-
-
-
-

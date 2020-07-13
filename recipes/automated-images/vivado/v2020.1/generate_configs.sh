@@ -8,24 +8,32 @@
 #	- Xilinx Applications Engineer, Embedded Software
 #
 # Created: 
-#	- 6/25/2020
+#	- 7/13/2020
 #
-# Vivado Web Installer
-#	./Xilinx_Unified_2020.1_0602_1208_Lin64.bin --noexec --keep --nox11 --target vivado_tmp
-#	Creating directory vivado_tmp
+# Unified Web Installer
+#	./Xilinx_Unified_2020.1_0602_1208_Lin64.bin--noexec --keep --nox11 --target unified_tmp
+#	Creating directory unified_tmp
 #
 # Generate a batchmode configuration file
-#	./xsetup -b ConfigGen -p Vivado
+#	./xsetup -b ConfigGen -p <product>
+# 		where	<product> can be: 
+#			1. Vitis
+#			2. Vivado
+#			3. On-Premises Install for Cloud Deployments
+#			4. BootGen
+#			5. Lab Edition
+#			6. Hardware Server
+#			7. Documentation Navigator (Standalone)
 #
-# Source configuration information for a v2020.1 Vivado Image build
+# Source configuration information for a v2020.1 Unified Image build
 source include/configuration.sh
 
-# Set the Docker File for Vivado
-DOCKER_FILE_NAME=Dockerfile
+# Set the Docker File for Vitis
+DOCKER_FILE_NAME=Dockerfile.generate_configs
 
 # Additional setup and overrides specificaly for dependency generation
 GENERATED_DIR=_generated
-DOCKER_FILE_STAGE="base_os_"$XLNX_TOOL_INFO"_"$XLNX_RELEASE_VERSION
+DOCKER_FILE_STAGE="base_os_depends_"$XLNX_RELEASE_VERSION
 DOCKER_IMAGE_NAME=dependency_generation
 DOCKER_IMAGE_VERSION=$XLNX_RELEASE_VERSION
 
@@ -52,31 +60,21 @@ else
 	echo "Base docker image [found] ("$DOCKER_BASE_OS:$DOCKER_BASE_OS_TAG")"
 fi
 
-# Check for Xilinx MALI binaries
-if [ -f $XLNX_MALI_BINARY ] || [ -L $XLNX_MALI_BINARY ]; then
-	echo "Xilinx MALI Binaries: [Good] "$XLNX_MALI_BINARY
-else
-	echo "ERROR: Xilinx MALI Binaries: [Missing] "$XLNX_MALI_BINARY
-	echo "Download the Xilinx MALI Binaries here:"
-	echo "https://www.xilinx.com/products/design-tools/embedded-software/petalinux-sdk/arm-mali-400-software-download.html"
-	exit $EX_OSFILE
-fi
-
 # Test for dependencies required to run this script
-# 1. Vivado Web Installer
+# 1. Unified Web Installer
 
 # Check for dependency files in the build context
 # Since these builds use WGET instead of COPY or ADD
 # files links within the build context can point outside
 # the context and they will get transferred just fine.
 
-# Check for Xilinx Vivado SDK Web Installer
+# Check for Xilinx Unified Web Installer
 # This is required for building the offline installer package
-if [ -f $XLNX_VIVADO_WEB_INSTALLER ] || [ -L $XLNX_VIVADO_WEB_INSTALLER ]; then
-	echo "Xilinx Vivado Web Installer: [Exists] "$XLNX_VIVADO_WEB_INSTALLER
+if [ -f $XLNX_UNIFIED_WEB_INSTALLER ] || [ -L $XLNX_UNIFIED_WEB_INSTALLER ]; then
+	echo "Xilinx Unified Web Installer: [Exists] "$XLNX_UNIFIED_WEB_INSTALLER
 else
 	# File does not exist
-	echo "ERROR: Xilinx Vivado Web Installer: [Missing] "$XLNX_VIVADO_WEB_INSTALLER
+	echo "ERROR: Xilinx Unified Web Installer: [Missing] "$XLNX_UNIFIED_WEB_INSTALLER
 	exit $EX_OSFILE
 fi
 
@@ -130,9 +128,9 @@ echo " 	--build-arg HOME_DIR=\"${HOME_DIR}\""
 echo " 	--build-arg XLNX_INSTALL_LOCATION=\"${XLNX_INSTALL_LOCATION}\""
 echo " 	--build-arg INSTALL_SERVER_URL=\"${SERVER_IP}:8000\""
 echo " 	--build-arg KEYBOARD_CONFIG_FILE=\"${KEYBOARD_CONFIG_FILE}\""
-echo "  --build-arg XLNX_VIVADO_WEB_INSTALLER=\"${XLNX_VIVADO_WEB_INSTALLER}\""
-echo "  --build-arg XLNX_VIVADO_BATCH_CONFIG_FILE=\"${XLNX_VIVADO_BATCH_CONFIG_FILE}\""
-echo "  --build-arg XLNX_VIVADO_OFFLINE_INSTALLER=\"${XLNX_VIVADO_OFFLINE_INSTALLER}\""
+echo "  --build-arg XLNX_UNIFIED_WEB_INSTALLER=\"${XLNX_UNIFIED_WEB_INSTALLER}\""
+echo "  --build-arg XLNX_UNIFIED_BATCH_CONFIG_FILE=\"${XLNX_UNIFIED_BATCH_CONFIG_FILE}\""
+echo "  --build-arg XLNX_UNIFIED_OFFLINE_INSTALLER=\"${XLNX_UNIFIED_OFFLINE_INSTALLER}\""
 echo "  --build-arg BUILD_DEBUG=\"${BUILD_DEBUG}\""
 echo "-----------------------------------"
 
@@ -228,9 +226,9 @@ docker cp $DOCKER_CONTAINER_NAME:$HOME_DIR/downloads/tmp/$KEYBOARD_CONFIG_FILE $
 if [ $BUILD_DEBUG -ne 0 ]; then set +x; fi
 
 echo "-----------------------------------"
-echo "Building Offline Vivado Installer Bundle..."
+echo "Building Offline Installer Configuration File..."
 echo "-----------------------------------"
-echo " - Install dependencies and download Vivado installer into container..."
+echo " - Install dependencies and download Unified installer into container..."
 echo "-----------------------------------"
 # Install the Xilinx dependencies and Vivado Installer
 
@@ -242,75 +240,45 @@ docker exec -it $DOCKER_CONTAINER_NAME \
 	&& apt-get -y install file xorg \
 	&& mkdir -p ${HOME_DIR}/downloads/tmp \
 	&& cd ${HOME_DIR}/downloads/tmp \
-	&& mkdir -p ${XLNX_VIVADO_WEB_INSTALLER%/*} \
-	&& wget -nv ${INSTALL_SERVER_URL}/${XLNX_VIVADO_WEB_INSTALLER} -O ${XLNX_VIVADO_WEB_INSTALLER} \
-	&& chmod a+x ${XLNX_VIVADO_WEB_INSTALLER} \
-	&& ls -al ${XLNX_VIVADO_WEB_INSTALLER}"
+	&& mkdir -p ${XLNX_UNIFIED_WEB_INSTALLER%/*} \
+	&& wget -nv ${INSTALL_SERVER_URL}/${XLNX_UNIFIED_WEB_INSTALLER} -O ${XLNX_UNIFIED_WEB_INSTALLER} \
+	&& chmod a+x ${XLNX_UNIFIED_WEB_INSTALLER} \
+	&& ls -al ${XLNX_UNIFIED_WEB_INSTALLER}"
 
 if [ $BUILD_DEBUG -ne 0 ]; then set +x; fi
 
 echo "-----------------------------------"
-echo " - Extract the SDK Installer and generate a batch mode config..."
+echo " - Extract the Unified Installer and generate a batch mode config..."
 echo "-----------------------------------"
-# Extract the SDK Web Installer and run configGen
+# Extract the Unified Web Installer and run configGen
 
 if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi
 
 docker exec -it $DOCKER_CONTAINER_NAME \
 	bash -c "if [ ${BUILD_DEBUG} -ne 0 ]; then set -x; fi \
 	&& cd ${HOME_DIR}/downloads/tmp \
-	&& ${XLNX_VIVADO_WEB_INSTALLER} --noexec --nox11 --target xsdk_tmp \
-	&& cd xsdk_tmp \
+	&& ${XLNX_UNIFIED_WEB_INSTALLER} --noexec --nox11 --target unified_tmp \
+	&& cd unified_tmp \
 	&& ./xsetup -b ConfigGen -p ${XLNX_TOOL_INSTALLER_NAME} -l ${XLNX_INSTALL_LOCATION} \
 	&& cd ${HOME_DIR}/downloads/tmp \
-	&& mkdir -p ${XLNX_VIVADO_BATCH_CONFIG_FILE%/*} \
-	&& cp ~/.Xilinx/install_config.txt ${XLNX_VIVADO_BATCH_CONFIG_FILE} \
-	&& vi ${XLNX_VIVADO_BATCH_CONFIG_FILE} \
-	&& ls -al ${XLNX_VIVADO_BATCH_CONFIG_FILE} \
-	&& cat ${XLNX_VIVADO_BATCH_CONFIG_FILE}"
+	&& mkdir -p ${XLNX_UNIFIED_BATCH_CONFIG_FILE%/*} \
+	&& cp ~/.Xilinx/install_config.txt ${XLNX_UNIFIED_BATCH_CONFIG_FILE} \
+	&& vi ${XLNX_UNIFIED_BATCH_CONFIG_FILE} \
+	&& ls -al ${XLNX_UNIFIED_BATCH_CONFIG_FILE} \
+	&& cat ${XLNX_UNIFIED_BATCH_CONFIG_FILE}"
 
 if [ $BUILD_DEBUG -ne 0 ]; then set +x; fi
 
 # copy the batch mode configuration(s) to the host
 echo "-----------------------------------"
-echo "Copying Xilinx Vivado batch mode configurations to host ..."
+echo "Copying Xilinx Unified batch mode configurations to host ..."
 echo "-----------------------------------"
 
 if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi
 
-mkdir -p $GENERATED_DIR/${XLNX_VIVADO_BATCH_CONFIG_FILE%/*}
-docker cp $DOCKER_CONTAINER_NAME:$HOME_DIR/downloads/tmp/$XLNX_VIVADO_BATCH_CONFIG_FILE $GENERATED_DIR/$XLNX_VIVADO_BATCH_CONFIG_FILE
-
-if [ $BUILD_DEBUG -ne 0 ]; then set +x; fi
-
-echo "-----------------------------------"
-echo " - Launch Vivado Setup to create a download bundle..."
-echo "-----------------------------------"
-# Launch Vivado Setup in X11 Mode to create download bundle
-# Leave download location default (/opt/Xilinx/Downloads/<VERSION>)
-
-if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi
-
-docker exec -it $DOCKER_CONTAINER_NAME \
-	bash -c "if [ ${BUILD_DEBUG} -ne 0 ]; then set -x; fi \
-	&& cd ${HOME_DIR}/downloads/tmp/xsdk_tmp \
-	&& ./xsetup --agree XilinxEULA,3rdPartyEULA,WebTalkTerms --config ${XLNX_VIVADO_BATCH_CONFIG_FILE} \
-	&& cd ${HOME_DIR}/downloads/tmp \
-	&& mkdir -p ${XLNX_VIVADO_OFFLINE_INSTALLER%/*} \
-	&& tar -zcf ${XLNX_VIVADO_OFFLINE_INSTALLER} -C /opt/Xilinx/Downloads/${XLNX_RELEASE_VERSION} . \
-	&& ls -al /opt/Xilinx/Downloads/${XLNX_RELEASE_VERSION}"
-
-if [ $BUILD_DEBUG -ne 0 ]; then set +x; fi
-
-# copy sdk offline installer from container to host
-echo "-----------------------------------"
-echo "Copying Xilinx Vivado offline installer to host ..."
-echo "-----------------------------------"
-
-if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi
-
-mkdir -p $GENERATED_DIR/${XLNX_VIVADO_OFFLINE_INSTALLER%/*}
-docker cp $DOCKER_CONTAINER_NAME:$HOME_DIR/downloads/tmp/$XLNX_VIVADO_OFFLINE_INSTALLER $GENERATED_DIR/$XLNX_VIVADO_OFFLINE_INSTALLER
+mkdir -p $GENERATED_DIR/${XLNX_UNIFIED_BATCH_CONFIG_FILE%/*}
+docker cp $DOCKER_CONTAINER_NAME:$HOME_DIR/downloads/tmp/$XLNX_UNIFIED_BATCH_CONFIG_FILE $GENERATED_DIR/$XLNX_UNIFIED_BATCH_CONFIG_FILE
+chmod +rw $GENERATED_DIR/$XLNX_UNIFIED_BATCH_CONFIG_FILE
 
 if [ $BUILD_DEBUG -ne 0 ]; then set +x; fi
 
@@ -343,7 +311,7 @@ if [ $BUILD_DEBUG -ne 0 ]; then set +x; fi
 DOCKER_BUILD_END_TIME=`date`
 # Docker Image Build Complete
 echo "-----------------------------------"
-echo "Dependency Generation Complete"
+echo "Configuration Generation Complete"
 echo "-----------------------------------"
 echo "STARTED :"$DOCKER_BUILD_START_TIME
 echo "ENDED   :"$DOCKER_BUILD_END_TIME
@@ -353,9 +321,12 @@ echo "DOCKER_FILE_STAGE="$DOCKER_FILE_STAGE
 echo "DOCKER_IMAGE="$DOCKER_IMAGE_NAME":"$DOCKER_IMAGE_VERSION
 echo "DOCKER_CONTAINER_NAME="$DOCKER_CONTAINER_NAME
 echo "-----------------------------------"
-echo "Dependencies Generated:"
+echo "Configurations Generated:"
 echo "-----------------------------------"
 ls -al $GENERATED_DIR/$KEYBOARD_CONFIG_FILE
-ls -al $GENERATED_DIR/$XLNX_VIVADO_BATCH_CONFIG_FILE
-ls -al $GENERATED_DIR/$XLNX_VIVADO_OFFLINE_INSTALLER
+ls -al $GENERATED_DIR/$XLNX_UNIFIED_BATCH_CONFIG_FILE
 echo "-----------------------------------"
+echo "Copying Configurations to the $INSTALL_CONFIGS_DIR Folder"
+echo "-----------------------------------"
+cp -f $GENERATED_DIR/$KEYBOARD_CONFIG_FILE $KEYBOARD_CONFIG_FILE
+cp -f $GENERATED_DIR/$XLNX_UNIFIED_BATCH_CONFIG_FILE $XLNX_UNIFIED_BATCH_CONFIG_FILE
