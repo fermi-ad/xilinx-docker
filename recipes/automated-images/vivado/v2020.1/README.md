@@ -265,7 +265,14 @@ $ ln -s ../_generated/depends/Xilinx_Unified_2020.1_0602_1208_Lin64.bin.tar.gz d
 bash:
 $ ./build_image.sh
 ...
-
+Successfully built 7e4820bc9e09
+Successfully tagged xilinx-vivado:v2020.1
+...
+-----------------------------------
+Image Build Complete...
+STARTED :Mon Jul 13 15:10:28 EDT 2020
+ENDED   :Mon Jul 13 16:04:04 EDT 2020
+-----------------------------------
 ```
 
 ## Create a working container (running in daemon mode) based on the vitis image
@@ -283,7 +290,8 @@ $ ./build_image.sh
 bash:
 $ docker image ls
 REPOSITORY                       TAG                  IMAGE ID            CREATED             SIZE
-xilinx-vitis                     v2020.1              f1a8261359dd        10 minutes ago      99.1GB
+REPOSITORY                       TAG                  IMAGE ID            CREATED             SIZE
+xilinx-vivado                    v2020.1              7e4820bc9e09        About an hour ago   63.1GB
 xilinx-ubuntu-18.04.2-user       v2020.1              371b01c68a88        2 days ago          2.01GB
 ubuntu                           18.04.2              c31ac5f5c1b0        4 days ago          88.3MB
 ```
@@ -302,16 +310,17 @@ $ docker run \
 	-e DISPLAY=$DISPLAY \
 	--mac-address "02:de:ad:be:ef:91" \
 	--user xilinx \
-	-itd xilinx-vitis:v2020.1 \
+	-itd xilinx-vivado:v2020.1 \
 	/bin/bash
-
+cc6b51a1688a416a814e6ba704b6fe82ff5d59c65569522fe386700b4c0a405b
 ```
 
 #### Verify the container was created and the MAC Address was set properly
 
 ```bash
 $ docker ps -a
-
+CONTAINER ID        IMAGE                   COMMAND             CREATED             STATUS              PORTS               NAMES
+cc6b51a1688a        xilinx-vivado:v2020.1   "/bin/bash"         9 seconds ago       Up 7 seconds                            xilinx_vivado_v2020.1
 ```
 
 ## Connect to the running container
@@ -332,5 +341,12 @@ xilinx@xilinx_vivado_v2020-1:/$
 - Launch Vivado from the working container
 ```bash
 xterm:
+xilinx@xilinx_vivado_v2020-1:/opt/Xilinx$ vivado
 
+****** Vivado v2020.1 (64-bit)
+  **** SW Build 2902540 on Wed May 27 19:54:35 MDT 2020
+  **** IP Build 2902112 on Wed May 27 22:43:36 MDT 2020
+    ** Copyright 1986-2020 Xilinx, Inc. All Rights Reserved.
+
+start_gui
 ```
