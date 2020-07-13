@@ -15,7 +15,7 @@
 
 # Install Vitis
 
-## Create a working container (running in daemon mode) based on the vitisimage
+## Create a working container (running in daemon mode)
 
 ### List images in the local docker repository
 ```bash

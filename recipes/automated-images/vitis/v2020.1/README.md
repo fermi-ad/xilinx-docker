@@ -346,7 +346,7 @@ e2dbfb443427        xilinx-vitis:v2020.1   "/bin/bash"         11 seconds ago   
 bash:
 $ docker exec -it xilinx_vitis_v2020.1 bash -c "xterm" &
 ```
-- This launches an X-windows terminal shell and sources the Petalinux settings script
+- This launches an X-windows terminal shell and sources the Vitis and Vivado settings script
 ```bash
 xterm:
 xilinx@xilinx_vitis_v2020-1:/$
