@@ -1,0 +1,253 @@
+$ ./generate_installer.sh 
+-----------------------------------
+Checking for dependencies...
+-----------------------------------
+Base docker image [found] (xilinx-ubuntu-18.04.2-user:v2020.1)
+Xilinx Unified Web Installer: [Exists] depends/Xilinx_Unified_2020.1_0602_1208_Lin64.bin
+Xilinx Batch Mode Configuration File: [Good] configs/xlnx_unified_vivado.config
+-----------------------------------
+Docker Build Context (Working)...
+-----------------------------------
+DOCKER_INSTALL_DIR=.
+DOCKER_BUILD_WORKING_DIR=/xilinx/local/repositories/gitlab/xilinx-docker/recipes/automated-images/vivado/v2020.1
+-----------------------------------
+-----------------------------------
+Launching Python HTTP Server...
+-----------------------------------
++ SERVER_PID=14997
++ python3 -m http.server
+++ ifconfig docker0
+++ grep 'inet\s'
+++ awk '{print $2}'
++ SERVER_IP=172.17.0.1
++ '[' 1 -ne 0 ']'
++ set +x
+SERVER_IP=172.17.0.1
+SERVER_PID=14997
+-----------------------------------
+access control disabled, clients can connect from any host
+-----------------------------------
+Create a base docker container...
+-----------------------------------
+DOCKER_CONTAINER_NAME=build_vivado_installer_v2020.1
+-----------------------------------
++ docker run --name build_vivado_installer_v2020.1 -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=:0 -itd xilinx-ubuntu-18.04.2-user:v2020.1 /bin/bash
+Serving HTTP on 0.0.0.0 port 8000 (http://0.0.0.0:8000/) ...
+8786c13a4994ac95a8c0ea163e00feef22430037b2e89d4892af9ab584fe25e4
++ '[' 1 -ne 0 ']'
++ set +x
+-----------------------------------
+Install support packages...
+-----------------------------------
++ docker exec -it build_vivado_installer_v2020.1 bash -c 'if [ 1 -ne 0 ]; then set -x; fi       && sudo apt-get -y install wget'
++ sudo apt-get -y install wget
+Reading package lists... Done
+Building dependency tree       
+Reading state information... Done
+wget is already the newest version (1.19.4-1ubuntu2.2).
+0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
++ '[' 1 -ne 0 ']'
++ set +x
+-----------------------------------
+Building Offline Installer Bundle...
+-----------------------------------
+ - Install dependencies and download Unified installer and configuration file into container...
+-----------------------------------
++ docker exec -it build_vivado_installer_v2020.1 bash -c 'if [ 1 -ne 0 ]; then set -x; fi       && sudo apt-get update  && sudo apt-get -y install file xorg    && mkdir -p /home/xilinx/downloads/tmp  && cd /home/xilinx/downloads/tmp        && mkdir -p depends     && wget -nv 172.17.0.1:8000/depends/Xilinx_Unified_2020.1_0602_1208_Lin64.bin -O depends/Xilinx_Unified_2020.1_0602_1208_Lin64.bin      && chmod a+x depends/Xilinx_Unified_2020.1_0602_1208_Lin64.bin  && mkdir -p configs     && wget -nv 172.17.0.1:8000/configs/xlnx_unified_vivado.config -O configs/xlnx_unified_vivado.config    && ls -al depends/Xilinx_Unified_2020.1_0602_1208_Lin64.bin'
++ sudo apt-get update
+Get:1 http://security.ubuntu.com/ubuntu bionic-security InRelease [88.7 kB]
+Get:2 http://archive.ubuntu.com/ubuntu bionic InRelease [242 kB]                     
+Get:3 http://security.ubuntu.com/ubuntu bionic-security/main i386 Packages [503 kB]
+Get:4 http://security.ubuntu.com/ubuntu bionic-security/main amd64 Packages [781 kB]
+Get:5 http://security.ubuntu.com/ubuntu bionic-security/main Translation-en [246 kB]                    
+Get:6 http://security.ubuntu.com/ubuntu bionic-security/restricted i386 Packages [6412 B]                     
+Get:7 http://security.ubuntu.com/ubuntu bionic-security/restricted amd64 Packages [67.2 kB]              
+Get:8 http://security.ubuntu.com/ubuntu bionic-security/restricted Translation-en [14.9 kB]              
+Get:9 http://security.ubuntu.com/ubuntu bionic-security/universe i386 Packages [625 kB]                        
+Get:10 http://security.ubuntu.com/ubuntu bionic-security/universe amd64 Packages [679 kB]               
+Get:11 http://security.ubuntu.com/ubuntu bionic-security/universe Translation-en [225 kB]               
+Get:12 http://archive.ubuntu.com/ubuntu bionic-updates InRelease [88.7 kB]                                    
+Get:13 http://security.ubuntu.com/ubuntu bionic-security/multiverse amd64 Packages [7904 B]                                
+Get:14 http://security.ubuntu.com/ubuntu bionic-security/multiverse i386 Packages [3880 B]                           
+Get:15 http://security.ubuntu.com/ubuntu bionic-security/multiverse Translation-en [2816 B]                          
+Get:16 http://archive.ubuntu.com/ubuntu bionic-backports InRelease [74.6 kB]                                                 
+Get:17 http://archive.ubuntu.com/ubuntu bionic/main amd64 Packages [1019 kB]                 
+Get:18 http://archive.ubuntu.com/ubuntu bionic/main i386 Packages [1007 kB]                  
+Get:19 http://archive.ubuntu.com/ubuntu bionic/main Translation-en [516 kB]
+Get:20 http://archive.ubuntu.com/ubuntu bionic/restricted i386 Packages [9156 B]
+Get:21 http://archive.ubuntu.com/ubuntu bionic/restricted amd64 Packages [9184 B]
+Get:22 http://archive.ubuntu.com/ubuntu bionic/restricted Translation-en [3584 B]
+Get:23 http://archive.ubuntu.com/ubuntu bionic/universe i386 Packages [8531 kB]
+Get:24 http://archive.ubuntu.com/ubuntu bionic/universe amd64 Packages [8570 kB]
+Get:25 http://archive.ubuntu.com/ubuntu bionic/universe Translation-en [4941 kB]
+Get:26 http://archive.ubuntu.com/ubuntu bionic/multiverse i386 Packages [144 kB]
+Get:27 http://archive.ubuntu.com/ubuntu bionic/multiverse amd64 Packages [151 kB]
+Get:28 http://archive.ubuntu.com/ubuntu bionic/multiverse Translation-en [108 kB]
+Get:29 http://archive.ubuntu.com/ubuntu bionic-updates/main i386 Packages [712 kB]
+Get:30 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 Packages [1008 kB]
+Get:31 http://archive.ubuntu.com/ubuntu bionic-updates/main Translation-en [340 kB]
+Get:32 http://archive.ubuntu.com/ubuntu bionic-updates/restricted amd64 Packages [76.1 kB]
+Get:33 http://archive.ubuntu.com/ubuntu bionic-updates/restricted i386 Packages [11.1 kB]
+Get:34 http://archive.ubuntu.com/ubuntu bionic-updates/restricted Translation-en [17.1 kB]
+Get:35 http://archive.ubuntu.com/ubuntu bionic-updates/universe amd64 Packages [1091 kB]
+Get:36 http://archive.ubuntu.com/ubuntu bionic-updates/universe i386 Packages [1024 kB]
+Get:37 http://archive.ubuntu.com/ubuntu bionic-updates/universe Translation-en [340 kB]
+Get:38 http://archive.ubuntu.com/ubuntu bionic-updates/multiverse amd64 Packages [11.5 kB]
+Get:39 http://archive.ubuntu.com/ubuntu bionic-updates/multiverse i386 Packages [7148 B]
+Get:40 http://archive.ubuntu.com/ubuntu bionic-updates/multiverse Translation-en [4832 B]
+Get:41 http://archive.ubuntu.com/ubuntu bionic-backports/main i386 Packages [7508 B]
+Get:42 http://archive.ubuntu.com/ubuntu bionic-backports/main amd64 Packages [7516 B]
+Get:43 http://archive.ubuntu.com/ubuntu bionic-backports/main Translation-en [4764 B]
+Get:44 http://archive.ubuntu.com/ubuntu bionic-backports/universe i386 Packages [7724 B]
+Get:45 http://archive.ubuntu.com/ubuntu bionic-backports/universe amd64 Packages [7736 B]
+Get:46 http://archive.ubuntu.com/ubuntu bionic-backports/universe Translation-en [4588 B]
+Fetched 33.3 MB in 5s (6248 kB/s)                                 
+Reading package lists... Done
++ sudo apt-get -y install file xorg
+Reading package lists... Done
+Building dependency tree       
+Reading state information... Done
+file is already the newest version (1:5.32-2ubuntu0.4).
+xorg is already the newest version (1:7.7+19ubuntu7.1).
+0 upgraded, 0 newly installed, 0 to remove and 43 not upgraded.
++ mkdir -p /home/xilinx/downloads/tmp
++ cd /home/xilinx/downloads/tmp
++ mkdir -p depends
++ wget -nv 172.17.0.1:8000/depends/Xilinx_Unified_2020.1_0602_1208_Lin64.bin -O depends/Xilinx_Unified_2020.1_0602_1208_Lin64.bin
+172.17.0.3 - - [13/Jul/2020 10:52:06] "GET /depends/Xilinx_Unified_2020.1_0602_1208_Lin64.bin HTTP/1.1" 200 -
+                                                                                                             2020-07-13 14:52:06 URL:http://172.17.0.1:8000/depends/Xilinx_Unified_2020.1_0602_1208_Lin64.bin [122567857/122567857] -> "depends/Xilinx_Unified_2020.1_0602_1208_Lin64.bin" [1]
++ chmod a+x depends/Xilinx_Unified_2020.1_0602_1208_Lin64.bin
++ mkdir -p configs
++ wget -nv 172.17.0.1:8000/configs/xlnx_unified_vivado.config -O configs/xlnx_unified_vivado.config
+172.17.0.3 - - [13/Jul/2020 10:52:06] "GET /configs/xlnx_unified_vivado.config HTTP/1.1" 200 -
+                                                                                              2020-07-13 14:52:06 URL:http://172.17.0.1:8000/configs/xlnx_unified_vivado.config [1829/1829] -> "configs/xlnx_unified_vivado.config" [1]
++ ls -al depends/Xilinx_Unified_2020.1_0602_1208_Lin64.bin
+-rwxr-xr-x 1 xilinx xilinx 122567857 Jun  5 19:58 depends/Xilinx_Unified_2020.1_0602_1208_Lin64.bin
++ '[' 1 -ne 0 ']'
++ set +x
+-----------------------------------
+ - Launch Unified Setup to create a download bundle...
+-----------------------------------
++ docker exec -it build_vivado_installer_v2020.1 bash -c 'if [ 1 -ne 0 ]; then set -x; fi       && cd /home/xilinx/downloads/tmp        && depends/Xilinx_Unified_2020.1_0602_1208_Lin64.bin --noexec --nox11 --target unified_tmp      && cd unified_tmp       && sudo mkdir -p /opt/Xilinx/tmp        && sudo chown -R xilinx:xilinx /opt/Xilinx      && ./xsetup --agree XilinxEULA,3rdPartyEULA,WebTalkTerms --config configs/xlnx_unified_vivado.config   && cd /home/xilinx/downloads/tmp         && mkdir -p depends     && tar -zcf depends/Xilinx_Unified_2020.1_0602_1208_Lin64.bin.tar.gz -C /opt/Xilinx/Downloads/v2020.1 .         && ls -al /opt/Xilinx/Downloads/v2020.1'
++ cd /home/xilinx/downloads/tmp
++ depends/Xilinx_Unified_2020.1_0602_1208_Lin64.bin --noexec --nox11 --target unified_tmp
+Creating directory unified_tmp
+Verifying archive integrity... All good.
+Uncompressing Xilinx Installer...............................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................
++ cd unified_tmp
++ sudo mkdir -p /opt/Xilinx/tmp
++ sudo chown -R xilinx:xilinx /opt/Xilinx
++ ./xsetup --agree XilinxEULA,3rdPartyEULA,WebTalkTerms --config configs/xlnx_unified_vivado.config
++ cd /home/xilinx/downloads/tmp
++ mkdir -p depends
++ tar -zcf depends/Xilinx_Unified_2020.1_0602_1208_Lin64.bin.tar.gz -C /opt/Xilinx/Downloads/v2020.1 .
++ ls -al /opt/Xilinx/Downloads/v2020.1
+total 60
+drwxr-xr-x 8 xilinx xilinx  4096 Jul 13 15:20 .
+drwxr-xr-x 3 xilinx xilinx  4096 Jul 13 14:58 ..
+drwxr-xr-x 2 xilinx xilinx  4096 Jul 13 15:20 bin
+drwxr-xr-x 3 xilinx xilinx  4096 Jul 13 15:21 data
+drwxr-xr-x 4 xilinx xilinx  4096 Jul 13 15:20 lib
+drwxr-xr-x 2 xilinx xilinx 28672 Jul 13 15:20 payload
+drwxr-xr-x 2 xilinx xilinx  4096 Jul 13 15:20 scripts
+drwxr-xr-x 4 xilinx xilinx  4096 Jul 13 15:20 tps
+-rwxr-xr-x 1 xilinx xilinx  2899 May 28 02:21 xsetup
++ '[' 1 -ne 0 ']'
++ set +x
+-----------------------------------
+Copying Xilinx Unified offline installer to host ...
+-----------------------------------
++ mkdir -p _generated/depends
++ docker cp build_vivado_installer_v2020.1:/home/xilinx/downloads/tmp/depends/Xilinx_Unified_2020.1_0602_1208_Lin64.bin.tar.gz _generated/depends/Xilinx_Unified_2020.1_0602_1208_Lin64.bin.tar.gz
++ echo -----------------------------------
+-----------------------------------
++ echo 'Shutting down Python HTTP Server...'
+Shutting down Python HTTP Server...
++ echo -----------------------------------
+-----------------------------------
++ echo 'Killing process ID 14997'
+Killing process ID 14997
++ echo -----------------------------------
+-----------------------------------
++ '[' 1 -ne 0 ']'
++ set -x
++ kill 14997
++ '[' 1 -ne 0 ']'
++ set +x
+-----------------------------------
+Removing temporary docker resources...
+-----------------------------------
++ docker rm -f build_vivado_installer_v2020.1
+build_vivado_installer_v2020.1
+./generate_installer.sh: line 242: 14997 Terminated              python3 -m http.server
++ docker rmi -f xilinx-vivado:v2020.1
+Untagged: xilinx-vivado:v2020.1
+Deleted: sha256:a5c4cacb321408d901dcd2db23011483868a6df0cc91f42a2f89b920c5aa01fc
+Deleted: sha256:5be1f9c18746a5991aab3b26b9da308d2acf2769be5e9744b11ef53cf315696e
+Deleted: sha256:840b07a66e559f47e4d57636b58de847b4434731e92873266fa25e402f5dd72f
+Deleted: sha256:8eaa35643b5bc082052b67ad57244e6322c159ea31672d59c29e774bd8520427
+Deleted: sha256:647b7017e9ca25ca47f05a820d96df1b14b39272c2a5bb81f6a837b601734e57
+Deleted: sha256:2d57bbb7f58fcb6b6e9c0c72536b1f8be3919c32179f7415dc80bdadef877dbe
+Deleted: sha256:95417b6cd9f2e4be01181580e5e668f0917b4e5051fec997f3dff5d2783c747b
+Deleted: sha256:c47412137df02b10371e0861bb750dff68ed46992815c9771d05527b3981f4fb
+Deleted: sha256:a3c5883616be51cb8f36aec011491cfb1aa13040696f599957e0ad21f4dabbf6
+Deleted: sha256:ecd3864af3c7ccb7b0e77c9a0a52303ad835edac80fba295be7a6d3e6dbe61f5
+Deleted: sha256:a445d37fd48f3eedb14a2985d0fc8572b387b1b121bfa530f87b3c1a1da2a633
+Deleted: sha256:3b9bb8da1504e5a29b86821c634b5bd94ff24d85494376b6b1cfb187ed1f7914
+Deleted: sha256:8e3e014997dcc3d17ace7881cf880266475cfcc5585ad3ecf214a03ed53c42b5
+Deleted: sha256:003a553ac18ec67b0de297a183619fd76588e6e0faf17dad33ab2b7970be2a4a
+Deleted: sha256:48c89c4513a9e857cf58bd87e733863d4580581afae35c301606c4e807a515d9
+Deleted: sha256:0c710bb11e5c52b3939b2dad2b728af0a30ca873524f76048a2e3bdab4684d96
+Deleted: sha256:90505bc9921dbcb1ee140a8c3ce2958bfd0e4c1df52791f38f4db3c099ed044e
+Deleted: sha256:cb96c2bad832a7a35e93c81cb0d8243da5f490bb805e896219935038caafc4c8
+Deleted: sha256:7c681ae88e669bcc6a598c10cc2deafd6d55323a2685fe930550546f0caa0f81
+Deleted: sha256:d0cc99ae81ee8cc87f2172d0c2135c262dfd876aef0880702379a57833b0af45
+Deleted: sha256:39b9567a0041f7971409264d245319ad432e7e64edd0feeef97e50431aaf556e
+Deleted: sha256:54245b449263a07744113e3ab6d960cbba3a61e16357a8110eb4a22118affa02
+Deleted: sha256:5eef632027bef810e4e3e867908ecf938db5cef62dfe7420b385361f1bbbf469
+Deleted: sha256:6339c4229073ff7e5495b0e4b27aa2dcf0bbbcf94bd0463d80b138360c0e2364
+Deleted: sha256:d4a24667280f02903c8bc725c5081c836e3556ee01d0ebd699c1edb9685eaeb7
+Deleted: sha256:7562c2323bf9d5ee215418049fe000689e0e78354838fad2fb74ba8643b680a4
+Deleted: sha256:d01cf801f0c44b8ade138358d54793ac4528060de78455560962d9c7714b862c
+Deleted: sha256:614fb19dd43fe4ee2ba8f9c000727afb43c6b8994ebecd3ec078ff5cd2c30b49
+Deleted: sha256:c91d7761c90a55fcdbb134e932b6563913897627da92d35d2b95fa2c13a8ad0b
+Deleted: sha256:7878897f4dee7371363f21982e5c1a1ff9111e5f673a44b3f9716031b3c86110
+Deleted: sha256:dd6f734ce92d546a3491b54f2bb7191679f8d35b345dcd9aebda98d7d60c6d58
+Deleted: sha256:e44e3281e331410fd800070ad84d9e4c13689c197cb4559be9aa0360581327db
+Deleted: sha256:77bba560e45da01c1360aa8a792f89d7e3806594550c96e5a19313862def693e
+Deleted: sha256:5b310da9f9768db1aa90a3c243b67fcb7a7431d369c9eb7cc99061246d902638
+Deleted: sha256:22d775ee9f14a91f7c70c2cad403d2a139b7a6381ad02265207fbb5189e77c56
+Deleted: sha256:e7b687f056b16908b6c0c1f8b91f75eb0951c6b0bd8029fb5a4ac1ab824e2e4f
+Deleted: sha256:cfafc5230d080df9df8f6130d550575e229ef39b12812940129af47623c7aba1
+Deleted: sha256:b2d9b1007b4fcd0a50c51e5521459eb070de2be47c9a65de9b554c22db80e728
+Deleted: sha256:c2b2c4ff9ad6030294991ec97fe0d08a651cfebc8705b4efce90c20bd13fe850
+Deleted: sha256:8dadeeeeecd6ab18b42e13de7252a22b0d725f24caa579600c4a4266afed4de2
+Deleted: sha256:80dd0610fafc27bf28087420fc952ff9fc16efb7c08297d348d8ca9e80e541a6
+Deleted: sha256:fb5b891f89c3d4cc4e7e4221dae8775db094df7058f5c492c0a2bd3d2724440a
+Deleted: sha256:f3680dab50874a1b7e4ee034913f47492461b31319eb71be90e05dcdf17d9a2b
+Deleted: sha256:adb6f58491edc1f674e8289ebcd262e62b6dc721dcd473fdf468d057299a6a34
+Deleted: sha256:93f5b122320474509dc50dae64a89dc501bbd8e6d75dafd6efab042dfccf8707
+Deleted: sha256:cb28efe83ade7040e2d01d2238b994dfbe5ace6ba101d979c62860d852abdf17
+Deleted: sha256:c0822f253cda7b0feae802ce823950dddd3e239c20d936d5127f95aa38c2e321
+Deleted: sha256:e6a50b1c5e3fb3371ad16ab504aa2241079e00d50d489a84dad7f36b83f1706f
+Deleted: sha256:acca13c337de7ef55d2060b4eff536281b61345aa8f6481f01f2f8c5c729e508
+Deleted: sha256:bf8a2fd987922a26d59e9f028c53e94fba8831414c130fa4a501c2b190ae9bf0
+Deleted: sha256:76df73440f9c444f3397d23ad0f33339337c9061dfe2d4a8f52378e3704da71d
++ '[' 1 -ne 0 ']'
++ set +x
+-----------------------------------
+Configuration Generation Complete
+-----------------------------------
+STARTED :Mon Jul 13 10:51:56 EDT 2020
+ENDED   :Mon Jul 13 11:44:15 EDT 2020
+-----------------------------------
+DOCKER_FILE_STAGE=xilinx_install_vivado_v2020.1
+DOCKER_IMAGE=xilinx-vivado:v2020.1
+DOCKER_CONTAINER_NAME=build_vivado_installer_v2020.1
+-----------------------------------
+Xilinx offline installer generated:
+-----------------------------------
+-rw-r--r-- 1 rjmoss rjmoss 28156330646 Jul 13 11:37 _generated/depends/Xilinx_Unified_2020.1_0602_1208_Lin64.bin.tar.gz
+-----------------------------------
+Linking installer to dependencies folder
+-----------------------------------
