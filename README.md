@@ -26,17 +26,13 @@ These user images include a tool-compatible Ubuntu OS installation and all (know
 | -------------- | --------------  | ---------     | ------------  | ------------   | --- |
 | v2020.1        | [18.04.2][4mu]  | [10.7GB][4mp] | [53.2GB][4mv] | [72.2GB][4mvi] |     |
 
-Vitis - v2020.1 Full Installer (Automated) = 100.0GB Image
-
-
 ### Xilinx User Images (Automated/Scripted Tool Installation)
 
 These user images include a tool-compatible Ubuntu OS installation with tool specific dependencies and the Xilinx tool pre-installed.  Xilinx tool installation is automated to support offline/archival and automation of development environment creation.  These images are slightly larger (by default) than the manually created counterparts due to the storage used for intermediate build staging during creation of these images.  These recipes are provided as examples and can further be optimized for size before deployment in your environment if necessary.
 
 | Xilinx Release | Ubuntu Release | Petalinux     | Vivado        | Vitis          | SDK |
 | -------------- | -------------- | ---------     | ------------  | ------------   | --- |
-| v2020.1 (orig) | [18.04.2][4b]  | [11.8GB][4ap] | [64GB][4av]   | [98.6GB][4avi] |     |
-| v2020.1 (opt)  | [18.04.2][4b]  | [11.8GB][4ap] | [64GB][4av]   | [98.6GB][4avi] |     |
+| v2020.1        | [18.04.2][4b]  | [10.7GB][4ap] | [52.3GB][4av] | [71.3GB][4avi] |     |
 
 #### Automated Image Build Times
 
@@ -44,7 +40,7 @@ These build times are approximate, rounded to the nearest minute and reflect one
 
 | Xilinx Release | Ubuntu Release | Petalinux     | Vivado        | Vitis         | SDK |
 | -------------- | -------------- | ------------- | ------------- | ------------- | --- |
-| v2020.1        | [ 0h,  6min]   | [ 0h, 10min ] | [ 0h, 49min ] | [ 1h, 21min ] |     |
+| v2020.1        | [ 0h,  6min]   | [ 0h, 6min ]  | [ 0h, 54min ] | [ 1h, 21min ] |     |
 
 [4b]: ./recipes/base-images/ubuntu-18.04.2/README.md
 [4u]: ./recipes/user-images/v2020.1/README.md
@@ -62,21 +58,26 @@ The recipes in this repository support two separate development environment crea
 
 1. Manual Xilinx Tool installation
 
-The goal of this workflow is to quickly get up and running with the Xilinx tools in docker containers.
+The goal of this workflow is to quickly setup and start using Xilinx tools in Docker containers.
 
+This workflow consists of:
 - Scripted creation of the base OS with tool dependencies pre-installed.
-- User manually installs Xilinx Tools
-- User commits changes to local repository to create new images including tools.
+- Manual installation of Xilinx Tools.
+- Committing changes to local repository to create a new images including the Xilinx tools pre-installed.
 
 2. Automated Xilinx Tool installation
 
-The goal of this workflow is to completely automate creating docker containers with Xilinx tools pre-installed.  This workflow is broken down into two stages.  In the first stage you generate installation dependencies (configuration files) that are used in the second stage by the automated image build.
+The goal of this workflow is to automate creation of docker containers with Xilinx tools pre-installed.  This workflow requires the pre-generation of installation dependencies (configuration files) used by the automated image build.  The pre-generation of dependencies is a semi-automated, scripted process but does require user interaction during the process.
 
+This workflow consists of:
 - Dependency Generation
-	- This stage is used to generate OS configuration dependencies to support a scripted Xilinx tool installation process.  This includes OS and Xilinx installer configuration files.
+	- Scripted generation of OS configuration dependencies used in the automated scripting of Xilinx tool installation.
+	- This requires user input and generates OS and Xilinx installer configuration files.
 - Automated Image Build
-	- This stage provides unattended creation of docker images with Xilinx tools pre-installed.
-
+	- Scripted createion of the nase OS with tool dependencies pre-installed.
+	- Scripted installation of Xilinx Tools.
+	- Results in a Docker image stored in the local repository.
+	
 ### Manual Xilinx Tool installation overview
 
 - []()
