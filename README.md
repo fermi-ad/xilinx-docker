@@ -4,15 +4,29 @@ Do you need traceable, repeatable build environments for your Xilinx Development
 
 This repository provides a collection of recipes and tools that enable Xilinx FPGA-based embedded development workflows in docker-ce containers.  Use the container recipes to build docker containers from scratch (not using existing base containers) that run Xilinx FPGA Development Tools.
 
-Before getting started with any recipes, Take a look at the __*./documentation/host-os-setup/*__ section of this repository to make sure you have:
-1. Installed and configured Docker-CE on your local host machine
-2. Installed and configured any support packages (python, xterm, ...) that are used by this workflow in conjunction with Docker
+## Host OS Setup
+
+This repository requires installation and configuration of Docker-CE (and other support tools such as python, xterm, ...) on your host machine.
+
+### Ubuntu Host Support
+
+The recipes, tools and documentation in this repository have been primarily developed using an Ubuntu-based Host OS.
+- [Ubuntu 18.04](./documentation/host-os-setup/ubuntu-18.04/README.md)
+
+### Windows 10 Host Support
+
+While Linux is the preferred Host OS environment for leveraging the content in this repository, Docker-CE can be configured to run on Windows 10.  There are some limitations that can impact usability in a Windows environment, including lack of native EXT-based filesystem support which poses challenges using Petalinux and Yocto tools in Docker containers on a Windows Host. 
+
+While the content in this repository has been developed primarily targeting an Ubuntu-based Host, some of recipes, tools and documentation have been reworked to provide example workflows that can be used in a Windows 10 environment.
+- [Windows 10](./documentation/host-os-setup/windows-10/README.md) 
+
+Windows 10 adaptation of recipes, tools and documentation can be found in the [./recipes-windows/](./recipes-windows/) folder.
 
 ## Docker Image Recipe Overview
 
 ### Ubuntu Images
 
-These are the Base Ubuntu OS Images used as the basis for images
+These are the Base Ubuntu OS Images used for tool installations.
 
 | Ubuntu Release | Base Image   | User Image    |
 | -------------- | ----------   | ----------    |
@@ -50,7 +64,6 @@ These build times are approximate, rounded to the nearest minute and reflect one
 [4ap]: ./recipes/automated-images/petalinux/v2020.1/README.md
 [4av]: ./recipes/automated-images/vivado/v2020.1/README.md
 [4avi]: ./recipes/automated-images/vitis/v2020.1/README.md
-
 
 ## Workflow overviews
 
