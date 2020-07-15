@@ -1,8 +1,0 @@
-# Ignore everything in this location
-*
-# Keep this gitignore file so the folder remains
-!.gitignore
-# Keep keyboard settings and XTerm configuration files
-!keyboard_settings.conf
-!xsdk_config_xsct_only.config
-!XTerm
