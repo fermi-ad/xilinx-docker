@@ -144,6 +144,8 @@ ENDED   :Mon Jul 6 16:03:28 EDT 2020
 
 ## Generate Vivado Image Install Configuration Files (one time)
 
+Note: in v2020.1, disk use optimization doesn't run unless both ```CreateFileAssociation=1``` and ```EnableDiskUsageOptimization=1``` are set in the configuration
+
 ### Execute the configuration file generation script
 
 - For Linux, execute the following script:
@@ -169,7 +171,7 @@ $ ./generate_configs.sh
 		- ```CreateProgramGroupShortcuts=0```
 		- ```CreateShortcutsForAllUsers=0```
 		- ```CreateDesktopShortcuts=0```
-		- ```CreateFileAssociation=0```
+		- ```CreateFileAssociation=1```
 		- ```EnableDiskUsageOptimization=1```
 	- Save with ```:wq```
 
@@ -255,8 +257,6 @@ bash:
 $ ln -s ../_generated/depends/Xilinx_Unified_2020.1_0602_1208_Lin64.bin.tar.gz depends/
 ```
 
-< ---- UPDATE FROM BELOW ------ >
-
 ## Build a v2020.1 Vivado Image (one time)
 
 ### Execute the image build script
@@ -270,8 +270,8 @@ Successfully tagged xilinx-vivado:v2020.1
 ...
 -----------------------------------
 Image Build Complete...
-STARTED :Mon Jul 13 15:10:28 EDT 2020
-ENDED   :Mon Jul 13 16:04:04 EDT 2020
+STARTED :Wed Jul 15 06:48:23 EDT 2020
+ENDED   :Wed Jul 15 07:42:31 EDT 2020
 -----------------------------------
 ```
 
@@ -290,8 +290,7 @@ ENDED   :Mon Jul 13 16:04:04 EDT 2020
 bash:
 $ docker image ls
 REPOSITORY                       TAG                  IMAGE ID            CREATED             SIZE
-REPOSITORY                       TAG                  IMAGE ID            CREATED             SIZE
-xilinx-vivado                    v2020.1              7e4820bc9e09        About an hour ago   63.1GB
+xilinx-vivado                    v2020.1              205efc22fa2f        8 minutes ago       52.3GB
 xilinx-ubuntu-18.04.2-user       v2020.1              371b01c68a88        2 days ago          2.01GB
 ubuntu                           18.04.2              c31ac5f5c1b0        4 days ago          88.3MB
 ```
