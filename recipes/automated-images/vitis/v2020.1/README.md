@@ -90,10 +90,10 @@ https://github.com/Xilinx/XRT/blob/master/src/runtime_src/tools/scripts/xrtdeps.
 	- Modify build options in the file __*./include/configuration.sh*__
 
 ## Generate a base Ubuntu 18.04.2 image (one time)
-- Execute the image generation script __*../../base-images/ubuntu_18.04.2/build_image.sh*__
+- Execute the image generation script __*../../../base-images/ubuntu_18.04.2/build_image.sh*__
 
 ```bash
-$ pushd ../../base-images/ubuntu-18.04.2
+$ pushd ../../../base-images/ubuntu-18.04.2
 $ ./build_image.sh 
 Base Release Image [Missing] ubuntu-base-18.04.2-base-amd64.tar.gz
 Attempting to download http://cdimage.ubuntu.com/ubuntu-base/releases/18.04.2/release/ubuntu-base-18.04.2-base-amd64.tar.gz
@@ -125,6 +125,8 @@ Local Volumes       0                   0                   0B                  
 Build Cache         0                   0                   0B                  0B
 + '[' 1 -ne 0 ']'
 + set +x
+
+$ popd
 ```
 
 ## Generate an Ubuntu 18.04.2 user image (one time)
@@ -163,6 +165,8 @@ Image Build Complete...
 STARTED :Mon Jul 6 15:58:02 EDT 2020
 ENDED   :Mon Jul 6 16:03:28 EDT 2020
 -----------------------------------
+
+$ popd
 ```
 
 ## Generate Vitis Image Install Configuration Files (one time)
