@@ -79,25 +79,25 @@ Minicom Configuration File: [Good] configs/.minirc.dfl
 
 ...
 
-Removing intermediate container f0caed766af2
- ---> 5d774cff76ff
-Successfully built 5d774cff76ff
+Removing intermediate container 1e880f204c83
+ ---> 7af5c40d781f
+Successfully built 7af5c40d781f
 Successfully tagged xilinx-ubuntu-18.04.2-user:v2019.2
 + '[' 1 -ne 0 ']'
 + set +x
 -----------------------------------
 Shutting down Python HTTP Server...
 -----------------------------------
-Killing process ID 14815
+Killing process ID 15057
 -----------------------------------
-+ kill 14815
++ kill 15057
 + '[' 1 -ne 0 ']'
 + set +x
-./build_image.sh: line 171: 14815 Terminated              python3 -m http.server
+./build_image.sh: line 171: 15057 Terminated              python3 -m http.server
 -----------------------------------
 Image Build Complete...
-STARTED :Mon Jul 6 15:58:02 EDT 2020
-ENDED   :Mon Jul 6 16:03:28 EDT 2020
+STARTED :Wed Jul 15 16:13:34 EDT 2020
+ENDED   :Wed Jul 15 16:19:30 EDT 2020
 -----------------------------------
 ```
 

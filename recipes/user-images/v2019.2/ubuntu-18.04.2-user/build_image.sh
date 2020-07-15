@@ -10,7 +10,7 @@
 # Created: 
 #	- 7/15/2020
 #
-# Source configuration information for a v2020.1 Base Image build
+# Source configuration information for a v2019.2 Base Image build
 source include/configuration.sh
 
 # Set the Docker File for Petalinux
