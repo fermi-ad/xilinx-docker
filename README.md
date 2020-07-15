@@ -24,7 +24,7 @@ These user images include a tool-compatible Ubuntu OS installation and all (know
 
 | Xilinx Release | Ubuntu Release  | Petalinux     | Vivado        | Vitis          | SDK |
 | -------------- | --------------  | ---------     | ------------  | ------------   | --- |
-| v2020.1        | [18.04.2][4mu]  | [10.7GB][4mp] | [53.2GB][4mv] | [72.2GB][4mvi] |     |
+| v2020.1        | [18.04.2][4u]   | [10.7GB][4mp] | [53.2GB][4mv] | [72.2GB][4mvi] |     |
 
 ### Xilinx User Images (Automated/Scripted Tool Installation)
 
@@ -32,7 +32,7 @@ These user images include a tool-compatible Ubuntu OS installation with tool spe
 
 | Xilinx Release | Ubuntu Release | Petalinux     | Vivado        | Vitis          | SDK |
 | -------------- | -------------- | ---------     | ------------  | ------------   | --- |
-| v2020.1        | [18.04.2][4b]  | [10.7GB][4ap] | [52.3GB][4av] | [71.3GB][4avi] |     |
+| v2020.1        | [18.04.2][4u]  | [10.7GB][4ap] | [52.3GB][4av] | [71.3GB][4avi] |     |
 
 #### Automated Image Build Times
 
@@ -40,13 +40,13 @@ These build times are approximate, rounded to the nearest minute and reflect one
 
 | Xilinx Release | Ubuntu Release | Petalinux     | Vivado        | Vitis         | SDK |
 | -------------- | -------------- | ------------- | ------------- | ------------- | --- |
-| v2020.1        | [ 0h,  6min]   | [ 0h, 6min ]  | [ 0h, 54min ] | [ 1h, 21min ] |     |
+| v2020.1        | 6 min          | 6 min         | 54 min        | 1 hr, 21 min  |     |
 
 [4b]: ./recipes/base-images/ubuntu-18.04.2/README.md
 [4u]: ./recipes/user-images/v2020.1/README.md
 [4mp]: ./recipes/user-images/v2020.1/README.petalinux-install.md
-[4mvi]: ./recipes/user-images/v2020.1/README.vivado-install.md
-[4mi]: ./recipes/user-images/v2020.1/README.vitis-install.md
+[4mv]: ./recipes/user-images/v2020.1/README.vivado-install.md
+[4mvi]: ./recipes/user-images/v2020.1/README.vitis-install.md
 [4ap]: ./recipes/automated-images/petalinux/v2020.1/README.md
 [4av]: ./recipes/automated-images/vivado/v2020.1/README.md
 [4avi]: ./recipes/automated-images/vitis/v2020.1/README.md
