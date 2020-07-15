@@ -39,7 +39,7 @@ These user images include a tool-compatible Ubuntu OS installation and all (know
 | Xilinx Release | User Image     | Petalinux     | Vivado        | Vitis          | SDK |
 | -------------- | -------------- | ---------     | ------------  | ------------   | --- |
 | v2020.1        | [2.01GB][4u]   | [10.7GB][4mp] | [53.2GB][4mv] | [72.2GB][4mvi] |     |
-| v2019.2        | [2.02GB][3u]   | | | | |
+| v2019.2        | [2.02GB][3u]   | [18.4GB][3mp] | | | |
 
 ### Xilinx User Images (Automated/Scripted Tool Installation)
 
@@ -68,6 +68,7 @@ These build times are approximate, rounded to the nearest minute and reflect one
 [4avi]: ./recipes/automated-images/vitis/v2020.1/README.md
 
 [3u]: ./recipes/user-images/v2019.2/README.md
+[3mp]: ./recipes/user-images/v2019.2/README.petalinux-install.md
 
 ## Workflow overviews
 
