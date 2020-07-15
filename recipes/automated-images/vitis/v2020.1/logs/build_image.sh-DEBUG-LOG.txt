@@ -3,12 +3,8 @@ $ ./build_image.sh
 Checking for dependencies...
 -----------------------------------
 Base docker image [found] (ubuntu:18.04.2)
-Keyboard Configuration: [Good] configs/keyboard_settings.conf
-Xilinx Unified Web Installer: [Good] depends/Xilinx_Unified_2020.1_0602_1208_Lin64.bin
 Xilinx Unified Offline Installer: [Good] depends/Xilinx_Unified_2020.1_0602_1208_Lin64.bin.tar.gz
 Xilinx Batch Mode Configuration File: [Good] configs/xlnx_unified_vitis.config
-XTerm Configuration File: [Good] configs/XTerm
-Minicom Configuration File: [Good] configs/.minirc.dfl
 -----------------------------------
 Docker Build Context (Working)...
 -----------------------------------
@@ -21,7 +17,7 @@ DOCKER_BUILD_WORKING_DIR=/xilinx/local/repositories/gitlab/xilinx-docker/recipes
 -----------------------------------
 Launching Python HTTP Server...
 -----------------------------------
-+ SERVER_PID=15041
++ SERVER_PID=24948
 + python3 -m http.server
 ++ ifconfig docker0
 ++ grep 'inet\s'
@@ -30,7 +26,7 @@ Launching Python HTTP Server...
 + '[' 1 -ne 0 ']'
 + set +x
 SERVER_IP=172.17.0.1
-SERVER_PID=15041
+SERVER_PID=24948
 -----------------------------------
 -----------------------------------
 Building the Docker Image...
@@ -46,7 +42,6 @@ Arguments...
 -----------------------------------
         --build-arg USER_ACCT="xilinx"
         --build-arg HOME_DIR="/home/xilinx"
-        --build-arg KEYBOARD_CONFIG_FILE="configs/keyboard_settings.conf"
   --build-arg XLNX_INSTALL_LOCATION="/opt/Xilinx"
         --build-arg XLNX_DOWNLOAD_LOCATION="/opt/Xilinx/downloads"
         --build-arg INSTALL_SERVER_URL="172.17.0.1:8000"
@@ -55,68 +50,68 @@ Arguments...
   --build-arg XLNX_UNIFIED_INSTALLER_BASENAME="Xilinx_Unified_2020.1_0602_1208"
   --build-arg BUILD_DEBUG="1"
 -----------------------------------
-+ docker build --no-cache -f ./Dockerfile --target xilinx_install_vitis_v2020.1 -t xilinx-vitis:v2020.1 --build-arg USER_ACCT=xilinx --build-arg HOME_DIR=/home/xilinx --build-arg KEYBOARD_CONFIG_FILE=configs/keyboard_settings.conf --build-arg XLNX_INSTALL_LOCATION=/opt/Xilinx --build-arg XLNX_DOWNLOAD_LOCATION=/opt/Xilinx/downloads --build-arg INSTALL_SERVER_URL=172.17.0.1:8000 --build-arg XLNX_UNIFIED_BATCH_CONFIG_FILE=configs/xlnx_unified_vitis.config --build-arg XLNX_UNIFIED_OFFLINE_INSTALLER=depends/Xilinx_Unified_2020.1_0602_1208_Lin64.bin.tar.gz --build-arg XLNX_UNIFIED_INSTALLER_BASENAME=Xilinx_Unified_2020.1_0602_1208 --build-arg BUILD_DEBUG=1 .
++ docker build --no-cache -f ./Dockerfile --target xilinx_install_vitis_v2020.1 -t xilinx-vitis:v2020.1 --build-arg USER_ACCT=xilinx --build-arg HOME_DIR=/home/xilinx --build-arg XLNX_INSTALL_LOCATION=/opt/Xilinx --build-arg XLNX_DOWNLOAD_LOCATION=/opt/Xilinx/downloads --build-arg INSTALL_SERVER_URL=172.17.0.1:8000 --build-arg XLNX_UNIFIED_BATCH_CONFIG_FILE=configs/xlnx_unified_vitis.config --build-arg XLNX_UNIFIED_OFFLINE_INSTALLER=depends/Xilinx_Unified_2020.1_0602_1208_Lin64.bin.tar.gz --build-arg XLNX_UNIFIED_INSTALLER_BASENAME=Xilinx_Unified_2020.1_0602_1208 --build-arg BUILD_DEBUG=1 .
 Sending build context to Docker daemon  17.92kB
-Serving HTTP on 0.0.0.0 port 8000 (http://0.0.0.0:8000/) ...
 Step 1/14 : FROM xilinx-ubuntu-18.04.2-user:v2020.1 AS xilinx_install_vitis_v2020.1
  ---> 371b01c68a88
 Step 2/14 : LABEL author="Jason Moss"
- ---> Running in e93aa32b8822
-Removing intermediate container e93aa32b8822
- ---> ce0321ed80c5
+Serving HTTP on 0.0.0.0 port 8000 (http://0.0.0.0:8000/) ...
+ ---> Running in 02126127033f
+Removing intermediate container 02126127033f
+ ---> 1438461e9f52
 Step 3/14 : ARG USER_ACCT
- ---> Running in e855fc4568fc
-Removing intermediate container e855fc4568fc
- ---> 5e3d051fd069
+ ---> Running in 2bcd4fdc9780
+Removing intermediate container 2bcd4fdc9780
+ ---> 77d21fc020da
 Step 4/14 : ARG HOME_DIR
- ---> Running in cc2293ac10eb
-Removing intermediate container cc2293ac10eb
- ---> 861825072a5b
+ ---> Running in c38be6492cbf
+Removing intermediate container c38be6492cbf
+ ---> ea69a898430e
 Step 5/14 : ARG XLNX_INSTALL_LOCATION
- ---> Running in 12e930df1bb0
-Removing intermediate container 12e930df1bb0
- ---> bf4239c44cc2
+ ---> Running in bb3e1c998e63
+Removing intermediate container bb3e1c998e63
+ ---> 2e254ed04941
 Step 6/14 : ARG XLNX_DOWNLOAD_LOCATION
- ---> Running in 8059431d046f
-Removing intermediate container 8059431d046f
- ---> 89cd75afa9cb
+ ---> Running in 7e4c389f73b9
+Removing intermediate container 7e4c389f73b9
+ ---> f4c5ef39d6c9
 Step 7/14 : ARG INSTALL_SERVER_URL
- ---> Running in 6b16e3f553fb
-Removing intermediate container 6b16e3f553fb
- ---> 5ba928761718
+ ---> Running in 3f45274c5dbb
+Removing intermediate container 3f45274c5dbb
+ ---> 60933cd332c5
 Step 8/14 : ARG BUILD_DEBUG
- ---> Running in 976b1dbfba79
-Removing intermediate container 976b1dbfba79
- ---> f75e491afe3d
+ ---> Running in 60af62ba8e63
+Removing intermediate container 60af62ba8e63
+ ---> 28d67cca0e82
 Step 9/14 : ARG XLNX_UNIFIED_OFFLINE_INSTALLER
- ---> Running in bddd720e9a53
-Removing intermediate container bddd720e9a53
- ---> b0dea85d29d9
+ ---> Running in 0d227ff0780a
+Removing intermediate container 0d227ff0780a
+ ---> b0bb787fc8a3
 Step 10/14 : ARG XLNX_UNIFIED_BATCH_CONFIG_FILE
- ---> Running in d24990981b33
-Removing intermediate container d24990981b33
- ---> 8c1797056324
+ ---> Running in 535e54902959
+Removing intermediate container 535e54902959
+ ---> a4e40d5e0bc4
 Step 11/14 : ARG XLNX_UNIFIED_INSTALLER_BASENAME
- ---> Running in a7f134d51460
-Removing intermediate container a7f134d51460
- ---> c585bb07123c
+ ---> Running in 3811f5a1b06a
+Removing intermediate container 3811f5a1b06a
+ ---> 4c84c1423154
 Step 12/14 : USER $USER_ACCT
- ---> Running in ebe12dfb5a95
-Removing intermediate container ebe12dfb5a95
- ---> c684b1a348a3
+ ---> Running in 857e21726aa7
+Removing intermediate container 857e21726aa7
+ ---> d55496bab40b
 Step 13/14 : ENV DEBIAN_FRONTEND=noninteractive
- ---> Running in fb8188a85382
-Removing intermediate container fb8188a85382
- ---> 0af567a47274
-Step 14/14 : RUN if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi     && sudo mkdir -p $XLNX_INSTALL_LOCATION/tmp     && sudo chown -R $USER_ACCT:$USER_ACCT $XLNX_INSTALL_LOCATION   && cd $XLNX_INSTALL_LOCATION/tmp        && mkdir -p "${XLNX_UNIFIED_BATCH_CONFIG_FILE%/*}"      && wget -nv $INSTALL_SERVER_URL/$XLNX_UNIFIED_BATCH_CONFIG_FILE -O $XLNX_UNIFIED_BATCH_CONFIG_FILE      && cat $XLNX_UNIFIED_BATCH_CONFIG_FILE          && mkdir -p "${XLNX_UNIFIED_OFFLINE_INSTALLER%/*}"      && wget -nv --no-cache $INSTALL_SERVER_URL/$XLNX_UNIFIED_OFFLINE_INSTALLER -O $XLNX_UNIFIED_OFFLINE_INSTALLER   && chmod a+x $XLNX_UNIFIED_OFFLINE_INSTALLER    && tar -zxf $XLNX_UNIFIED_OFFLINE_INSTALLER && ls -al   && echo "cd $XLNX_INSTALL_LOCATION" >> $HOME_DIR/.bashrc        && echo "export LANG=en_US.UTF-8" >> $HOME_DIR/.bashrc  && export "LANG=en_US.UTF-8"    && echo ". $XLNX_INSTALL_LOCATION/Vitis/2020.1/settings64.sh" >> $HOME_DIR/.bashrc      && echo "export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$XLNX_INSTALL_LOCATION/Unified/2020.1/lib/lnx64.o/" >> $HOME_DIR/.bashrc       && chmod a+x xsetup     && sudo apt-get install -y     xz-utils         && ./xsetup             --agree XilinxEULA,3rdPartyEULA,WebTalkTerms            --config $XLNX_UNIFIED_BATCH_CONFIG_FILE                --batch INSTALL         && cd $HOME_DIR         && rm -rf $XLNX_INSTALL_LOCATION/tmp    && sudo apt-get clean   && sudo rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*   && sudo echo 'debconf debconf/frontend select Dialog' | sudo debconf-set-selections
- ---> Running in 25438dd6c607
+ ---> Running in bcf73cd88a7d
+Removing intermediate container bcf73cd88a7d
+ ---> ffafd14e2c63
+Step 14/14 : RUN if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi     && sudo mkdir -p $XLNX_INSTALL_LOCATION/tmp     && sudo chown -R $USER_ACCT:$USER_ACCT $XLNX_INSTALL_LOCATION   && cd $XLNX_INSTALL_LOCATION/tmp        && mkdir -p "${XLNX_UNIFIED_BATCH_CONFIG_FILE%/*}"      && wget -nv $INSTALL_SERVER_URL/$XLNX_UNIFIED_BATCH_CONFIG_FILE -O $XLNX_UNIFIED_BATCH_CONFIG_FILE      && cat $XLNX_UNIFIED_BATCH_CONFIG_FILE          && mkdir -p "${XLNX_UNIFIED_OFFLINE_INSTALLER%/*}"      && wget -nv --no-cache $INSTALL_SERVER_URL/$XLNX_UNIFIED_OFFLINE_INSTALLER -O $XLNX_UNIFIED_OFFLINE_INSTALLER   && chmod a+x $XLNX_UNIFIED_OFFLINE_INSTALLER    && tar -zxf $XLNX_UNIFIED_OFFLINE_INSTALLER && ls -al   && echo "cd $XLNX_INSTALL_LOCATION" >> $HOME_DIR/.bashrc        && echo "export LANG=en_US.UTF-8" >> $HOME_DIR/.bashrc  && export "LANG=en_US.UTF-8"    && echo ". $XLNX_INSTALL_LOCATION/Vitis/2020.1/settings64.sh" >> $HOME_DIR/.bashrc      && echo "export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$XLNX_INSTALL_LOCATION/Vitis/2020.1/lib/lnx64.o/" >> $HOME_DIR/.bashrc         && chmod a+x xsetup     && sudo apt-get install -y     xz-utils         && ./xsetup             --agree XilinxEULA,3rdPartyEULA,WebTalkTerms            --config $XLNX_UNIFIED_BATCH_CONFIG_FILE                --batch INSTALL         && cd $HOME_DIR         && rm -rf $XLNX_INSTALL_LOCATION/tmp    && sudo apt-get clean   && sudo rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*   && sudo echo 'debconf debconf/frontend select Dialog' | sudo debconf-set-selections
+ ---> Running in f889405fce07
 + sudo mkdir -p /opt/Xilinx/tmp
 + sudo chown -R xilinx:xilinx /opt/Xilinx
 + cd /opt/Xilinx/tmp
 + mkdir -p configs
 + wget -nv 172.17.0.1:8000/configs/xlnx_unified_vitis.config -O configs/xlnx_unified_vitis.config
-172.17.0.2 - - [12/Jul/2020 07:23:55] "GET /configs/xlnx_unified_vitis.config HTTP/1.1" 200 -
-2020-07-12 11:23:55 URL:http://172.17.0.1:8000/configs/xlnx_unified_vitis.config [1797/1797] -> "configs/xlnx_unified_vitis.config" [1]
+172.17.0.2 - - [15/Jul/2020 07:56:51] "GET /configs/xlnx_unified_vitis.config HTTP/1.1" 200 -
+2020-07-15 11:56:51 URL:http://172.17.0.1:8000/configs/xlnx_unified_vitis.config [1797/1797] -> "configs/xlnx_unified_vitis.config" [1]
 + cat configs/xlnx_unified_vitis.config
 #### Vitis Unified Software Platform Install Configuration ####
 Edition=Vitis Unified Software Platform
@@ -146,25 +141,25 @@ CreateShortcutsForAllUsers=0
 CreateDesktopShortcuts=0
 
 # Choose whether file associations will be created or not.
-CreateFileAssociation=0
+CreateFileAssociation=1
 
 # Choose whether disk usage will be optimized (reduced) after installation
 EnableDiskUsageOptimization=1
 
 + mkdir -p depends
 + wget -nv --no-cache 172.17.0.1:8000/depends/Xilinx_Unified_2020.1_0602_1208_Lin64.bin.tar.gz -O depends/Xilinx_Unified_2020.1_0602_1208_Lin64.bin.tar.gz
-172.17.0.2 - - [12/Jul/2020 07:23:55] "GET /depends/Xilinx_Unified_2020.1_0602_1208_Lin64.bin.tar.gz HTTP/1.1" 200 -
-2020-07-12 11:29:13 URL:http://172.17.0.1:8000/depends/Xilinx_Unified_2020.1_0602_1208_Lin64.bin.tar.gz [32461885648/32461885648] -> "depends/Xilinx_Unified_2020.1_0602_1208_Lin64.bin.tar.gz" [1]
+172.17.0.2 - - [15/Jul/2020 07:56:51] "GET /depends/Xilinx_Unified_2020.1_0602_1208_Lin64.bin.tar.gz HTTP/1.1" 200 -
+2020-07-15 12:05:17 URL:http://172.17.0.1:8000/depends/Xilinx_Unified_2020.1_0602_1208_Lin64.bin.tar.gz [32461885648/32461885648] -> "depends/Xilinx_Unified_2020.1_0602_1208_Lin64.bin.tar.gz" [1]
 + chmod a+x depends/Xilinx_Unified_2020.1_0602_1208_Lin64.bin.tar.gz
 + tar -zxf depends/Xilinx_Unified_2020.1_0602_1208_Lin64.bin.tar.gz
 + ls -al
-total 84
+total 80
 drwxr-xr-x 10 xilinx xilinx  4096 Jul 11 00:06 .
-drwxr-xr-x  3 xilinx xilinx  4096 Jul 12 11:23 ..
+drwxr-xr-x  3 xilinx xilinx  4096 Jul 15 11:56 ..
 drwxr-xr-x  2 xilinx xilinx  4096 Jul 11 00:06 bin
-drwxr-xr-x  2 xilinx xilinx  4096 Jul 12 11:23 configs
+drwxr-xr-x  2 xilinx xilinx  4096 Jul 15 11:56 configs
 drwxr-xr-x  3 xilinx xilinx  4096 Jul 11 00:06 data
-drwxr-xr-x  2 xilinx xilinx  4096 Jul 12 11:23 depends
+drwxr-xr-x  2 xilinx xilinx  4096 Jul 15 11:56 depends
 drwxr-xr-x  4 xilinx xilinx  4096 Jul 11 00:06 lib
 drwxr-xr-x  2 xilinx xilinx 40960 Jul 11 00:06 payload
 drwxr-xr-x  2 xilinx xilinx  4096 Jul 11 00:06 scripts
@@ -175,7 +170,7 @@ drwxr-xr-x  4 xilinx xilinx  4096 Jul 11 00:06 tps
 + export LANG=en_US.UTF-8
 + LANG=en_US.UTF-8
 + echo '. /opt/Xilinx/Vitis/2020.1/settings64.sh'
-+ echo 'export LD_LIBRARY_PATH=:/opt/Xilinx/Unified/2020.1/lib/lnx64.o/'
++ echo 'export LD_LIBRARY_PATH=:/opt/Xilinx/Vitis/2020.1/lib/lnx64.o/'
 + chmod a+x xsetup
 + sudo apt-get install -y xz-utils
 Reading package lists...
@@ -188,12 +183,12 @@ xz-utils set to manually installed.
 Running in batch mode...
 Copyright (c) 1986-2020 Xilinx, Inc.  All rights reserved.
 
-INFO : Log file location - /home/xilinx/.Xilinx/xinstall/xinstall_1594553821148.log
+INFO : Log file location - /home/xilinx/.Xilinx/xinstall/xinstall_1594815385967.log
 INFO : Installing Edition: Vitis Unified Software Platform
 INFO : Installation directory is /opt/Xilinx
 
 Installing files, 99% completed. (Done)                         
-It took 22 minutes to install files.
+It took 26 minutes to install files.
 
 INFO : Log file is copied to : /opt/Xilinx/.xinstall/Vitis_2020.1/xinstall.log
 INFO : Installation completed successfully.For the platforms: please visit xilinx.com and review the "Getting Started Guide" UG1301
@@ -203,24 +198,23 @@ INFO : Installation completed successfully.For the platforms: please visit xilin
 + sudo rm -rf /var/lib/apt/lists/auxfiles /var/lib/apt/lists/lock /var/lib/apt/lists/partial /tmp/hsperfdata_xilinx '/var/tmp/*'
 + sudo echo 'debconf debconf/frontend select Dialog'
 + sudo debconf-set-selections
-Removing intermediate container 25438dd6c607
- ---> f1a8261359dd
-[Warning] One or more build-args [KEYBOARD_CONFIG_FILE] were not consumed
-Successfully built f1a8261359dd
+Removing intermediate container f889405fce07
+ ---> cb7829fd7257
+Successfully built cb7829fd7257
 Successfully tagged xilinx-vitis:v2020.1
 + '[' 1 -ne 0 ']'
 + set +x
 -----------------------------------
 Shutting down Python HTTP Server...
 -----------------------------------
-Killing process ID 15041
+Killing process ID 24948
 -----------------------------------
-+ kill 15041
++ kill 24948
 + '[' 1 -ne 0 ']'
 + set +x
-./build_image.sh: line 202: 15041 Terminated              python3 -m http.server
+./build_image.sh: line 165: 24948 Terminated              python3 -m http.server
 -----------------------------------
 Image Build Complete...
-STARTED :Sun Jul 12 07:23:41 EDT 2020
-ENDED   :Sun Jul 12 08:44:42 EDT 2020
+STARTED :Wed Jul 15 07:56:39 EDT 2020
+ENDED   :Wed Jul 15 09:18:34 EDT 2020
 -----------------------------------

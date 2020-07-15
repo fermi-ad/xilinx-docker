@@ -167,6 +167,8 @@ ENDED   :Mon Jul 6 16:03:28 EDT 2020
 
 ## Generate Vitis Image Install Configuration Files (one time)
 
+Note: in v2020.1, disk use optimization doesn't run unless both ```CreateFileAssociation=1``` and ```EnableDiskUsageOptimization=1``` are set in the configuration
+
 ### Execute the configuration file generation script
 
 - For Linux, execute the following script:
@@ -190,7 +192,8 @@ $ ./generate_configs.sh
 		- ```Modules=...DocNav:0,...``` 
 		- ```CreateProgramGroupShortcuts=0```
 		- ```CreateDesktopShortcuts=0```
-		- ```CreateFileAssociation=0```
+		- ```CreateFileAssociation=1```
+		- ```EnableDiskUsageOptimization=1```
 	- Save with ```:wq```
 
 - Review the generated configurations
@@ -286,8 +289,8 @@ Successfully tagged xilinx-vitis:v2020.1
 ...
 -----------------------------------
 Image Build Complete...
-STARTED :Sun Jul 12 07:23:41 EDT 2020
-ENDED   :Sun Jul 12 08:44:42 EDT 2020
+STARTED :Wed Jul 15 07:56:39 EDT 2020
+ENDED   :Wed Jul 15 09:18:34 EDT 2020
 -----------------------------------
 ```
 
@@ -306,7 +309,7 @@ ENDED   :Sun Jul 12 08:44:42 EDT 2020
 bash:
 $ docker image ls
 REPOSITORY                       TAG                  IMAGE ID            CREATED             SIZE
-xilinx-vitis                     v2020.1              f1a8261359dd        10 minutes ago      99.1GB
+xilinx-vitis                     v2020.1              cb7829fd7257        15 minutes ago      71.3GB
 xilinx-ubuntu-18.04.2-user       v2020.1              371b01c68a88        2 days ago          2.01GB
 ubuntu                           18.04.2              c31ac5f5c1b0        4 days ago          88.3MB
 ```
