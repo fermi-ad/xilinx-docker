@@ -14,7 +14,7 @@
 
 ## Install Xilinx Tools in the Docker Container
 
-- [Install Petalinux 2019.2](./README.petalinux-install.md)
+- [Install Petalinux 2019.2](./README.user-install.md)
 - [Install Vivado 2019.2](./README.vivado-install.md)
 - [Install Vitis 2019.2](./README.vitis-install.md)
 
@@ -101,7 +101,7 @@ ENDED   :Wed Jul 15 16:19:30 EDT 2020
 -----------------------------------
 ```
 
-## Create a working container (running in daemon mode) based on the petalinux image
+## Create a working container (running in daemon mode) based on the user image
 - The container is started in __interactive daemon__ mode
 - You may also specify the MAC address of the container (making it easier to deal with tool licenses that are tied to a machine's MAC address)
 - Note: For Windows Powershell, use __*Select-String*__  in place of __*grep*__ to find the MacAddress
@@ -111,7 +111,7 @@ ENDED   :Wed Jul 15 16:19:30 EDT 2020
 bash:
 $ docker image ls
 REPOSITORY                       TAG                  IMAGE ID            CREATED             SIZE
-xilinx-ubuntu-18.04.2-user       v2019.2              5d774cff76ff        16 hours ago        2.01GB
+xilinx-ubuntu-18.04.2-user       v2019.2              7af5c40d781f        3 minutes ago       2.02GB
 ubuntu                           18.04.2              76df73440f9c        12 days ago         88.3MB
 ```
 
@@ -120,22 +120,22 @@ ubuntu                           18.04.2              76df73440f9c        12 day
 #### Run the helper script to create a working container
 
 ```bash
-$ ../../../tools/bash/run_image_x11_macaddr.sh xilinx-ubuntu-18.04.2-user:v2019.2 xilinx_petalinux_v2019.2 02:de:ad:be:ef:91
+$ ../../../../tools/bash/run_image_x11_macaddr.sh xilinx-ubuntu-18.04.2-user:v2019.2 xilinx_user_v2019.2 02:de:ad:be:ef:91
 DOCKER_IMAGE_NAME: xilinx-ubuntu-18.04.2-user:v2019.2
-DOCKER_CONTAINER_NAME: xilinx_petalinux_v2019.2
+DOCKER_CONTAINER_NAME: xilinx_user_v2019.2
 DOCKER_CONTAINER_MACADDR: 02:de:ad:be:ef:91
 DOCKER_TTYUSB_CGROUP=188
 access control disabled, clients can connect from any host
-04391ade9972e89b9abd16251b367c5e75597aa01e56a9b6bb5546f891223d1c
+a2a8c3a46ee4c81192a5282046a80b291aeefd64829d2e104b4fc6de4ddf583f
 ```
 
 #### Create a working container manually
 
 ```bash
 $ docker run \
-	--name xilinx_petalinux_v2019.2 \
+	--name xilinx_user_v2019.2 \
 	--device-cgroup-rule "c 188:* rwm" \
-	-h xilinx_petalinux_v2020-1 \
+	-h xilinx_user_v2020-1 \
 	-v /tmp/.X11-unix:/tmp/.X11-unix \
 	-v ~/.Xauthority:/home/xilinx/.Xauthority \
 	-v /srv/software/xilinx:/srv/software \
@@ -153,12 +153,12 @@ $ docker run \
 ```bash
 $ docker ps -a
 CONTAINER ID        IMAGE                                COMMAND             CREATED             STATUS              PORTS               NAMES
-3e285137eeb0        xilinx-ubuntu-18.04.2-user:v2019.2   "/bin/bash"         16 seconds ago      Up 14 seconds                           xilinx_petalinux_v2019.2
+3e285137eeb0        xilinx-ubuntu-18.04.2-user:v2019.2   "/bin/bash"         16 seconds ago      Up 14 seconds                           xilinx_user_v2019.2
 ```
 
 
 ```bash
-$ docker inspect xilinx_petalinux_v2019.2 | grep "MacAddress"            
+$ docker inspect xilinx_user_v2019.2 | grep "MacAddress"            
  	"MacAddress": "02:de:ad:be:ef:91",
     "MacAddress": "02:de:ad:be:ef:91",
     	"MacAddress": "02:de:ad:be:ef:91"
@@ -263,12 +263,12 @@ $ export DOCKER_TTYUSB_CGROUP=`ls -l /dev/ttyUSB* | sed 's/,/ /g' | awk '{print 
 - Launch an X-windows terminal shell for access to the container
 ```bash
 bash:
-$ docker exec -it xilinx_petalinux_v2019.2 bash -c "xterm" &
+$ docker exec -it xilinx_user_v2019.2 bash -c "xterm" &
 ```
 - This launches an X-windows terminal shell and sources the Petalinux settings script
 ```bash
 xterm:
-xilinx@xilinx_petalinux_v2020-1:/$
+xilinx@xilinx_user_v2020-1:/$
 ```
 
 ### Launch an xterm session after attaching to the running container
@@ -276,15 +276,15 @@ xilinx@xilinx_petalinux_v2020-1:/$
 - This xterm session is not tied to a local terminal session
 ```bash
 bash:
-$ docker attach xilinx_petalinux_v2019.2
-xilinx@xilinx_petalinux_v2020-1:/$ xterm &
+$ docker attach xilinx_user_v2019.2
+xilinx@xilinx_user_v2020-1:/$ xterm &
 [1] 714
-xilinx@xilinx_petalinux_v2020-1:/$
+xilinx@xilinx_user_v2020-1:/$
 ```
 - This launches an X-windows terminal shell and sources the Petalinux settings script
 ```bash
 xterm:
-xilinx@xilinx_petalinux_v2020-1:/$
+xilinx@xilinx_user_v2020-1:/$
 ```
 
 ### Close the xterm session
@@ -293,8 +293,8 @@ xilinx@xilinx_petalinux_v2020-1:/$
 	- The special escape sequence is `<CTRL> P+Q` (hold down the CTRL key, press P followed by Q)
 ```bash:
 bash:
-xilinx@xilinx_petalinux_v2020-1:/$ read escape sequence
-[1]+  Done                    docker exec -d xilinx_petalinux_v2019.2 bash -c "xterm"
+xilinx@xilinx_user_v2020-1:/$ read escape sequence
+[1]+  Done                    docker exec -d xilinx_user_v2019.2 bash -c "xterm"
 ```
 - The container should still be running, even if the xterm session has been closed
 - Verify that the container is still running in the background
@@ -302,5 +302,5 @@ xilinx@xilinx_petalinux_v2020-1:/$ read escape sequence
 bash:
 $ docker ps
 CONTAINER ID        IMAGE                                COMMAND             CREATED             STATUS              PORTS               NAMES
-3e285137eeb0        xilinx-ubuntu-18.04.2-user:v2019.2   "/bin/bash"         2 minutes ago       Up 2 minutes                            xilinx_petalinux_v2019.2
+3e285137eeb0        xilinx-ubuntu-18.04.2-user:v2019.2   "/bin/bash"         2 minutes ago       Up 2 minutes                            xilinx_user_v2019.2
 ```
