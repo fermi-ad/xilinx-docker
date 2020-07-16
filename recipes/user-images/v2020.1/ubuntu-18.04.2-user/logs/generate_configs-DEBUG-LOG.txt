@@ -1,0 +1,786 @@
+$ ./generate_configs.sh
+-----------------------------------
+Checking for dependencies...
+-----------------------------------
+Base docker image [found] (ubuntu:18.04.2)
+-----------------------------------
+Docker Build Context (Working)...
+-----------------------------------
+DOCKER_INSTALL_DIR=.
+DOCKER_BUILD_WORKING_DIR=/xilinx/local/repositories/gitlab/xilinx-docker/recipes/user-images/v2020.1/ubuntu-18.04.2-user
+-----------------------------------
+-----------------------------------
+Launching Python HTTP Server...
+-----------------------------------
++ SERVER_PID=14174
++ python3 -m http.server
+++ ifconfig docker0
+++ grep 'inet\s'
+++ awk '{print $2}'
++ SERVER_IP=172.17.0.1
++ '[' 1 -ne 0 ']'
++ set +x
+SERVER_IP=172.17.0.1
+SERVER_PID=14174
+-----------------------------------
+-----------------------------------
+Building the Docker Image...
+-----------------------------------
+DOCKER_CACHE=--no-cache
+DOCKER_FILE_NAME=Dockerfile.generate_configs
+DOCKER_FILE_STAGE=base_os_depends_v2020.1
+DOCKER_IMAGE=dependency_generation:v2020.1
+DOCKER_INSTALL_DIR=.
+INSTALL_SERVER_URL=172.17.0.1:8000
+-----------------------------------
+Arguments...
+-----------------------------------
+        --build-arg USER_ACCT="xilinx"
+        --build-arg HOME_DIR="/home/xilinx"
+        --build-arg XLNX_INSTALL_LOCATION="/opt/Xilinx"
+        --build-arg INSTALL_SERVER_URL="172.17.0.1:8000"
+        --build-arg KEYBOARD_CONFIG_FILE="configs/keyboard_settings.conf"
+  --build-arg BUILD_DEBUG="1"
+-----------------------------------
++ docker build --no-cache -f ./Dockerfile.generate_configs --target base_os_depends_v2020.1 -t dependency_generation:v2020.1 --build-arg USER_ACCT=xilinx --build-arg HOME_DIR=/home/xilinx --build-arg XLNX_INSTALL_LOCATION=/opt/Xilinx --build-arg INSTALL_SERVER_URL=172.17.0.1:8000 --build-arg KEYBOARD_CONFIG_FILE=configs/keyboard_settings.conf --build-arg BUILD_DEBUG=1 .
+Sending build context to Docker daemon  22.53kB
+Serving HTTP on 0.0.0.0 port 8000 (http://0.0.0.0:8000/) ...
+Step 1/10 : FROM ubuntu:18.04.2 AS base_os_depends_v2020.1
+ ---> c31ac5f5c1b0
+Step 2/10 : LABEL author="Jason Moss"
+ ---> Running in ca07267e050b
+Removing intermediate container ca07267e050b
+ ---> bf99ce144e95
+Step 3/10 : ENV DEBIAN_FRONTEND=noninteractive
+ ---> Running in caca545d7ab1
+Removing intermediate container caca545d7ab1
+ ---> 3bcad729ad56
+Step 4/10 : ARG BUILD_DEBUG
+ ---> Running in 4c23fcba25d8
+Removing intermediate container 4c23fcba25d8
+ ---> 9749dbfb6b02
+Step 5/10 : RUN if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi      && echo "APT::Install-Recommends false;" > /etc/apt/apt.conf.d/00norecommends   && echo "APT::AutoRemove::RecommendsImportant false;" >> /etc/apt/apt.conf.d/00norecommends     && echo "APT::Install-Suggests false;" > /etc/apt/apt.conf.d/00nosuggests       && echo "APT::AutoRemove::SuggestsImportant false;" >> /etc/apt/apt.conf.d/00nosuggests         && apt-get update       && apt-get install -y           apt-utils               vim     && apt-get install locales      && locale-gen en_US.UTF-8       && dpkg-reconfigure             --frontend $DEBIAN_FRONTEND locales
+ ---> Running in df6194356db8
++ echo APT::Install-Recommends false;
++ echo APT::AutoRemove::RecommendsImportant false;
++ echo APT::Install-Suggests false;
++ echo APT::AutoRemove::SuggestsImportant false;
++ apt-get update
+Get:1 http://security.ubuntu.com/ubuntu bionic-security InRelease [88.7 kB]
+Hit:2 http://archive.ubuntu.com/ubuntu bionic InRelease
+Get:3 http://archive.ubuntu.com/ubuntu bionic-updates InRelease [88.7 kB]
+Get:4 http://security.ubuntu.com/ubuntu bionic-security/main amd64 Packages [783 kB]
+Get:5 http://security.ubuntu.com/ubuntu bionic-security/main Translation-en [247 kB]
+Get:6 http://security.ubuntu.com/ubuntu bionic-security/restricted amd64 Packages [67.8 kB]
+Get:7 http://security.ubuntu.com/ubuntu bionic-security/restricted Translation-en [15.0 kB]
+Get:8 http://security.ubuntu.com/ubuntu bionic-security/universe amd64 Packages [679 kB]
+Get:9 http://security.ubuntu.com/ubuntu bionic-security/universe Translation-en [225 kB]
+Get:10 http://security.ubuntu.com/ubuntu bionic-security/multiverse amd64 Packages [7908 B]
+Get:11 http://security.ubuntu.com/ubuntu bionic-security/multiverse Translation-en [2816 B]
+Get:12 http://archive.ubuntu.com/ubuntu bionic-backports InRelease [74.6 kB]
+Get:13 http://archive.ubuntu.com/ubuntu bionic/universe amd64 Packages [8570 kB]
+Get:14 http://archive.ubuntu.com/ubuntu bionic/universe Translation-en [4941 kB]
+Get:15 http://archive.ubuntu.com/ubuntu bionic/multiverse amd64 Packages [151 kB]
+Get:16 http://archive.ubuntu.com/ubuntu bionic/multiverse Translation-en [108 kB]
+Get:17 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 Packages [1010 kB]
+Get:18 http://archive.ubuntu.com/ubuntu bionic-updates/main Translation-en [341 kB]
+Get:19 http://archive.ubuntu.com/ubuntu bionic-updates/restricted amd64 Packages [76.7 kB]
+Get:20 http://archive.ubuntu.com/ubuntu bionic-updates/restricted Translation-en [17.1 kB]
+Get:21 http://archive.ubuntu.com/ubuntu bionic-updates/universe amd64 Packages [1092 kB]
+Get:22 http://archive.ubuntu.com/ubuntu bionic-updates/universe Translation-en [340 kB]
+Get:23 http://archive.ubuntu.com/ubuntu bionic-updates/multiverse amd64 Packages [11.5 kB]
+Get:24 http://archive.ubuntu.com/ubuntu bionic-updates/multiverse Translation-en [4832 B]
+Get:25 http://archive.ubuntu.com/ubuntu bionic-backports/main amd64 Packages [7516 B]
+Get:26 http://archive.ubuntu.com/ubuntu bionic-backports/main Translation-en [4764 B]
+Get:27 http://archive.ubuntu.com/ubuntu bionic-backports/universe amd64 Packages [7736 B]
+Get:28 http://archive.ubuntu.com/ubuntu bionic-backports/universe Translation-en [4588 B]
+Fetched 19.0 MB in 4s (4996 kB/s)
+Reading package lists...
++ apt-get install -y apt-utils vim
+Reading package lists...
+Building dependency tree...
+Reading state information...
+The following additional packages will be installed:
+  apt libapt-inst2.0 libapt-pkg5.0 libexpat1 libgpm2 libmpdec2 libpython3.6
+  libpython3.6-minimal libpython3.6-stdlib libreadline7 libsqlite3-0 libssl1.1
+  mime-support readline-common vim-common vim-runtime xxd
+Suggested packages:
+  apt-doc aptitude | synaptic | wajig dpkg-dev gnupg | gnupg2 | gnupg1
+  powermgmt-base gpm readline-doc ctags vim-doc vim-scripts
+Recommended packages:
+  ca-certificates file xz-utils
+The following NEW packages will be installed:
+  apt-utils libapt-inst2.0 libexpat1 libgpm2 libmpdec2 libpython3.6
+  libpython3.6-minimal libpython3.6-stdlib libreadline7 libsqlite3-0 libssl1.1
+  mime-support readline-common vim vim-common vim-runtime xxd
+The following packages will be upgraded:
+  apt libapt-pkg5.0
+2 upgraded, 17 newly installed, 0 to remove and 42 not upgraded.
+Need to get 14.8 MB of archives.
+After this operation, 57.1 MB of additional disk space will be used.
+Get:1 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 libapt-pkg5.0 amd64 1.6.12ubuntu0.1 [807 kB]
+Get:2 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 apt amd64 1.6.12ubuntu0.1 [1201 kB]
+Get:3 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 libapt-inst2.0 amd64 1.6.12ubuntu0.1 [54.4 kB]
+Get:4 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 apt-utils amd64 1.6.12ubuntu0.1 [207 kB]
+Get:5 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 libexpat1 amd64 2.2.5-3ubuntu0.2 [80.5 kB]
+Get:6 http://archive.ubuntu.com/ubuntu bionic/main amd64 libmpdec2 amd64 2.4.2-1ubuntu1 [84.1 kB]
+Get:7 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 libssl1.1 amd64 1.1.1-1ubuntu2.1~18.04.6 [1301 kB]
+Get:8 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 libpython3.6-minimal amd64 3.6.9-1~18.04ubuntu1 [533 kB]
+Get:9 http://archive.ubuntu.com/ubuntu bionic/main amd64 mime-support all 3.60ubuntu1 [30.1 kB]
+Get:10 http://archive.ubuntu.com/ubuntu bionic/main amd64 readline-common all 7.0-3 [52.9 kB]
+Get:11 http://archive.ubuntu.com/ubuntu bionic/main amd64 libreadline7 amd64 7.0-3 [124 kB]
+Get:12 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 libsqlite3-0 amd64 3.22.0-1ubuntu0.4 [499 kB]
+Get:13 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 libpython3.6-stdlib amd64 3.6.9-1~18.04ubuntu1 [1710 kB]
+Get:14 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 xxd amd64 2:8.0.1453-1ubuntu1.3 [49.4 kB]
+Get:15 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 vim-common all 2:8.0.1453-1ubuntu1.3 [70.6 kB]
+Get:16 http://archive.ubuntu.com/ubuntu bionic/main amd64 libgpm2 amd64 1.20.7-5 [15.1 kB]
+Get:17 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 libpython3.6 amd64 3.6.9-1~18.04ubuntu1 [1414 kB]
+Get:18 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 vim-runtime all 2:8.0.1453-1ubuntu1.3 [5436 kB]
+Get:19 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 vim amd64 2:8.0.1453-1ubuntu1.3 [1153 kB]
+debconf: delaying package configuration, since apt-utils is not installed
+Fetched 14.8 MB in 2s (7941 kB/s)
+(Reading database ... 4037 files and directories currently installed.)
+Preparing to unpack .../libapt-pkg5.0_1.6.12ubuntu0.1_amd64.deb ...
+Unpacking libapt-pkg5.0:amd64 (1.6.12ubuntu0.1) over (1.6.8) ...
+Setting up libapt-pkg5.0:amd64 (1.6.12ubuntu0.1) ...
+(Reading database ... 4037 files and directories currently installed.)
+Preparing to unpack .../apt_1.6.12ubuntu0.1_amd64.deb ...
+Unpacking apt (1.6.12ubuntu0.1) over (1.6.8) ...
+Setting up apt (1.6.12ubuntu0.1) ...
+Installing new version of config file /etc/apt/apt.conf.d/01autoremove ...
+Selecting previously unselected package libapt-inst2.0:amd64.
+(Reading database ... 4044 files and directories currently installed.)
+Preparing to unpack .../00-libapt-inst2.0_1.6.12ubuntu0.1_amd64.deb ...
+Unpacking libapt-inst2.0:amd64 (1.6.12ubuntu0.1) ...
+Selecting previously unselected package apt-utils.
+Preparing to unpack .../01-apt-utils_1.6.12ubuntu0.1_amd64.deb ...
+Unpacking apt-utils (1.6.12ubuntu0.1) ...
+Selecting previously unselected package libexpat1:amd64.
+Preparing to unpack .../02-libexpat1_2.2.5-3ubuntu0.2_amd64.deb ...
+Unpacking libexpat1:amd64 (2.2.5-3ubuntu0.2) ...
+Selecting previously unselected package libmpdec2:amd64.
+Preparing to unpack .../03-libmpdec2_2.4.2-1ubuntu1_amd64.deb ...
+Unpacking libmpdec2:amd64 (2.4.2-1ubuntu1) ...
+Selecting previously unselected package libssl1.1:amd64.
+Preparing to unpack .../04-libssl1.1_1.1.1-1ubuntu2.1~18.04.6_amd64.deb ...
+Unpacking libssl1.1:amd64 (1.1.1-1ubuntu2.1~18.04.6) ...
+Selecting previously unselected package libpython3.6-minimal:amd64.
+Preparing to unpack .../05-libpython3.6-minimal_3.6.9-1~18.04ubuntu1_amd64.deb ...
+Unpacking libpython3.6-minimal:amd64 (3.6.9-1~18.04ubuntu1) ...
+Selecting previously unselected package mime-support.
+Preparing to unpack .../06-mime-support_3.60ubuntu1_all.deb ...
+Unpacking mime-support (3.60ubuntu1) ...
+Selecting previously unselected package readline-common.
+Preparing to unpack .../07-readline-common_7.0-3_all.deb ...
+Unpacking readline-common (7.0-3) ...
+Selecting previously unselected package libreadline7:amd64.
+Preparing to unpack .../08-libreadline7_7.0-3_amd64.deb ...
+Unpacking libreadline7:amd64 (7.0-3) ...
+Selecting previously unselected package libsqlite3-0:amd64.
+Preparing to unpack .../09-libsqlite3-0_3.22.0-1ubuntu0.4_amd64.deb ...
+Unpacking libsqlite3-0:amd64 (3.22.0-1ubuntu0.4) ...
+Selecting previously unselected package libpython3.6-stdlib:amd64.
+Preparing to unpack .../10-libpython3.6-stdlib_3.6.9-1~18.04ubuntu1_amd64.deb ...
+Unpacking libpython3.6-stdlib:amd64 (3.6.9-1~18.04ubuntu1) ...
+Selecting previously unselected package xxd.
+Preparing to unpack .../11-xxd_2%3a8.0.1453-1ubuntu1.3_amd64.deb ...
+Unpacking xxd (2:8.0.1453-1ubuntu1.3) ...
+Selecting previously unselected package vim-common.
+Preparing to unpack .../12-vim-common_2%3a8.0.1453-1ubuntu1.3_all.deb ...
+Unpacking vim-common (2:8.0.1453-1ubuntu1.3) ...
+Selecting previously unselected package libgpm2:amd64.
+Preparing to unpack .../13-libgpm2_1.20.7-5_amd64.deb ...
+Unpacking libgpm2:amd64 (1.20.7-5) ...
+Selecting previously unselected package libpython3.6:amd64.
+Preparing to unpack .../14-libpython3.6_3.6.9-1~18.04ubuntu1_amd64.deb ...
+Unpacking libpython3.6:amd64 (3.6.9-1~18.04ubuntu1) ...
+Selecting previously unselected package vim-runtime.
+Preparing to unpack .../15-vim-runtime_2%3a8.0.1453-1ubuntu1.3_all.deb ...
+Adding 'diversion of /usr/share/vim/vim80/doc/help.txt to /usr/share/vim/vim80/doc/help.txt.vim-tiny by vim-runtime'
+Adding 'diversion of /usr/share/vim/vim80/doc/tags to /usr/share/vim/vim80/doc/tags.vim-tiny by vim-runtime'
+Unpacking vim-runtime (2:8.0.1453-1ubuntu1.3) ...
+Selecting previously unselected package vim.
+Preparing to unpack .../16-vim_2%3a8.0.1453-1ubuntu1.3_amd64.deb ...
+Unpacking vim (2:8.0.1453-1ubuntu1.3) ...
+Setting up readline-common (7.0-3) ...
+Setting up libapt-inst2.0:amd64 (1.6.12ubuntu0.1) ...
+Setting up libexpat1:amd64 (2.2.5-3ubuntu0.2) ...
+Setting up mime-support (3.60ubuntu1) ...
+Setting up xxd (2:8.0.1453-1ubuntu1.3) ...
+Setting up libgpm2:amd64 (1.20.7-5) ...
+Setting up apt-utils (1.6.12ubuntu0.1) ...
+Setting up libreadline7:amd64 (7.0-3) ...
+Processing triggers for libc-bin (2.27-3ubuntu1) ...
+Setting up libssl1.1:amd64 (1.1.1-1ubuntu2.1~18.04.6) ...
+Setting up vim-common (2:8.0.1453-1ubuntu1.3) ...
+Setting up libsqlite3-0:amd64 (3.22.0-1ubuntu0.4) ...
+Setting up vim-runtime (2:8.0.1453-1ubuntu1.3) ...
+Setting up libmpdec2:amd64 (2.4.2-1ubuntu1) ...
+Setting up libpython3.6-minimal:amd64 (3.6.9-1~18.04ubuntu1) ...
+Setting up libpython3.6-stdlib:amd64 (3.6.9-1~18.04ubuntu1) ...
+Setting up libpython3.6:amd64 (3.6.9-1~18.04ubuntu1) ...
+Setting up vim (2:8.0.1453-1ubuntu1.3) ...
+update-alternatives: using /usr/bin/vim.basic to provide /usr/bin/vim (vim) in auto mode
+update-alternatives: using /usr/bin/vim.basic to provide /usr/bin/vimdiff (vimdiff) in auto mode
+update-alternatives: using /usr/bin/vim.basic to provide /usr/bin/rvim (rvim) in auto mode
+update-alternatives: using /usr/bin/vim.basic to provide /usr/bin/rview (rview) in auto mode
+update-alternatives: using /usr/bin/vim.basic to provide /usr/bin/vi (vi) in auto mode
+update-alternatives: warning: skip creation of /usr/share/man/fr/man1/vi.1.gz because associated file /usr/share/man/fr/man1/vim.1.gz (of link group vi) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/it/man1/vi.1.gz because associated file /usr/share/man/it/man1/vim.1.gz (of link group vi) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/pl/man1/vi.1.gz because associated file /usr/share/man/pl/man1/vim.1.gz (of link group vi) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/ru/man1/vi.1.gz because associated file /usr/share/man/ru/man1/vim.1.gz (of link group vi) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/ja/man1/vi.1.gz because associated file /usr/share/man/ja/man1/vim.1.gz (of link group vi) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/man1/vi.1.gz because associated file /usr/share/man/man1/vim.1.gz (of link group vi) doesn't exist
+update-alternatives: using /usr/bin/vim.basic to provide /usr/bin/view (view) in auto mode
+update-alternatives: warning: skip creation of /usr/share/man/fr/man1/view.1.gz because associated file /usr/share/man/fr/man1/vim.1.gz (of link group view) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/it/man1/view.1.gz because associated file /usr/share/man/it/man1/vim.1.gz (of link group view) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/pl/man1/view.1.gz because associated file /usr/share/man/pl/man1/vim.1.gz (of link group view) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/ru/man1/view.1.gz because associated file /usr/share/man/ru/man1/vim.1.gz (of link group view) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/ja/man1/view.1.gz because associated file /usr/share/man/ja/man1/vim.1.gz (of link group view) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/man1/view.1.gz because associated file /usr/share/man/man1/vim.1.gz (of link group view) doesn't exist
+update-alternatives: using /usr/bin/vim.basic to provide /usr/bin/ex (ex) in auto mode
+update-alternatives: warning: skip creation of /usr/share/man/fr/man1/ex.1.gz because associated file /usr/share/man/fr/man1/vim.1.gz (of link group ex) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/it/man1/ex.1.gz because associated file /usr/share/man/it/man1/vim.1.gz (of link group ex) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/pl/man1/ex.1.gz because associated file /usr/share/man/pl/man1/vim.1.gz (of link group ex) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/ru/man1/ex.1.gz because associated file /usr/share/man/ru/man1/vim.1.gz (of link group ex) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/ja/man1/ex.1.gz because associated file /usr/share/man/ja/man1/vim.1.gz (of link group ex) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/man1/ex.1.gz because associated file /usr/share/man/man1/vim.1.gz (of link group ex) doesn't exist
+update-alternatives: using /usr/bin/vim.basic to provide /usr/bin/editor (editor) in auto mode
+update-alternatives: warning: skip creation of /usr/share/man/fr/man1/editor.1.gz because associated file /usr/share/man/fr/man1/vim.1.gz (of link group editor) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/it/man1/editor.1.gz because associated file /usr/share/man/it/man1/vim.1.gz (of link group editor) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/pl/man1/editor.1.gz because associated file /usr/share/man/pl/man1/vim.1.gz (of link group editor) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/ru/man1/editor.1.gz because associated file /usr/share/man/ru/man1/vim.1.gz (of link group editor) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/ja/man1/editor.1.gz because associated file /usr/share/man/ja/man1/vim.1.gz (of link group editor) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/man1/editor.1.gz because associated file /usr/share/man/man1/vim.1.gz (of link group editor) doesn't exist
+Processing triggers for libc-bin (2.27-3ubuntu1) ...
++ apt-get install locales
+Reading package lists...
+Building dependency tree...
+Reading state information...
+The following NEW packages will be installed:
+  locales
+0 upgraded, 1 newly installed, 0 to remove and 42 not upgraded.
+Need to get 3603 kB of archives.
+After this operation, 14.5 MB of additional disk space will be used.
+Get:1 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 locales all 2.27-3ubuntu1.2 [3603 kB]
+Preconfiguring packages ...
+Fetched 3603 kB in 1s (3287 kB/s)
+Selecting previously unselected package locales.
+(Reading database ... 6643 files and directories currently installed.)
+Preparing to unpack .../locales_2.27-3ubuntu1.2_all.deb ...
+Unpacking locales (2.27-3ubuntu1.2) ...
+Setting up locales (2.27-3ubuntu1.2) ...
+Generating locales (this might take a while)...
+Generation complete.
++ locale-gen en_US.UTF-8
+Generating locales (this might take a while)...
+  en_US.UTF-8... done
+Generation complete.
++ dpkg-reconfigure --frontend noninteractive locales
+Generating locales (this might take a while)...
+  en_US.UTF-8... done
+Generation complete.
+Removing intermediate container df6194356db8
+ ---> 0eda49a222d9
+Step 6/10 : RUN if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi      && apt-get install -y           dialog          debconf-utils   && echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections
+ ---> Running in 880d18be9ccf
++ apt-get install -y dialog debconf-utils
+Reading package lists...
+Building dependency tree...
+Reading state information...
+The following additional packages will be installed:
+  debconf
+Suggested packages:
+  debconf-doc libterm-readline-gnu-perl libgtk3-perl libnet-ldap-perl perl
+  libqtgui4-perl libqtcore4-perl
+Recommended packages:
+  debconf-i18n
+The following NEW packages will be installed:
+  debconf-utils dialog
+The following packages will be upgraded:
+  debconf
+1 upgraded, 2 newly installed, 0 to remove and 41 not upgraded.
+Need to get 397 kB of archives.
+After this operation, 1255 kB of additional disk space will be used.
+Get:1 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 debconf all 1.5.66ubuntu1 [124 kB]
+Get:2 http://archive.ubuntu.com/ubuntu bionic-updates/universe amd64 debconf-utils all 1.5.66ubuntu1 [56.6 kB]
+Get:3 http://archive.ubuntu.com/ubuntu bionic/universe amd64 dialog amd64 1.3-20171209-1 [217 kB]
+Preconfiguring packages ...
+Fetched 397 kB in 1s (516 kB/s)
+(Reading database ... 7261 files and directories currently installed.)
+Preparing to unpack .../debconf_1.5.66ubuntu1_all.deb ...
+Unpacking debconf (1.5.66ubuntu1) over (1.5.66) ...
+Setting up debconf (1.5.66ubuntu1) ...
+Selecting previously unselected package debconf-utils.
+(Reading database ... 7261 files and directories currently installed.)
+Preparing to unpack .../debconf-utils_1.5.66ubuntu1_all.deb ...
+Unpacking debconf-utils (1.5.66ubuntu1) ...
+Selecting previously unselected package dialog.
+Preparing to unpack .../dialog_1.3-20171209-1_amd64.deb ...
+Unpacking dialog (1.3-20171209-1) ...
+Setting up dialog (1.3-20171209-1) ...
+Setting up debconf-utils (1.5.66ubuntu1) ...
++ echo debconf debconf/frontend select Noninteractive
++ debconf-set-selections
+Removing intermediate container 880d18be9ccf
+ ---> f8774c074e36
+Step 7/10 : ARG USER_ACCT
+ ---> Running in 2d5999190a66
+Removing intermediate container 2d5999190a66
+ ---> 9e6698423965
+Step 8/10 : ARG HOME_DIR
+ ---> Running in 4c0bf2630444
+Removing intermediate container 4c0bf2630444
+ ---> 01f3082760be
+Step 9/10 : ARG XLNX_INSTALL_LOCATION
+ ---> Running in 40bcf727c0d6
+Removing intermediate container 40bcf727c0d6
+ ---> 2c16d1770652
+Step 10/10 : RUN if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi     && apt-get install -y           sudo    && adduser              --disabled-password             --gecos ''              --shell /bin/bash               --home $HOME_DIR                $USER_ACCT      && echo                 "$USER_ACCT ALL=(ALL) NOPASSWD: ALL"            >> /etc/sudoers         && adduser $USER_ACCT dialout   && adduser $USER_ACCT uucp      && chgrp uucp /var/lock && chmod g+w /var/lock  && mkdir -p $XLNX_INSTALL_LOCATION      && chown -R $USER_ACCT:$USER_ACCT $XLNX_INSTALL_LOCATION        && echo "dash dash/sh boolean false" | debconf-set-selections   && DEBIAN_FRONTEND=$DEBIAN_FRONTEND dpkg-reconfigure dash
+ ---> Running in e3672da7c302
++ apt-get install -y sudo
+Reading package lists...
+Building dependency tree...
+Reading state information...
+The following NEW packages will be installed:
+  sudo
+0 upgraded, 1 newly installed, 0 to remove and 41 not upgraded.
+Need to get 427 kB of archives.
+After this operation, 1765 kB of additional disk space will be used.
+Get:1 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 sudo amd64 1.8.21p2-3ubuntu1.2 [427 kB]
+Fetched 427 kB in 1s (629 kB/s)
+Selecting previously unselected package sudo.
+(Reading database ... 7483 files and directories currently installed.)
+Preparing to unpack .../sudo_1.8.21p2-3ubuntu1.2_amd64.deb ...
+Unpacking sudo (1.8.21p2-3ubuntu1.2) ...
+Setting up sudo (1.8.21p2-3ubuntu1.2) ...
++ adduser --disabled-password --gecos  --shell /bin/bash --home /home/xilinx xilinx
+Adding user `xilinx' ...
+Adding new group `xilinx' (1000) ...
+Adding new user `xilinx' (1000) with group `xilinx' ...
+Creating home directory `/home/xilinx' ...
+Copying files from `/etc/skel' ...
++ echo xilinx ALL=(ALL) NOPASSWD: ALL
++ adduser xilinx dialout
+Adding user `xilinx' to group `dialout' ...
+Adding user xilinx to group dialout
+Done.
++ adduser xilinx uucp
+Adding user `xilinx' to group `uucp' ...
+Adding user xilinx to group uucp
+Done.
++ chgrp uucp /var/lock
++ chmod g+w /var/lock
++ mkdir -p /opt/Xilinx
++ chown -R xilinx:xilinx /opt/Xilinx
++ echo dash dash/sh boolean false
++ debconf-set-selections
++ DEBIAN_FRONTEND=noninteractive dpkg-reconfigure dash
+Removing 'diversion of /bin/sh to /bin/sh.distrib by dash'
+Adding 'diversion of /bin/sh to /bin/sh.distrib by bash'
+Removing 'diversion of /usr/share/man/man1/sh.1.gz to /usr/share/man/man1/sh.distrib.1.gz by dash'
+Adding 'diversion of /usr/share/man/man1/sh.1.gz to /usr/share/man/man1/sh.distrib.1.gz by bash'
+Removing intermediate container e3672da7c302
+ ---> 7e3e2638de21
+[Warning] One or more build-args [INSTALL_SERVER_URL KEYBOARD_CONFIG_FILE] were not consumed
+Successfully built 7e3e2638de21
+Successfully tagged dependency_generation:v2020.1
++ xhost +
+access control disabled, clients can connect from any host
++ '[' 1 -ne 0 ']'
++ set +x
+-----------------------------------
+Create a base docker container...
+-----------------------------------
+DOCKER_CONTAINER_NAME=
+-----------------------------------
++ docker run --name build_ubuntu-18.04.2-user_depends_v2020.1 -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=:0 -itd dependency_generation:v2020.1 /bin/bash
+6fbb7a34aa22a1cd0a23dadd9e549ecb81a7b5e940947c49b1f1c18518999d88
++ '[' 1 -ne 0 ']'
++ set +x
+-----------------------------------
+Install support packages...
+-----------------------------------
++ docker exec -it build_ubuntu-18.04.2-user_depends_v2020.1 bash -c 'if [ 1 -ne 0 ]; then set -x; fi    && apt-get -y install wget'
++ apt-get -y install wget
+Reading package lists... Done
+Building dependency tree       
+Reading state information... Done
+The following additional packages will be installed:
+  libpsl5
+Recommended packages:
+  publicsuffix ca-certificates
+The following NEW packages will be installed:
+  libpsl5 wget
+0 upgraded, 2 newly installed, 0 to remove and 41 not upgraded.
+Need to get 358 kB of archives.
+After this operation, 1030 kB of additional disk space will be used.
+Get:1 http://archive.ubuntu.com/ubuntu bionic/main amd64 libpsl5 amd64 0.19.1-5build1 [41.8 kB]
+Get:2 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 wget amd64 1.19.4-1ubuntu2.2 [316 kB]
+Fetched 358 kB in 1s (472 kB/s)
+Selecting previously unselected package libpsl5:amd64.
+(Reading database ... 7538 files and directories currently installed.)
+Preparing to unpack .../libpsl5_0.19.1-5build1_amd64.deb ...
+Unpacking libpsl5:amd64 (0.19.1-5build1) ...
+Selecting previously unselected package wget.
+Preparing to unpack .../wget_1.19.4-1ubuntu2.2_amd64.deb ...
+Unpacking wget (1.19.4-1ubuntu2.2) ...
+Setting up libpsl5:amd64 (0.19.1-5build1) ...
+Processing triggers for libc-bin (2.27-3ubuntu1) ...
+Setting up wget (1.19.4-1ubuntu2.2) ...
++ '[' 1 -ne 0 ']'
++ set +x
+-----------------------------------
+Generating Xilinx Keyboard Configuration... (Interactive)
+-----------------------------------
++ docker exec -it build_ubuntu-18.04.2-user_depends_v2020.1 bash -c 'if [ 1 -ne 0 ]; then set -x; fi    && apt-get install -y keyboard-configuration    && sudo dpkg-reconfigure keyboard-configuration         && mkdir -p /home/xilinx/downloads/tmp  && cd /home/xilinx/downloads/tmp        && mkdir -p configs     && debconf-get-selections | grep keyboard-configuration > configs/keyboard_settings.conf        && ls -al'
++ apt-get install -y keyboard-configuration
+Reading package lists... Done
+Building dependency tree       
+Reading state information... Done
+The following additional packages will be installed:
+  liblocale-gettext-perl
+The following NEW packages will be installed:
+  keyboard-configuration liblocale-gettext-perl
+0 upgraded, 2 newly installed, 0 to remove and 41 not upgraded.
+Need to get 386 kB of archives.
+After this operation, 2675 kB of additional disk space will be used.
+Get:1 http://archive.ubuntu.com/ubuntu bionic/main amd64 liblocale-gettext-perl amd64 1.07-3build2 [16.6 kB]
+Get:2 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 keyboard-configuration all 1.178ubuntu2.9 [369 kB]
+Fetched 386 kB in 1s (510 kB/s)                
+Preconfiguring packages ...
+Selecting previously unselected package liblocale-gettext-perl.
+(Reading database ... 7554 files and directories currently installed.)
+Preparing to unpack .../liblocale-gettext-perl_1.07-3build2_amd64.deb ...
+Unpacking liblocale-gettext-perl (1.07-3build2) ...
+Selecting previously unselected package keyboard-configuration.
+Preparing to unpack .../keyboard-configuration_1.178ubuntu2.9_all.deb ...
+Unpacking keyboard-configuration (1.178ubuntu2.9) ...
+Setting up liblocale-gettext-perl (1.07-3build2) ...
+Setting up keyboard-configuration (1.178ubuntu2.9) ...
+Your console font configuration will be updated the next time your system
+boots. If you want to update it now, run 'setupcon' from a virtual console.
++ sudo dpkg-reconfigure keyboard-configuration
+ Package configuration
+ ──────────────────────────────────────────────────────────────────────────────┌────────────Configuring keyboard-configuration───────────────┐─────────────────────────────────────────────────────────────────────────────────
+                                                                               │ Please select the model of the keyboard of this machine.    │  
+                                                                               │                                                             │  
+                                                                               │ Keyboard model:                                             │  
+                                                                               │ ┌────^(-)─────────────────────────────────────────────────┐ │  
+                                                                               │ │    Cherry Blue Line CyBo@rd (alt.)                      │ │  
+                                                                               │ │    Cherry CyBo@rd USB-Hub                               │ │  
+                                                                               │ │    Cherry CyMotion Expert                               │ │  
+                                                                               │ │    Cherry CyMotion Master Linux                         │ │  
+                                                                               │ │    Cherry CyMotion Master XPress                        │ │  
+                                                                               │ │    Chicony Internet                                     │ │  
+                                                                               │ │    Chicony KB-9885                                      │ │  
+                                                                               │ │    Chicony KU-0108                                      │ │  
+                                                                               │ │    Chicony KU-0420                                      │ │  
+                                                                               │ │    Classmate PC                                         │ │  
+                                                                               │ │    Compaq Armada laptop                                 │ │  
+                                                                               │ │    Compaq Easy Access                                   │ │  
+                                                                               │ │    Compaq Internet (13 keys)                            │ │  
+                                                                               │ │    Compaq Internet (18 keys)                            │ │  
+                                                                               │ │    Compaq Internet (7 keys)                             │ │  
+                                                                               │ │    Compaq Presario laptop                               │ │  
+                                                                               │ │    Compaq iPaq                                          │ │  
+                                                                               │ │    Creative Desktop Wireless 7000                       │ │  
+                                                                               │ │    DTK2000                                              │ │  
+                                                                               │ │    Dell                                                 │ │  
+                                                                               │ │    Dell 101-key PC                                      │ │  
+                                                                               │ │    Dell Inspiron 6000/8000 laptop                       │ │  
+                                                                               │ │    Dell Latitude laptop                                 │ │  
+                                                                               │ │    Dell Precision M laptop                              │ │  
+                                                                               │ │    Dell Precision M65 laptop                            │ │  
+                                                                               │ │    Dell SK-8125                                         │ │  
+                                                                               │ │    Dell SK-8135                                         │ │  
+                                                                               │ │    Dell USB Multimedia                                  │ │  
+                                                                               │ │    Dexxa Wireless Desktop                               │ │  
+                                                                               │ │    Diamond 9801/9802                                    │ │  
+                                                                               │ │    Do not configure keyboard; keep kernel keymap        │ │  
+                                                                               │ │    Ennyah DKB-1008                                      │ │  
+                                                                               │ │    Everex STEPnote                                      │ │  
+                                                                               │ │    FL90                                                 │ │  
+                                                                               │ │    Fujitsu-Siemens Amilo laptop                         │ │  
+                                                                               │ │    Generic 101-key PC                                   │ │  
+                                                                               │ │    Generic 101-key PC (intl.)                           │ │  
+                                                                               │ │    Generic 104-key PC                                   │ │  
+                                                                               │ │    Generic 105-key PC (intl.)                           │ │  
+                                                                               │ └────┴(+)─────────────────────────────────────────37%─────┘ │  
+                                                                               ├─────────────────────────────────────────────────────────────┤  
+                                                                               │                 <  OK  >         <Cancel>                   │  
+                                                                               └─────────────────────────────────────────────────────────────┘  
+                                                                                 
+
+ Package configuration
+ ───────────────────────┌───────────────────────────────────────────────────────────────────Configuring keyboard-configuration──────────────────────────────────────────────────────────────────────┐──────────────────────────
+                        │ The layout of keyboards varies per country, with some countries having multiple common layouts. Please select the country of origin for the keyboard of this computer.    │  
+                        │                                                                                                                                                                           │  
+                        │ Country of origin for the keyboard:                                                                                                                                       │  
+                        │ ┌───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐ │  
+                        │ │                                                              Afghani                                                                                                  │ │  
+                        │ │                                                              Albanian                                                                                                 │ │  
+                        │ │                                                              Amharic                                                                                                  │ │  
+                        │ │                                                              Arabic                                                                                                   │ │  
+                        │ │                                                              Arabic (Morocco)                                                                                         │ │  
+                        │ │                                                              Arabic (Syria)                                                                                           │ │  
+                        │ │                                                              Armenian                                                                                                 │ │  
+                        │ │                                                              Azerbaijani                                                                                              │ │  
+                        │ │                                                              Bambara                                                                                                  │ │  
+                        │ │                                                              Bangla                                                                                                   │ │  
+                        │ │                                                              Belarusian                                                                                               │ │  
+                        │ │                                                              Belgian                                                                                                  │ │  
+                        │ │                                                              Berber (Algeria, Latin)                                                                                  │ │  
+                        │ │                                                              Bosnian                                                                                                  │ │  
+                        │ │                                                              Braille                                                                                                  │ │  
+                        │ │                                                              Bulgarian                                                                                                │ │  
+                        │ │                                                              Burmese                                                                                                  │ │  
+                        │ │                                                              Chinese                                                                                                  │ │  
+                        │ │                                                              Croatian                                                                                                 │ │  
+                        │ │                                                              Czech                                                                                                    │ │  
+                        │ │                                                              Danish                                                                                                   │ │  
+                        │ │                                                              Dhivehi                                                                                                  │ │  
+                        │ │                                                              Dutch                                                                                                    │ │  
+                        │ │                                                              Dzongkha                                                                                                 │ │  
+                        │ │                                                              English (Australian)                                                                                     │ │  
+                        │ │                                                              English (Cameroon)                                                                                       │ │  
+                        │ │                                                              English (Ghana)                                                                                          │ │  
+                        │ │                                                              English (Nigeria)                                                                                        │ │  
+                        │ │                                                              English (South Africa)                                                                                   │ │  
+                        │ │                                                              English (UK)                                                                                             │ │  
+                        │ │                                                              English (US)                                                                                             │ │  
+                        │ │                                                              Esperanto                                                                                                │ │  
+                        │ │                                                              Estonian                                                                                                 │ │  
+                        │ │                                                              Faroese                                                                                                  │ │  
+                        │ │                                                              Filipino                                                                                                 │ │  
+                        │ │                                                              Finnish                                                                                                  │ │  
+                        │ │                                                              French                                                                                                   │ │  
+                        │ │                                                              French (Canada)                                                                                          │ │  
+                        │ │                                                              French (Democratic Republic of the Congo)                                                                │ │  
+                        │ └────┴(+)───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────39%─────┘ │  
+                        ├───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤  
+                        │                                                             <  OK  >                               <Cancel>                                                               │  
+                        └───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘  
+                          
+
+ Package configuration
+ ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+
+
+
+
+
+
+
+                                                                           ┌────────────────Configuring keyboard-configuration───────────────────┐
+                                                                           │ Please select the layout matching the keyboard for this machine.    │  
+                                                                           │                                                                     │  
+                                                                           │ Keyboard layout:                                                    │  
+                                                                           │ ┌─────────────────────────────────────────────────────────────────┐ │  
+                                                                           │ │English (US)                                                     │ │  
+                                                                           │ │English (US) - Cherokee                                          │ │  
+                                                                           │ │English (US) - English (Colemak)                                 │ │  
+                                                                           │ │English (US) - English (Dvorak)                                  │ │  
+                                                                           │ │English (US) - English (Dvorak, alt. intl.)                      │ │  
+                                                                           │ │English (US) - English (Dvorak, intl., with dead keys)           │ │  
+                                                                           │ │English (US) - English (Dvorak, left-handed)                     │ │  
+                                                                           │ │English (US) - English (Dvorak, right-handed)                    │ │  
+                                                                           │ │English (US) - English (Macintosh)                               │ │  
+                                                                           │ │English (US) - English (US, alt. intl.)                          │ │  
+                                                                           │ │English (US) - English (US, euro on 5)                           │ │  
+                                                                           │ │English (US) - English (US, intl., with dead keys)               │ │  
+                                                                           │ │English (US) - English (Workman)                                 │ │  
+                                                                           │ │English (US) - English (Workman, intl., with dead keys)          │ │  
+                                                                           │ │English (US) - English (classic Dvorak)                          │ │  
+                                                                           │ │English (US) - English (intl., with AltGr dead keys)             │ │  
+                                                                           │ │English (US) - English (programmer Dvorak)                       │ │  
+                                                                           │ │English (US) - English (the divide/multiply keys toggle the layo │ │  
+                                                                           │ │English (US) - Russian (US, phonetic)                            │ │  
+                                                                           │ │English (US) - Serbo-Croatian (US)                               │ │  
+                                                                           │ └─────────────────────────────────────────────────────────────────┘ │  
+                                                                           ├─────────────────────────────────────────────────────────────────────┤  
+                                                                           │                     <  OK  >           <Cancel>                     │  
+                                                                           └─────────────────────────────────────────────────────────────────────┘  
+                                                                             
+
+
+
+
+
+
+
+
+
+
+ Package configuration
+ ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+
+
+
+
+
+
+
+
+
+
+
+  ┌─────────────────────────────────────────────────────────────────────────────────────────Configuring keyboard-configuration────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ With some keyboard layouts, AltGr is a modifier key used to input some characters, primarily ones that are unusual for the language of the keyboard layout, such as foreign currency symbols and accented letters.    │  
+  │ These are often printed as an extra symbol on keys.                                                                                                                                                                   │  
+  │                                                                                                                                                                                                                       │  
+  │ Key to function as AltGr:                                                                                                                                                                                             │  
+  │ ┌───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐ │  
+  │ │                                                                                       The default for the keyboard layout                                                                                         │ │  
+  │ │                                                                                       No AltGr key                                                                                                                │ │  
+  │ │                                                                                       Right Alt (AltGr)                                                                                                           │ │  
+  │ │                                                                                       Right Control                                                                                                               │ │  
+  │ │                                                                                       Right Logo key                                                                                                              │ │  
+  │ │                                                                                       Menu key                                                                                                                    │ │  
+  │ │                                                                                       Left Alt                                                                                                                    │ │  
+  │ │                                                                                       Left Logo key                                                                                                               │ │  
+  │ │                                                                                       Keypad Enter key                                                                                                            │ │  
+  │ │                                                                                       Both Logo keys                                                                                                              │ │  
+  │ │                                                                                       Both Alt keys                                                                                                               │ │  
+  │ └───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘ │  
+  ├───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤  
+  │                                                                               <  OK  >                                        <Cancel>                                                                                │  
+  └───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘  
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ Package configuration
+ ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        ┌────────────────────────────────────────────────────────────────────────────────────Configuring keyboard-configuration──────────────────────────────────────────────────────────────────────────────────────┐
+        │ The Compose key (known also as Multi_key) causes the computer to interpret the next few keystrokes as a combination in order to produce a character not found on the keyboard.                             │  
+        │                                                                                                                                                                                                            │  
+        │ On the text console the Compose key does not work in Unicode mode. If not in Unicode mode, regardless of what you choose here, you can always also use the Control+period combination as a Compose key.    │  
+        │                                                                                                                                                                                                            │  
+        │ Compose key:                                                                                                                                                                                               │  
+        │ ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐ │  
+        │ │                                                                                          No compose key                                                                                                │ │  
+        │ │                                                                                          Right Alt (AltGr)                                                                                             │ │  
+        │ │                                                                                          Right Control                                                                                                 │ │  
+        │ │                                                                                          Right Logo key                                                                                                │ │  
+        │ │                                                                                          Menu key                                                                                                      │ │  
+        │ │                                                                                          Left Logo key                                                                                                 │ │  
+        │ │                                                                                          Caps Lock                                                                                                     │ │  
+        │ └────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘ │  
+        ├────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤  
+        │                                                                           <  OK  >                                      <Cancel>                                                                           │  
+        └────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘  
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Your console font configuration will be updated the next time your system
+boots. If you want to update it now, run 'setupcon' from a virtual console.
++ mkdir -p /home/xilinx/downloads/tmp
++ cd /home/xilinx/downloads/tmp
++ mkdir -p configs
++ debconf-get-selections
++ grep keyboard-configuration
++ ls -al
+total 12
+drwxr-xr-x 3 root root 4096 Jul 16 20:32 .
+drwxr-xr-x 3 root root 4096 Jul 16 20:32 ..
+drwxr-xr-x 2 root root 4096 Jul 16 20:32 configs
++ '[' 1 -ne 0 ']'
++ set +x
+-----------------------------------
+Copying keyboard configuration to host...
+-----------------------------------
++ mkdir -p _generated/configs
++ docker cp build_ubuntu-18.04.2-user_depends_v2020.1:/home/xilinx/downloads/tmp/configs/keyboard_settings.conf _generated/configs/keyboard_settings.conf
++ '[' 1 -ne 0 ']'
++ set +x
+-----------------------------------
+Shutting down Python HTTP Server...
+-----------------------------------
+Killing process ID 14174
+-----------------------------------
++ kill 14174
++ '[' 1 -ne 0 ']'
++ set +x
+-----------------------------------
+Removing temporary docker resources...
+-----------------------------------
++ docker rm -f build_ubuntu-18.04.2-user_depends_v2020.1
+build_ubuntu-18.04.2-user_depends_v2020.1
+./generate_configs.sh: line 215: 14174 Terminated              python3 -m http.server
++ docker rmi -f dependency_generation:v2020.1
+Untagged: dependency_generation:v2020.1
+Deleted: sha256:7e3e2638de21bf1d1a0c738e5754e95fea40bfdd6671b6909df6b5a29571c4c2
+Deleted: sha256:b95ae0362b6965c2a59ddd1731c04ede99a9ebd0c655cb6cdae822cb80af5e22
+Deleted: sha256:2c16d1770652fae9699d52af4d805bc9f177c82c175af36d987f6dee8d27a0a4
+Deleted: sha256:01f3082760be8f0108eac4a1b5d64f3961cb7baaa8d7a73be825bdbf8689ac01
+Deleted: sha256:9e6698423965f2453be189d87b37ac972d69c8b2cf618a0daaa2ff8dccc83a81
+Deleted: sha256:f8774c074e361621656b4f32a4ba43ea371fd2bf5b1181a61b00db7652417fae
+Deleted: sha256:5adc57479daee00fef518ab0b226e8f867e3582ece182e816860e9c681b8b38b
+Deleted: sha256:0eda49a222d92162dd56741afd3d7cb2b1a15153791d2bd63f35b623adb0b131
+Deleted: sha256:417c190b4fb42db947c9862bfba89fa16f08d7ce6a3ce6ca12c872e4b1a687ce
+Deleted: sha256:9749dbfb6b021f91bdf4e5dd47990464286ad9fbd5e2c9108245edb072404940
+Deleted: sha256:3bcad729ad56b66fa32ef3cb956586409a3033a5e705f6ff29e9e7cc6721fac2
+Deleted: sha256:bf99ce144e95d162a32dd431b29556b4274bc7aeef21e36af7a09664754f9143
++ '[' 1 -ne 0 ']'
++ set +x
+-----------------------------------
+Configuration Generation Complete
+-----------------------------------
+STARTED :Thu Jul 16 16:31:07 EDT 2020
+ENDED   :Thu Jul 16 16:32:15 EDT 2020
+-----------------------------------
+DOCKER_FILE_NAME=Dockerfile.generate_configs
+DOCKER_FILE_STAGE=base_os_depends_v2020.1
+DOCKER_IMAGE=dependency_generation:v2020.1
+DOCKER_CONTAINER_NAME=build_ubuntu-18.04.2-user_depends_v2020.1
+-----------------------------------
+Configurations Generated:
+-----------------------------------
+-rw-r--r-- 1 rjmoss rjmoss 1554 Jul 16 16:32 _generated/configs/keyboard_settings.conf
+-----------------------------------
+Copying Configurations to the configs Folder
+-----------------------------------
