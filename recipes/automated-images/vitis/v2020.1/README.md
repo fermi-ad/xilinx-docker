@@ -8,10 +8,7 @@
 -> host_xrt_setup.sh
 -> Dockerfile
 -> configs/
-	-> .minirc.dfl
-	-> keyboard_settings.conf
 	-> xlnx_unified_vitis.config
-	-> XTerm
 -> depends/
 	-> Xilinx_Unified_2020.1_0602_1208_Lin64.bin
 	-> Xilinx_Unified_2020.1_0602_1208.tar.gz
@@ -182,12 +179,6 @@ $ ./generate_configs.sh
 ```
 
 - Follow the build process in the terminal (manual interaction required)
-- Keyboard configuration
-	- Select a keyboard model: ```Generic 105-key (Intl) PC``` is the default
-	- Select a country of origin for the keyboard: ```English (US)``` is the default
-	- Select a keyboard layout: ```English (US)``` is the default
-	- Select an AltGr function: ```The default for the keyboard layout``` is the default
-	- Select a compose key: ```No compose key``` is the default
 
 - Xilinx Unified batch mode configuration (generate)
 	- Select Vitis Unified Software Platform: option ```1```
@@ -207,7 +198,6 @@ bash:
 -----------------------------------
 Configurations Generated:
 -----------------------------------
--rw-r--r-- 1 xilinx xilinx 1554 Jul  3 09:47 _generated/configs/keyboard_settings.conf
 -rw-r--r-- 1 xilinx xilinx 1797 Jul  3 09:57 _generated/configs/xlnx_unified_vitis.config
 -----------------------------------
 
