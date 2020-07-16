@@ -49,14 +49,6 @@ fi
 # files links within the build context can point outside
 # the context and they will get transferred just fine.
 
-# Check for keyboard configuration file
-if [ -f $KEYBOARD_CONFIG_FILE ] || [ -L $KEYBOARD_CONFIG_FILE ]; then
-	echo "Keyboard Configuration: [Good] "$KEYBOARD_CONFIG_FILE
-else
-	echo "ERROR: Keyboard Configuration: [Missing] "$KEYBOARD_CONFIG_FILE
-	exit $EX_OSFILE
-fi
-
 # Check for Xilinx MALI binaries
 if [ $DOCKER_BUILD_INCLUDE_XLNX_MALI -ne 0 ]; then
 	if [ -f $XLNX_MALI_BINARY ] || [ -L $XLNX_MALI_BINARY ]; then
