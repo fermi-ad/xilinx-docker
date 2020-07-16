@@ -135,7 +135,7 @@ a2a8c3a46ee4c81192a5282046a80b291aeefd64829d2e104b4fc6de4ddf583f
 $ docker run \
 	--name xilinx_user_v2019.2 \
 	--device-cgroup-rule "c 188:* rwm" \
-	-h xilinx_user_v2020-1 \
+	-h xilinx_user_v2019-2 \
 	-v /tmp/.X11-unix:/tmp/.X11-unix \
 	-v ~/.Xauthority:/home/xilinx/.Xauthority \
 	-v /srv/software/xilinx:/srv/software \
@@ -268,7 +268,7 @@ $ docker exec -it xilinx_user_v2019.2 bash -c "xterm" &
 - This launches an X-windows terminal shell and sources the Petalinux settings script
 ```bash
 xterm:
-xilinx@xilinx_user_v2020-1:/$
+xilinx@xilinx_user_v2019-2:/$
 ```
 
 ### Launch an xterm session after attaching to the running container
@@ -277,14 +277,14 @@ xilinx@xilinx_user_v2020-1:/$
 ```bash
 bash:
 $ docker attach xilinx_user_v2019.2
-xilinx@xilinx_user_v2020-1:/$ xterm &
+xilinx@xilinx_user_v2019-2:/$ xterm &
 [1] 714
-xilinx@xilinx_user_v2020-1:/$
+xilinx@xilinx_user_v2019-2:/$
 ```
 - This launches an X-windows terminal shell and sources the Petalinux settings script
 ```bash
 xterm:
-xilinx@xilinx_user_v2020-1:/$
+xilinx@xilinx_user_v2019-2:/$
 ```
 
 ### Close the xterm session
@@ -293,7 +293,7 @@ xilinx@xilinx_user_v2020-1:/$
 	- The special escape sequence is `<CTRL> P+Q` (hold down the CTRL key, press P followed by Q)
 ```bash:
 bash:
-xilinx@xilinx_user_v2020-1:/$ read escape sequence
+xilinx@xilinx_user_v2019-2:/$ read escape sequence
 [1]+  Done                    docker exec -d xilinx_user_v2019.2 bash -c "xterm"
 ```
 - The container should still be running, even if the xterm session has been closed
