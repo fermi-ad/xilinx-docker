@@ -7,10 +7,6 @@
 -> generate_depends.sh
 -> Dockerfile
 -> autoinstall_petalinux.sh
--> configs/
-	-> .minirc.dfl
-	-> keyboard_settings.conf
-	-> XTerm
 -> depends/
 	-> petalinux-v2020.1-final-installer.run
 	-> mali-400-userspace.tar
@@ -129,42 +125,6 @@ ENDED   :Mon Jul 6 16:03:28 EDT 2020
 -----------------------------------
 
 $ popd
-```
-
-## Generate Petalinux Image Configuration Files (one time)
-
-### Execute the configuration file generation script
-
-- For Linux, execute the following script:
-```bash
-bash:
-$ ./generate_configs.sh
-```
-
-- Follow the build process in the terminal (manual interaction required)
-- Keyboard configuration
-	- Select a keyboard model: ```Generic 105-key (Intl) PC``` is the default
-	- Select a country of origin for the keyboard: ```English (US)``` is the default
-	- Select a keyboard layout: ```English (US)``` is the default
-	- Select an AltGr function: ```The default for the keyboard layout``` is the default
-	- Select a compose key: ```No compose key``` is the default
-
-- Review the generated configurations
-
-```bash
-bash:
------------------------------------
-Configurations Generated:
------------------------------------
--rw-r--r-- 1 xilinx xilinx 1554 Jul 15 10:52 _generated/configs/keyboard_settings.conf
------------------------------------
-```
-
-- Copy the generated configurations to the dependency folder
-
-```bash
-bash:
-$ cp _generated/configs/* configs/
 ```
 
 ## Build a v2020.1 Petalinux Image (one time)
@@ -297,12 +257,3 @@ Create an module with source files:
 
 xilinx@xilinx_petalinux_v2020-1:/opt/Xilinx/petalinux/v2020.1$
 ```
-
-
-
-
-
-
-
-
-
