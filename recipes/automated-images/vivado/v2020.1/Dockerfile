@@ -18,11 +18,6 @@
 # 1. xilinx-ubuntu-18.04.2-user:v2020.1				: Base Ubuntu 18.04.2 image with a few basics, locale setup and user account
 # 2. |___ xilinx_install_vivado_v2020.1				: +Xilinx Tool Installation
 ########################################################################################
-# Base OS Image:
-# --------------
-#	- Ubuntu 18.04.2
-#		- start with the base Ubuntu 18.04.2 build from Ubuntu release tarballs
-########################################################################################
 FROM xilinx-ubuntu-18.04.2-user:v2020.1 AS xilinx_install_vivado_v2020.1
 LABEL author="Jason Moss"
 
