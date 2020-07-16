@@ -113,24 +113,6 @@ INSTALL_DEPENDS_DIR=depends
 # Depdendency / Configuration File Related Variables
 ########################################################################################
 ########################################################################################
-# DOCKER_BUILD_XLNX_MALI_LOCAL:
-# '0' = The docker build script will not construct XLNX_MALI_URL
-#       using the python server address, but will pass the URL setup above
-#
-# '1' = The docker build script will construct XLNX_MALI_URL
-#		using the python server address and the INSTALL_DEPENDS_DIR variable
-DOCKER_BUILD_XLNX_MALI_LOCAL='1'
-
-# Xilinx ARM Mali Pre-built binaries
-# XLNX_MALI_URL: Base download URL
-# XLNX_MALI_BINARY: filename to download
-# **Downloading Direct from Xilinx no longer works due to click-through license requirements
-# Set #2: Download from local archive by use of python http.server (address set later in this script)
-# DOCKER_BUILD_XLNX_MALI_LOCAL=1
-XLNX_MALI_URL=0.0.0.0:8000
-XLNX_MALI_BINARY=$INSTALL_DEPENDS_DIR/mali-400-userspace.tar
-#XLNX_MALI_BINARY=$INSTALL_DEPENDS_DIR/mali-400-userspace-with-android-2019.1.tar
-
 # Configuration Files for batch mode installation
 # KEYBOARD_CONFIG_FILE:	Keyboard setting configuration file
 #	for headless selection of the keyboard setup

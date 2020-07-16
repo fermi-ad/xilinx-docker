@@ -196,36 +196,6 @@ if [ $BUILD_DEBUG -ne 0 ]; then set +x; fi
 #		$ docker exec -i <container_name> bash -c "<command1> && <command2> && ..."
 
 echo "-----------------------------------"
-echo "Generating Xilinx Keyboard Configuration... (Interactive)"
-echo "-----------------------------------"
-# Install the keyboard configuration
-if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi
-
-docker exec -it $DOCKER_CONTAINER_NAME \
-	bash -c "if [ ${BUILD_DEBUG} -ne 0 ]; then set -x; fi \
-	&& apt-get install -y keyboard-configuration \
-	&& sudo dpkg-reconfigure keyboard-configuration \
-	&& mkdir -p ${HOME_DIR}/downloads/tmp \
-	&& cd ${HOME_DIR}/downloads/tmp \
-	&& mkdir -p ${KEYBOARD_CONFIG_FILE%/*} \
-	&& debconf-get-selections | grep keyboard-configuration > ${KEYBOARD_CONFIG_FILE} \
-	&& ls -al"
-
-if [ $BUILD_DEBUG -ne 0 ]; then set +x; fi
-
-# copy keyboard configuration from container to host
-echo "-----------------------------------"
-echo "Copying keyboard configuration to host..."
-echo "-----------------------------------"
-
-if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi
-
-mkdir -p $GENERATED_DIR/${KEYBOARD_CONFIG_FILE%/*}
-docker cp $DOCKER_CONTAINER_NAME:$HOME_DIR/downloads/tmp/$KEYBOARD_CONFIG_FILE $GENERATED_DIR/$KEYBOARD_CONFIG_FILE
-
-if [ $BUILD_DEBUG -ne 0 ]; then set +x; fi
-
-echo "-----------------------------------"
 echo "Building Offline Installer Configuration File..."
 echo "-----------------------------------"
 echo " - Install dependencies and download Unified installer into container..."
@@ -323,10 +293,8 @@ echo "DOCKER_CONTAINER_NAME="$DOCKER_CONTAINER_NAME
 echo "-----------------------------------"
 echo "Configurations Generated:"
 echo "-----------------------------------"
-ls -al $GENERATED_DIR/$KEYBOARD_CONFIG_FILE
 ls -al $GENERATED_DIR/$XLNX_UNIFIED_BATCH_CONFIG_FILE
 echo "-----------------------------------"
 echo "Copying Configurations to the $INSTALL_CONFIGS_DIR Folder"
 echo "-----------------------------------"
-cp -f $GENERATED_DIR/$KEYBOARD_CONFIG_FILE $KEYBOARD_CONFIG_FILE
 cp -f $GENERATED_DIR/$XLNX_UNIFIED_BATCH_CONFIG_FILE $XLNX_UNIFIED_BATCH_CONFIG_FILE

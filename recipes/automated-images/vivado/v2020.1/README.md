@@ -14,7 +14,6 @@
 -> depends/
 	-> Xilinx_Unified_2020.1_0602_1208_Lin64.bin
 	-> (Vivado_Xilinx_Unified_2020.1_0602_1208_Lin64.bin.tar.gz)
-	-> mali-400-userspace.tar
 -> include/
 	-> configuration.sh
 ```
@@ -41,17 +40,6 @@ $ perl ldd-recursive.pl /opt/Xilinx/Vivado/2020.1/bin/unwrapped/lnx64.o/vivado -
 	- Xilinx Unified Installer v2020.1
 		- Download Link: 
 			- https://www.xilinx.com/member/forms/download/xef.html?filename=Xilinx_Unified_2020.1_0602_1208_Lin64.bin
-		- Documentation:
-			- https://www.xilinx.com/html_docs/xilinx2020_1/vitis_doc/index.html
-- Place the installer binary (or a link to it) in the ./depends folder
-- Vitis v2020.1 Release Notes:
-	- https://www.xilinx.com/html_docs/xilinx2020_1/vitis_doc/wlk1553469789555.html
-
-## Download Xilinx Unified All OS Single-File Download Installer
-- Xilinx requires a valid xilinx.com account in order to download the Xilinx Unified Web Installer.
-	- Xilinx Unified Installer v2020.1
-		- Download Link: 
-			- https://www.xilinx.com/member/forms/download/xef.html?filename=Xilinx_Unified_2020.1_0602_1208.tar.gz
 		- Documentation:
 			- https://www.xilinx.com/html_docs/xilinx2020_1/vitis_doc/index.html
 - Place the installer binary (or a link to it) in the ./depends folder
@@ -161,12 +149,6 @@ $ ./generate_configs.sh
 ```
 
 - Follow the build process in the terminal (manual interaction required)
-- Keyboard configuration
-	- Select a keyboard model: ```Generic 105-key (Intl) PC``` is the default
-	- Select a country of origin for the keyboard: ```English (US)``` is the default
-	- Select a keyboard layout: ```English (US)``` is the default
-	- Select an AltGr function: ```The default for the keyboard layout``` is the default
-	- Select a compose key: ```No compose key``` is the default
 
 - Xilinx Unified batch mode configuration (generate)
 	- Select ```Vivado HL System Edition```: option ```3```
@@ -188,7 +170,6 @@ bash:
 -----------------------------------
 Configurations Generated:
 -----------------------------------
--rw-r--r-- 1 xilinx xilinx 1554 Jul 13 10:42 _generated/configs/keyboard_settings.conf
 -rw-r--r-- 1 xilinx xilinx 1829 Jul 13 10:46 _generated/configs/xlnx_unified_vivado.config
 -----------------------------------
 
