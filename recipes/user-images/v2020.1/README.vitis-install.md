@@ -144,7 +144,7 @@ xilinx@xilinx_vitis_v2020-1:/opt/Xilinx$ echo ". /opt/Xilinx/Vitis/2020.1/settin
 ### Initialize the Vitis paths
 ```bash
 xterm:
-xilinx@xilinx_vitis_v2020-1:/opt/Xilinx$ source /opt/Xilinx/vitis/2020.1/settings.sh
+xilinx@xilinx_vitis_v2020-1:/opt/Xilinx$ source /opt/Xilinx/Vitis/2020.1/settings64.sh
 ```
 
 ### Disable webtalk

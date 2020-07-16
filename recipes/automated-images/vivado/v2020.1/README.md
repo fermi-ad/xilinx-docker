@@ -7,6 +7,7 @@
 -> generate_depends.sh
 -> Dockerfile
 -> configs/
+	-> .minirc.dfl
 	-> keyboard_settings.conf
 	-> xlnx_vivado_system_edition.config
 	-> XTerm

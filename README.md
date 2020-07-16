@@ -49,6 +49,7 @@ These user images include a tool-compatible Ubuntu OS installation with tool spe
 | Xilinx Release | Ubuntu Release | Petalinux     | Vivado        | Vitis          | SDK |
 | -------------- | -------------- | ---------     | ------------  | ------------   | --- |
 | v2020.1        | [18.04.2][4u]  | [10.7GB][4ap] | [52.3GB][4av] | [71.3GB][4avi] |     |
+| v2019.2        | [18.04.2][4u]  | [18.4GB][3ap] | 
 
 #### Automated Image Build Times
 
@@ -56,8 +57,8 @@ These build times are approximate, rounded to the nearest minute and reflect one
 
 | Xilinx Release | User Image     | Petalinux     | Vivado        | Vitis         | SDK |
 | -------------- | -------------- | ------------- | ------------- | ------------- | --- |
-| v2020.1        | 6 min          | 6 min         | 54 min        | 1 hr, 21 min  |     |
-| v2019.2        | 6 min          | | | | |
+| v2020.1        | 6 min          | 5 min         | 54 min        | 1 hr, 21 min  |     |
+| v2019.2        | 6 min          | 9 min         | | | |
 
 [4b]: ./recipes/base-images/ubuntu-18.04.2/README.md
 [4u]: ./recipes/user-images/v2020.1/README.md
@@ -72,6 +73,7 @@ These build times are approximate, rounded to the nearest minute and reflect one
 [3mp]: ./recipes/user-images/v2019.2/README.petalinux-install.md
 [3mv]: ./recipes/user-images/v2019.2/README.vivado-install.md
 [3mvi]: ./recipes/user-images/v2019.2/README.vitis-install.md
+[3ap]: ./recipes/automated-images/petalinux/v2019.2/README.md
 
 ## Workflow overviews
 
