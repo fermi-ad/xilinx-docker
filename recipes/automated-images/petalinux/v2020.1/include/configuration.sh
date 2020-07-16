@@ -116,9 +116,8 @@ INSTALL_DEPENDS_DIR=depends
 #
 # '1' = The docker build script will include the MALI binaries in the resulting image
 #       using the python server address to transfer the archive to the docker build
-DOCKER_BUILD_INCLUDE_XLNX_MALI=1
+DOCKER_BUILD_INCLUDE_XLNX_MALI=0
 
-# DOCKER_BUILD_XLNX_MALI_LOCAL=1
 XLNX_MALI_URL=0.0.0.0:8000
 XLNX_MALI_BINARY=$INSTALL_DEPENDS_DIR/mali-400-userspace.tar
 #XLNX_MALI_BINARY=$INSTALL_DEPENDS_DIR/mali-400-userspace-with-android-2019.1.tar

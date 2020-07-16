@@ -4,6 +4,7 @@ Checking for dependencies...
 -----------------------------------
 Base docker image [found] (ubuntu:18.04.2)
 Keyboard Configuration: [Good] configs/keyboard_settings.conf
+Xilinx MALI Binaries: [Good] depends/mali-400-userspace.tar
 Xilinx Petalinux Installer: [Good] depends/petalinux-v2019.2-final-installer.run
 -----------------------------------
 Docker Build Context (Working)...
@@ -17,7 +18,7 @@ DOCKER_BUILD_WORKING_DIR=/xilinx/local/repositories/gitlab/xilinx-docker/recipes
 -----------------------------------
 Launching Python HTTP Server...
 -----------------------------------
-+ SERVER_PID=6679
++ SERVER_PID=17385
 + python3 -m http.server
 ++ ifconfig docker0
 ++ grep 'inet\s'
@@ -26,7 +27,7 @@ Launching Python HTTP Server...
 + '[' 1 -ne 0 ']'
 + set +x
 SERVER_IP=172.17.0.1
-SERVER_PID=6679
+SERVER_PID=17385
 -----------------------------------
 -----------------------------------
 Building the Docker Image...
@@ -43,7 +44,7 @@ Arguments...
         --build-arg USER_ACCT="xilinx"
         --build-arg HOME_DIR="/home/xilinx"
         --build-arg XLNX_INSTALL_LOCATION="/opt/Xilinx"
-  --build-arg DOCKER_BUILD_INCLUDE_XLNX_MALI="0"
+  --build-arg DOCKER_BUILD_INCLUDE_XLNX_MALI="1"
   --build-arg XLNX_MALI_BINARY="depends/mali-400-userspace.tar"
         --build-arg INSTALL_SERVER_URL="172.17.0.1:8000"
         --build-arg XLNX_PETALINUX_INSTALLER="depends/petalinux-v2019.2-final-installer.run"
@@ -51,76 +52,86 @@ Arguments...
   --build-arg XLNX_PETALINUX_INSTALL_DIR="/opt/Xilinx/petalinux/v2019.2"
   --build-arg BUILD_DEBUG="1"
 -----------------------------------
-+ docker build --no-cache -f ./Dockerfile --target xilinx_install_petalinux_v2019.2 -t xilinx-petalinux:v2019.2 --build-arg USER_ACCT=xilinx --build-arg HOME_DIR=/home/xilinx --build-arg XLNX_INSTALL_LOCATION=/opt/Xilinx --build-arg DOCKER_BUILD_INCLUDE_XLNX_MALI=0 --build-arg XLNX_MALI_BINARY=depends/mali-400-userspace.tar --build-arg INSTALL_SERVER_URL=172.17.0.1:8000 --build-arg XLNX_PETALINUX_INSTALLER=depends/petalinux-v2019.2-final-installer.run --build-arg XLNX_PETALINUX_AUTOINSTALL_SCRIPT=autoinstall_petalinux.sh --build-arg XLNX_PETALINUX_INSTALL_DIR=/opt/Xilinx/petalinux/v2019.2 --build-arg BUILD_DEBUG=1 .
++ docker build --no-cache -f ./Dockerfile --target xilinx_install_petalinux_v2019.2 -t xilinx-petalinux:v2019.2 --build-arg USER_ACCT=xilinx --build-arg HOME_DIR=/home/xilinx --build-arg XLNX_INSTALL_LOCATION=/opt/Xilinx --build-arg DOCKER_BUILD_INCLUDE_XLNX_MALI=1 --build-arg XLNX_MALI_BINARY=depends/mali-400-userspace.tar --build-arg INSTALL_SERVER_URL=172.17.0.1:8000 --build-arg XLNX_PETALINUX_INSTALLER=depends/petalinux-v2019.2-final-installer.run --build-arg XLNX_PETALINUX_AUTOINSTALL_SCRIPT=autoinstall_petalinux.sh --build-arg XLNX_PETALINUX_INSTALL_DIR=/opt/Xilinx/petalinux/v2019.2 --build-arg BUILD_DEBUG=1 .
 Sending build context to Docker daemon  15.36kB
 Serving HTTP on 0.0.0.0 port 8000 (http://0.0.0.0:8000/) ...
 Step 1/15 : FROM xilinx-ubuntu-18.04.2-user:v2019.2 AS xilinx_install_petalinux_v2019.2
  ---> 7af5c40d781f
 Step 2/15 : LABEL author="Jason Moss"
- ---> Running in 211ee2119254
-Removing intermediate container 211ee2119254
- ---> 0e8704ec02d2
+ ---> Running in ad9a946ad09a
+Removing intermediate container ad9a946ad09a
+ ---> f3696fed414d
 Step 3/15 : ARG USER_ACCT
- ---> Running in 0ab18b1820cb
-Removing intermediate container 0ab18b1820cb
- ---> a31a79188a1c
+ ---> Running in 291d2f6fe6be
+Removing intermediate container 291d2f6fe6be
+ ---> b66a6853bc61
 Step 4/15 : ARG HOME_DIR
- ---> Running in e37ac5945758
-Removing intermediate container e37ac5945758
- ---> 1933cb3118ce
+ ---> Running in 033879e79256
+Removing intermediate container 033879e79256
+ ---> 570832622a13
 Step 5/15 : ARG XLNX_INSTALL_LOCATION
- ---> Running in 59ea72c7820c
-Removing intermediate container 59ea72c7820c
- ---> cc16b5900d02
+ ---> Running in 0f2da9bd56b3
+Removing intermediate container 0f2da9bd56b3
+ ---> 69c6180ee2c1
 Step 6/15 : ARG DOCKER_BUILD_INCLUDE_XLNX_MALI
- ---> Running in 87e662de49ea
-Removing intermediate container 87e662de49ea
- ---> 066141edc566
+ ---> Running in 28ece59cae27
+Removing intermediate container 28ece59cae27
+ ---> a3c40b2f658e
 Step 7/15 : ARG INSTALL_SERVER_URL
- ---> Running in f2e739637121
-Removing intermediate container f2e739637121
- ---> 6808aeb22a55
+ ---> Running in d0743b65bf39
+Removing intermediate container d0743b65bf39
+ ---> 9cec7d61b92d
 Step 8/15 : ARG BUILD_DEBUG
- ---> Running in c1b02cc4d5c2
-Removing intermediate container c1b02cc4d5c2
- ---> 294859978dda
+ ---> Running in 07ee18d0ee0e
+Removing intermediate container 07ee18d0ee0e
+ ---> 76aca2a51cf5
 Step 9/15 : ARG XLNX_MALI_BINARY
- ---> Running in d732b436f45a
-Removing intermediate container d732b436f45a
- ---> 92b00efd04e3
+ ---> Running in 1782beb717f8
+Removing intermediate container 1782beb717f8
+ ---> 96928dba53f3
 Step 10/15 : ARG XLNX_PETALINUX_INSTALLER
- ---> Running in 73368e44169b
-Removing intermediate container 73368e44169b
- ---> 4c00e3c95178
+ ---> Running in e69d941ff9b1
+Removing intermediate container e69d941ff9b1
+ ---> 79f45d48e7e1
 Step 11/15 : ARG XLNX_PETALINUX_AUTOINSTALL_SCRIPT
- ---> Running in 8cfeb19b9f78
-Removing intermediate container 8cfeb19b9f78
- ---> 98d2d1236bbe
+ ---> Running in 191bdbff8d43
+Removing intermediate container 191bdbff8d43
+ ---> 7655aa9b0a59
 Step 12/15 : ARG XLNX_PETALINUX_INSTALL_DIR
- ---> Running in bd577664fa01
-Removing intermediate container bd577664fa01
- ---> 3599ba92123e
+ ---> Running in 3a1aa078a174
+Removing intermediate container 3a1aa078a174
+ ---> 9cbdaeaa6702
 Step 13/15 : USER $USER_ACCT
- ---> Running in 2b3b378094fe
-Removing intermediate container 2b3b378094fe
- ---> 1e1ddddefb7e
+ ---> Running in 2f2fbe5aa2d3
+Removing intermediate container 2f2fbe5aa2d3
+ ---> 94aa1bd1ccc2
 Step 14/15 : ENV DEBIAN_FRONTEND=noninteractive
- ---> Running in 2d58a2bd3a5d
-Removing intermediate container 2d58a2bd3a5d
- ---> 726b3ac906d3
+ ---> Running in ebbc88121f76
+Removing intermediate container ebbc88121f76
+ ---> ce92bcbf401e
 Step 15/15 : RUN if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi     && sudo mkdir -p $XLNX_INSTALL_LOCATION/tmp     && sudo chown -R $USER_ACCT:$USER_ACCT $XLNX_INSTALL_LOCATION   && if [[ $DOCKER_BUILD_INCLUDE_XLNX_MALI -ne 0 ]]; then                 mkdir -p $XLNX_INSTALL_LOCATION/downloads/tmp           && cd $XLNX_INSTALL_LOCATION/downloads/tmp              && mkdir -p "${XLNX_MALI_BINARY%/*}"            && wget -nv $INSTALL_SERVER_URL/$XLNX_MALI_BINARY -O $XLNX_MALI_BINARY          && tar xf $XLNX_MALI_BINARY mali/rel-v2019.1/downloads-mali.tar                 && tar xf mali/rel-v2019.1/downloads-mali.tar           && mv $XLNX_INSTALL_LOCATION/downloads/tmp/downloads-mali/* $XLNX_INSTALL_LOCATION/downloads            && rm -rf $XLNX_INSTALL_LOCATION/downloads/tmp;         fi      && cd $XLNX_INSTALL_LOCATION/tmp        && mkdir -p "${XLNX_PETALINUX_INSTALLER%/*}"    && wget -nv $INSTALL_SERVER_URL/$XLNX_PETALINUX_INSTALLER -O $XLNX_PETALINUX_INSTALLER  && wget -nv $INSTALL_SERVER_URL/$XLNX_PETALINUX_AUTOINSTALL_SCRIPT      && dos2unix -ascii -q $XLNX_PETALINUX_AUTOINSTALL_SCRIPT        && echo "cd $XLNX_PETALINUX_INSTALL_DIR" >> $HOME_DIR/.bashrc   && echo "export LANG=en_US.UTF-8" >> $HOME_DIR/.bashrc  && export "LANG=en_US.UTF-8"    && chmod a+x $XLNX_PETALINUX_INSTALLER  && chmod a+x $XLNX_PETALINUX_AUTOINSTALL_SCRIPT&& cd $XLNX_INSTALL_LOCATION/tmp         && cat ./$XLNX_PETALINUX_AUTOINSTALL_SCRIPT     && export TERM=xterm    && mkdir -p $XLNX_PETALINUX_INSTALL_DIR         && ./$XLNX_PETALINUX_AUTOINSTALL_SCRIPT $XLNX_PETALINUX_INSTALLER "$XLNX_PETALINUX_INSTALL_DIR"         && echo ". $XLNX_PETALINUX_INSTALL_DIR/settings.sh" >> $HOME_DIR/.bashrc        && . $XLNX_PETALINUX_INSTALL_DIR/settings.sh    && petalinux-util --webtalk off         && rm -rf $XLNX_INSTALL_LOCATION/tmp    && sudo apt-get clean   && sudo rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*   && sudo echo 'debconf debconf/frontend select Dialog' | sudo debconf-set-selections
- ---> Running in a05779e1d0b9
+ ---> Running in cbfb017079e0
 + sudo mkdir -p /opt/Xilinx/tmp
 + sudo chown -R xilinx:xilinx /opt/Xilinx
-+ [[ 0 -ne 0 ]]
++ [[ 1 -ne 0 ]]
++ mkdir -p /opt/Xilinx/downloads/tmp
++ cd /opt/Xilinx/downloads/tmp
++ mkdir -p depends
++ wget -nv 172.17.0.1:8000/depends/mali-400-userspace.tar -O depends/mali-400-userspace.tar
+172.17.0.2 - - [16/Jul/2020 14:15:56] "GET /depends/mali-400-userspace.tar HTTP/1.1" 200 -
+2020-07-16 18:15:57 URL:http://172.17.0.1:8000/depends/mali-400-userspace.tar [572887040/572887040] -> "depends/mali-400-userspace.tar" [1]
++ tar xf depends/mali-400-userspace.tar mali/rel-v2019.1/downloads-mali.tar
++ tar xf mali/rel-v2019.1/downloads-mali.tar
++ mv /opt/Xilinx/downloads/tmp/downloads-mali/git2_gitenterprise.xilinx.com.Graphics.mali400-xlnx-userspace.git.tar.gz /opt/Xilinx/downloads
++ rm -rf /opt/Xilinx/downloads/tmp
 + cd /opt/Xilinx/tmp
 + mkdir -p depends
 + wget -nv 172.17.0.1:8000/depends/petalinux-v2019.2-final-installer.run -O depends/petalinux-v2019.2-final-installer.run
-172.17.0.2 - - [16/Jul/2020 14:05:13] "GET /depends/petalinux-v2019.2-final-installer.run HTTP/1.1" 200 -
-2020-07-16 18:05:24 URL:http://172.17.0.1:8000/depends/petalinux-v2019.2-final-installer.run [8505411724/8505411724] -> "depends/petalinux-v2019.2-final-installer.run" [1]
+172.17.0.2 - - [16/Jul/2020 14:15:57] "GET /depends/petalinux-v2019.2-final-installer.run HTTP/1.1" 200 -
+2020-07-16 18:16:11 URL:http://172.17.0.1:8000/depends/petalinux-v2019.2-final-installer.run [8505411724/8505411724] -> "depends/petalinux-v2019.2-final-installer.run" [1]
 + wget -nv 172.17.0.1:8000/autoinstall_petalinux.sh
-172.17.0.2 - - [16/Jul/2020 14:05:24] "GET /autoinstall_petalinux.sh HTTP/1.1" 200 -
-2020-07-16 18:05:24 URL:http://172.17.0.1:8000/autoinstall_petalinux.sh [3466/3466] -> "autoinstall_petalinux.sh" [1]
+172.17.0.2 - - [16/Jul/2020 14:16:11] "GET /autoinstall_petalinux.sh HTTP/1.1" 200 -
+2020-07-16 18:16:11 URL:http://172.17.0.1:8000/autoinstall_petalinux.sh [3466/3466] -> "autoinstall_petalinux.sh" [1]
 + dos2unix -ascii -q autoinstall_petalinux.sh
 + echo 'cd /opt/Xilinx/petalinux/v2019.2'
 + echo 'export LANG=en_US.UTF-8'
@@ -342,8 +353,8 @@ INFO: PetaLinux SDK has been installed to /opt/Xilinx/petalinux/v2019.2/.
 +++ readlink -f /opt/Xilinx/petalinux/v2019.2
 ++ export PETALINUX=/opt/Xilinx/petalinux/v2019.2
 ++ PETALINUX=/opt/Xilinx/petalinux/v2019.2
-++ grep -q ' '
 ++ echo /opt/Xilinx/petalinux/v2019.2
+++ grep -q ' '
 ++ export PETALINUX_VER=2019.2
 ++ PETALINUX_VER=2019.2
 ++ PATH=/opt/Xilinx/petalinux/v2019.2/tools/xsct/gnu/aarch32/lin/gcc-arm-none-eabi/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
@@ -384,25 +395,25 @@ INFO: Turn off webtalk feature!
 + rm -rf /opt/Xilinx/tmp
 + sudo apt-get clean
 + sudo rm -rf /var/lib/apt/lists/auxfiles /var/lib/apt/lists/lock /var/lib/apt/lists/partial '/tmp/*' '/var/tmp/*'
-+ sudo debconf-set-selections
 + sudo echo 'debconf debconf/frontend select Dialog'
-Removing intermediate container a05779e1d0b9
- ---> 18b40e9c0faf
-Successfully built 18b40e9c0faf
++ sudo debconf-set-selections
+Removing intermediate container cbfb017079e0
+ ---> a5fa1fcf4de4
+Successfully built a5fa1fcf4de4
 Successfully tagged xilinx-petalinux:v2019.2
 + '[' 1 -ne 0 ']'
 + set +x
 -----------------------------------
 Shutting down Python HTTP Server...
 -----------------------------------
-Killing process ID 6679
+Killing process ID 17385
 -----------------------------------
-+ kill 6679
++ kill 17385
 + '[' 1 -ne 0 ']'
 + set +x
-./build_image.sh: line 174:  6679 Terminated              python3 -m http.server
+./build_image.sh: line 174: 17385 Terminated              python3 -m http.server
 -----------------------------------
 Image Build Complete...
-STARTED :Thu Jul 16 14:05:04 EDT 2020
-ENDED   :Thu Jul 16 14:13:49 EDT 2020
+STARTED :Thu Jul 16 14:15:46 EDT 2020
+ENDED   :Thu Jul 16 14:24:37 EDT 2020
 -----------------------------------

@@ -9,7 +9,7 @@
 #	- Xilinx Applications Engineer, Embedded Software
 #
 # Created: 
-#	- 11/15/2019
+#	- 7/15/2020
 #
 ########################################################################################
 # Docker Build Script Debug Tracing
@@ -55,7 +55,7 @@ DOCKER_IMAGE_NAME=xilinx-$XLNX_TOOL_INFO
 
 # Docker base OS Images
 DOCKER_BASE_OS=ubuntu
-DOCKER_BASE_OS_TAG=18.04.1
+DOCKER_BASE_OS_TAG=18.04.2
 
 # Should Docker use Cache when building?
 # - A couple of important reasons to DISABLE the use of the cache
@@ -113,23 +113,14 @@ INSTALL_DEPENDS_DIR=depends
 # Depdendency / Configuration File Related Variables
 ########################################################################################
 ########################################################################################
-# DOCKER_BUILD_XLNX_MALI_LOCAL:
-# '0' = The docker build script will not construct XLNX_MALI_URL
-#       using the python server address, but will pass the URL setup above
-#
-# '1' = The docker build scrpit will construct XLNX_MALI_URL
-#		using the python server address and the INSTALL_DEPENDS_DIR variable
-DOCKER_BUILD_XLNX_MALI_LOCAL='1'
-
 # Xilinx ARM Mali Pre-built binaries
-# XLNX_MALI_URL: Base download URL
-# XLNX_MALI_BINARY: filename to download
-# Set #1: Download MALI binary directly from Xilinx
-# DOCKER_BUILD_XLNX_MALI_LOCAL=0
-#XLNX_MALI_URL=https://www.xilinx.com/publications/products/tools
-#XLNX_MALI_BINARY=mali-400-userspace.tar
-# Set #2: Download from local archive by use of python http.server (address set later in this script)
-# DOCKER_BUILD_XLNX_MALI_LOCAL=1
+# DOCKER_BUILD_INCLUDE_XLNX_MALI:
+# '0' = The docker build script will NOT include the MALI binaries in the resulting image
+#
+# '1' = The docker build script will include the MALI binaries in the resulting image
+#       using the python server address to transfer the archive to the docker build
+DOCKER_BUILD_INCLUDE_XLNX_MALI=1
+
 XLNX_MALI_URL=0.0.0.0:8000
 XLNX_MALI_BINARY=$INSTALL_DEPENDS_DIR/mali-400-userspace.tar
 #XLNX_MALI_BINARY=$INSTALL_DEPENDS_DIR/mali-400-userspace-with-android-2019.1.tar

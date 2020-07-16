@@ -41,22 +41,20 @@ ARG XLNX_PETALINUX_INSTALL_DIR
 USER $USER_ACCT
 ENV DEBIAN_FRONTEND=noninteractive
 
-
 # Get the MALI userspace binaries
 RUN if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi \
 	&& sudo mkdir -p $XLNX_INSTALL_LOCATION/tmp \
-	&& sudo chown -R $USER_ACCT:$USER_ACCT $XLNX_INSTALL_LOCATION
-# Include the ARM MALI pre-builts if the configuration is set
-
-RUN if [ $DOCKER_BUILD_INCLUDE_XLNX_MALI -ne 0 ]; then \
-		mkdir -p $XLNX_INSTALL_LOCATION/downloads/tmp; \
-		cd $XLNX_INSTALL_LOCATION/downloads/tmp; \
-		mkdir -p "${XLNX_MALI_BINARY%/*}"; \
-		wget -nv $INSTALL_SERVER_URL/$XLNX_MALI_BINARY -O $XLNX_MALI_BINARY; \
-		tar xf $XLNX_MALI_BINARY mali/rel-v2019.1/downloads-mali.tar; \
-		tar xf mali/rel-v2019.1/downloads-mali.tar; \
-		mv $XLNX_INSTALL_LOCATION/downloads/tmp/downloads-mali/* $XLNX_INSTALL_LOCATION/downloads; \
-		rm -rf $XLNX_INSTALL_LOCATION/downloads/tmp; \
+	&& sudo chown -R $USER_ACCT:$USER_ACCT $XLNX_INSTALL_LOCATION \
+# Include the ARM MALI pre-builts if the configuration is set \
+	&& if [[ $DOCKER_BUILD_INCLUDE_XLNX_MALI -ne 0 ]]; then \
+		mkdir -p $XLNX_INSTALL_LOCATION/downloads/tmp \
+		&& cd $XLNX_INSTALL_LOCATION/downloads/tmp \
+		&& mkdir -p "${XLNX_MALI_BINARY%/*}" \
+		&& wget -nv $INSTALL_SERVER_URL/$XLNX_MALI_BINARY -O $XLNX_MALI_BINARY \
+		&& tar xf $XLNX_MALI_BINARY mali/rel-v2020.1/downloads-mali.tar \
+		&& tar xf mali/rel-v2020.1/downloads-mali.tar \
+		&& mv $XLNX_INSTALL_LOCATION/downloads/tmp/downloads-mali/* $XLNX_INSTALL_LOCATION/downloads \
+		&& rm -rf $XLNX_INSTALL_LOCATION/downloads/tmp; \
 	fi \
 # Get the Petalinux installer \
 	&& cd $XLNX_INSTALL_LOCATION/tmp \

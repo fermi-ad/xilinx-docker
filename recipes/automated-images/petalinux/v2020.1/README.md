@@ -8,6 +8,7 @@
 -> Dockerfile
 -> autoinstall_petalinux.sh
 -> configs/
+	-> .minirc.dfl
 	-> keyboard_settings.conf
 	-> XTerm
 -> depends/
@@ -181,8 +182,8 @@ Successfully tagged xilinx-petalinux:v2020.1
 ...
 -----------------------------------
 Image Build Complete...
-STARTED :Wed Jul 15 12:41:36 EDT 2020
-ENDED   :Wed Jul 15 12:46:58 EDT 2020
+STARTED :Thu Jul 16 14:28:16 EDT 2020
+ENDED   :Thu Jul 16 14:32:43 EDT 2020
 -----------------------------------
 ```
 

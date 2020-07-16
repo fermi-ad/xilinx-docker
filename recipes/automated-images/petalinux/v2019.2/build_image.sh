@@ -8,7 +8,7 @@
 #	- Xilinx Applications Engineer, Embedded Software
 #
 # Created: 
-#	- 11/15/2019
+#	- 7/15/2020
 #
 # Source configuration information for a v2019.2 Petalinux Image build
 source include/configuration.sh
@@ -58,11 +58,13 @@ else
 fi
 
 # Check for Xilinx MALI binaries
-if [ -f $XLNX_MALI_BINARY ] || [ -L $XLNX_MALI_BINARY ]; then
-	echo "Xilinx MALI Binaries: [Good] "$XLNX_MALI_BINARY
-else
-	echo "ERROR: Xilinx MALI Binaries: [Missing] "$XLNX_MALI_BINARY
-	exit $EX_OSFILE
+if [ $DOCKER_BUILD_INCLUDE_XLNX_MALI -ne 0 ]; then
+	if [ -f $XLNX_MALI_BINARY ] || [ -L $XLNX_MALI_BINARY ]; then
+		echo "Xilinx MALI Binaries: [Good] "$XLNX_MALI_BINARY
+	else
+		echo "ERROR: Xilinx MALI Binaries: [Missing] "$XLNX_MALI_BINARY
+		exit $EX_OSFILE
+	fi
 fi
 
 # Check for Xilinx Petalinux Installer
@@ -71,24 +73,6 @@ if [ -f $XLNX_PETALINUX_INSTALLER ] || [ -L $XLNX_PETALINUX_INSTALLER ]; then
 else
 	# File does not exist
 	echo "ERROR: Xilinx Petalinux Installer: [Missing] "$XLNX_PETALINUX_INSTALLER
-	exit $EX_OSFILE
-fi
-
-# Check for XTerm configuration file
-if [ -f $XTERM_CONFIG_FILE ] || [ -L $XTERM_CONFIG_FILE ]; then
-	echo "XTerm Configuration File: [Good] "$XTERM_CONFIG_FILE
-else
-	# File does not exist
-	echo "ERROR: XTerm Configuration File: [Missing] "$XTERM_CONFIG_FILE
-	exit $EX_OSFILE
-fi
-
-# Check for Minicom configuration file
-if [ -f $MINICOM_CONFIG_FILE ] || [ -L $MINICOM_CONFIG_FILE ]; then
-	echo "Minicom Configuration File: [Good] "$MINICOM_CONFIG_FILE
-else
-	# File does not exist
-	echo "ERROR: Minicom Configuration File: [Missing] "$MINICOM_CONFIG_FILE
 	exit $EX_OSFILE
 fi
 
@@ -143,19 +127,14 @@ echo "Arguments..."
 echo "-----------------------------------"
 echo "	--build-arg USER_ACCT=\"${USER_ACCT}\""
 echo " 	--build-arg HOME_DIR=\"${HOME_DIR}\""
-echo " 	--build-arg GIT_USER_NAME=\"${GIT_USER_NAME}\""
-echo " 	--build-arg GIT_USER_EMAIL=\"${GIT_USER_EMAIL}\""
-echo " 	--build-arg KEYBOARD_CONFIG_FILE=\"${KEYBOARD_CONFIG_FILE}\""
 echo " 	--build-arg XLNX_INSTALL_LOCATION=\"${XLNX_INSTALL_LOCATION}\""
-echo "  --build-arg XLNX_DOWNLOAD_LOCATION=\"${XLNX_DOWNLOAD_LOCATION}\""
+echo "  --build-arg DOCKER_BUILD_INCLUDE_XLNX_MALI=\"${DOCKER_BUILD_INCLUDE_XLNX_MALI}\""
 echo "  --build-arg XLNX_MALI_BINARY=\"${XLNX_MALI_BINARY}\""
 echo " 	--build-arg INSTALL_SERVER_URL=\"${SERVER_IP}:8000\""
 echo " 	--build-arg XLNX_PETALINUX_INSTALLER=\"${XLNX_PETALINUX_INSTALLER}\""
 echo "  --build-arg XLNX_PETALINUX_AUTOINSTALL_SCRIPT=\"${XLNX_PETALINUX_AUTOINSTALL_SCRIPT}\""
 echo "  --build-arg XLNX_PETALINUX_INSTALL_DIR=\"${XLNX_PETALINUX_INSTALL_DIR}\""
 echo "  --build-arg BUILD_DEBUG=\"${BUILD_DEBUG}\""
-echo "  --build-arg XTERM_CONFIG_FILE=\"${XTERM_CONFIG_FILE}\""
-echo "  --build-arg MINICOM_CONFIG_FILE=\"${MINICOM_CONFIG_FILE}\""
 echo "-----------------------------------"
 
 if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi
@@ -165,19 +144,14 @@ docker build $DOCKER_CACHE -f ./$DOCKER_FILE_NAME \
  	-t $DOCKER_IMAGE_NAME:$DOCKER_IMAGE_VERSION \
  	--build-arg USER_ACCT="${USER_ACCT}" \
  	--build-arg HOME_DIR="${HOME_DIR}" \
- 	--build-arg GIT_USER_NAME="${GIT_USER_NAME}" \
- 	--build-arg GIT_USER_EMAIL="${GIT_USER_EMAIL}" \
- 	--build-arg KEYBOARD_CONFIG_FILE="${KEYBOARD_CONFIG_FILE}" \
  	--build-arg XLNX_INSTALL_LOCATION="${XLNX_INSTALL_LOCATION}" \
- 	--build-arg XLNX_DOWNLOAD_LOCATION="${XLNX_DOWNLOAD_LOCATION}" \
+ 	--build-arg DOCKER_BUILD_INCLUDE_XLNX_MALI="${DOCKER_BUILD_INCLUDE_XLNX_MALI}" \
  	--build-arg XLNX_MALI_BINARY="${XLNX_MALI_BINARY}" \
  	--build-arg INSTALL_SERVER_URL="${INSTALL_SERVER_URL}" \
  	--build-arg XLNX_PETALINUX_INSTALLER="${XLNX_PETALINUX_INSTALLER}" \
  	--build-arg XLNX_PETALINUX_AUTOINSTALL_SCRIPT="${XLNX_PETALINUX_AUTOINSTALL_SCRIPT}" \
  	--build-arg XLNX_PETALINUX_INSTALL_DIR="${XLNX_PETALINUX_INSTALL_DIR}" \
  	--build-arg BUILD_DEBUG="${BUILD_DEBUG}" \
- 	--build-arg XTERM_CONFIG_FILE="${XTERM_CONFIG_FILE}" \
-   	--build-arg MINICOM_CONFIG_FILE="${MINICOM_CONFIG_FILE}" \
   	$DOCKER_INSTALL_DIR
 
 if [ $BUILD_DEBUG -ne 0 ]; then set +x; fi

@@ -1,24 +1,24 @@
 #!/bin/bash
 ########################################################################################
 # Docker Image Build Script:
-#	- Uses: Dockerfile.petalinux_v2019.1
+#	- Uses: Dockerfile
 #
 # Maintainer:
 #	- Jason Moss (jason.moss@avnet.com)
 #	- Xilinx Applications Engineer, Embedded Software
 #
 # Created: 
-#	- 11/15/2019
+#	- 7/13/2020
 #
-# Source configuration for v2019.1 Petalinux builds
+# Source configuration information
 source include/configuration.sh
 
-# Set the Docker File for Petalinux
-DOCKER_FILE_NAME=Dockerfile
+# Set the Docker File for Vitis
+DOCKER_FILE_NAME=Dockerfile.generate_configs
 
 # Additional setup and overrides specificaly for dependency generation
 GENERATED_DIR=_generated
-DOCKER_FILE_STAGE="base_os_"$XLNX_TOOL_INFO"_"$XLNX_RELEASE_VERSION
+DOCKER_FILE_STAGE="base_os_depends_"$XLNX_RELEASE_VERSION
 DOCKER_IMAGE_NAME=dependency_generation
 DOCKER_IMAGE_VERSION=$XLNX_RELEASE_VERSION
 
@@ -45,7 +45,8 @@ else
 	echo "Base docker image [found] ("$DOCKER_BASE_OS:$DOCKER_BASE_OS_TAG")"
 fi
 
-# No additional dependencies for keyboard configuration generation
+# Test for dependencies required to run this script
+# 1. None
 
 # Create docker folder
 echo "-----------------------------------"
@@ -96,7 +97,6 @@ echo "	--build-arg USER_ACCT=\"${USER_ACCT}\""
 echo " 	--build-arg HOME_DIR=\"${HOME_DIR}\""
 echo " 	--build-arg XLNX_INSTALL_LOCATION=\"${XLNX_INSTALL_LOCATION}\""
 echo " 	--build-arg INSTALL_SERVER_URL=\"${SERVER_IP}:8000\""
-echo " 	--build-arg XLNX_PETALINUX_INSTALLER=\"${XLNX_PETALINUX_INSTALLER}\""
 echo " 	--build-arg KEYBOARD_CONFIG_FILE=\"${KEYBOARD_CONFIG_FILE}\""
 echo "  --build-arg BUILD_DEBUG=\"${BUILD_DEBUG}\""
 echo "-----------------------------------"
@@ -111,7 +111,6 @@ docker build $DOCKER_CACHE -f ./$DOCKER_FILE_NAME \
  	--build-arg HOME_DIR="${HOME_DIR}" \
  	--build-arg XLNX_INSTALL_LOCATION="${XLNX_INSTALL_LOCATION}" \
  	--build-arg INSTALL_SERVER_URL="${INSTALL_SERVER_URL}" \
- 	--build-arg XLNX_PETALINUX_INSTALLER="${XLNX_PETALINUX_INSTALLER}" \
  	--build-arg KEYBOARD_CONFIG_FILE="${KEYBOARD_CONFIG_FILE}" \
  	--build-arg BUILD_DEBUG="${BUILD_DEBUG}" \
  	$DOCKER_INSTALL_DIR
@@ -178,10 +177,9 @@ docker exec -it $DOCKER_CONTAINER_NAME \
 	&& mkdir -p ${KEYBOARD_CONFIG_FILE%/*} \
 	&& debconf-get-selections | grep keyboard-configuration > ${KEYBOARD_CONFIG_FILE} \
 	&& ls -al"
-#	&& sudo dpkg-reconfigure keyboard-configuration \
 
 if [ $BUILD_DEBUG -ne 0 ]; then set +x; fi
-	
+
 # copy keyboard configuration from container to host
 echo "-----------------------------------"
 echo "Copying keyboard configuration to host..."
@@ -207,7 +205,7 @@ kill $SERVER_PID
 
 if [ $BUILD_DEBUG -ne 0 ]; then set +x; fi
 
-# Cleanup the container used to generate the dependencies
+# # Cleanup the container used to generate the dependencies
 echo "-----------------------------------"
 echo "Removing temporary docker resources..."
 echo "-----------------------------------"
@@ -223,7 +221,7 @@ if [ $BUILD_DEBUG -ne 0 ]; then set +x; fi
 DOCKER_BUILD_END_TIME=`date`
 # Docker Image Build Complete
 echo "-----------------------------------"
-echo "Dependency Generation Complete"
+echo "Configuration Generation Complete"
 echo "-----------------------------------"
 echo "STARTED :"$DOCKER_BUILD_START_TIME
 echo "ENDED   :"$DOCKER_BUILD_END_TIME
@@ -233,7 +231,10 @@ echo "DOCKER_FILE_STAGE="$DOCKER_FILE_STAGE
 echo "DOCKER_IMAGE="$DOCKER_IMAGE_NAME":"$DOCKER_IMAGE_VERSION
 echo "DOCKER_CONTAINER_NAME="$DOCKER_CONTAINER_NAME
 echo "-----------------------------------"
-echo "Dependencies Generated:"
+echo "Configurations Generated:"
 echo "-----------------------------------"
 ls -al $GENERATED_DIR/$KEYBOARD_CONFIG_FILE
 echo "-----------------------------------"
+echo "Copying Configurations to the $INSTALL_CONFIGS_DIR Folder"
+echo "-----------------------------------"
+cp -f $GENERATED_DIR/$KEYBOARD_CONFIG_FILE $KEYBOARD_CONFIG_FILE
