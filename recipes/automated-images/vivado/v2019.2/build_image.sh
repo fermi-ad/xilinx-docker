@@ -8,7 +8,7 @@
 #	- Xilinx Applications Engineer, Embedded Software
 #
 # Created: 
-#	- 11/12/2019
+#	- 7/16/2020
 #
 # Source configuration information for a v2019.2 Vivado Image build
 source include/configuration.sh
@@ -49,56 +49,22 @@ fi
 # files links within the build context can point outside
 # the context and they will get transferred just fine.
 
-# Check for keyboard configuration file
-if [ -f $KEYBOARD_CONFIG_FILE ] || [ -L $KEYBOARD_CONFIG_FILE ]; then
-	echo "Keyboard Configuration: [Good] "$KEYBOARD_CONFIG_FILE
-else
-	echo "ERROR: Keyboard Configuration: [Missing] "$KEYBOARD_CONFIG_FILE
-	exit $EX_OSFILE
-fi
-
-# Check for Xilinx MALI binaries
-if [ -f $XLNX_MALI_BINARY ] || [ -L $XLNX_MALI_BINARY ]; then
-	echo "Xilinx MALI Binaries: [Good] "$XLNX_MALI_BINARY
-else
-	echo "ERROR: Xilinx MALI Binaries: [Missing] "$XLNX_MALI_BINARY
-	exit $EX_OSFILE
-fi
-
-# Check for Xilinx Vivado Web Installer (Used to create a targeted offline installer)
-if [ -f $XLNX_VIVADO_WEB_INSTALLER ] || [ -L $XLNX_VIVADO_WEB_INSTALLER ]; then
-	echo "Xilinx Vivado Web Installer: [Good] "$XLNX_VIVADO_WEB_INSTALLER
-else
-	# File does not exist
-	echo "ERROR: Xilinx Vivado Web Installer: [Missing] "$XLNX_VIVADO_WEB_INSTALLER
-	exit $EX_OSFILE
-fi
-	
-# Check for Xilinx Vivado Offline Installer
-if [ -f $XLNX_VIVADO_OFFLINE_INSTALLER ] || [ -L $XLNX_VIVADO_OFFLINE_INSTALLER ]; then
+# Check for Xilinx Unified Offline Installer
+if [ -f $XLNX_UNIFIED_OFFLINE_INSTALLER ] || [ -L $XLNX_UNIFIED_OFFLINE_INSTALLER ]; then
 	# File exists and is not a link
-	echo "Xilinx Vivado Offline Installer: [Good] "$XLNX_VIVADO_OFFLINE_INSTALLER
+	echo "Xilinx Unified Offline Installer: [Good] "$XLNX_UNIFIED_OFFLINE_INSTALLER
 else
 	# File does not exist
-	echo "ERROR: Xilinx Vivado Offline Installer: [Missing] "$XLNX_VIVADO_OFFLINE_INSTALLER
+	echo "ERROR: Xilinx Unified Offline Installer: [Missing] "$XLNX_UNIFIED_OFFLINE_INSTALLER
 	exit $EX_OSFILE
 fi
 
-# Check for XTerm configuration file
-if [ -f $XTERM_CONFIG_FILE ] || [ -L $XTERM_CONFIG_FILE ]; then
-	echo "XTerm Configuration File: [Good] "$XTERM_CONFIG_FILE
+# Check for Xilinx Batch Mode Configuratino File
+if [ -f $XLNX_UNIFIED_BATCH_CONFIG_FILE ] || [ -L $XLNX_UNIFIED_BATCH_CONFIG_FILE ]; then
+	echo "Xilinx Batch Mode Configuration File: [Good] "$XLNX_UNIFIED_BATCH_CONFIG_FILE
 else
 	# File does not exist
-	echo "ERROR: XTerm Configuration File: [Missing] "$XTERM_CONFIG_FILE
-	exit $EX_OSFILE
-fi
-
-# Check for Minicom configuration file
-if [ -f $MINICOM_CONFIG_FILE ] || [ -L $MINICOM_CONFIG_FILE ]; then
-	echo "Minicom Configuration File: [Good] "$MINICOM_CONFIG_FILE
-else
-	# File does not exist
-	echo "ERROR: Minicom Configuration File: [Missing] "$MINICOM_CONFIG_FILE
+	echo "ERROR: Xilinx Batch Mode Configuration File: [Missing] "$XLNX_UNIFIED_BATCH_CONFIG_FILE
 	exit $EX_OSFILE
 fi
 
@@ -154,18 +120,13 @@ echo "Arguments..."
 echo "-----------------------------------"
 echo "	--build-arg USER_ACCT=\"${USER_ACCT}\""
 echo " 	--build-arg HOME_DIR=\"${HOME_DIR}\""
-echo " 	--build-arg GIT_USER_NAME=\"${GIT_USER_NAME}\""
-echo " 	--build-arg GIT_USER_EMAIL=\"${GIT_USER_EMAIL}\""
-echo " 	--build-arg KEYBOARD_CONFIG_FILE=\"${KEYBOARD_CONFIG_FILE}\""
 echo "  --build-arg XLNX_INSTALL_LOCATION=\"${XLNX_INSTALL_LOCATION}\""
 echo " 	--build-arg XLNX_DOWNLOAD_LOCATION=\"${XLNX_DOWNLOAD_LOCATION}\""
-echo "  --build-arg XLNX_MALI_BINARY=\"${XLNX_MALI_BINARY}\""
 echo " 	--build-arg INSTALL_SERVER_URL=\"${SERVER_IP}:8000\""
-echo " 	--build-arg XLNX_VIVADO_BATCH_CONFIG_FILE=\"${XLNX_VIVADO_BATCH_CONFIG_FILE}\""
-echo " 	--build-arg XLNX_VIVADO_OFFLINE_INSTALLER=\"${XLNX_VIVADO_OFFLINE_INSTALLER}\""
+echo " 	--build-arg XLNX_UNIFIED_BATCH_CONFIG_FILE=\"${XLNX_UNIFIED_BATCH_CONFIG_FILE}\""
+echo " 	--build-arg XLNX_UNIFIED_OFFLINE_INSTALLER=\"${XLNX_UNIFIED_OFFLINE_INSTALLER}\""
+echo "  --build-arg XLNX_UNIFIED_INSTALLER_BASENAME=\"${XLNX_UNIFIED_INSTALLER_BASENAME}\""
 echo "  --build-arg BUILD_DEBUG=\"${BUILD_DEBUG}\""
-echo "  --build-arg XTERM_CONFIG_FILE=\"${XTERM_CONFIG_FILE}\""
-echo "  --build-arg MINICOM_CONFIG_FILE=\"${MINICOM_CONFIG_FILE}\""
 echo "-----------------------------------"
 
 if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi
@@ -175,18 +136,13 @@ docker build $DOCKER_CACHE -f ./$DOCKER_FILE_NAME \
  	-t $DOCKER_IMAGE_NAME:$DOCKER_IMAGE_VERSION \
  	--build-arg USER_ACCT="${USER_ACCT}" \
  	--build-arg HOME_DIR="${HOME_DIR}" \
- 	--build-arg GIT_USER_NAME="${GIT_USER_NAME}" \
- 	--build-arg GIT_USER_EMAIL="${GIT_USER_EMAIL}" \
- 	--build-arg KEYBOARD_CONFIG_FILE="${KEYBOARD_CONFIG_FILE}" \
  	--build-arg XLNX_INSTALL_LOCATION="${XLNX_INSTALL_LOCATION}" \
  	--build-arg XLNX_DOWNLOAD_LOCATION="${XLNX_DOWNLOAD_LOCATION}" \
- 	--build-arg XLNX_MALI_BINARY="${XLNX_MALI_BINARY}" \
   	--build-arg INSTALL_SERVER_URL="${INSTALL_SERVER_URL}" \
-  	--build-arg XLNX_VIVADO_BATCH_CONFIG_FILE="${XLNX_VIVADO_BATCH_CONFIG_FILE}" \
-  	--build-arg XLNX_VIVADO_OFFLINE_INSTALLER="${XLNX_VIVADO_OFFLINE_INSTALLER}" \
+  	--build-arg XLNX_UNIFIED_BATCH_CONFIG_FILE="${XLNX_UNIFIED_BATCH_CONFIG_FILE}" \
+  	--build-arg XLNX_UNIFIED_OFFLINE_INSTALLER="${XLNX_UNIFIED_OFFLINE_INSTALLER}" \
+  	--build-arg XLNX_UNIFIED_INSTALLER_BASENAME="${XLNX_UNIFIED_INSTALLER_BASENAME}" \
  	--build-arg BUILD_DEBUG="${BUILD_DEBUG}" \
-  	--build-arg XTERM_CONFIG_FILE="${XTERM_CONFIG_FILE}" \
-    --build-arg MINICOM_CONFIG_FILE="${MINICOM_CONFIG_FILE}" \
   	$DOCKER_INSTALL_DIR
 
 if [ $BUILD_DEBUG -ne 0 ]; then set +x; fi
