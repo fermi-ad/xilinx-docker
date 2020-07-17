@@ -8,9 +8,7 @@
 -> host_xrt_setup.sh
 -> Dockerfile
 -> configs/
-	-> keyboard_settings.conf
 	-> xlnx_unified_vitis.config
-	-> XTerm
 -> depends/
 	-> Xilinx_Unified_2019.2_1024_1831_Lin64.bin
 	-> (Vitis_Xilinx_Unified_2019.2_1024_1831_Lin64.bin.tar.gz)
@@ -90,13 +88,16 @@ https://github.com/Xilinx/XRT/blob/master/src/runtime_src/tools/scripts/xrtdeps.
 
 ### Locate the local ipaddress
 - For Linux use __ifconfig__ to determine the host IP address
-- For Windows Powershell use __ipconfig__ to determine the host IP address
 
-## To Generate a base Ubuntu 18.04.2 image (one time)
-- For Linux, execute the image generation script __*../../base-images/ubuntu_18.04.2/build_image.sh*__
+## Configure build options
+- For Linux Hosts:
+	- Modify build options in the file __*./include/configuration.sh*__
+
+## Generate a base Ubuntu 18.04.2 image (one time)
+- Execute the image generation script __*../../../base-images/ubuntu_18.04.2/build_image.sh*__
 
 ```bash
-$ pushd ../../base-images/ubuntu-18.04.2
+$ pushd ../../../base-images/ubuntu-18.04.2
 $ ./build_image.sh 
 Base Release Image [Missing] ubuntu-base-18.04.2-base-amd64.tar.gz
 Attempting to download http://cdimage.ubuntu.com/ubuntu-base/releases/18.04.2/release/ubuntu-base-18.04.2-base-amd64.tar.gz
@@ -128,77 +129,83 @@ Local Volumes       0                   0                   0B                  
 Build Cache         0                   0                   0B                  0B
 + '[' 1 -ne 0 ']'
 + set +x
+
+$ popd
 ```
 
-## Generate Vitis Image Install Dependencies (one time)
+## Generate an Ubuntu 18.04.2 user image (one time)
+- Execute the image generation script __*../../../user-images/v2019.2/ubuntu-18.04.2-user/build_image.sh*__
+```bash
+$ pushd ../../../user-images/v2019.2/ubuntu-18.04.2-user/
+$ ./build_image.sh 
+-----------------------------------
+Checking for configurations...
+-----------------------------------
+Base docker image [found] (ubuntu:18.04.2)
+Keyboard Configuration: [Good] configs/keyboard_settings.conf
+XTerm Configuration File: [Good] configs/XTerm
+Minicom Configuration File: [Good] configs/.minirc.dfl
+-----------------------------------
+Docker Build Context (Working)...
+-----------------------------------
+...
+Removing intermediate container f0caed766af2
+ ---> 5d774cff76ff
+Successfully built 5d774cff76ff
+Successfully tagged xilinx-ubuntu-18.04.2-user:v2019.2
++ '[' 1 -ne 0 ']'
++ set +x
+-----------------------------------
+Shutting down Python HTTP Server...
+-----------------------------------
+Killing process ID 14815
+-----------------------------------
++ kill 14815
++ '[' 1 -ne 0 ']'
++ set +x
+./build_image.sh: line 171: 14815 Terminated              python3 -m http.server
+-----------------------------------
+Image Build Complete...
+STARTED :Mon Jul 6 15:58:02 EDT 2020
+ENDED   :Mon Jul 6 16:03:28 EDT 2020
+-----------------------------------
+
+$ popd
+```
+
+## Generate Vitis Image Install Configuration Files (one time)
+
+Note: in v2019.2, disk use optimization doesn't run unless both ```CreateFileAssociation=1``` and ```EnableDiskUsageOptimization=1``` are set in the configuration
 
 ### Execute the dependency generation script
 
 - For Linux, execute the following script:
 ```bash
 bash:
-$ ./generate_depends.sh
+$ ./generate_configs.sh
 ```
 
 - Follow the build process in the terminal (manual interaction required)
-- Keyboard configuration
-	- Select a keyboard model: ```Generic 105-key (Intl) PC``` is the default
-	- Select a country of origin for the keyboard: ```English (US)``` is the default
-	- Select a keyboard layout: ```English (US)``` is the default
-	- Select an AltGr function: ```The default for the keyboard layout``` is the default
-	- Select a compose key: ```No compose key``` is the default
 
 - Xilinx Unified batch mode configuration (generate)
-	- Select Vivado HL System Edition: option ```3```
+	- Select Vitis Unified Software Platform: option ```1```
 	- The configuration opens in the ```vim``` editor
 	- Make the following modifications:
-		- ```InstallOptions=Acquire or Manage a License Key:0,Enable WebTalk for SDK to send usage statistics to Xilinx:0,Enable WebTalk for Vivado to send usage statistics to Xilinx (Always enabled for WebPACK license):0```
+		- ```Modules=...DocNav:0,...``` 
 		- ```CreateProgramGroupShortcuts=0```
-		- ```CreateShortcutsForAllUsers=0```
 		- ```CreateDesktopShortcuts=0```
-		- ```CreateFileAssociation=0```
+		- ```CreateFileAssociation=1```
+		- ```EnableDiskUsageOptimization=1```
 	- Save with ```:wq```
 
-- Xilinx Unified Installer (download only)
-	- This should launch an X11-based Xilinx Unified Installer Setup window on your host
-	- Continue with curent version if prompted that a new version exists: ```Continue```
-	- Skip welcome screen: ```Next```
-	- Enter User ID and Password in the ```User Authentication``` section
-	- Select the ```Download Full Image (Install Separately)```
-		- Use the defaults:
-			- download directory: ```/opt/Xilinx/Downloads/v2019.2```
-			- platform selection: ```Linux```
-	- Continue: ```Next```
-	- Create the download directory (in the container) when prompted: ```Yes```
-	- Select Product to Install: ```Vitis```
-	- Futher configure the installation:
-		- Design Tools
-			- Uncheck DocNav
-		- Installation Options
-			- Uncheck Acquire of Manage a License Key
-			- Uncheck Enable Webtalk for Vivado
-	- Review the download summary:
-		- Download location: 
-			- ```/opt/Xilinx/Downloads/2019.2```
-		- Disk Space Required:
-			- ```Download Size: 27.22 GB```
-			- ```Zip Archive Size: 27.22 GB```
-			- ```Disk Space Required: 54.44 GB```
-		- Download Platform
-			- ```Linux```
-	- Download the files for offline install: ```Download```
-	- Finish the download: ```OK```
-
-- Review the generated dependencies
+- Review the generated configurations
 
 ```bash
 bash:
 -----------------------------------
-Dependencies Generated:
+Configurations Generated:
 -----------------------------------
--rw-r--r-- 1 xilinx xilinx 1554 Dec 22 20:13 _generated/configs/keyboard_settings.conf
--rw-r--r-- 1 xilinx xilinx 1940 Dec 22 20:16 _generated/configs/xlnx_unified_vitis.config
--rw-r--r-- 1 xilinx xilinx 29365113733 Dec 22 21:38 _generated/depends/Xilinx_Unified_2019.2_1024_1831_Lin64.bin.tar.gz
+-rw-r--r-- 1 xilinx xilinx 1940 Jul 17 07:49 _generated/configs/xlnx_unified_vitis.config
 -----------------------------------
 
 ```
@@ -208,58 +215,150 @@ Dependencies Generated:
 ```bash
 bash:
 $ cp _generated/configs/* configs/
-$ cp _generated/depends/* depends/
+```
+
+## Generate Vitis Offline Installer Bundle (one time)
+
+### Execute the installer generation script
+
+- For Linux, execute the following script:
+```bash
+bash:
+$ ./generate_installer.sh
+```
+
+- Xilinx Unified Installer (download only)
+	- This should launch an X11-based Xilinx Unified Installer Setup window on your host
+	- Continue with curent version if prompted that a new version exists: ```Continue```
+	- Skip welcome screen: ```Next```
+	- Enter User ID and Password in the ```User Authentication``` section
+	- Select the ```Download Image (Install Separately)```
+		- Use the following selections:
+			- download directory: ```/opt/Xilinx/Downloads/v2019.2```
+			- download files to create full image for selected platform(s): ```Linux```
+	- Continue: ```Next```
+	- Create the download directory (in the container) when prompted: ```Yes```
+	- Select the product to install
+		- ```Vitis```
+		- Continue: ```Next```
+	- Futher configure the installation:
+		- Design Tools
+			- Vitis Unified Software Platform
+				- Check ```System Generator for DSP```
+		- Uncheck ```DocNav```
+	- Review the download summary:
+		- Download location: 
+			- ```/opt/Xilinx/Downloads/v2019.2```
+		- Disk Space Required:
+			- ```Download Size: 27.22GB```
+			- ```Disk Space Required: 27.22GB```
+		- Download Platform
+			- ```Linux```
+	- Download the files for offline install: ```Download```
+	- Finish the download: ```OK```
+
+- Review the generated installer bundle
+
+```bash
+bash:
+-----------------------------------
+Configurations Generated:
+-----------------------------------
+-rw-r--r-- 1 xilinx xilinx 29365118015 Jul 17 09:55 _generated/depends/Xilinx_Unified_2019.2_1024_1831_Lin64.bin.tar.gz
+-----------------------------------
+
 ```
 
 ## Build a v2019.2 Vitis Image (one time)
-
-### Configure build options
-- For Linux Hosts:
-	- Modify build options in the file __*./include/configuration.sh*__
-- For Windows Hosts:
-	- Modify build options in the file __*./include/configuration.ps1*__
 
 ### Execute the image build script
 - Note: The build error is expected Build times reflected below were on an HP ZBook 15 G3, on battery power, connected to a WiFi 4G Hotspot
 ```bash
 bash:
 $ ./build_image.sh
------------------------------------
-Checking for dependencies...
------------------------------------
-Base docker image [found] (ubuntu:18.04.2)
-Keyboard Configuration: [Good] configs/keyboard_settings.conf
-Xilinx Unified Web Installer: [Good] depends/Xilinx_Unified_2019.2_1024_1831_Lin64.bin
-Xilinx Unified Offline Installer: [Good] depends/Xilinx_Unified_2019.2_1024_1831_Lin64.bin.tar.gz
-XTerm Configuration File: [Good] configs/XTerm
------------------------------------
-
 ...
-
+Successfully built 4d6c43867fe3
+Successfully tagged xilinx-vitis:v2019.2
+...
 -----------------------------------
 Image Build Complete...
-STARTED :Sun Dec 22 21:58:53 EST 2019
-ENDED   :Sun Dec 22 23:09:23 EST 2019
+STARTED :Fri Jul 17 11:00:17 EDT 2020
+ENDED   :Fri Jul 17 11:45:51 EDT 2020
 -----------------------------------
 ```
 
 ## Create a working container (running in daemon mode) based on the vitis image
 - The container is started in __interactive daemon__ mode
 - You may also specify the MAC address of the container (making it easier to deal with tool licenses that are tied to a machine's MAC address)
-- Note: For Windows Powershell, use __*Select-String*__  in place of __*grep*__ to find the MacAddress
+- Make sure you mount at least one host folder so the docker container can access the Petalinux installer
+- Example: using `-v /srv/software/xilinx:/srv/software`
+	- gives access to host files under `/srv/software/xilinx` in the Docker container
+	- `/srv/software` is the mounted location inside of the Docker container
+	- `/srv/software/xilinx/` is the location of the Xilinx installers, bsps, etc...
+	- `/srv/software/licenses/` is the location of the Xilinx license files
 
-- List local docker images
+### List images in the local docker repository
 ```bash
 bash:
 $ docker image ls
-REPOSITORY               TAG                 IMAGE ID            CREATED             SIZE
-xilinx-vitis             v2019.2             d0113786a6eb        14 minutes ago      93.7GB
-ubuntu                   18.04.1             4112b3ccf856        42 hours ago        83.5MB
+REPOSITORY                       TAG                  IMAGE ID            CREATED             SIZE
+xilinx-vitis                     v2019.2              4d6c43867fe3        29 minutes ago      55.2GB
+xilinx-ubuntu-18.04.2-user       v2019.2              7af5c40d781f        44 hours ago        2.02GB
+ubuntu                           18.04.2              c31ac5f5c1b0        4 days ago          88.3MB
 ```
 
-< ---- RESUME README UPDATES HERE --->
+#### Create a working container manually
 
+```bash
+$ docker run \
+	--name xilinx_vitis_v2019.2 \
+	--device-cgroup-rule "c 188:* rwm" \
+	-h xilinx_vitis_v2019-2 \
+	-v /tmp/.X11-unix:/tmp/.X11-unix \
+	-v ~/.Xauthority:/home/xilinx/.Xauthority \
+	-v /srv/software/xilinx:/srv/software \
+	-v /dev:/dev \
+	-e DISPLAY=$DISPLAY \
+	--mac-address "02:de:ad:be:ef:91" \
+	--user xilinx \
+	-itd xilinx-vitis:v2019.2 \
+	/bin/bash
+a1c16b9028644bd556e1c6701f75eb4991c343e04b017fbd93d9976a43d8b165
+```
 
+#### Verify the container was created and the MAC Address was set properly
 
-- Test ZCU104 DPU Examples
-- https://github.com/Xilinx/Vitis-AI/blob/master/mpsoc/README.md
+```bash
+$ docker ps -a
+CONTAINER ID        IMAGE                  COMMAND             CREATED             STATUS              PORTS               NAMES
+a1c16b902864        xilinx-vitis:v2019.2   "/bin/bash"         19 seconds ago      Up 17 seconds                           xilinx_vitis_v2019.2
+```
+
+## Connect to the running container
+
+### Launch an xterm session in the running container from the host command line
+- Launch an X-windows terminal shell for access to the container
+```bash
+bash:
+$ docker exec -it xilinx_vitis_v2019.2 bash -c "xterm" &
+```
+- This launches an X-windows terminal shell and sources the Vitis and Vivado settings script
+```bash
+xterm:
+xilinx@xilinx_vitis_v2019-2:/$
+```
+
+## Execute Vitis Tools
+- Launch Vitis from the working container
+```bash
+xterm:
+xilinx@xilinx_vitis_v2019-2:/opt/Xilinx$ vitis
+
+****** Xilinx Vitis Development Environment
+****** Vitis v2019.2 (64-bit)
+  **** SW Build 2700185 on Thu Oct 24 18:46:26 MDT 2019
+    ** Copyright 1986-2019 Xilinx, Inc. All Rights Reserved.
+
+Launching Vitis with command /opt/Xilinx/Vitis/2019.2/eclipse/lnx64.o/eclipse -vmargs -Xms64m -Xmx4G -Dorg.eclipse.swt.internal.gtk.cairoGraphics=false -Dosgi.configuration.area=@user.home/.Xilinx/Vitis/2019.2 --add-modules=ALL-SYSTEM --add-modules=jdk.incubator.httpclient --add-opens=java.base/java.nio=ALL-UNNAMED --add-opens=java.desktop/sun.swing=ALL-UNNAMED --add-opens=java.desktop/javax.swing=ALL-UNNAMED --add-opens=java.desktop/javax.swing.tree=ALL-UNNAMED --add-opens=java.desktop/javax.swing.plaf.basic=ALL-UNNAMED --add-opens=java.desktop/javax.swing.plaf.synth=ALL-UNNAMED --add-opens=java.desktop/com.sun.awt=ALL-UNNAMED --add-opens=java.desktop/sun.awt.X11=ALL-UNNAMED &
+xilinx@xilinx_vitis_v2019-2:/opt/Xilinx$
+```

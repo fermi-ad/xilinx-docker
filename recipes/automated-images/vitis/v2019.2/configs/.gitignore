@@ -3,12 +3,5 @@
 # Keep this gitignore file so the folder remains
 !.gitignore
 
-# Keep the keyboard settings and batch mode installer configurations
-!keyboard_settings.conf
-!xlnx_vivado_system_edition.config
-
-# Keep the XTerm configuration file
-!XTerm
-
-# Keep the Minicom configuration file
-!.minirc.dfl
+# Keep the batch mode installer configurations
+!xlnx_unified_vivado.config
