@@ -48,11 +48,11 @@ echo "-----------------------------------"
 # Check for existing ubuntu base os image:
 if [[ "$(docker images -q $DOCKER_USER_IMAGE_NAME:$DOCKER_USER_IMAGE_VERSION 2> /dev/null)" == "" ]]; then
   # create the docker base image
-  	echo "Base docker image [missing] ($DOCKER_USER_IMAGE_NAME:$DOCKER_USER_IMAGE_VERSION)"
+  	echo "Base user image [missing] ($DOCKER_USER_IMAGE_NAME:$DOCKER_USER_IMAGE_VERSION)"
   	echo "See the ./user-images/"$XLNX_RELEASE_VERSION" folder to create the required Docker image"
   	exit $EX_OSFILE
 else
-	echo "Base docker image [found] ("$DOCKER_USER_IMAGE_NAME:$DOCKER_USER_IMAGE_VERSION")"
+	echo "Base user image [found] ("$DOCKER_USER_IMAGE_NAME:$DOCKER_USER_IMAGE_VERSION")"
 fi
 
 # Test for dependencies required to run this script
