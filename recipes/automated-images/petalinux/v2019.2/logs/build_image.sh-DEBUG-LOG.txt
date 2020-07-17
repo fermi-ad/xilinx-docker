@@ -2,8 +2,7 @@ $ ./build_image.sh
 -----------------------------------
 Checking for dependencies...
 -----------------------------------
-Base docker image [found] (ubuntu:18.04.2)
-Keyboard Configuration: [Good] configs/keyboard_settings.conf
+Base docker image [found] (xilinx-ubuntu-18.04.2-user:v2019.2)
 Xilinx Petalinux Installer: [Good] depends/petalinux-v2019.2-final-installer.run
 -----------------------------------
 Docker Build Context (Working)...
