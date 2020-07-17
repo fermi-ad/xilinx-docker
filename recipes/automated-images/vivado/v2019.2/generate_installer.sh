@@ -30,8 +30,6 @@ source include/configuration.sh
 
 # Additional setup and overrides specificaly for dependency generation
 GENERATED_DIR=_generated
-DOCKER_USER_IMAGE_NAME=xilinx-ubuntu-18.04.2-user
-DOCKER_USER_IMAGE_VERSION=$XLNX_RELEASE_VERSION
 DOCKER_CONTAINER_NAME="build_"$XLNX_TOOL_INFO"_installer_"$XLNX_RELEASE_VERSION
 
 # Grab Start Time
@@ -50,11 +48,11 @@ echo "-----------------------------------"
 # Check for existing ubuntu base os image:
 if [[ "$(docker images -q $DOCKER_USER_IMAGE_NAME:$DOCKER_USER_IMAGE_VERSION 2> /dev/null)" == "" ]]; then
   # create the docker base image
-  	echo "Base docker image [missing] ($DOCKER_USER_IMAGE_NAME:$DOCKER_USER_IMAGE_VERSION)"
+  	echo "Base user image [missing] ($DOCKER_USER_IMAGE_NAME:$DOCKER_USER_IMAGE_VERSION)"
   	echo "See the ./user-images/"$XLNX_RELEASE_VERSION" folder to create the required Docker image"
   	exit $EX_OSFILE
 else
-	echo "Base docker image [found] ("$DOCKER_USER_IMAGE_NAME:$DOCKER_USER_IMAGE_VERSION")"
+	echo "Base user image [found] ("$DOCKER_USER_IMAGE_NAME:$DOCKER_USER_IMAGE_VERSION")"
 fi
 
 # Test for dependencies required to run this script
@@ -127,7 +125,6 @@ echo "Create a base docker container..."
 echo "-----------------------------------"
 echo "DOCKER_CONTAINER_NAME="$DOCKER_CONTAINER_NAME
 echo "-----------------------------------"
-
 
 if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi
 

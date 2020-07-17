@@ -3,7 +3,7 @@ $ ./generate_installer.sh
 -----------------------------------
 Checking for dependencies...
 -----------------------------------
-Base docker image [found] (xilinx-ubuntu-18.04.2-user:v2019.2)
+Base user image [found] (xilinx-ubuntu-18.04.2-user:v2019.2)
 Xilinx Unified Web Installer: [Exists] depends/Xilinx_Unified_2019.2_1024_1831_Lin64.bin
 Xilinx Batch Mode Configuration File: [Good] configs/xlnx_unified_vivado.config
 -----------------------------------
