@@ -35,13 +35,13 @@ echo "-----------------------------------"
 echo "Checking for dependencies..."
 echo "-----------------------------------"
 
-# Check for existing ubuntu base os image:
-if [[ "$(docker images -q $DOCKER_BASE_OS:$DOCKER_BASE_OS_TAG 2> /dev/null)" == "" ]]; then
+# Check for existing ubuntu user image:
+if [[ "$(docker images -q $DOCKER_USER_IMAGE_NAME:$DOCKER_USER_IMAGE_VERSION 2> /dev/null)" == "" ]]; then
   # create the docker base image
-  	echo "Base docker image [missing] ("$DOCKER_BASE_OS:$DOCKER_BASE_OS_TAG")"
+  	echo "Base user image [missing] ("DOCKER_USER_IMAGE_NAME:$DOCKER_USER_IMAGE_VERSION")"
  	exit $EX_OSFILE
 else
-	echo "Base docker image [found] ("$DOCKER_BASE_OS:$DOCKER_BASE_OS_TAG")"
+	echo "Base user image [found] ("DOCKER_USER_IMAGE_NAME:$DOCKER_USER_IMAGE_VERSION")"
 fi
 
 # Check for dependency files in the build context
