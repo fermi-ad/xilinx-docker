@@ -2,7 +2,7 @@ $ ./build_image.sh
 -----------------------------------
 Checking for dependencies...
 -----------------------------------
-Base docker image [found] (xilinx-ubuntu-18.04.2-user:v2019.2)
+Base user image [found] (xilinx-ubuntu-18.04.2-user:v2019.2)
 Xilinx MALI Binaries: [Good] depends/mali-400-userspace.tar
 Xilinx Petalinux Installer: [Good] depends/petalinux-v2019.2-final-installer.run
 -----------------------------------
