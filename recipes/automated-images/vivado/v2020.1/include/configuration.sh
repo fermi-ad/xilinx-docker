@@ -60,6 +60,9 @@ DOCKER_IMAGE_NAME=xilinx-$XLNX_TOOL_INFO
 DOCKER_BASE_OS=ubuntu
 DOCKER_BASE_OS_TAG=18.04.2
 
+DOCKER_USER_IMAGE_NAME=xilinx-ubuntu-18.04.2-user
+DOCKER_USER_IMAGE_VERSION=$XLNX_RELEASE_VERSION
+
 # Should Docker use Cache when building?
 # - A couple of important reasons to DISABLE the use of the cache
 #    - 1) You want to ensure you can build the image completey from scratch

@@ -2,7 +2,7 @@ $ ./build_image.sh
 -----------------------------------
 Checking for dependencies...
 -----------------------------------
-Base docker image [found] (ubuntu:18.04.2)
+Base docker image [found] (xilinx-ubuntu-18.04.2-user:v2020.1)
 Xilinx Unified Offline Installer: [Good] depends/Xilinx_Unified_2020.1_0602_1208_Lin64.bin.tar.gz
 Xilinx Batch Mode Configuration File: [Good] configs/xlnx_unified_vivado.config
 -----------------------------------
@@ -50,7 +50,7 @@ Arguments...
   --build-arg XLNX_UNIFIED_INSTALLER_BASENAME="Xilinx_Unified_2020.1_0602_1208"
   --build-arg BUILD_DEBUG="1"
 -----------------------------------
-+ docker build --no-cache -f ./Dockerfile --target xilinx_install_vivado_v2020.1 -t xilinx-vivado:v2020.1 --build-arg USER_ACCT=xilinx --build-arg HOME_DIR=/home/xilinx --build-arg KEYBOARD_CONFIG_FILE=configs/keyboard_settings.conf --build-arg XLNX_INSTALL_LOCATION=/opt/Xilinx --build-arg XLNX_DOWNLOAD_LOCATION=/opt/Xilinx/downloads --build-arg INSTALL_SERVER_URL=172.17.0.1:8000 --build-arg XLNX_UNIFIED_BATCH_CONFIG_FILE=configs/xlnx_unified_vivado.config --build-arg XLNX_UNIFIED_OFFLINE_INSTALLER=depends/Xilinx_Unified_2020.1_0602_1208_Lin64.bin.tar.gz --build-arg XLNX_UNIFIED_INSTALLER_BASENAME=Xilinx_Unified_2020.1_0602_1208 --build-arg BUILD_DEBUG=1 .
++ docker build --no-cache -f ./Dockerfile --target xilinx_install_vivado_v2020.1 -t xilinx-vivado:v2020.1 --build-arg USER_ACCT=xilinx --build-arg HOME_DIR=/home/xilinx --build-arg XLNX_INSTALL_LOCATION=/opt/Xilinx --build-arg XLNX_DOWNLOAD_LOCATION=/opt/Xilinx/downloads --build-arg INSTALL_SERVER_URL=172.17.0.1:8000 --build-arg XLNX_UNIFIED_BATCH_CONFIG_FILE=configs/xlnx_unified_vivado.config --build-arg XLNX_UNIFIED_OFFLINE_INSTALLER=depends/Xilinx_Unified_2020.1_0602_1208_Lin64.bin.tar.gz --build-arg XLNX_UNIFIED_INSTALLER_BASENAME=Xilinx_Unified_2020.1_0602_1208 --build-arg BUILD_DEBUG=1 .
 Sending build context to Docker daemon  18.43kB
 Serving HTTP on 0.0.0.0 port 8000 (http://0.0.0.0:8000/) ...
 Step 1/14 : FROM xilinx-ubuntu-18.04.2-user:v2020.1 AS xilinx_install_vivado_v2020.1
@@ -2858,7 +2858,6 @@ INFO : Installation completed successfully.
 + sudo debconf-set-selections
 Removing intermediate container 4787f73e65ec
  ---> 205efc22fa2f
-[Warning] One or more build-args [KEYBOARD_CONFIG_FILE] were not consumed
 Successfully built 205efc22fa2f
 Successfully tagged xilinx-vivado:v2020.1
 + '[' 1 -ne 0 ']'
