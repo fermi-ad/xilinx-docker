@@ -2,7 +2,7 @@ $ ./build_image.sh
 -----------------------------------
 Checking for dependencies...
 -----------------------------------
-Base docker image [found] (ubuntu:18.04.2)
+Base docker image [found] (xilinx-ubuntu-18.04.2-user:v2020.1)
 Xilinx Unified Offline Installer: [Good] depends/Xilinx_Unified_2020.1_0602_1208_Lin64.bin.tar.gz
 Xilinx Batch Mode Configuration File: [Good] configs/xlnx_unified_vitis.config
 -----------------------------------

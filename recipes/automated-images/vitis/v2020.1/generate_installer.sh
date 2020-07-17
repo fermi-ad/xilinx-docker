@@ -30,8 +30,6 @@ source include/configuration.sh
 
 # Additional setup and overrides specificaly for dependency generation
 GENERATED_DIR=_generated
-DOCKER_USER_IMAGE_NAME=xilinx-ubuntu-18.04.2-user
-DOCKER_USER_IMAGE_VERSION=$XLNX_RELEASE_VERSION
 DOCKER_CONTAINER_NAME="build_"$XLNX_TOOL_INFO"_installer_"$XLNX_RELEASE_VERSION
 
 # Grab Start Time

@@ -57,6 +57,9 @@ DOCKER_IMAGE_NAME=xilinx-$XLNX_TOOL_INFO
 DOCKER_BASE_OS=ubuntu
 DOCKER_BASE_OS_TAG=18.04.2
 
+DOCKER_USER_IMAGE_NAME=xilinx-ubuntu-18.04.2-user
+DOCKER_USER_IMAGE_VERSION=$XLNX_RELEASE_VERSION
+
 # Should Docker use Cache when building?
 # - A couple of important reasons to DISABLE the use of the cache
 #    - 1) You want to ensure you can build the image completey from scratch
@@ -109,52 +112,6 @@ INSTALL_DEPENDS_DIR=depends
 ########################################################################################
 # Depdendency / Configuration File Related Variables
 ########################################################################################
-########################################################################################
-# DOCKER_BUILD_XLNX_MALI_LOCAL:
-# '0' = The docker build script will not construct XLNX_MALI_URL
-#       using the python server address, but will pass the URL setup above
-#
-# '1' = The docker build script will construct XLNX_MALI_URL
-#		using the python server address and the INSTALL_DEPENDS_DIR variable
-DOCKER_BUILD_XLNX_MALI_LOCAL='1'
-
-# Xilinx ARM Mali Pre-built binaries
-# XLNX_MALI_URL: Base download URL
-# XLNX_MALI_BINARY: filename to download
-# **Downloading Direct from Xilinx no longer works due to click-through license requirements
-# Set #2: Download from local archive by use of python http.server (address set later in this script)
-# DOCKER_BUILD_XLNX_MALI_LOCAL=1
-XLNX_MALI_URL=0.0.0.0:8000
-XLNX_MALI_BINARY=$INSTALL_DEPENDS_DIR/mali-400-userspace.tar
-#XLNX_MALI_BINARY=$INSTALL_DEPENDS_DIR/mali-400-userspace-with-android-2019.1.tar
-
-# Configuration Files for batch mode installation
-# KEYBOARD_CONFIG_FILE:	Keyboard setting configuration file
-#	for headless selection of the keyboard setup
-#	Required for the X-based XSDK installer package
-KEYBOARD_CONFIG_FILE=$INSTALL_CONFIGS_DIR/keyboard_settings.conf
-
-# Configuration file for xterm sessions inside of the docker container
-# XTERM_CONFIG_FILE: XTerm session configuration file
-#	Changes color scheme and font to something more readable (default is white background)
-#   Changes scrollback to 1 million lines and enables the scroll bar
-#   Notes on Copy-Paste with the host:
-#	 	Copy from Host to XTerm:
-#			- Host may copy with "CTRL-C" or "Right-Click->Copy"
-#			- Use center mouse button (scroll wheel) to paste into XTerm session
-#
-#		Copy from XTerm to Host:
-#			- Select text in XTerm session to copy using cursor (left-click and drag over text to copy)
-#			- Host may paste with center mouse button (scroll wheel)
-#			- Host clipboard contents from host copy maintained in separate buffer (CTRL-V)
-#-------------
-XTERM_CONFIG_FILE=$INSTALL_CONFIGS_DIR/XTerm
-
-# Configuration Files for minicom session inside of the docker container
-# MINICOM_CONFIG_FILE: Minicom default settings configuration file
-#   115200-8-N-1, no hardware flow control by default
-MINICOM_CONFIG_FILE=$INSTALL_CONFIGS_DIR/.minirc.dfl
-
 # Xilinx Unified Installer batch mode: Batch mode install configuration template
 #	for headless install of Xilinx Tool components
 XLNX_UNIFIED_BATCH_CONFIG_FILE=$INSTALL_CONFIGS_DIR/xlnx_unified_$XLNX_TOOL_INFO.config
