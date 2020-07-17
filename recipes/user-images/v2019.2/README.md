@@ -58,6 +58,43 @@ Build Cache         0                   0                   0B                  
 
 ```
 
+## Generate Configuration Files (one time)
+
+### Execute the configuration file generation script
+
+- For Linux, execute the following script:
+```bash
+bash:
+$ ./generate_configs.sh
+```
+
+- Follow the build process in the terminal (manual interaction required)
+- Keyboard configuration
+	- Select a keyboard model: ```Generic 105-key (Intl) PC``` is the default
+	- Select a country of origin for the keyboard: ```English (US)``` is the default
+	- Select a keyboard layout: ```English (US)``` is the default
+	- Select an AltGr function: ```The default for the keyboard layout``` is the default
+	- Select a compose key: ```No compose key``` is the default
+
+- Review the generated configurations
+
+```bash
+bash:
+-----------------------------------
+Configurations Generated:
+-----------------------------------
+-rw-r--r-- 1 xilinx xilinx 1554 Jul 16 16:32 _generated/configs/keyboard_settings.conf
+-----------------------------------
+
+```
+
+- Copy the generated configurations to the configuration folder
+
+```bash
+bash:
+$ cp _generated/configs/* configs/
+```
+
 ## Generate an Ubuntu 18.04.2 user image 
 - This contains all the dependencies for the v2019.2 Xilinx Tools
 

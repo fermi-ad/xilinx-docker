@@ -172,7 +172,7 @@ Configurations Generated:
 
 ```
 
-- Copy the generated configurations to the dependency folder
+- Copy the generated configurations to the configuration folder
 
 ```bash
 bash:
