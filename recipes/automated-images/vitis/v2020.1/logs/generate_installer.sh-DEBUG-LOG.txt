@@ -2,7 +2,7 @@ $ ./generate_installer.sh
 -----------------------------------
 Checking for dependencies...
 -----------------------------------
-Base docker image [found] (xilinx-ubuntu-18.04.2-user:v2020.1)
+Base user image [found] (xilinx-ubuntu-18.04.2-user:v2020.1)
 Xilinx Unified Web Installer: [Exists] depends/Xilinx_Unified_2020.1_0602_1208_Lin64.bin
 Xilinx Batch Mode Configuration File: [Good] configs/xlnx_unified_vitis.config
 -----------------------------------
