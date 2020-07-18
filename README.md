@@ -31,15 +31,17 @@ These are the Base Ubuntu OS Images used for tool installations.
 | Ubuntu Release | Base Image   |
 | -------------- | ----------   |
 | 18.04.2        | [88.3MB][4b] |
+| 18.04.1        | [83.5MB][3b] |
 
 ### Xilinx User Images (Manual Tool Installation)
 
 These user images include a tool-compatible Ubuntu OS installation and all (known) base Xilinx tool dependencies for that release.  Xilinx tools are installed and configured manually by each user to create the final user image.
 
-| Xilinx Release | User Image     | Petalinux     | Vivado        | Vitis          | SDK |
-| -------------- | -------------- | ---------     | ------------  | ------------   | --- |
-| v2020.1        | [2.01GB][4u]   | [10.7GB][4mp] | [53.2GB][4mv] | [72.2GB][4mvi] |     |
-| v2019.2        | [2.02GB][3u]   | [18.4GB][3mp] | [40.9GB][3mv] | [55.4GB][3mvi] | |
+| Xilinx Release | User Image     | Petalinux     | Vivado        | Vitis          | SDK             |
+| -------------- | -------------- | ---------     | ------------  | ------------   | --------------- |
+| v2020.1        | [2.01GB][4u]   | [10.7GB][4mp] | [53.2GB][4mv] | [72.2GB][4mvi] |                 |
+| v2019.2        | [2.02GB][3u]   | [18.4GB][3mp] | [40.9GB][3mv] | [55.4GB][3mvi] |                 |
+| v2019.1        | [2.02GB][2u]   | [16.5GB][2mp] | [TBDGB][2mv]  | [TBDGB][2mvi]  | [9.99GB][2msdk] |
 
 
 ### Xilinx User Images (Automated/Scripted Tool Installation)
@@ -62,21 +64,34 @@ These build times are approximate, rounded to the nearest minute and reflect one
 
 
 [4b]: ./recipes/base-images/ubuntu-18.04.2/README.md
-[4u]: ./recipes/user-images/v2020.1/README.md
-[4mp]: ./recipes/user-images/v2020.1/README.petalinux-install.md
-[4mv]: ./recipes/user-images/v2020.1/README.vivado-install.md
-[4mvi]: ./recipes/user-images/v2020.1/README.vitis-install.md
-[4ap]: ./recipes/automated-images/petalinux/v2020.1/README.md
-[4av]: ./recipes/automated-images/vivado/v2020.1/README.md
-[4avi]: ./recipes/automated-images/vitis/v2020.1/README.md
+[3b]: ./recipes/base-images/ubuntu-18.04.1/README.md
 
+[4u]: ./recipes/user-images/v2020.1/README.md
 [3u]: ./recipes/user-images/v2019.2/README.md
+[2u]: ./recipes/user-images/v2019.1/README.md
+
+[4mp]: ./recipes/user-images/v2020.1/README.petalinux-install.md
 [3mp]: ./recipes/user-images/v2019.2/README.petalinux-install.md
+[2mp]: ./recipes/user-images/v2019.1/README.petalinux-install.md
+
+[4mv]: ./recipes/user-images/v2020.1/README.vivado-install.md
 [3mv]: ./recipes/user-images/v2019.2/README.vivado-install.md
+
+[4mvi]: ./recipes/user-images/v2020.1/README.vitis-install.md
 [3mvi]: ./recipes/user-images/v2019.2/README.vitis-install.md
+
+[3msdk]: ./recipes/user-images/v2019.1/README.sdk-install.md
+
+[4ap]: ./recipes/automated-images/petalinux/v2020.1/README.md
 [3ap]: ./recipes/automated-images/petalinux/v2019.2/README.md
+
+[4av]: ./recipes/automated-images/vivado/v2020.1/README.md
 [3av]: ./recipes/automated-images/vivado/v2019.2/README.md
+
+[4avi]: ./recipes/automated-images/vitis/v2020.1/README.md
 [3avi]: ./recipes/automated-images/vitis/v2019.2/README.md
+
+[3sdk]: ./recipes/automated-images/sdk/v2019.1/README.md
 
 ## Workflow overviews
 

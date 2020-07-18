@@ -168,7 +168,7 @@ xilinx@xilinx_petalinux_v2020-1:/opt/Xilinx$ Exit
 
 Save a copy of the current working container as a new image in your local Docker repository.
 
-## Commit the container with Petalinux installer to your repository 
+## Commit the container with Petalinux installed to your repository 
 - This creates a new `Docker Image` with Petalinux installed
 - This may take a short time while the changes are committed
 ```bash

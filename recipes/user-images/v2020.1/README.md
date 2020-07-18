@@ -40,6 +40,7 @@
 - For Linux, execute the base image generation script __*../../base-images/ubuntu_18.04.2/build_image.sh*__
 
 ```bash
+$ pushd ../../base-images/ubuntu-18.04.2/
 $ ./build_image.sh 
 Base Release Image [Good] ubuntu-base-18.04.2-base-amd64.tar.gz
 + docker import depends/ubuntu-base-18.04.2-base-amd64.tar.gz ubuntu:18.04.2
@@ -56,6 +57,7 @@ Build Cache         0                   0                   0B                  
 + '[' 1 -ne 0 ']'
 + set +x
 
+$ popd
 ```
 
 ## Generate Configuration Files (one time)

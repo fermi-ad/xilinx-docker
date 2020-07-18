@@ -206,7 +206,7 @@ xilinx@xilinx_vitis_v2020-1:/opt/Xilinx$ exit
 
 Save a copy of the current working container as a new image in your local Docker repository.
 
-## Commit the container with Petalinux installer to your repository 
+## Commit the container with Vitis installed to your repository 
 - This creates a new `Docker Image` with Vitis installed
 - This may take a short time while the changes are committed
 ```bash

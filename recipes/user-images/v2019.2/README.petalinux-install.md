@@ -91,12 +91,11 @@ xilinx@xilinx_petalinux_v2019-2:/$ sudo chown -hR xilinx:xilinx /opt
 ```
 
 ### Execute the installer
-- Specify the install directory using the `-d` option
 
 ```bash
 xterm:
 xilinx@xilinx_petalinux_v2019-2:/$ cd /opt/Xilinx/
-xilinx@xilinx_petalinux_v2019-2:/opt/Xilinx$ /srv/software/petalinux/petalinux-v2019.2-final-installer.run petalinux/v2019.2 --log petalinux_install.log
+xilinx@xilinx_petalinux_v2019-2:/opt/Xilinx$ /srv/software/petalinux/petalinux-v2019.2-final-installer.run --log petalinux_install.log ./petalinux/v2019.2
 INFO: Checking installation environment requirements...
 INFO: Checking free disk space
 INFO: Checking installed tools
@@ -171,7 +170,7 @@ xilinx@xilinx_petalinux_v2019-2:/opt/Xilinx$ exit
 
 Save a copy of the current working container as a new image in your local Docker repository.
 
-## Commit the container with Petalinux installer to your repository 
+## Commit the container with Petalinux installed to your repository 
 - This creates a new `Docker Image` with Petalinux installed
 - This may take a short time while the changes are committed
 ```bash
