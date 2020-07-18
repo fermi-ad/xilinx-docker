@@ -4,7 +4,6 @@
 ```
 -> .dockerignore
 -> build_image.sh
--> generate_depends.sh
 -> Dockerfile
 -> autoinstall_petalinux.sh
 -> depends/

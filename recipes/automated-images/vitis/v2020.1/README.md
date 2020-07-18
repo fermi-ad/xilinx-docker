@@ -4,9 +4,10 @@
 ```
 -> .dockerignore
 -> build_image.sh
--> generate_configs.sh
--> host_xrt_setup.sh
 -> Dockerfile
+-> Dockerfile.generate_configs
+-> generate_configs.sh
+-> generate_installer.sh
 -> configs/
 	-> xlnx_unified_vitis.config
 -> depends/

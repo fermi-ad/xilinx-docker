@@ -4,13 +4,15 @@
 ```
 -> .dockerignore
 -> build_image.sh
--> generate_depends.sh
 -> Dockerfile
+-> Dockerfile.generate_configs
+-> generate_configs.sh
+-> generate_installer.sh
 -> configs/
-	-> xlnx_vivado_system_edition.config
+	-> xlnx_unified_vivado.config
 -> depends/
 	-> Xilinx_Unified_2019.2_1024_1831_Lin64.bin
-	-> (Vivado_Xilinx_Unified_2019.2_1024_1831_Lin64.bin.tar.gz)
+	-> (Xilinx_Unified_2019.2_1024_1831_Lin64.bin.tar.gz)
 -> include/
 	-> configuration.sh
 ```
