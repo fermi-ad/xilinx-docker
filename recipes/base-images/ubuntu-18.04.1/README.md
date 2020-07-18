@@ -4,15 +4,12 @@
 ```
 -> README.md (this file)
 -> build_image.sh
--> build_image.ps1
 -> depends/
 	-> .gitignore
 -> include/
 	-> configuration.sh
-	-> configuration.ps1
 -> logs/
 	-> build_image.sh-DEBUG-LOG.txt
-	-> build_image.ps1-DEBUG-LOG.txt
 ```
 
 # Ubuntu 18.04.1 Docker Image
@@ -22,8 +19,6 @@
 ### Build script configuration
 - For Linux Hosts, see the file:
 	- __./include/configuration.sh__
-- For Windows 10 Hosts, see the file:
-	- __./include/configuration.ps1__
 
 ### For building on a Linux Host under the BASH Shell:
 - Execute the command:
@@ -33,22 +28,14 @@ $ cd xilinx-docker/recipes/base-images/ubuntu-18.04.1
 $ ./build_image.sh
 ```
 
-### For building on a Windows 10 Host under Powershell:
-- Execute the command:
-```powershell
-powershell:
-PS > C:\> cd xilinx-docker\recipes\base-images\ubuntu-18.04.1
-PS > C:\xilinx-docker\recipes\base-images\ubuntu-18.04.1> .\buld_image.ps1
-```
-
 #### Example: Create the Ubuntu 18.04.1 OS using the included script
 ```bash
 bash:
 $ ./build_image.sh
 Base Relese Image Download [Good] ubuntu-base-18.04.1-base-amd64.tar.gz
-sha256:4112b3ccf8569cf0e67fe5b99c011ab93a27dd42137ea26f88f070b52f8e15a8
-REPOSITORY               TAG                 IMAGE ID            CREATED                  SIZE
-ubuntu                   18.04.1             4112b3ccf856        Less than a second ago   83.5MB
+sha256:1f5eefc33d49b91eba954d0355917290c0e45d54f1e59ce0c918fade26662c89
+REPOSITORY                       TAG                  IMAGE ID            CREATED                  SIZE
+ubuntu                           18.04.1              1f5eefc33d49        Less than a second ago   83.5MB
 ```
 
 # Additional information

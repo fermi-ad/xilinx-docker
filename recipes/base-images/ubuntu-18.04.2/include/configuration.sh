@@ -2,7 +2,6 @@
 ########################################################################################
 # Docker Image Build Variable Custom Configuration:
 #   - Customize definitions of arguments for building images for v2018.3
-#	- Used with: Dockerfile.xx_v2018.3
 #
 # Maintainer:
 #	- Jason Moss (jason.moss@avnet.com)
