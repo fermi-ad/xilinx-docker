@@ -88,6 +88,7 @@ These build times are approximate, rounded to the nearest minute and reflect one
 
 [4ap]: ./recipes/automated-images/petalinux/v2020.1/README.md
 [3ap]: ./recipes/automated-images/petalinux/v2019.2/README.md
+[2ap]: ./recipes/automated-images/petalinux/v2019.1/README.md
 
 [4av]: ./recipes/automated-images/vivado/v2020.1/README.md
 [3av]: ./recipes/automated-images/vivado/v2019.2/README.md
