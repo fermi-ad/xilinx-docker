@@ -79,6 +79,7 @@ These build times are approximate, rounded to the nearest minute and reflect one
 
 [4mv]: ./recipes/user-images/v2020.1/README.vivado-install.md
 [3mv]: ./recipes/user-images/v2019.2/README.vivado-install.md
+[2mv]: ./recipes/user-images/v2019.1/README.vivad-install.md
 
 [4mvi]: ./recipes/user-images/v2020.1/README.vitis-install.md
 [3mvi]: ./recipes/user-images/v2019.2/README.vitis-install.md
