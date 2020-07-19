@@ -52,7 +52,7 @@ These user images include a tool-compatible Ubuntu OS installation with tool spe
 | -------------- | -------------- | ---------     | ------------  | ------------   | --------------- |
 | v2020.1        | [18.04.2][4u]  | [10.7GB][4ap] | [52.3GB][4av] | [71.3GB][4avi] | N/A             |
 | v2019.2        | [18.04.2][3u]  | [18.4GB][3ap] | [40.9GB][3av] | [55.2GB][3avi] | N/A             |
-| v2019.1        | [18.04.1][2u]  | [18.4GB][2ap] | [40.9GB][2av] | N/A            | [TB.DGB][3asdk] |
+| v2019.1        | [18.04.1][2u]  | [TB.DGB][2ap] | [TB.DGB][2av] | N/A            | [TB.DGB][3asdk] |
 
 #### Automated Image Build Times
 

@@ -21,11 +21,11 @@
 
 ## Download Xilinx Petalinux Installer
 - Xilinx requires a valid xilinx.com account in order to download the Xilinx Petalinux Installer.
-	- Xilinx Petalinux Installer v2019.2
+	- Xilinx Petalinux Installer v2019.1
 		- Download Link: 
-			- https://www.xilinx.com/member/forms/download/xef.html?filename=petalinux-v2019.2-final-installer.run
+			- https://www.xilinx.com/member/forms/download/xef.html?filename=petalinux-v2019.1-final-installer.run
 		- Release Notes;
-			- https://www.xilinx.com/support/answers/72950.html
+			- https://www.xilinx.com/support/answers/72293.html
 - Place the installer binary (or a link to it) in the ./depends folder
 
 ## Download the MALI Userspace Binaries
@@ -90,13 +90,23 @@ $ popd
 ```bash
 $ pushd ../../../user-images/v2019.1/ubuntu-18.04.1-user/
 $ ./build_image.sh 
+Removing intermediate container 344af33a95f3
+ ---> 469af6a10c38
+Successfully built 469af6a10c38
+Successfully tagged xilinx-ubuntu-18.04.1-user:v2019.1
+...
+-----------------------------------
+Image Build Complete...
+STARTED :Fri Jul 17 21:08:30 EDT 2020
+ENDED   :Fri Jul 17 21:14:05 EDT 2020
+-----------------------------------
 
 $ popd
 ```
 
 < --- UPDATE ME BELOW --- > 
 
-## Build a v2019.2 Petalinux Image (one time)
+## Build a v2019.1 Petalinux Image (one time)
 
 ### Execute the image build script
 - Note: The build error is expected Build times reflected below were on an HP ZBook 15 G3, on battery power, connected to a WiFi 4G Hotspot

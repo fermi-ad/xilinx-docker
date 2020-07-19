@@ -128,33 +128,6 @@ XLNX_MALI_URL=0.0.0.0:8000
 XLNX_MALI_BINARY=$INSTALL_DEPENDS_DIR/mali-400-userspace.tar
 #XLNX_MALI_BINARY=$INSTALL_DEPENDS_DIR/mali-400-userspace-with-android-2019.1.tar
 
-# Configuration Files for batch mode installation
-# KEYBOARD_CONFIG_FILE:	Keyboard setting configuration file
-#	for headless selection of the keyboard setup
-#	Required for the X-based XSDK installer package
-KEYBOARD_CONFIG_FILE=$INSTALL_CONFIGS_DIR/keyboard_settings.conf
-
-# Configuration file for xterm sessions inside of the docker container
-# XTERM_CONFIG_FILE: XTerm session configuratino file
-#	Changes color scheme and font to something more readable (default is white background)
-#   Changes scrollback to 1 million lines and enables the scroll bar
-#   Notes on Copy-Paste with the host:
-#	 	Copy from Host to XTerm:
-#			- Host may copy with "CTRL-C" or "Right-Click->Copy"
-#			- Use center mouse button (scroll wheel) to paste into XTerm session
-#
-#		Copy from XTerm to Host:
-#			- Select text in XTerm session to copy using cursor (left-click and drag over text to copy)
-#			- Host may paste with center mouse button (scroll wheel)
-#			- Host clipboard contents from host copy maintained in separate buffer (CTRL-V)
-#-------------
-XTERM_CONFIG_FILE=$INSTALL_CONFIGS_DIR/XTerm
-
-# Configuration Files for minicom session inside of the docker container
-# MINICOM_CONFIG_FILE: Minicom default settings configuration file
-#   115200-8-N-1, no hardware flow control by default
-MINICOM_CONFIG_FILE=$INSTALL_CONFIGS_DIR/.minirc.dfl
-
 # Xilinx Petalinux Autoinstall Script
 #  for headless installation of Petalinux
 XLNX_PETALINUX_AUTOINSTALL_SCRIPT=autoinstall_petalinux.sh
