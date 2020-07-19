@@ -1,18 +1,5 @@
 [//]: # (Readme.sdk-install.md - Install SDK on a Base Ubuntu User Image for v2019.1 Xilinx Tools)
 
-# Organization
-```
--> .dockerignore
--> build_image.sh
--> Dockerfile
--> configs/
-	-> .minirc.dfl
-	-> keyboard_settings.conf
-	-> XTerm
--> include/
-	-> configuration.sh
-```
-
 # Install SDK
 
 ## Create a working container (running in daemon mode)
