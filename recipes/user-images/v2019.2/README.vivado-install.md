@@ -1,17 +1,4 @@
-[//]: # (Readme.vivado-install.md - Install Vitis on a Base Ubuntu User Image for v2019.2 Xilinx Tools)
-
-# Organization
-```
--> .dockerignore
--> build_image.sh
--> Dockerfile
--> configs/
-	-> .minirc.dfl
-	-> keyboard_settings.conf
-	-> XTerm
--> include/
-	-> configuration.sh
-```
+[//]: # (Readme.vivado-install.md - Install Vivado on a Base Ubuntu User Image for v2019.2 Xilinx Tools)
 
 # Install Vitis
 

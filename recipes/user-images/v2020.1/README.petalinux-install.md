@@ -1,18 +1,5 @@
 [//]: # (Readme.petalinux-install.md - Install Petalinux on a Base Ubuntu User Image for v2020.1 Xilinx Tools)
 
-# Organization
-```
--> .dockerignore
--> build_image.sh
--> Dockerfile
--> configs/
-	-> .minirc.dfl
-	-> keyboard_settings.conf
-	-> XTerm
--> include/
-	-> configuration.sh
-```
-
 # Install Petalinux
 
 ## Create a working container (running in daemon mode) based on the petalinux image
