@@ -57,7 +57,7 @@ DOCKER_IMAGE_NAME=xilinx-$XLNX_TOOL_INFO
 DOCKER_BASE_OS=ubuntu
 DOCKER_BASE_OS_TAG=18.04.1
 
-DOCKER_USER_IMAGE_NAME=xilinx-ubuntu-18.04.2-user
+DOCKER_USER_IMAGE_NAME=xilinx-ubuntu-18.04.1-user
 DOCKER_USER_IMAGE_VERSION=$XLNX_RELEASE_VERSION
 
 # Should Docker use Cache when building?
@@ -122,7 +122,7 @@ INSTALL_DEPENDS_DIR=depends
 #
 # '1' = The docker build script will include the MALI binaries in the resulting image
 #       using the python server address to transfer the archive to the docker build
-DOCKER_BUILD_INCLUDE_XLNX_MALI=1
+DOCKER_BUILD_INCLUDE_XLNX_MALI=0
 
 XLNX_MALI_URL=0.0.0.0:8000
 XLNX_MALI_BINARY=$INSTALL_DEPENDS_DIR/mali-400-userspace.tar
