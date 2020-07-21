@@ -75,7 +75,6 @@ RUN if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi \
   		--agree XilinxEULA,3rdPartyEULA,WebTalkTerms \
   		--config $XLNX_UNIFIED_BATCH_CONFIG_FILE \
   		--batch INSTALL \
-  		--xdebug \
 # Cleanup Temporary Files \
   	&& cd $HOME_DIR \
   	&& rm -rf $XLNX_INSTALL_LOCATION/tmp \

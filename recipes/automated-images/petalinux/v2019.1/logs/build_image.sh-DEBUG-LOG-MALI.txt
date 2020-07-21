@@ -2,7 +2,7 @@ $ ./build_image.sh
 -----------------------------------
 Checking for dependencies...
 -----------------------------------
-Base user image [found] (DOCKER_USER_IMAGE_NAME:v2019.1)
+Base user image [found] (xilinx-ubuntu-18.04.1-user:v2019.1)
 Xilinx MALI Binaries: [Good] depends/mali-400-userspace.tar
 Xilinx Petalinux Installer: [Good] depends/petalinux-v2019.1-final-installer.run
 -----------------------------------
