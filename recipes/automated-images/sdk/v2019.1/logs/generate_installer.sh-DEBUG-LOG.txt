@@ -1,0 +1,212 @@
+$ ./generate_installer.sh 
+-----------------------------------
+Checking for dependencies...
+-----------------------------------
+Base user image [found] (xilinx-ubuntu-18.04.1-user:v2019.1)
+Xilinx SDK Web Installer: [Exists] depends/Xilinx_SDK_2019.1_0524_1430_Lin64.bin
+Xilinx Batch Mode Configuration File: [Good] configs/xlnx_xsdk.config
+-----------------------------------
+Docker Build Context (Working)...
+-----------------------------------
+DOCKER_INSTALL_DIR=.
+DOCKER_BUILD_WORKING_DIR=/xilinx/local/repositories/gitlab/xilinx-docker/recipes/automated-images/sdk/v2019.1
+-----------------------------------
+-----------------------------------
+Launching Python HTTP Server...
+-----------------------------------
++ SERVER_PID=4451
++ python3 -m http.server
+++ ifconfig docker0
+++ grep 'inet\s'
+++ awk '{print $2}'
++ SERVER_IP=172.17.0.1
++ '[' 1 -ne 0 ']'
++ set +x
+SERVER_IP=172.17.0.1
+SERVER_PID=4451
+-----------------------------------
+access control disabled, clients can connect from any host
+-----------------------------------
+Create a base docker container...
+-----------------------------------
+DOCKER_CONTAINER_NAME=build_xsdk_installer_v2019.1
+-----------------------------------
++ docker run --name build_xsdk_installer_v2019.1 -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=:0 -itd xilinx-ubuntu-18.04.1-user:v2019.1 /bin/bash
+Serving HTTP on 0.0.0.0 port 8000 (http://0.0.0.0:8000/) ...
+d0edbf1f4a13e4cba7c39091a3aef668495c6f8032fe5822dd4be2db99e6e587
++ '[' 1 -ne 0 ']'
++ set +x
+-----------------------------------
+Install support packages...
+-----------------------------------
++ docker exec -it build_xsdk_installer_v2019.1 bash -c 'if [ 1 -ne 0 ]; then set -x; fi         && sudo apt-get -y install wget'
++ sudo apt-get -y install wget
+Reading package lists... Done
+Building dependency tree       
+Reading state information... Done
+wget is already the newest version (1.19.4-1ubuntu2.2).
+0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
++ '[' 1 -ne 0 ']'
++ set +x
+-----------------------------------
+Building Offline Installer Bundle...
+-----------------------------------
+ - Install dependencies and download SDK Installer and configuration file into container...
+-----------------------------------
++ docker exec -it build_xsdk_installer_v2019.1 bash -c 'if [ 1 -ne 0 ]; then set -x; fi         && sudo apt-get update  && sudo apt-get -y install file xorg    && mkdir -p /home/xilinx/downloads/tmp  && cd /home/xilinx/downloads/tmp        && mkdir -p depends     && wget -nv 172.17.0.1:8000/depends/Xilinx_SDK_2019.1_0524_1430_Lin64.bin -O depends/Xilinx_SDK_2019.1_0524_1430_Lin64.bin      && chmod a+x depends/Xilinx_SDK_2019.1_0524_1430_Lin64.bin      && mkdir -p configs     && wget -nv 172.17.0.1:8000/configs/xlnx_xsdk.config -O configs/xlnx_xsdk.config        && ls -al depends/Xilinx_SDK_2019.1_0524_1430_Lin64.bin'
++ sudo apt-get update
+Get:1 http://archive.ubuntu.com/ubuntu bionic InRelease [242 kB]
+Get:2 http://security.ubuntu.com/ubuntu bionic-security InRelease [88.7 kB]
+Get:3 http://archive.ubuntu.com/ubuntu bionic-updates InRelease [88.7 kB]
+Get:4 http://archive.ubuntu.com/ubuntu bionic-backports InRelease [74.6 kB]
+Get:5 http://security.ubuntu.com/ubuntu bionic-security/main amd64 Packages [790 kB]
+Get:6 http://archive.ubuntu.com/ubuntu bionic/main i386 Packages [1007 kB]
+Get:7 http://security.ubuntu.com/ubuntu bionic-security/main i386 Packages [508 kB]         
+Get:8 http://security.ubuntu.com/ubuntu bionic-security/main Translation-en [248 kB]                     
+Get:9 http://security.ubuntu.com/ubuntu bionic-security/restricted amd64 Packages [70.3 kB]
+Get:10 http://security.ubuntu.com/ubuntu bionic-security/restricted i386 Packages [6412 B]
+Get:11 http://security.ubuntu.com/ubuntu bionic-security/restricted Translation-en [15.5 kB]
+Get:12 http://security.ubuntu.com/ubuntu bionic-security/universe i386 Packages [625 kB] 
+Get:13 http://archive.ubuntu.com/ubuntu bionic/main amd64 Packages [1019 kB]   
+Get:14 http://archive.ubuntu.com/ubuntu bionic/main Translation-en [516 kB]                
+Get:15 http://security.ubuntu.com/ubuntu bionic-security/universe amd64 Packages [679 kB]      
+Get:16 http://security.ubuntu.com/ubuntu bionic-security/universe Translation-en [225 kB]             
+Get:17 http://archive.ubuntu.com/ubuntu bionic/restricted amd64 Packages [9184 B]                          
+Get:18 http://archive.ubuntu.com/ubuntu bionic/restricted i386 Packages [9156 B]                       
+Get:19 http://archive.ubuntu.com/ubuntu bionic/restricted Translation-en [3584 B]                      
+Get:20 http://archive.ubuntu.com/ubuntu bionic/universe amd64 Packages [8570 kB]                        
+Get:21 http://security.ubuntu.com/ubuntu bionic-security/multiverse amd64 Packages [7908 B]            
+Get:22 http://security.ubuntu.com/ubuntu bionic-security/multiverse i386 Packages [3880 B]       
+Get:23 http://security.ubuntu.com/ubuntu bionic-security/multiverse Translation-en [2816 B]
+Get:24 http://archive.ubuntu.com/ubuntu bionic/universe i386 Packages [8531 kB]       
+Get:25 http://archive.ubuntu.com/ubuntu bionic/universe Translation-en [4941 kB]
+Get:26 http://archive.ubuntu.com/ubuntu bionic/multiverse amd64 Packages [151 kB]
+Get:27 http://archive.ubuntu.com/ubuntu bionic/multiverse i386 Packages [144 kB]
+Get:28 http://archive.ubuntu.com/ubuntu bionic/multiverse Translation-en [108 kB]
+Get:29 http://archive.ubuntu.com/ubuntu bionic-updates/main i386 Packages [717 kB]
+Get:30 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 Packages [1019 kB]
+Get:31 http://archive.ubuntu.com/ubuntu bionic-updates/main Translation-en [343 kB]
+Get:32 http://archive.ubuntu.com/ubuntu bionic-updates/restricted i386 Packages [11.1 kB]
+Get:33 http://archive.ubuntu.com/ubuntu bionic-updates/restricted amd64 Packages [79.9 kB]
+Get:34 http://archive.ubuntu.com/ubuntu bionic-updates/restricted Translation-en [17.7 kB]
+Get:35 http://archive.ubuntu.com/ubuntu bionic-updates/universe i386 Packages [1026 kB]
+Get:36 http://archive.ubuntu.com/ubuntu bionic-updates/universe amd64 Packages [1093 kB]
+Get:37 http://archive.ubuntu.com/ubuntu bionic-updates/universe Translation-en [340 kB]
+Get:38 http://archive.ubuntu.com/ubuntu bionic-updates/multiverse amd64 Packages [11.5 kB]
+Get:39 http://archive.ubuntu.com/ubuntu bionic-updates/multiverse i386 Packages [7136 B]
+Get:40 http://archive.ubuntu.com/ubuntu bionic-updates/multiverse Translation-en [4832 B]
+Get:41 http://archive.ubuntu.com/ubuntu bionic-backports/main amd64 Packages [7516 B]
+Get:42 http://archive.ubuntu.com/ubuntu bionic-backports/main i386 Packages [7508 B]
+Get:43 http://archive.ubuntu.com/ubuntu bionic-backports/main Translation-en [4764 B]
+Get:44 http://archive.ubuntu.com/ubuntu bionic-backports/universe i386 Packages [7724 B]
+Get:45 http://archive.ubuntu.com/ubuntu bionic-backports/universe amd64 Packages [7736 B]
+Get:46 http://archive.ubuntu.com/ubuntu bionic-backports/universe Translation-en [4588 B]
+Fetched 33.4 MB in 6s (5812 kB/s)                                 
+Reading package lists... Done
++ sudo apt-get -y install file xorg
+Reading package lists... Done
+Building dependency tree       
+Reading state information... Done
+file is already the newest version (1:5.32-2ubuntu0.4).
+xorg is already the newest version (1:7.7+19ubuntu7.1).
+0 upgraded, 0 newly installed, 0 to remove and 39 not upgraded.
++ mkdir -p /home/xilinx/downloads/tmp
++ cd /home/xilinx/downloads/tmp
++ mkdir -p depends
++ wget -nv 172.17.0.1:8000/depends/Xilinx_SDK_2019.1_0524_1430_Lin64.bin -O depends/Xilinx_SDK_2019.1_0524_1430_Lin64.bin
+172.17.0.3 - - [21/Jul/2020 12:31:36] "GET /depends/Xilinx_SDK_2019.1_0524_1430_Lin64.bin HTTP/1.1" 200 -
+                                                                                                         2020-07-21 16:31:36 URL:http://172.17.0.1:8000/depends/Xilinx_SDK_2019.1_0524_1430_Lin64.bin [113141511/113141511] -> "depends/Xilinx_SDK_2019.1_0524_1430_Lin64.bin" [1]
++ chmod a+x depends/Xilinx_SDK_2019.1_0524_1430_Lin64.bin
++ mkdir -p configs
++ wget -nv 172.17.0.1:8000/configs/xlnx_xsdk.config -O configs/xlnx_xsdk.config
+172.17.0.3 - - [21/Jul/2020 12:31:36] "GET /configs/xlnx_xsdk.config HTTP/1.1" 200 -
+                                                                                    2020-07-21 16:31:36 URL:http://172.17.0.1:8000/configs/xlnx_xsdk.config [1351/1351] -> "configs/xlnx_xsdk.config" [1]
++ ls -al depends/Xilinx_SDK_2019.1_0524_1430_Lin64.bin
+-rwxr-xr-x 1 xilinx xilinx 113141511 May 29  2019 depends/Xilinx_SDK_2019.1_0524_1430_Lin64.bin
++ '[' 1 -ne 0 ']'
++ set +x
+-----------------------------------
+ - Launch SDK Setup to create a download bundle...
+-----------------------------------
++ docker exec -it build_xsdk_installer_v2019.1 bash -c 'if [ 1 -ne 0 ]; then set -x; fi         && cd /home/xilinx/downloads/tmp        && depends/Xilinx_SDK_2019.1_0524_1430_Lin64.bin --noexec --nox11 --target unified_tmp  && cd unified_tmp       && sudo mkdir -p /opt/Xilinx/tmp        && sudo chown -R xilinx:xilinx /opt/Xilinx      && ./xsetup --agree XilinxEULA,3rdPartyEULA,WebTalkTerms --config configs/xlnx_xsdk.config      && cd /home/xilinx/downloads/tmp        && mkdir -p depends     && tar -zcf depends/Xilinx_SDK_2019.1_0524_1430_Lin64.tar.gz -C /opt/Xilinx/Downloads/v2019.1 .         && ls -al /opt/Xilinx/Downloads/v2019.1'
++ cd /home/xilinx/downloads/tmp
++ depends/Xilinx_SDK_2019.1_0524_1430_Lin64.bin --noexec --nox11 --target unified_tmp
+Creating directory unified_tmp
+Verifying archive integrity... All good.
+Uncompressing Xilinx Installer.........................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................
++ cd unified_tmp
++ sudo mkdir -p /opt/Xilinx/tmp
++ sudo chown -R xilinx:xilinx /opt/Xilinx
++ ./xsetup --agree XilinxEULA,3rdPartyEULA,WebTalkTerms --config configs/xlnx_xsdk.config
++ cd /home/xilinx/downloads/tmp
++ mkdir -p depends
++ tar -zcf depends/Xilinx_SDK_2019.1_0524_1430_Lin64.tar.gz -C /opt/Xilinx/Downloads/v2019.1 .
++ ls -al /opt/Xilinx/Downloads/v2019.1
+total 44
+drwxr-xr-x 8 xilinx xilinx  4096 Jul 21 16:41 .
+drwxr-xr-x 3 xilinx xilinx  4096 Jul 21 16:39 ..
+drwxr-xr-x 2 xilinx xilinx  4096 Jul 21 16:41 bin
+drwxr-xr-x 3 xilinx xilinx  4096 Jul 21 16:41 data
+drwxr-xr-x 4 xilinx xilinx  4096 Jul 21 16:41 lib
+drwxr-xr-x 2 xilinx xilinx 12288 Jul 21 16:41 payload
+drwxr-xr-x 2 xilinx xilinx  4096 Jul 21 16:41 scripts
+drwxr-xr-x 4 xilinx xilinx  4096 Jul 21 16:41 tps
+-rwxr-xr-x 1 xilinx xilinx  2899 May 24  2019 xsetup
++ '[' 1 -ne 0 ']'
++ set +x
+-----------------------------------
+Copying Xilinx SDK offline installer to host ...
+-----------------------------------
++ mkdir -p _generated/depends
++ docker cp build_xsdk_installer_v2019.1:/home/xilinx/downloads/tmp/depends/Xilinx_SDK_2019.1_0524_1430_Lin64.tar.gz _generated/depends/Xilinx_SDK_2019.1_0524_1430_Lin64.tar.gz
++ echo -----------------------------------
+-----------------------------------
++ echo 'Shutting down Python HTTP Server...'
+Shutting down Python HTTP Server...
++ echo -----------------------------------
+-----------------------------------
++ echo 'Killing process ID 4451'
+Killing process ID 4451
++ echo -----------------------------------
+-----------------------------------
++ '[' 1 -ne 0 ']'
++ set -x
++ kill 4451
++ '[' 1 -ne 0 ']'
++ set +x
+-----------------------------------
+Removing temporary docker resources...
+-----------------------------------
++ docker rm -f build_xsdk_installer_v2019.1
+build_xsdk_installer_v2019.1
+./generate_installer.sh: line 228:  4451 Terminated              python3 -m http.server
++ docker rmi -f xilinx-xsdk:v2019.1
+Untagged: xilinx-xsdk:v2019.1
+Deleted: sha256:7de3792b5e7df359bb398286b9bf5f0430ecc6c6c70307ea8b8e6d71fdc202d5
+Deleted: sha256:1be6ffffa53d335e3770f580ca6c9a7de2b4743502f42cd2b8825038312c7160
+Deleted: sha256:f306b6a7ebf59b98ad48feeebf124ac7b5c13a9841a35e1e4ab71685ee631795
+Deleted: sha256:fc906290e87dbc41fd1d56be48e857e772fe2e5e6a698829daa8a8ec66e3dca3
+Deleted: sha256:09f1eb282206b38ca65ede1f5720271296bcdd093f0ad4268e7e6a19593f0a65
+Deleted: sha256:8bda8ca25de8e5845ef1392ac3d2d6eaa45e0dec080c2268e4ad46c7c251e544
+Deleted: sha256:35db744211707b47508f838792840c84bcffa73d4006784d6b7f7c49c8b7e86c
+Deleted: sha256:33c8cfeed4033ecedee10c1ce4414be1032ab4377475e75674097f8ba8c6102d
+Deleted: sha256:ad8991f6fc77de776f90a51d75fd3ff84a76082eca69763c267a48f6b7b741b5
+Deleted: sha256:fb53bc866aec8940cd2bcd57d9650747a2a0d9ae693d99aa8d1ee0c74a14fcac
++ '[' 1 -ne 0 ']'
++ set +x
+-----------------------------------
+Configuration Generation Complete
+-----------------------------------
+STARTED :Tue Jul 21 12:31:26 EDT 2020
+ENDED   :Tue Jul 21 12:43:27 EDT 2020
+-----------------------------------
+DOCKER_FILE_STAGE=xilinx_install_xsdk_v2019.1
+DOCKER_IMAGE=xilinx-xsdk:v2019.1
+DOCKER_CONTAINER_NAME=build_xsdk_installer_v2019.1
+-----------------------------------
+Xilinx offline installer generated:
+-----------------------------------
+-rw-r--r-- 1 rjmoss rjmoss 1643249692 Jul 21 12:42 _generated/depends/Xilinx_SDK_2019.1_0524_1430_Lin64.tar.gz
+-----------------------------------
+Linking installer to dependencies folder
+-----------------------------------

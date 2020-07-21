@@ -9,7 +9,7 @@
 #	- Xilinx Applications Engineer, Embedded Software
 #
 # Created: 
-#	- 7/24/2019
+#	- 7/20/2020
 #
 #######################################################################################
 # Docker Build Script Debug Tracing
@@ -58,6 +58,9 @@ DOCKER_IMAGE_NAME=xilinx-$XLNX_TOOL_INFO
 # Docker base OS Images
 DOCKER_BASE_OS=ubuntu
 DOCKER_BASE_OS_TAG=18.04.1
+
+DOCKER_USER_IMAGE_NAME=xilinx-ubuntu-18.04.1-user
+DOCKER_USER_IMAGE_VERSION=$XLNX_RELEASE_VERSION
 
 # Should Docker use Cache when building?
 # - A couple of important reasons to DISABLE the use of the cache
@@ -116,41 +119,19 @@ INSTALL_DEPENDS_DIR=depends
 # xsdk_config_xsct_only.config = XSCT only installation
 # xsdk_config_xsdk_full.config = XSDK full installation
 # Note: XSCT is used for Yocto
-XLNX_XSDK_BATCH_CONFIG_FILE=$INSTALL_CONFIGS_DIR/xsdk_config_xsdk_full.config
-#XLNX_XSDK_BATCH_CONFIG_FILE=$INSTALL_CONFIGS_DIR/xsdk_config_xsct_only.config
+XLNX_XSDK_BATCH_CONFIG_FILE=$INSTALL_CONFIGS_DIR/xlnx_xsdk.config
 
 # Xilinx SDK Web-based installer
 # XLNX_XSDK_WEBINSTALLER: Official web-based installer for the SDK release
-XLNX_XSDK_WEB_INSTALLER=$INSTALL_DEPENDS_DIR/Xilinx_SDK_2019.1_0524_1430_Lin64.bin
+XLNX_XSDK_INSTALLER_BASENAME=Xilinx_SDK_2019.1_0524_1430_Lin64
+XLNX_XSDK_WEB_INSTALLER=$INSTALL_DEPENDS_DIR/${XLNX_XSDK_INSTALLER_BASENAME}.bin
 
 # Xilinx SDK Pre-downloaded offline install bundle
 # - This is downloaded and created by:
 #   1. Running the web-installer with the batch mode configuration
 #   2. Downloading the files for offline install
 #   3. Manually archiving files in a tarball
-XLNX_XSDK_OFFLINE_INSTALLER=$INSTALL_DEPENDS_DIR/Xilinx_SDK_2019.1_0524_1430_Lin64.tar.gz
-
-# Configuration Files for batch mode installation
-# KEYBOARD_CONFIG_FILE:	Keyboard setting configuration file
-#	for headless selection of the keyboard setup
-#	Required for the X-based XSDK installer package
-KEYBOARD_CONFIG_FILE=$INSTALL_CONFIGS_DIR/keyboard_settings.conf
-
-# Configuration file for xterm sessions inside of the docker container
-# XTERM_CONFIG_FILE: XTerm session configuratino file
-#	Changes color scheme and font to something more readable (default is white background)
-#   Changes scrollback to 1 million lines and enables the scroll bar
-#   Notes on Copy-Paste with the host:
-#	 	Copy from Host to XTerm:
-#			- Host may copy with "CTRL-C" or "Right-Click->Copy"
-#			- Use center mouse button (scroll wheel) to paste into XTerm session
-#
-#		Copy from XTerm to Host:
-#			- Select text in XTerm session to copy using cursor (left-click and drag over text to copy)
-#			- Host may paste with center mouse button (scroll wheel)
-#			- Host clipboard contents from host copy maintained in separate buffer (CTRL-V)
-#-------------
-XTERM_CONFIG_FILE=$INSTALL_CONFIGS_DIR/XTerm
+XLNX_XSDK_OFFLINE_INSTALLER=$INSTALL_DEPENDS_DIR/${XLNX_XSDK_INSTALLER_BASENAME}.tar.gz
 
 # Local Python3 http server to transfer files into container
 # INSTALL_SERVER_URL: Set automatically later in this script when
