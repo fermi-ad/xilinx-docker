@@ -4,16 +4,14 @@
 ```
 -> .dockerignore
 -> build_image.sh
--> generate_depends.sh
+-> generate_configs.sh
+-> generate_installer.sh
 -> Dockerfile
 -> configs/
-	-> keyboard_settings.conf
-	-> xlnx_vivado_system_edition.config
-	-> XTerm
+	-> xlnx_vivado.config
 -> depends/
 	-> Xilinx_Vivado_SDK_Web_2019.1_0524_1430_Lin64.bin
 	-> (Xilinx_Vivado_SDK_Web_2019.1_0524_1430_Lin64.tar.gz)
-	-> mali-400-userspace.tar
 -> include/
 	-> configuration.sh
 ```
@@ -133,7 +131,7 @@ $ ./generate_configs.sh
 
 - Follow the build process in the terminal (manual interaction required)
 
-- Xilinx Vivadobatch mode configuration (generate)
+- Xilinx Vivado batch mode configuration (generate)
 	- Select ```Vivado HL System Edition```: option ```3```
 	- The configuration opens in the ```vim``` editor
 	- Make the following modifications:
@@ -188,7 +186,7 @@ $ ./generate_installer.sh
 	- Create the download directory (in the container) when prompted: ```Yes```
 	- Review the download summary:
 		- Download location: 
-			- ```/opt/Xilinx/Downloads/v2019.2```
+			- ```/opt/Xilinx/Downloads/v2019.1```
 		- Disk Space Required:
 			- ```Download Size: 22.46GB```
 			- ```Disk Space Required: 22.46GB```
@@ -204,9 +202,8 @@ bash:
 -----------------------------------
 Xilinx offline installer generated:
 -----------------------------------
--rw-r--r-- 1 xilinx xilinx 
+-rw-r--r-- 1 xilinx xilinx 24248806623 Jul 20 19:51 _generated/depends/Xilinx_Vivado_SDK_Web_2019.1_0524_1430_Lin64.tar.gz
 -----------------------------------
-
 ```
 
 - Create a link to the offline installer in the dependency folder
@@ -234,7 +231,7 @@ ENDED   :Mon Jul 20 21:37:52 EDT 2020
 -----------------------------------
 ```
 
-## Create a working container (running in daemon mode) based on the vitis image
+## Create a working container (running in daemon mode) based on the Vivado image
 - The container is started in __interactive daemon__ mode
 - You may also specify the MAC address of the container (making it easier to deal with tool licenses that are tied to a machine's MAC address)
 - Make sure you mount at least one host folder so the docker container can access the Petalinux installer

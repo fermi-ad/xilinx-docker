@@ -10,19 +10,17 @@
 # Created: 
 #	- 7/18/2020
 #
-# Unified Web Installer
+# Vivado Web Installer
 #	./Xilinx_Vivado_SDK_Web_2019.1_0524_1430_Lin64.bin --noexec --keep --nox11 --target unified_tmp
 #	Creating directory unified_tmp
 #
 # Generate a batchmode configuration file
-#	./xsetup -b ConfigGen -p <product>
-# 		where	<product> can be: 
-# 
+#	./xsetup -b ConfigGen
 #
-# Source configuration information for a v2019.1 Unified Image build
+# Source configuration information for a v2019.1 Vivado imagebuild
 source include/configuration.sh
 
-# Set the Docker File for Vitis
+# Set the Docker File for Vivadi
 DOCKER_FILE_NAME=Dockerfile.generate_configs
 
 # Additional setup and overrides specificaly for dependency generation
@@ -55,20 +53,20 @@ else
 fi
 
 # Test for dependencies required to run this script
-# 1. Unified Web Installer
+# 1. Vivado Web Installer
 
 # Check for dependency files in the build context
 # Since these builds use WGET instead of COPY or ADD
 # files links within the build context can point outside
 # the context and they will get transferred just fine.
 
-# Check for Xilinx Unified Web Installer
+# Check for Xilinx Vivado Web Installer
 # This is required for building the offline installer package
 if [ -f $XLNX_VIVADO_WEB_INSTALLER ] || [ -L $XLNX_VIVADO_WEB_INSTALLER ]; then
-	echo "Xilinx Unified Web Installer: [Exists] "$XLNX_VIVADO_WEB_INSTALLER
+	echo "Xilinx Vivado Web Installer: [Exists] "$XLNX_VIVADO_WEB_INSTALLER
 else
 	# File does not exist
-	echo "ERROR: Xilinx Unified Web Installer: [Missing] "$XLNX_VIVADO_WEB_INSTALLER
+	echo "ERROR: Xilinx Vivado Web Installer: [Missing] "$XLNX_VIVADO_WEB_INSTALLER
 	exit $EX_OSFILE
 fi
 
@@ -190,7 +188,7 @@ if [ $BUILD_DEBUG -ne 0 ]; then set +x; fi
 echo "-----------------------------------"
 echo "Building Offline Installer Configuration File..."
 echo "-----------------------------------"
-echo " - Install dependencies and download Unified installer into container..."
+echo " - Install dependencies and download Vivado installer into container..."
 echo "-----------------------------------"
 # Install the Xilinx dependencies and Vivado Installer
 
@@ -210,9 +208,9 @@ docker exec -it $DOCKER_CONTAINER_NAME \
 if [ $BUILD_DEBUG -ne 0 ]; then set +x; fi
 
 echo "-----------------------------------"
-echo " - Extract the Unified Installer and generate a batch mode config..."
+echo " - Extract the Vivado Installer and generate a batch mode config..."
 echo "-----------------------------------"
-# Extract the Unified Web Installer and run configGen
+# Extract the Vivado Web Installer and run configGen
 
 if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi
 
@@ -233,7 +231,7 @@ if [ $BUILD_DEBUG -ne 0 ]; then set +x; fi
 
 # copy the batch mode configuration(s) to the host
 echo "-----------------------------------"
-echo "Copying Xilinx Unified batch mode configurations to host ..."
+echo "Copying Xilinx Vivado batch mode configurations to host ..."
 echo "-----------------------------------"
 
 if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi

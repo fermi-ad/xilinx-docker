@@ -9,7 +9,7 @@
 #	- Xilinx Applications Engineer, Embedded Software
 #
 # Created: 
-#	- 6/22/2019
+#	- 7/20/2020
 #
 #######################################################################################
 # Docker Build Script Debug Tracing
@@ -131,7 +131,7 @@ XLNX_VIVADO_WEB_INSTALLER=$INSTALL_DEPENDS_DIR/${XLNX_VIVADO_INSTALLER_BASENAME}
 #   2. Downloading the files for offline install
 #   3. Manually archiving files in a tarball
 XLNX_VIVADO_FULL_INSTALLER=$INSTALL_DEPENDS_DIR/${XLNX_VIVADO_INSTALLER_BASENAME}.tar.gz
-XLNX_VIVADO_OFFLINE_INSTALLER=$INSTALL_DEPENDS_DIR/Xilinx_Vivado_SDK_Web_2019.1_0524_1430_Lin64.tar.gz
+XLNX_VIVADO_OFFLINE_INSTALLER=$INSTALL_DEPENDS_DIR/${XLNX_VIVADO_INSTALLER_BASENAME}.tar.gz
 
 # Local Python3 http server to transfer files into container
 # INSTALL_SERVER_URL: Set automatically later in this script when

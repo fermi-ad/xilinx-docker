@@ -52,7 +52,7 @@ These user images include a tool-compatible Ubuntu OS installation with tool spe
 | -------------- | -------------- | ---------     | ------------  | ------------   | --------------- |
 | v2020.1        | [18.04.2][4u]  | [10.7GB][4ap] | [52.3GB][4av] | [71.3GB][4avi] | N/A             |
 | v2019.2        | [18.04.2][3u]  | [18.4GB][3ap] | [40.9GB][3av] | [55.2GB][3avi] | N/A             |
-| v2019.1        | [18.04.1][2u]  | [16.5GB][2ap] | [35.2GB][2av] | N/A            | [TB.DGB][3asdk] |
+| v2019.1        | [18.04.1][2u]  | [16.5GB][2ap] | [35.2GB][2av] | N/A            | [9.96GB][3asdk] |
 
 #### Automated Image Build Times
 
@@ -62,7 +62,7 @@ These build times are approximate, rounded to the nearest minute and reflect one
 | -------------- | -------------- | ------------- | ------------- | ------------ | --------- |
 | v2020.1        | 6 min          | 5 min         | 54 min        | 1 hr, 21 min | N/A       |
 | v2019.2        | 6 min          | 9 min         | 39 min        | 45 min       | N/A       |
-| v2019.1        | 6 min          | 8 min         | 27 min        | N/A          | XX min    |
+| v2019.1        | 6 min          | 8 min         | 27 min        | N/A          | 4 min     |
 
 
 
