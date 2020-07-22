@@ -28,22 +28,14 @@ $ cd xilinx-docker/recipes/base-images/ubuntu-16.04.5
 $ ./build_image.sh
 ```
 
-### For building on a Windows 10 Host under Powershell:
-- Execute the commands:
-```powershell
-powershell:
-PS > C:\> cd xilinx-docker\recipes\base-images\ubuntu-16.04.5
-PS > C:\xilinx-docker\recipes\base-images\v2019.1> .\build_image.ps1
-```
-
 #### Example: Create the Ubuntu 16.04.5 OS using the included script
 ```bash
 bash:
 $ ./build_image.sh
 Base Relese Image Download [Good] ubuntu-base-16.04.5-base-amd64.tar.gz
 sha256:1efa3cdb03d6333d4e49eeaffaa509992cbc37759ab63fbb4584597fc9231598
-REPOSITORY               TAG                 IMAGE ID            CREATED                  SIZE
-ubuntu                   16.04.5             1efa3cdb03d6        Less than a second ago   115MB
+REPOSITORY                       TAG                  IMAGE ID            CREATED                  SIZE
+ubuntu                           16.04.5              aaf26e234104        Less than a second ago   115MB
 ```
 
 # Additional information
