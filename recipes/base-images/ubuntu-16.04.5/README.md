@@ -4,15 +4,12 @@
 ```
 -> README.md (this file)
 -> build_image.sh
--> build_image.ps1
 -> depends/
 	-> .gitignore
 -> include/
 	-> configuration.sh
-	-> configuration.ps1
 -> logs/
 	-> build_image.sh-DEBUG-LOG.txt
-	-> build_image.ps1-DEBUG-LOG.txt
 ```
 
 # Ubuntu 16.04.5 Docker Image
@@ -22,8 +19,6 @@
 ### Build script configuration
 - For Linux Hosts, see the file:
 	- __./include/configuration.sh__
-- For Windows 10 Hosts, see the file:
-	- __./include/configuration.ps1__
 
 ### For building on a Linux Host under the BASH Shell:
 - Execute the commands:
