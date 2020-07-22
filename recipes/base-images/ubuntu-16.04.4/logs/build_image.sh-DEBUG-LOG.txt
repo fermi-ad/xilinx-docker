@@ -1,34 +1,23 @@
-$ ./build_image.sh
+$ ./build_image.sh 
 Base Release Image [Missing] ubuntu-base-16.04.4-base-amd64.tar.gz
 Attempting to download http://cdimage.ubuntu.com/ubuntu-base/releases/16.04.4/release/ubuntu-base-16.04.4-base-amd64.tar.gz
 + wget http://cdimage.ubuntu.com/ubuntu-base/releases/16.04.4/release/ubuntu-base-16.04.4-base-amd64.tar.gz -O depends/ubuntu-base-16.04.4-base-amd64.tar.gz
---2019-02-25 18:48:44--  http://cdimage.ubuntu.com/ubuntu-base/releases/16.04.4/release/ubuntu-base-16.04.4-base-amd64.tar.gz
-Resolving cdimage.ubuntu.com (cdimage.ubuntu.com)... 2001:67c:1360:8001::27, 91.189.88.167
-Connecting to cdimage.ubuntu.com (cdimage.ubuntu.com)|2001:67c:1360:8001::27|:80... connected.
+--2020-07-22 10:49:26--  http://cdimage.ubuntu.com/ubuntu-base/releases/16.04.4/release/ubuntu-base-16.04.4-base-amd64.tar.gz
+Resolving cdimage.ubuntu.com (cdimage.ubuntu.com)... 2001:67c:1360:8001::28, 2001:67c:1360:8001::27, 2001:67c:1560:8001::1d, ...
+Connecting to cdimage.ubuntu.com (cdimage.ubuntu.com)|2001:67c:1360:8001::28|:80... connected.
 HTTP request sent, awaiting response... 200 OK
 Length: 42145011 (40M) [application/x-gzip]
 Saving to: ‘depends/ubuntu-base-16.04.4-base-amd64.tar.gz’
 
-depends/ubuntu-base-16.04.4-base-amd64 100%[=========================================================================>]  40.19M   334KB/s    in 1m 40s  
+depends/ubuntu-base-16.04.4-base-amd64.tar.gz 100%[===============================================================================================>]  40.19M  14.0MB/s    in 2.9s    
 
-2019-02-25 18:50:25 (412 KB/s) - ‘depends/ubuntu-base-16.04.4-base-amd64.tar.gz’ saved [42145011/42145011]
+2020-07-22 10:49:29 (14.0 MB/s) - ‘depends/ubuntu-base-16.04.4-base-amd64.tar.gz’ saved [42145011/42145011]
 
 + '[' 1 -ne 0 ']'
 + set +x
 Base Relese Image Download [Good] ubuntu-base-16.04.4-base-amd64.tar.gz
 + docker import depends/ubuntu-base-16.04.4-base-amd64.tar.gz ubuntu:16.04.4
-sha256:fe8bda2fd116e771a56dcd76861f0f2a6509e9fc9238b10a876b869e9caf5ceb
+sha256:3bd5992802b9074965bc53c89729792526bbe75e89f3a0aae71b97af52af68e7
 + docker image ls -a
-REPOSITORY          TAG                 IMAGE ID            CREATED                  SIZE
-ubuntu              16.04.4             fe8bda2fd116        Less than a second ago   112MB
-ubuntu              16.04.3             d01bf256ae12        2 hours ago              120MB
-+ docker system df
-TYPE                TOTAL               ACTIVE              SIZE                RECLAIMABLE
-Images              2                   0                   232.5MB             232.5MB (100%)
-Containers          0                   0                   0B                  0B
-Local Volumes       0                   0                   0B                  0B
-Build Cache         0                   0                   0B                  0B
-+ '[' 1 -ne 0 ']'
-+ set +x
-
-
+REPOSITORY                       TAG                  IMAGE ID            CREATED                  SIZE
+ubuntu                           16.04.4              3bd5992802b9        Less than a second ago   112MB
