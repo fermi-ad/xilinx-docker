@@ -32,6 +32,8 @@ These are the Base Ubuntu OS Images used for tool installations.
 | -------------- | ----------   |
 | 18.04.2        | [88.3MB][4b] |
 | 18.04.1        | [83.5MB][3b] |
+| 16.04.4		 | [112MB][1b] |
+| 16.04.3		 | [120MB][0b] |
 
 ### Xilinx User Images (Manual Tool Installation)
 
@@ -42,7 +44,8 @@ These user images include a tool-compatible Ubuntu OS installation and all (know
 | v2020.1        | [2.01GB][4u]   | [10.7GB][4mp] | [53.2GB][4mv] | [72.2GB][4mvi] | N/A             |
 | v2019.2        | [2.02GB][3u]   | [18.4GB][3mp] | [40.9GB][3mv] | [55.4GB][3mvi] | N/A             |
 | v2019.1        | [2.02GB][2u]   | [16.5GB][2mp] | [35.2GB][2mv] | N/A            | [9.99GB][2msdk] |
-
+| v2018.3        | [1.61GB][1u]   | [15.9GB][1mp] | [58.3GB][1mv] | N/A            | [12.2GB][1msdk] |
+| v2018.2        | [1.62GB][0u]   | [16.2GB][0mp] | [54.5GB][0mv] | N/A            | [12.0GB][0msdk] |
 
 ### Xilinx User Images (Automated/Scripted Tool Installation)
 
@@ -52,7 +55,9 @@ These user images include a tool-compatible Ubuntu OS installation with tool spe
 | -------------- | -------------- | ---------     | ------------  | ------------   | --------------- |
 | v2020.1        | [18.04.2][4u]  | [10.7GB][4ap] | [52.3GB][4av] | [71.3GB][4avi] | N/A             |
 | v2019.2        | [18.04.2][3u]  | [18.4GB][3ap] | [40.9GB][3av] | [55.2GB][3avi] | N/A             |
-| v2019.1        | [18.04.1][2u]  | [16.5GB][2ap] | [35.2GB][2av] | N/A            | [9.96GB][3asdk] |
+| v2019.1        | [18.04.1][2u]  | [16.5GB][2ap] | [35.2GB][2av] | N/A            | [9.96GB][2asdk] |
+| v2018.3        | [16.04.4][1u]  | [TB.DGB][1ap] | [TB.DGB][1av] | N/A            | [TB.DGB][1asdk] |
+| v2018.2        | [16.04.3][0u]  | [TB.DGB][0ap] | [TB.DGB][0av] | N/A            | [TB.DGB][0asdk] |
 
 #### Automated Image Build Times
 
@@ -63,41 +68,57 @@ These build times are approximate, rounded to the nearest minute and reflect one
 | v2020.1        | 6 min          | 5 min         | 54 min        | 1 hr, 21 min | N/A       |
 | v2019.2        | 6 min          | 9 min         | 39 min        | 45 min       | N/A       |
 | v2019.1        | 6 min          | 8 min         | 27 min        | N/A          | 4 min     |
-
-
+| v2018.3        | 5 min          | TBD min       | TBD min       | N/A          | TBD min   |
+| v2018.2        | TBD min        | TBD min       | TBD min       | N/A          | TBD min   |
 
 [4b]: ./recipes/base-images/ubuntu-18.04.2/README.md
 [3b]: ./recipes/base-images/ubuntu-18.04.1/README.md
+[1b]: ./recipes/base-images/ubuntu-16.04.4/README.md
+[0b]: ./recipes/base-images/ubuntu-16.04.3/README.md
 
 [4u]: ./recipes/user-images/v2020.1/README.md
 [3u]: ./recipes/user-images/v2019.2/README.md
 [2u]: ./recipes/user-images/v2019.1/README.md
+[1u]: ./recipes/user-images/v2018.3/README.md
+[0u]: ./recipes/user-images/v2018.2/README.md
 
 [4mp]: ./recipes/user-images/v2020.1/README.petalinux-install.md
 [3mp]: ./recipes/user-images/v2019.2/README.petalinux-install.md
 [2mp]: ./recipes/user-images/v2019.1/README.petalinux-install.md
+[1mp]: ./recipes/user-images/v2018.3/README.petalinux-install.md
+[0mp]: ./recipes/user-images/v2018.2/README.petalinux-install.md
 
 [4mv]: ./recipes/user-images/v2020.1/README.vivado-install.md
 [3mv]: ./recipes/user-images/v2019.2/README.vivado-install.md
-[2mv]: ./recipes/user-images/v2019.1/README.vivad-install.md
+[2mv]: ./recipes/user-images/v2019.1/README.vivado-install.md
+[1mv]: ./recipes/user-images/v2018.3/README.vivado-install.md
+[0mv]: ./recipes/user-images/v2018.2/README.vivado-install.md
 
 [4mvi]: ./recipes/user-images/v2020.1/README.vitis-install.md
 [3mvi]: ./recipes/user-images/v2019.2/README.vitis-install.md
 
-[3msdk]: ./recipes/user-images/v2019.1/README.sdk-install.md
+[2msdk]: ./recipes/user-images/v2019.1/README.sdk-install.md
+[1msdk]: ./recipes/user-images/v2018.3/README.sdk-install.md
+[0msdk]: ./recipes/user-images/v2018.2/README.sdk-install.md
 
 [4ap]: ./recipes/automated-images/petalinux/v2020.1/README.md
 [3ap]: ./recipes/automated-images/petalinux/v2019.2/README.md
 [2ap]: ./recipes/automated-images/petalinux/v2019.1/README.md
+[1ap]: ./recipes/automated-images/petalinux/v2018.3/README.md
+[0ap]: ./recipes/automated-images/petalinux/v2018.2/README.md
 
 [4av]: ./recipes/automated-images/vivado/v2020.1/README.md
 [3av]: ./recipes/automated-images/vivado/v2019.2/README.md
 [2av]: ./recipes/automated-images/vivado/v2019.1/README.md
+[1av]: ./recipes/automated-images/vivado/v2018.3/README.md
+[0av]: ./recipes/automated-images/vivado/v2018.2/README.md
 
 [4avi]: ./recipes/automated-images/vitis/v2020.1/README.md
 [3avi]: ./recipes/automated-images/vitis/v2019.2/README.md
 
-[3asdk]: ./recipes/automated-images/sdk/v2019.1/README.md
+[2asdk]: ./recipes/automated-images/sdk/v2019.1/README.md
+[1asdk]: ./recipes/automated-images/sdk/v2018.3/README.md
+[0asdk]: ./recipes/automated-images/sdk/v2018.2/README.md
 
 ## Workflow overviews
 
