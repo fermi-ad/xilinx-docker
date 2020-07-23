@@ -4,8 +4,8 @@
 
 ## Generate an Ubuntu Docker Image
 
-- [Generate a base Ubuntu 18.04.1 image](#generate-a-base-ubuntu-18042-image)
-- [Generate an Ubuntu 18.04.1 user image](#generate-an-ubuntu-18042-user-image)
+- [Generate a base Ubuntu 18.04.1 image](#generate-a-base-ubuntu-18041-image)
+- [Generate an Ubuntu 18.04.1 user image](#generate-an-ubuntu-18041-user-image)
 
 ## Working with the Ubuntu Docker Image
 
