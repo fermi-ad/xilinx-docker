@@ -67,7 +67,7 @@ xilinx@xilinx_vivado_v2019-1:/$
 ### Locate the unified installer on the mounted host drive
 ```bash
 xterm:
-xilinx@xilinx_vivado_v2019-1:/$  ls -al /srv/software/unified-installer/*2019.1*
+xilinx@xilinx_vivado_v2019-1:/$  ls -al /srv/software/vivado/*2019.1*
 -rwxrwxr-x 1 xilinx xilinx 120638336 May 29  2019 /srv/software/vivado/Xilinx_Vivado_SDK_Web_2019.1_0524_1430_Lin64.bin
 ```
 
