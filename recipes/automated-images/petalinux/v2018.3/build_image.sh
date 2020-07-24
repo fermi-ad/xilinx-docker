@@ -8,9 +8,9 @@
 #	- Xilinx Applications Engineer, Embedded Software
 #
 # Created: 
-#	- 12/13/2018
+#	- 7/18/2020
 #
-# Source configuration information for a v2018.3 Petalinux Image build
+# Source configuration information for a v2019.1 Petalinux Image build
 source include/configuration.sh
 
 # Set the Docker File for Petalinux
@@ -26,7 +26,7 @@ DOCKER_BUILD_START_TIME=`date`
 # a symbolically linked dependency is encountered.
 
 # Test for dependencies in order used
-# 1. Base OS Image (i.e. Ubuntu:16.04.3)
+# 1. Base OS Image (i.e. Ubuntu:18.04.1)
 # 2. Configurations (i.e. Keyboard, etc..)
 # 3. Xilinx Tool Installers
 # 4. Xilinx Tool Batch Mode Install Configuration Files
@@ -35,27 +35,19 @@ echo "-----------------------------------"
 echo "Checking for dependencies..."
 echo "-----------------------------------"
 
-# Check for existing ubuntu base os image:
-if [[ "$(docker images -q $DOCKER_BASE_OS:$DOCKER_BASE_OS_TAG 2> /dev/null)" == "" ]]; then
+# Check for existing ubuntu user image:
+if [[ "$(docker images -q $DOCKER_USER_IMAGE_NAME:$DOCKER_USER_IMAGE_VERSION 2> /dev/null)" == "" ]]; then
   # create the docker base image
-  	echo "Base docker image [missing] ("$DOCKER_BASE_OS:$DOCKER_BASE_OS_TAG")"
+  	echo "Base user image [missing] ("$DOCKER_USER_IMAGE_NAME:$DOCKER_USER_IMAGE_VERSION")"
  	exit $EX_OSFILE
 else
-	echo "Base docker image [found] ("$DOCKER_BASE_OS:$DOCKER_BASE_OS_TAG")"
+	echo "Base user image [found] ("$DOCKER_USER_IMAGE_NAME:$DOCKER_USER_IMAGE_VERSION")"
 fi
 
 # Check for dependency files in the build context
 # Since these builds use WGET instead of COPY or ADD
 # files links within the build context can point outside
 # the context and they will get transferred just fine.
-
-# Check for keyboard configuration file
-if [ -f $KEYBOARD_CONFIG_FILE ] || [ -L $KEYBOARD_CONFIG_FILE ]; then
-	echo "Keyboard Configuration: [Good] "$KEYBOARD_CONFIG_FILE
-else
-	echo "ERROR: Keyboard Configuration: [Missing] "$KEYBOARD_CONFIG_FILE
-	exit $EX_OSFILE
-fi
 
 # Check for Xilinx MALI binaries
 if [ -f $XLNX_MALI_BINARY ] || [ -L $XLNX_MALI_BINARY ]; then
@@ -71,15 +63,6 @@ if [ -f $XLNX_PETALINUX_INSTALLER ] || [ -L $XLNX_PETALINUX_INSTALLER ]; then
 else
 	# File does not exist
 	echo "ERROR: Xilinx Petalinux Installer: [Missing] "$XLNX_PETALINUX_INSTALLER
-	exit $EX_OSFILE
-fi
-
-# Check for XTerm configuration file
-if [ -f $XTERM_CONFIG_FILE ] || [ -L $XTERM_CONFIG_FILE ]; then
-	echo "XTerm Configuration File: [Good] "$XTERM_CONFIG_FILE
-else
-	# File does not exist
-	echo "ERROR: XTerm Configuration File: [Missing] "$XTERM_CONFIG_FILE
 	exit $EX_OSFILE
 fi
 
@@ -134,18 +117,14 @@ echo "Arguments..."
 echo "-----------------------------------"
 echo "	--build-arg USER_ACCT=\"${USER_ACCT}\""
 echo " 	--build-arg HOME_DIR=\"${HOME_DIR}\""
-echo " 	--build-arg GIT_USER_NAME=\"${GIT_USER_NAME}\""
-echo " 	--build-arg GIT_USER_EMAIL=\"${GIT_USER_EMAIL}\""
-echo " 	--build-arg KEYBOARD_CONFIG_FILE=\"${KEYBOARD_CONFIG_FILE}\""
 echo " 	--build-arg XLNX_INSTALL_LOCATION=\"${XLNX_INSTALL_LOCATION}\""
-echo "  --build-arg XLNX_DOWNLOAD_LOCATION=\"${XLNX_DOWNLOAD_LOCATION}\""
+echo "  --build-arg DOCKER_BUILD_INCLUDE_XLNX_MALI=\"${DOCKER_BUILD_INCLUDE_XLNX_MALI}\""
 echo "  --build-arg XLNX_MALI_BINARY=\"${XLNX_MALI_BINARY}\""
 echo " 	--build-arg INSTALL_SERVER_URL=\"${SERVER_IP}:8000\""
 echo " 	--build-arg XLNX_PETALINUX_INSTALLER=\"${XLNX_PETALINUX_INSTALLER}\""
 echo "  --build-arg XLNX_PETALINUX_AUTOINSTALL_SCRIPT=\"${XLNX_PETALINUX_AUTOINSTALL_SCRIPT}\""
 echo "  --build-arg XLNX_PETALINUX_INSTALL_DIR=\"${XLNX_PETALINUX_INSTALL_DIR}\""
 echo "  --build-arg BUILD_DEBUG=\"${BUILD_DEBUG}\""
-echo "  --build-arg XTERM_CONFIG_FILE=\"${XTERM_CONFIG_FILE}\""
 echo "-----------------------------------"
 
 if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi
@@ -155,18 +134,14 @@ docker build $DOCKER_CACHE -f ./$DOCKER_FILE_NAME \
  	-t $DOCKER_IMAGE_NAME:$DOCKER_IMAGE_VERSION \
  	--build-arg USER_ACCT="${USER_ACCT}" \
  	--build-arg HOME_DIR="${HOME_DIR}" \
- 	--build-arg GIT_USER_NAME="${GIT_USER_NAME}" \
- 	--build-arg GIT_USER_EMAIL="${GIT_USER_EMAIL}" \
- 	--build-arg KEYBOARD_CONFIG_FILE="${KEYBOARD_CONFIG_FILE}" \
  	--build-arg XLNX_INSTALL_LOCATION="${XLNX_INSTALL_LOCATION}" \
- 	--build-arg XLNX_DOWNLOAD_LOCATION="${XLNX_DOWNLOAD_LOCATION}" \
+ 	--build-arg DOCKER_BUILD_INCLUDE_XLNX_MALI="${DOCKER_BUILD_INCLUDE_XLNX_MALI}" \
  	--build-arg XLNX_MALI_BINARY="${XLNX_MALI_BINARY}" \
  	--build-arg INSTALL_SERVER_URL="${INSTALL_SERVER_URL}" \
  	--build-arg XLNX_PETALINUX_INSTALLER="${XLNX_PETALINUX_INSTALLER}" \
  	--build-arg XLNX_PETALINUX_AUTOINSTALL_SCRIPT="${XLNX_PETALINUX_AUTOINSTALL_SCRIPT}" \
  	--build-arg XLNX_PETALINUX_INSTALL_DIR="${XLNX_PETALINUX_INSTALL_DIR}" \
  	--build-arg BUILD_DEBUG="${BUILD_DEBUG}" \
- 	--build-arg XTERM_CONFIG_FILE="${XTERM_CONFIG_FILE}" \
   	$DOCKER_INSTALL_DIR
 
 if [ $BUILD_DEBUG -ne 0 ]; then set +x; fi

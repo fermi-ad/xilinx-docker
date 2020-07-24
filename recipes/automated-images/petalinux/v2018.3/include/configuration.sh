@@ -9,7 +9,7 @@
 #	- Xilinx Applications Engineer, Embedded Software
 #
 # Created: 
-#	- 12/13/2018
+#	- 7/23/2019
 #
 ########################################################################################
 # Docker Build Script Debug Tracing
@@ -55,7 +55,10 @@ DOCKER_IMAGE_NAME=xilinx-$XLNX_TOOL_INFO
 
 # Docker base OS Images
 DOCKER_BASE_OS=ubuntu
-DOCKER_BASE_OS_TAG=16.04.3
+DOCKER_BASE_OS_TAG=16.04.4
+
+DOCKER_USER_IMAGE_NAME=xilinx-ubuntu-16.04.4-user
+DOCKER_USER_IMAGE_VERSION=$XLNX_RELEASE_VERSION
 
 # Should Docker use Cache when building?
 # - A couple of important reasons to DISABLE the use of the cache
@@ -67,7 +70,8 @@ DOCKER_BASE_OS_TAG=16.04.3
 # To force rebuild, set DOCKER_CACHE='--no-cache'
 # DOCKER_CACHE='--no-cache'
 # Turn off use of cached images
-#DOCKER_CACHE='--no-cache'
+#DOCKER_CACHE=''
+DOCKER_CACHE='--no-cache'
 
 # Location the build is executed from
 DOCKER_BUILD_WORKING_DIR=`pwd`
@@ -112,48 +116,17 @@ INSTALL_DEPENDS_DIR=depends
 # Depdendency / Configuration File Related Variables
 ########################################################################################
 ########################################################################################
-# DOCKER_BUILD_XLNX_MALI_LOCAL:
-# '0' = The docker build script will not construct XLNX_MALI_URL
-#       using the python server address, but will pass the URL setup above
-#
-# '1' = The docker build scrpit will construct XLNX_MALI_URL
-#		using the python server address and the INSTALL_DEPENDS_DIR variable
-DOCKER_BUILD_XLNX_MALI_LOCAL='1'
-
 # Xilinx ARM Mali Pre-built binaries
-# XLNX_MALI_URL: Base download URL
-# XLNX_MALI_BINARY: filename to download
-# Set #1: Download MALI binary directly from Xilinx
-# DOCKER_BUILD_XLNX_MALI_LOCAL=0
-#XLNX_MALI_URL=https://www.xilinx.com/publications/products/tools
-#XLNX_MALI_BINARY=mali-400-userspace.tar
-# Set #2: Download from local archive by use of python http.server (address set later in this script)
-# DOCKER_BUILD_XLNX_MALI_LOCAL=1
+# DOCKER_BUILD_INCLUDE_XLNX_MALI:
+# '0' = The docker build script will NOT include the MALI binaries in the resulting image
+#
+# '1' = The docker build script will include the MALI binaries in the resulting image
+#       using the python server address to transfer the archive to the docker build
+DOCKER_BUILD_INCLUDE_XLNX_MALI=1
+
 XLNX_MALI_URL=0.0.0.0:8000
 XLNX_MALI_BINARY=$INSTALL_DEPENDS_DIR/mali-400-userspace.tar
 #XLNX_MALI_BINARY=$INSTALL_DEPENDS_DIR/mali-400-userspace-with-android-2018.3.tar
-
-# Configuration Files for batch mode installation
-# KEYBOARD_CONFIG_FILE:	Keyboard setting configuration file
-#	for headless selection of the keyboard setup
-#	Required for the X-based XSDK installer package
-KEYBOARD_CONFIG_FILE=$INSTALL_CONFIGS_DIR/keyboard_settings.conf
-
-# Configuration file for xterm sessions inside of the docker container
-# XTERM_CONFIG_FILE: XTerm session configuratino file
-#	Changes color scheme and font to something more readable (default is white background)
-#   Changes scrollback to 1 million lines and enables the scroll bar
-#   Notes on Copy-Paste with the host:
-#	 	Copy from Host to XTerm:
-#			- Host may copy with "CTRL-C" or "Right-Click->Copy"
-#			- Use center mouse button (scroll wheel) to paste into XTerm session
-#
-#		Copy from XTerm to Host:
-#			- Select text in XTerm session to copy using cursor (left-click and drag over text to copy)
-#			- Host may paste with center mouse button (scroll wheel)
-#			- Host clipboard contents from host copy maintained in separate buffer (CTRL-V)
-#-------------
-XTERM_CONFIG_FILE=$INSTALL_CONFIGS_DIR/XTerm
 
 # Xilinx Petalinux Autoinstall Script
 #  for headless installation of Petalinux

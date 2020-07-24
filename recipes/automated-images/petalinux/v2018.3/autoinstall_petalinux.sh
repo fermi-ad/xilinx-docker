@@ -14,7 +14,7 @@ set installer_exec [lindex $argv 0];
 set argument_one [lindex $argv 1];
 
 # Launch the installer
-spawn $installer_exec $argument_one
+spawn $installer_exec $argument_one $argument_one
 
 #############################################################
 # Start monitoring the installer progress
