@@ -8,34 +8,26 @@
 #	- Xilinx Applications Engineer, Embedded Software
 #
 # Created: 
-#	- 11/16/2018
+#	- 7/24/2020
 #
 # Vivado Web Installer
-#	./Xilinx_Vivado_SDK_Web_2018.3_0614_1954_Lin64.bin --noexec --keep --nox11 --target vivado_tmp
-#	Creating directory vivado_tmp
+#	./Xilinx_Vivado_SDK_Web_2018.3_1207_2324_Lin64.bin --noexec --keep --nox11 --target unified_tmp
+#	Creating directory unified_tmp
 #
 # Generate a batchmode configuration file
 #	./xsetup -b ConfigGen
 #
-# Source configuration information for a v2018.3 Vivado Image build
+# Source configuration information for a v2019.1 Vivado imagebuild
 source include/configuration.sh
 
-# Set the Docker File for Vivado
-DOCKER_FILE_NAME=Dockerfile
+# Set the Docker File for Vivadi
+DOCKER_FILE_NAME=Dockerfile.generate_configs
 
 # Additional setup and overrides specificaly for dependency generation
 GENERATED_DIR=_generated
-DOCKER_FILE_STAGE="base_os_"$XLNX_TOOL_INFO"_"$XLNX_RELEASE_VERSION
+DOCKER_FILE_STAGE="base_os_depends_"$XLNX_RELEASE_VERSION
 DOCKER_IMAGE_NAME=dependency_generation
 DOCKER_IMAGE_VERSION=$XLNX_RELEASE_VERSION
-
-# Xilinx ARM Mali Pre-built binaries
-# XLNX_MALI_URL: Base download URL
-# XLNX_MALI_BINARY: filename to download
-# Set #1: Download MALI binary directly from Xilinx
-XLNX_MALI_URL=https://www.xilinx.com/publications/products/tools
-#XLNX_MALI_BINARY=mali-400-userspace.tar
-XLNX_MALI_BINARY=mali-400-userspace-with-android-2018.3.tar
 
 # Grab Start Time
 DOCKER_BUILD_START_TIME=`date`
@@ -68,7 +60,7 @@ fi
 # files links within the build context can point outside
 # the context and they will get transferred just fine.
 
-# Check for Xilinx SDK Web Installer
+# Check for Xilinx Vivado Web Installer
 # This is required for building the offline installer package
 if [ -f $XLNX_VIVADO_WEB_INSTALLER ] || [ -L $XLNX_VIVADO_WEB_INSTALLER ]; then
 	echo "Xilinx Vivado Web Installer: [Exists] "$XLNX_VIVADO_WEB_INSTALLER
@@ -127,7 +119,6 @@ echo "	--build-arg USER_ACCT=\"${USER_ACCT}\""
 echo " 	--build-arg HOME_DIR=\"${HOME_DIR}\""
 echo " 	--build-arg XLNX_INSTALL_LOCATION=\"${XLNX_INSTALL_LOCATION}\""
 echo " 	--build-arg INSTALL_SERVER_URL=\"${SERVER_IP}:8000\""
-echo " 	--build-arg KEYBOARD_CONFIG_FILE=\"${KEYBOARD_CONFIG_FILE}\""
 echo "  --build-arg XLNX_VIVADO_WEB_INSTALLER=\"${XLNX_VIVADO_WEB_INSTALLER}\""
 echo "  --build-arg XLNX_VIVADO_BATCH_CONFIG_FILE=\"${XLNX_VIVADO_BATCH_CONFIG_FILE}\""
 echo "  --build-arg XLNX_VIVADO_OFFLINE_INSTALLER=\"${XLNX_VIVADO_OFFLINE_INSTALLER}\""
@@ -144,7 +135,6 @@ docker build $DOCKER_CACHE -f ./$DOCKER_FILE_NAME \
  	--build-arg HOME_DIR="${HOME_DIR}" \
  	--build-arg XLNX_INSTALL_LOCATION="${XLNX_INSTALL_LOCATION}" \
  	--build-arg INSTALL_SERVER_URL="${INSTALL_SERVER_URL}" \
- 	--build-arg KEYBOARD_CONFIG_FILE="${KEYBOARD_CONFIG_FILE}" \
  	--build-arg BUILD_DEBUG="${BUILD_DEBUG}" \
  	$DOCKER_INSTALL_DIR
 
@@ -196,65 +186,7 @@ if [ $BUILD_DEBUG -ne 0 ]; then set +x; fi
 #		$ docker exec -i <container_name> bash -c "<command1> && <command2> && ..."
 
 echo "-----------------------------------"
-echo "Generating Xilinx Keyboard Configuration... (Interactive)"
-echo "-----------------------------------"
-# Install the keyboard configuration
-if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi
-
-docker exec -it $DOCKER_CONTAINER_NAME \
-	bash -c "if [ ${BUILD_DEBUG} -ne 0 ]; then set -x; fi \
-	&& apt-get install -y keyboard-configuration \
-	&& sudo dpkg-reconfigure keyboard-configuration \
-	&& mkdir -p ${HOME_DIR}/downloads/tmp \
-	&& cd ${HOME_DIR}/downloads/tmp \
-	&& mkdir -p ${KEYBOARD_CONFIG_FILE%/*} \
-	&& debconf-get-selections | grep keyboard-configuration > ${KEYBOARD_CONFIG_FILE} \
-	&& ls -al"
-
-if [ $BUILD_DEBUG -ne 0 ]; then set +x; fi
-
-# copy keyboard configuration from container to host
-echo "-----------------------------------"
-echo "Copying keyboard configuration to host..."
-echo "-----------------------------------"
-
-if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi
-
-mkdir -p $GENERATED_DIR/${KEYBOARD_CONFIG_FILE%/*}
-docker cp $DOCKER_CONTAINER_NAME:$HOME_DIR/downloads/tmp/$KEYBOARD_CONFIG_FILE $GENERATED_DIR/$KEYBOARD_CONFIG_FILE
-
-if [ $BUILD_DEBUG -ne 0 ]; then set +x; fi
-
-echo "-----------------------------------"
-echo "Downloading ARM Mali userspace binaries... (Automated)"
-echo "-----------------------------------"
-
-if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi
-
-# Download the MALI user-space binaries
-docker exec -it $DOCKER_CONTAINER_NAME \
-	bash -c "if [ ${BUILD_DEBUG} -ne 0 ]; then set -x; fi \
-	&& mkdir -p ${HOME_DIR}/downloads/tmp \
-	&& cd ${HOME_DIR}/downloads/tmp \
-	&& wget -nv ${XLNX_MALI_URL}/${XLNX_MALI_BINARY} -O ${XLNX_MALI_BINARY} --no-check-certificate \
-	&& ls -al" 
-
-if [ $BUILD_DEBUG -ne 0 ]; then set +x; fi
-
-# copy mali binary download bundle from container to host
-echo "-----------------------------------"
-echo "Copying mali arm binary to host..."
-echo "-----------------------------------"
-
-if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi
-
-mkdir -p $GENERATED_DIR/${INSTALL_DEPENDS_DIR%/*}
-docker cp $DOCKER_CONTAINER_NAME:$HOME_DIR/downloads/tmp/$XLNX_MALI_BINARY $GENERATED_DIR/$INSTALL_DEPENDS_DIR/$XLNX_MALI_BINARY
-
-if [ $BUILD_DEBUG -ne 0 ]; then set +x; fi
-
-echo "-----------------------------------"
-echo "Building Offline Vivado Installer Bundle..."
+echo "Building Offline Installer Configuration File..."
 echo "-----------------------------------"
 echo " - Install dependencies and download Vivado installer into container..."
 echo "-----------------------------------"
@@ -276,17 +208,17 @@ docker exec -it $DOCKER_CONTAINER_NAME \
 if [ $BUILD_DEBUG -ne 0 ]; then set +x; fi
 
 echo "-----------------------------------"
-echo " - Extract the SDK Installer and generate a batch mode config..."
+echo " - Extract the Vivado Installer and generate a batch mode config..."
 echo "-----------------------------------"
-# Extract the SDK Web Installer and run configGen
+# Extract the Vivado Web Installer and run configGen
 
 if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi
 
 docker exec -it $DOCKER_CONTAINER_NAME \
 	bash -c "if [ ${BUILD_DEBUG} -ne 0 ]; then set -x; fi \
 	&& cd ${HOME_DIR}/downloads/tmp \
-	&& ${XLNX_VIVADO_WEB_INSTALLER} --noexec --nox11 --target xsdk_tmp \
-	&& cd xsdk_tmp \
+	&& ${XLNX_VIVADO_WEB_INSTALLER} --noexec --nox11 --target vivado_tmp \
+	&& cd vivado_tmp \
 	&& ./xsetup -b ConfigGen -l ${XLNX_INSTALL_LOCATION} \
 	&& cd ${HOME_DIR}/downloads/tmp \
 	&& mkdir -p ${XLNX_VIVADO_BATCH_CONFIG_FILE%/*} \
@@ -306,37 +238,7 @@ if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi
 
 mkdir -p $GENERATED_DIR/${XLNX_VIVADO_BATCH_CONFIG_FILE%/*}
 docker cp $DOCKER_CONTAINER_NAME:$HOME_DIR/downloads/tmp/$XLNX_VIVADO_BATCH_CONFIG_FILE $GENERATED_DIR/$XLNX_VIVADO_BATCH_CONFIG_FILE
-
-if [ $BUILD_DEBUG -ne 0 ]; then set +x; fi
-
-echo "-----------------------------------"
-echo " - Launch Vivado Setup to create a download bundle..."
-echo "-----------------------------------"
-# Launch Vivado Setup in X11 Mode to create download bundle
-# Leave download location default (/opt/Xilinx/Downloads/<VERSION>)
-
-if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi
-
-docker exec -it $DOCKER_CONTAINER_NAME \
-	bash -c "if [ ${BUILD_DEBUG} -ne 0 ]; then set -x; fi \
-	&& cd ${HOME_DIR}/downloads/tmp/xsdk_tmp \
-	&& ./xsetup --agree XilinxEULA,3rdPartyEULA,WebTalkTerms --config ${XLNX_VIVADO_BATCH_CONFIG_FILE} \
-	&& cd ${HOME_DIR}/downloads/tmp \
-	&& mkdir -p ${XLNX_VIVADO_OFFLINE_INSTALLER%/*} \
-	&& tar -zcf ${XLNX_VIVADO_OFFLINE_INSTALLER} -C /opt/Xilinx/Downloads/2018.3 . \
-	&& ls -al /opt/Xilinx/Downloads/2018.3"
-
-if [ $BUILD_DEBUG -ne 0 ]; then set +x; fi
-
-# copy sdk offline installer from container to host
-echo "-----------------------------------"
-echo "Copying Xilinx Vivado offline installer to host ..."
-echo "-----------------------------------"
-
-if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi
-
-mkdir -p $GENERATED_DIR/${XLNX_VIVADO_OFFLINE_INSTALLER%/*}
-docker cp $DOCKER_CONTAINER_NAME:$HOME_DIR/downloads/tmp/$XLNX_VIVADO_OFFLINE_INSTALLER $GENERATED_DIR/$XLNX_VIVADO_OFFLINE_INSTALLER
+chmod +rw $GENERATED_DIR/$XLNX_VIVADO_BATCH_CONFIG_FILE
 
 if [ $BUILD_DEBUG -ne 0 ]; then set +x; fi
 
@@ -369,7 +271,7 @@ if [ $BUILD_DEBUG -ne 0 ]; then set +x; fi
 DOCKER_BUILD_END_TIME=`date`
 # Docker Image Build Complete
 echo "-----------------------------------"
-echo "Dependency Generation Complete"
+echo "Configuration Generation Complete"
 echo "-----------------------------------"
 echo "STARTED :"$DOCKER_BUILD_START_TIME
 echo "ENDED   :"$DOCKER_BUILD_END_TIME
@@ -379,10 +281,10 @@ echo "DOCKER_FILE_STAGE="$DOCKER_FILE_STAGE
 echo "DOCKER_IMAGE="$DOCKER_IMAGE_NAME":"$DOCKER_IMAGE_VERSION
 echo "DOCKER_CONTAINER_NAME="$DOCKER_CONTAINER_NAME
 echo "-----------------------------------"
-echo "Dependencies Generated:"
+echo "Configurations Generated:"
 echo "-----------------------------------"
-ls -al $GENERATED_DIR/$KEYBOARD_CONFIG_FILE
 ls -al $GENERATED_DIR/$XLNX_VIVADO_BATCH_CONFIG_FILE
-ls -al $GENERATED_DIR/$INSTALL_DEPENDS_DIR/$XLNX_MALI_BINARY
-ls -al $GENERATED_DIR/$XLNX_VIVADO_OFFLINE_INSTALLER
 echo "-----------------------------------"
+echo "Copying Configurations to the $INSTALL_CONFIGS_DIR Folder"
+echo "-----------------------------------"
+cp -f $GENERATED_DIR/$XLNX_VIVADO_BATCH_CONFIG_FILE $XLNX_VIVADO_BATCH_CONFIG_FILE

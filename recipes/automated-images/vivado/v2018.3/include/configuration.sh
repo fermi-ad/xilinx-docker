@@ -2,14 +2,14 @@
 ########################################################################################
 # Docker Image Build Variable Custom Configuration:
 #   - Customize definitions of arguments for building images for v2018.2
-#	- Used with: Dockerfile.xx_v2018.3
+#	- Used with: Dockerfile
 #
 # Maintainer:
 #	- Jason Moss (jason.moss@avnet.com)
 #	- Xilinx Applications Engineer, Embedded Software
 #
 # Created: 
-#	- 1/16/2018
+#	- 7/24/2020
 #
 #######################################################################################
 # Docker Build Script Debug Tracing
@@ -57,7 +57,10 @@ DOCKER_IMAGE_NAME=xilinx-$XLNX_TOOL_INFO
 
 # Docker base OS Images
 DOCKER_BASE_OS=ubuntu
-DOCKER_BASE_OS_TAG=18.04.2
+DOCKER_BASE_OS_TAG=16.04.4
+
+DOCKER_USER_IMAGE_NAME=xilinx-ubuntu-16.04.4-user
+DOCKER_USER_IMAGE_VERSION=$XLNX_RELEASE_VERSION
 
 # Should Docker use Cache when building?
 # - A couple of important reasons to DISABLE the use of the cache
@@ -111,65 +114,24 @@ INSTALL_DEPENDS_DIR=depends
 # Depdendency / Configuration File Related Variables
 ########################################################################################
 ########################################################################################
-# DOCKER_BUILD_XLNX_MALI_LOCAL:
-# '0' = The docker build script will not construct XLNX_MALI_URL
-#       using the python server address, but will pass the URL setup above
-#
-# '1' = The docker build scrpit will construct XLNX_MALI_URL
-#		using the python server address and the INSTALL_DEPENDS_DIR variable
-DOCKER_BUILD_XLNX_MALI_LOCAL='1'
-
-# Xilinx ARM Mali Pre-built binaries
-# XLNX_MALI_URL: Base download URL
-# XLNX_MALI_BINARY: filename to download
-# Set #1: Download MALI binary directly from Xilinx
-# DOCKER_BUILD_XLNX_MALI_LOCAL=0
-#XLNX_MALI_URL=https://www.xilinx.com/publications/products/tools
-#XLNX_MALI_BINARY=mali-400-userspace.tar
-# Set #2: Download from local archive by use of python http.server (address set later in this script)
-# DOCKER_BUILD_XLNX_MALI_LOCAL=1
-XLNX_MALI_URL=0.0.0.0:8000
-XLNX_MALI_BINARY=$INSTALL_DEPENDS_DIR/mali-400-userspace.tar
-#XLNX_MALI_BINARY=$INSTALL_DEPENDS_DIR/mali-400-userspace-with-android-2018.3.tar
-
-# Configuration Files for batch mode installation
-# KEYBOARD_CONFIG_FILE:	Keyboard setting configuration file
-#	for headless selection of the keyboard setup
-#	Required for the X-based XSDK installer package
-KEYBOARD_CONFIG_FILE=$INSTALL_CONFIGS_DIR/keyboard_settings.conf
-
-# Configuration file for xterm sessions inside of the docker container
-# XTERM_CONFIG_FILE: XTerm session configuratino file
-#	Changes color scheme and font to something more readable (default is white background)
-#   Changes scrollback to 1 million lines and enables the scroll bar
-#   Notes on Copy-Paste with the host:
-#	 	Copy from Host to XTerm:
-#			- Host may copy with "CTRL-C" or "Right-Click->Copy"
-#			- Use center mouse button (scroll wheel) to paste into XTerm session
-#
-#		Copy from XTerm to Host:
-#			- Select text in XTerm session to copy using cursor (left-click and drag over text to copy)
-#			- Host may paste with center mouse button (scroll wheel)
-#			- Host clipboard contents from host copy maintained in separate buffer (CTRL-V)
-#-------------
-XTERM_CONFIG_FILE=$INSTALL_CONFIGS_DIR/XTerm
-
 # Xilinx Vivado batch mode: Batch mode install configuration template
 #	for headless install of Xilinx SDK components
 # xlnx_vivado_system_edition = Vivado System Edition installation
 # ??? = Vivado ??? Edition installation
-XLNX_VIVADO_BATCH_CONFIG_FILE=$INSTALL_CONFIGS_DIR/xlnx_vivado_system_edition.config
+XLNX_VIVADO_BATCH_CONFIG_FILE=$INSTALL_CONFIGS_DIR/xlnx_vivado.config
 
 # Xilinx Vivado Web-based installer
 # XLNX_XSDK_WEBINSTALLER: Official web-based installer for the SDK release
-XLNX_VIVADO_WEB_INSTALLER=$INSTALL_DEPENDS_DIR/Xilinx_Vivado_SDK_Web_2018.3_1207_2324_Lin64.bin
+XLNX_VIVADO_INSTALLER_BASENAME=Xilinx_Vivado_SDK_Web_2018.3_1207_2324
+XLNX_VIVADO_WEB_INSTALLER=$INSTALL_DEPENDS_DIR/${XLNX_VIVADO_INSTALLER_BASENAME}_Lin64.bin
 
 # Xilinx Vivado Pre-downloaded offline install bundle
 # - This is downloaded and created by:
 #   1. Running the web-installer with the batch mode configuration
 #   2. Downloading the files for offline install
 #   3. Manually archiving files in a tarball
-XLNX_VIVADO_OFFLINE_INSTALLER=$INSTALL_DEPENDS_DIR/Xilinx_Vivado_SDK_Web_2018.3_1207_2324_Lin64.tar.gz
+XLNX_VIVADO_FULL_INSTALLER=$INSTALL_DEPENDS_DIR/${XLNX_VIVADO_INSTALLER_BASENAME}.tar.gz
+XLNX_VIVADO_OFFLINE_INSTALLER=$INSTALL_DEPENDS_DIR/${XLNX_VIVADO_INSTALLER_BASENAME}.tar.gz
 
 # Local Python3 http server to transfer files into container
 # INSTALL_SERVER_URL: Set automatically later in this script when
