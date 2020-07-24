@@ -1,0 +1,446 @@
+$ ./build_image.sh 
+-----------------------------------
+Checking for dependencies...
+-----------------------------------
+Base user image [found] (xilinx-ubuntu-16.04.3-user:v2018.2)
+Xilinx MALI Binaries: [Good] depends/mali-400-userspace.tar
+Xilinx Petalinux Installer: [Good] depends/petalinux-v2018.2-final-installer.run
+-----------------------------------
+Docker Build Context (Working)...
+-----------------------------------
++ cd /xilinx/local/repositories/gitlab/rjmoss/xilinx-docker/recipes/automated-images/petalinux/v2018.2
++ '[' 1 -ne 0 ']'
++ set +x
+DOCKER_INSTALL_DIR=.
+DOCKER_BUILD_WORKING_DIR=/xilinx/local/repositories/gitlab/rjmoss/xilinx-docker/recipes/automated-images/petalinux/v2018.2
+-----------------------------------
+-----------------------------------
+Launching Python HTTP Server...
+-----------------------------------
++ SERVER_PID=10199
++ python3 -m http.server
+++ ifconfig docker0
+++ grep 'inet\s'
+++ awk '{print $2}'
++ SERVER_IP=172.17.0.1
++ '[' 1 -ne 0 ']'
++ set +x
+SERVER_IP=172.17.0.1
+SERVER_PID=10199
+-----------------------------------
+-----------------------------------
+Building the Docker Image...
+-------------------------------
+DOCKER_CACHE=--no-cache
+DOCKER_FILE_NAME=Dockerfile
+DOCKER_FILE_STAGE=xilinx_install_petalinux_v2018.2
+DOCKER_IMAGE=xilinx-petalinux:v2018.2
+DOCKER_INSTALL_DIR=.
+INSTALL_SERVER_URL=172.17.0.1:8000
+-----------------------------------
+Arguments...
+-----------------------------------
+        --build-arg USER_ACCT="xilinx"
+        --build-arg HOME_DIR="/home/xilinx"
+        --build-arg XLNX_INSTALL_LOCATION="/opt/Xilinx"
+  --build-arg DOCKER_BUILD_INCLUDE_XLNX_MALI="1"
+  --build-arg XLNX_MALI_BINARY="depends/mali-400-userspace.tar"
+        --build-arg INSTALL_SERVER_URL="172.17.0.1:8000"
+        --build-arg XLNX_PETALINUX_INSTALLER="depends/petalinux-v2018.2-final-installer.run"
+  --build-arg XLNX_PETALINUX_AUTOINSTALL_SCRIPT="autoinstall_petalinux.sh"
+  --build-arg XLNX_PETALINUX_INSTALL_DIR="/opt/Xilinx/petalinux/v2018.2"
+  --build-arg BUILD_DEBUG="1"
+-----------------------------------
++ docker build --no-cache -f ./Dockerfile --target xilinx_install_petalinux_v2018.2 -t xilinx-petalinux:v2018.2 --build-arg USER_ACCT=xilinx --build-arg HOME_DIR=/home/xilinx --build-arg XLNX_INSTALL_LOCATION=/opt/Xilinx --build-arg DOCKER_BUILD_INCLUDE_XLNX_MALI=1 --build-arg XLNX_MALI_BINARY=depends/mali-400-userspace.tar --build-arg INSTALL_SERVER_URL=172.17.0.1:8000 --build-arg XLNX_PETALINUX_INSTALLER=depends/petalinux-v2018.2-final-installer.run --build-arg XLNX_PETALINUX_AUTOINSTALL_SCRIPT=autoinstall_petalinux.sh --build-arg XLNX_PETALINUX_INSTALL_DIR=/opt/Xilinx/petalinux/v2018.2 --build-arg BUILD_DEBUG=1 .
+Sending build context to Docker daemon  9.216kB
+Serving HTTP on 0.0.0.0 port 8000 (http://0.0.0.0:8000/) ...
+Step 1/15 : FROM xilinx-ubuntu-16.04.3-user:v2018.2 AS xilinx_install_petalinux_v2018.2
+ ---> c63f60c67792
+Step 2/15 : LABEL author="Jason Moss"
+ ---> Running in 30725bda2ba7
+Removing intermediate container 30725bda2ba7
+ ---> 02efa3febe24
+Step 3/15 : ARG USER_ACCT
+ ---> Running in ec406b1d588c
+Removing intermediate container ec406b1d588c
+ ---> d43de2ba44ae
+Step 4/15 : ARG HOME_DIR
+ ---> Running in e13bfe53cfdd
+Removing intermediate container e13bfe53cfdd
+ ---> 7a41a35583f0
+Step 5/15 : ARG XLNX_INSTALL_LOCATION
+ ---> Running in 788ed639aaa3
+Removing intermediate container 788ed639aaa3
+ ---> 8364acf46b16
+Step 6/15 : ARG DOCKER_BUILD_INCLUDE_XLNX_MALI
+ ---> Running in 7139b79f7818
+Removing intermediate container 7139b79f7818
+ ---> 53760fbc5bfa
+Step 7/15 : ARG INSTALL_SERVER_URL
+ ---> Running in bac7bf9c3e61
+Removing intermediate container bac7bf9c3e61
+ ---> 8d97ac9f3be9
+Step 8/15 : ARG BUILD_DEBUG
+ ---> Running in 1fd7ec70056c
+Removing intermediate container 1fd7ec70056c
+ ---> 7e1d1039a321
+Step 9/15 : ARG XLNX_MALI_BINARY
+ ---> Running in d72a9287d023
+Removing intermediate container d72a9287d023
+ ---> faf9acd71edd
+Step 10/15 : ARG XLNX_PETALINUX_INSTALLER
+ ---> Running in 1eaa3d4cb11c
+Removing intermediate container 1eaa3d4cb11c
+ ---> 7bfd1f0459c3
+Step 11/15 : ARG XLNX_PETALINUX_AUTOINSTALL_SCRIPT
+ ---> Running in 6c74f91f4d8f
+Removing intermediate container 6c74f91f4d8f
+ ---> adaf86719ba9
+Step 12/15 : ARG XLNX_PETALINUX_INSTALL_DIR
+ ---> Running in ef87a0199d7f
+Removing intermediate container ef87a0199d7f
+ ---> 80d2637346be
+Step 13/15 : USER $USER_ACCT
+ ---> Running in 93ec95bbbcc9
+Removing intermediate container 93ec95bbbcc9
+ ---> f0bd28be108a
+Step 14/15 : ENV DEBIAN_FRONTEND=noninteractive
+ ---> Running in 3d7b83f00097
+Removing intermediate container 3d7b83f00097
+ ---> 7849ea448605
+Step 15/15 : RUN if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi     && sudo mkdir -p $XLNX_INSTALL_LOCATION/tmp     && sudo chown -R $USER_ACCT:$USER_ACCT $XLNX_INSTALL_LOCATION   && if [[ $DOCKER_BUILD_INCLUDE_XLNX_MALI -ne 0 ]]; then               mkdir -p $XLNX_INSTALL_LOCATION/downloads/tmp           && cd $XLNX_INSTALL_LOCATION/downloads/tmp              && mkdir -p "${XLNX_MALI_BINARY%/*}"          && wget -nv $INSTALL_SERVER_URL/$XLNX_MALI_BINARY -O $XLNX_MALI_BINARY          && tar xf $XLNX_MALI_BINARY mali/rel-v2018.1/downloads-mali.tar               && tar xf mali/rel-v2018.1/downloads-mali.tar           && mv $XLNX_INSTALL_LOCATION/downloads/tmp/downloads-mali/* $XLNX_INSTALL_LOCATION/downloads            && rm -rf $XLNX_INSTALL_LOCATION/downloads/tmp;       fi      && cd $XLNX_INSTALL_LOCATION/tmp        && mkdir -p "${XLNX_PETALINUX_INSTALLER%/*}"    && wget -nv $INSTALL_SERVER_URL/$XLNX_PETALINUX_INSTALLER -O $XLNX_PETALINUX_INSTALLER        && wget -nv $INSTALL_SERVER_URL/$XLNX_PETALINUX_AUTOINSTALL_SCRIPT      && dos2unix -ascii -q $XLNX_PETALINUX_AUTOINSTALL_SCRIPT      && echo "cd $XLNX_PETALINUX_INSTALL_DIR" >> $HOME_DIR/.bashrc   && echo "export LANG=en_US.UTF-8" >> $HOME_DIR/.bashrc  && export "LANG=en_US.UTF-8"    && chmod a+x $XLNX_PETALINUX_INSTALLER        && chmod a+x $XLNX_PETALINUX_AUTOINSTALL_SCRIPT         && cd $XLNX_INSTALL_LOCATION/tmp        && cat ./$XLNX_PETALINUX_AUTOINSTALL_SCRIPT     && export TERM=xterm  && mkdir -p $XLNX_PETALINUX_INSTALL_DIR         && ./$XLNX_PETALINUX_AUTOINSTALL_SCRIPT $XLNX_PETALINUX_INSTALLER "$XLNX_PETALINUX_INSTALL_DIR"         && echo ". $XLNX_PETALINUX_INSTALL_DIR/settings.sh" >> $HOME_DIR/.bashrc      && . $XLNX_PETALINUX_INSTALL_DIR/settings.sh    && petalinux-util --webtalk off         && rm -rf $XLNX_INSTALL_LOCATION/tmp && sudo apt-get clean    && sudo rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*   && sudo echo 'debconf debconf/frontend select Dialog' | sudo debconf-set-selections
+ ---> Running in 2ba241250003
++ sudo mkdir -p /opt/Xilinx/tmp
++ sudo chown -R xilinx:xilinx /opt/Xilinx
++ [[ 1 -ne 0 ]]
++ mkdir -p /opt/Xilinx/downloads/tmp
++ cd /opt/Xilinx/downloads/tmp
++ mkdir -p depends
++ wget -nv 172.17.0.1:8000/depends/mali-400-userspace.tar -O depends/mali-400-userspace.tar
+172.17.0.2 - - [24/Jul/2020 10:03:53] "GET /depends/mali-400-userspace.tar HTTP/1.1" 200 -
+2020-07-24 14:03:53 URL:http://172.17.0.1:8000/depends/mali-400-userspace.tar [308336640/308336640] -> "depends/mali-400-userspace.tar" [1]
++ tar xf depends/mali-400-userspace.tar mali/rel-v2018.1/downloads-mali.tar
++ tar xf mali/rel-v2018.1/downloads-mali.tar
++ mv /opt/Xilinx/downloads/tmp/downloads-mali/git2_gitenterprise.xilinx.com.Graphics.mali400-xlnx-userspace.git.tar.gz /opt/Xilinx/downloads
++ rm -rf /opt/Xilinx/downloads/tmp
++ cd /opt/Xilinx/tmp
++ mkdir -p depends
++ wget -nv 172.17.0.1:8000/depends/petalinux-v2018.2-final-installer.run -O depends/petalinux-v2018.2-final-installer.run
+172.17.0.2 - - [24/Jul/2020 10:03:54] "GET /depends/petalinux-v2018.2-final-installer.run HTTP/1.1" 200 -
+2020-07-24 14:04:02 URL:http://172.17.0.1:8000/depends/petalinux-v2018.2-final-installer.run [6599854386/6599854386] -> "depends/petalinux-v2018.2-final-installer.run" [1]
++ wget -nv 172.17.0.1:8000/autoinstall_petalinux.sh
+172.17.0.2 - - [24/Jul/2020 10:04:02] "GET /autoinstall_petalinux.sh HTTP/1.1" 200 -
+2020-07-24 14:04:02 URL:http://172.17.0.1:8000/autoinstall_petalinux.sh [3221/3221] -> "autoinstall_petalinux.sh" [1]
++ dos2unix -ascii -q autoinstall_petalinux.sh
++ echo 'cd /opt/Xilinx/petalinux/v2018.2'
++ echo 'export LANG=en_US.UTF-8'
++ export LANG=en_US.UTF-8
++ LANG=en_US.UTF-8
++ chmod a+x depends/petalinux-v2018.2-final-installer.run
++ chmod a+x autoinstall_petalinux.sh
++ cd /opt/Xilinx/tmp
++ cat ./autoinstall_petalinux.sh
+#!/usr/bin/expect
+# This is a generic template that can be filled out to
+# automate any installation that requires automated user input.
+#
+# Number of arguments = [llength $argv]
+set argcount [llength $argv];
+
+set timeout -1;
+# Arguments: 
+# (1) - Installer package name
+set installer_exec [lindex $argv 0];
+# (2) - Installer arguments
+#     - ARG1 = petalinux installation directory
+set argument_one [lindex $argv 1];
+
+# Launch the installer
+spawn $installer_exec $argument_one $argument_one
+
+#############################################################
+# Start monitoring the installer progress
+#############################################################
+# INFO: Checking installer checksum...
+set timeout 100
+expect { 
+        "*INFO: Checking installer checksum...*" { }
+        timeout {
+                puts "Exiting due to timeout (installer checksum)"
+                exit 1
+        }
+}
+
+# INFO: Extracting PetaLinux installer...
+set timeout 300
+expect { 
+        "*INFO: Extracting PetaLinux installer...*" { }
+        timeout {
+                puts "Exiting due to timeout (installer extraction)"
+                exit 1
+        }
+}
+
+# Press Enter to display the license agreements
+set timeout 600 
+expect { 
+        "*Press Enter to display the license agreements*" { }
+        timeout {
+                puts "Exiting due to timeout (display license agreements)"
+                exit 1
+        }
+}
+send "\r"
+
+# END USER LICENSE AGREEMENT FOR PETALINUX TOOLS
+set timeout 10
+expect { 
+        "*END USER LICENSE AGREEMENT FOR PETALINUX TOOLS*" { }
+        timeout {
+                puts "Exiting due to timeout (petalinux eula)"
+                exit 1
+        }
+}
+send "q"
+
+# Do you accept Xilinx End User License Agreement? [y/N] >
+# 'Do you accept Xilinx End User License Agreement? \[y\/N\] \>' { }
+
+set timeout 60
+expect {
+        "*Do you accept Xilinx End User License Agreement?*" { }
+        timeout {
+                puts "Exiting due to timeout (accept petalinux eula)"
+                exit 1
+        }
+}
+send "y\r"
+
+# WebTalk Terms and Conditions
+set timeout 10
+expect {
+        "*WebTalk Terms and Conditions*" { }
+        timeout {
+                puts "Exiting due to timeout (webtalk tcs)"
+                exit 1
+        }
+}
+send "q"
+
+# Do you accept Webtalk Terms and Conditions? [y/N] >
+set timeout 10
+expect {
+        "*Do you accept Webtalk Terms and Conditions?*" { }
+        timeout {
+                puts "Exiting due to timeout (accept webtalk tcs)"
+                exit 1
+        }
+}
+send "y\r"
+
+# CAREFULLY READ THIS COLLECTION OF INFORMATION AND LICENSE AGREEMENTS.
+set timeout 10
+expect {
+        "*CAREFULLY READ THIS COLLECTION OF INFORMATION AND LICENSE AGREEMENTS.*" { }
+        timeout {
+                puts "Exiting due to timeout (third party eula)"
+                exit 1
+        }
+}
+send "q"
+
+# Do you accept Third Party End User License Agreement? [y/N] > 
+set timeout 10
+expect {
+        "*Do you accept Third Party End User License Agreement?*" { }
+        timeout {
+                puts "Exiting due to timeout (accept third party eula)"
+                exit 1
+        }
+}
+send "y\r"
+
+# INFO: Installing PetaLinux...
+set timeout 300
+expect {
+        "*INFO: Installing PetaLinux...*" { }
+        timeout {
+                puts "Exiting due to timeout (petalinux install)"
+                exit 1
+        }
+}
+
+# WARNING: PetaLinux installation directory ... is not empty!
+set timeout 10
+expect {
+        "*WARNING: Petalinux installation directory*" {
+                send "y\r"
+        }
+}
+
+# INFO: PetaLinux SDK has been installed
+set timeout 1200
+expect {
+        "*INFO: PetaLinux SDK has been installed*" { }
+        timeout {
+                puts "Exiting due to timeout (sdk install)"
+                exit 1
+        }
+}
+
+expect eof+ export TERM=xterm
++ TERM=xterm
++ mkdir -p /opt/Xilinx/petalinux/v2018.2
++ ./autoinstall_petalinux.sh depends/petalinux-v2018.2-final-installer.run /opt/Xilinx/petalinux/v2018.2
+spawn depends/petalinux-v2018.2-final-installer.run /opt/Xilinx/petalinux/v2018.2 /opt/Xilinx/petalinux/v2018.2
+INFO: Checking installer checksum...
+INFO: Extracting PetaLinux installer...
+
+LICENSE AGREEMENTS
+
+PetaLinux SDK contains software from a number of sources.  Please review
+the following licenses and indicate your acceptance of each to continue.
+
+You do not have to accept the licenses, however if you do not then you may 
+not use PetaLinux SDK.
+
+Use PgUp/PgDn to navigate the license viewer, and press 'q' to close
+
+Press Enter to display the license agreements
+Do you accept Xilinx End User License Agreement? [y/N] > y
+Do you accept Webtalk Terms and Conditions? [y/N] > y
+Do you accept Third Party End User License Agreement? [y/N] > y
+INFO: Checking installation environment requirements...
+INFO: Checking free disk space
+INFO: Checking installed tools
+INFO: Checking installed development libraries
+INFO: Checking network and other services
+WARNING: No tftp server found - please refer to "PetaLinux SDK Installation Guide" for its impact and solution
+INFO: Installing PetaLinux...
+INFO: Checking PetaLinux installer integrity...
+INFO: Installing PetaLinux SDK to "/opt/Xilinx/petalinux/v2018.2/."
+................................................................................................................................................................................................................................................................................INFO: Installing aarch64 Yocto SDK to "/opt/Xilinx/petalinux/v2018.2/./components/yocto/source/aarch64"...
+PetaLinux Extensible SDK installer version 2018.2
+=================================================
+You are about to install the SDK to "/opt/Xilinx/petalinux/v2018.2/components/yocto/source/aarch64". Proceed[Y/n]? Y
+Extracting SDK................................done
+Setting it up...
+Extracting buildtools...
+done
+SDK has been successfully set up and is ready to be used.
+Each time you wish to use the SDK in a new shell session, you need to source the environment setup script e.g.
+ $ . /opt/Xilinx/petalinux/v2018.2/components/yocto/source/aarch64/environment-setup-aarch64-xilinx-linux
+INFO: Installing arm Yocto SDK to "/opt/Xilinx/petalinux/v2018.2/./components/yocto/source/arm"...
+PetaLinux Extensible SDK installer version 2018.2
+=================================================
+You are about to install the SDK to "/opt/Xilinx/petalinux/v2018.2/components/yocto/source/arm". Proceed[Y/n]? Y
+Extracting SDK..............................done
+Setting it up...
+Extracting buildtools...
+done
+SDK has been successfully set up and is ready to be used.
+Each time you wish to use the SDK in a new shell session, you need to source the environment setup script e.g.
+ $ . /opt/Xilinx/petalinux/v2018.2/components/yocto/source/arm/environment-setup-cortexa9hf-neon-xilinx-linux-gnueabi
+INFO: Installing microblaze_full Yocto SDK to "/opt/Xilinx/petalinux/v2018.2/./components/yocto/source/microblaze_full"...
+PetaLinux Extensible SDK installer version 2018.2
+=================================================
+You are about to install the SDK to "/opt/Xilinx/petalinux/v2018.2/components/yocto/source/microblaze_full". Proceed[Y/n]? Y
+Extracting SDK.............................done
+Setting it up...
+Extracting buildtools...
+done
+SDK has been successfully set up and is ready to be used.
+Each time you wish to use the SDK in a new shell session, you need to source the environment setup script e.g.
+ $ . /opt/Xilinx/petalinux/v2018.2/components/yocto/source/microblaze_full/environment-setup-microblazeel-v10.0-bs-cmp-re-mh-div-xilinx-linux
+INFO: Installing microblaze_lite Yocto SDK to "/opt/Xilinx/petalinux/v2018.2/./components/yocto/source/microblaze_lite"...
+PetaLinux Extensible SDK installer version 2018.2
+=================================================
+You are about to install the SDK to "/opt/Xilinx/petalinux/v2018.2/components/yocto/source/microblaze_lite". Proceed[Y/n]? Y
+Extracting SDK.............................done
+Setting it up...
+Extracting buildtools...
+done
+SDK has been successfully set up and is ready to be used.
+Each time you wish to use the SDK in a new shell session, you need to source the environment setup script e.g.
+ $ . /opt/Xilinx/petalinux/v2018.2/components/yocto/source/microblaze_lite/environment-setup-microblazeel-v10.0-bs-cmp-re-ml-xilinx-linux
+INFO: PetaLinux SDK has been installed to /opt/Xilinx/petalinux/v2018.2/.
++ echo '. /opt/Xilinx/petalinux/v2018.2/settings.sh'
++ . /opt/Xilinx/petalinux/v2018.2/settings.sh
+++ SETTINGS_FILE=settings.sh
+++ XIL_SCRIPT_LOC=./
+++ '[' 0 '!=' 0 ']'
+++ '[' /bin/sh == ksh ']'
+++ XIL_SCRIPT_LOC_TMP_UNI=/opt/Xilinx/petalinux/v2018.2/settings.sh
+++ XIL_SCRIPT_LOC_TMP_UNI=/opt/Xilinx/petalinux/v2018.2
+++ '[' /opt/Xilinx/petalinux/v2018.2 '!=' '' ']'
+++ '[' /opt/Xilinx/petalinux/v2018.2 == settings.sh ']'
++++ readlink -f /opt/Xilinx/petalinux/v2018.2
+++ XIL_SCRIPT_LOC_TMP_UNI=/opt/Xilinx/petalinux/v2018.2
+++ '[' 0 == 0 ']'
+++ XIL_SCRIPT_LOC=/opt/Xilinx/petalinux/v2018.2
+++ unset XIL_SCRIPT_LOC_TMP_UNI
++++ readlink -f /opt/Xilinx/petalinux/v2018.2
+++ export PETALINUX=/opt/Xilinx/petalinux/v2018.2
+++ PETALINUX=/opt/Xilinx/petalinux/v2018.2
+++ echo /opt/Xilinx/petalinux/v2018.2
+++ grep -q ' '
+++ export PETALINUX_VER=2018.2
+++ PETALINUX_VER=2018.2
+++ PATH=/opt/Xilinx/petalinux/v2018.2/tools/linux-i386/aarch64-none-elf/bin:/opt/Xilinx/petalinux/v2018.2/tools/linux-i386/aarch64-linux-gnu/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+++ PATH=/opt/Xilinx/petalinux/v2018.2/tools/linux-i386/gcc-arm-none-eabi/bin:/opt/Xilinx/petalinux/v2018.2/tools/linux-i386/gcc-arm-linux-gnueabi/bin:/opt/Xilinx/petalinux/v2018.2/tools/linux-i386/aarch64-none-elf/bin:/opt/Xilinx/petalinux/v2018.2/tools/linux-i386/aarch64-linux-gnu/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+++ PATH=/opt/Xilinx/petalinux/v2018.2/tools/linux-i386/microblaze-xilinx-elf/bin:/opt/Xilinx/petalinux/v2018.2/tools/linux-i386/microblazeel-xilinx-linux-gnu/bin:/opt/Xilinx/petalinux/v2018.2/tools/linux-i386/gcc-arm-none-eabi/bin:/opt/Xilinx/petalinux/v2018.2/tools/linux-i386/gcc-arm-linux-gnueabi/bin:/opt/Xilinx/petalinux/v2018.2/tools/linux-i386/aarch64-none-elf/bin:/opt/Xilinx/petalinux/v2018.2/tools/linux-i386/aarch64-linux-gnu/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+++ PATH=/opt/Xilinx/petalinux/v2018.2/tools/linux-i386/gcc-arm-none-eabi-r5/bin:/opt/Xilinx/petalinux/v2018.2/tools/linux-i386/microblaze-xilinx-elf/bin:/opt/Xilinx/petalinux/v2018.2/tools/linux-i386/microblazeel-xilinx-linux-gnu/bin:/opt/Xilinx/petalinux/v2018.2/tools/linux-i386/gcc-arm-none-eabi/bin:/opt/Xilinx/petalinux/v2018.2/tools/linux-i386/gcc-arm-linux-gnueabi/bin:/opt/Xilinx/petalinux/v2018.2/tools/linux-i386/aarch64-none-elf/bin:/opt/Xilinx/petalinux/v2018.2/tools/linux-i386/aarch64-linux-gnu/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+++ PATH=/opt/Xilinx/petalinux/v2018.2/tools/linux-i386/petalinux/bin:/opt/Xilinx/petalinux/v2018.2/tools/common/petalinux/bin:/opt/Xilinx/petalinux/v2018.2/tools/linux-i386/gcc-arm-none-eabi-r5/bin:/opt/Xilinx/petalinux/v2018.2/tools/linux-i386/microblaze-xilinx-elf/bin:/opt/Xilinx/petalinux/v2018.2/tools/linux-i386/microblazeel-xilinx-linux-gnu/bin:/opt/Xilinx/petalinux/v2018.2/tools/linux-i386/gcc-arm-none-eabi/bin:/opt/Xilinx/petalinux/v2018.2/tools/linux-i386/gcc-arm-linux-gnueabi/bin:/opt/Xilinx/petalinux/v2018.2/tools/linux-i386/aarch64-none-elf/bin:/opt/Xilinx/petalinux/v2018.2/tools/linux-i386/aarch64-linux-gnu/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+++ echo /opt/Xilinx/petalinux/v2018.2/tools/linux-i386/petalinux/bin:/opt/Xilinx/petalinux/v2018.2/tools/common/petalinux/bin:/opt/Xilinx/petalinux/v2018.2/tools/linux-i386/gcc-arm-none-eabi-r5/bin:/opt/Xilinx/petalinux/v2018.2/tools/linux-i386/microblaze-xilinx-elf/bin:/opt/Xilinx/petalinux/v2018.2/tools/linux-i386/microblazeel-xilinx-linux-gnu/bin:/opt/Xilinx/petalinux/v2018.2/tools/linux-i386/gcc-arm-none-eabi/bin:/opt/Xilinx/petalinux/v2018.2/tools/linux-i386/gcc-arm-linux-gnueabi/bin:/opt/Xilinx/petalinux/v2018.2/tools/linux-i386/aarch64-none-elf/bin:/opt/Xilinx/petalinux/v2018.2/tools/linux-i386/aarch64-linux-gnu/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+++ grep '^\./*$'
+++ tr : '\n'
++++ echo /opt/Xilinx/petalinux/v2018.2/tools/linux-i386/petalinux/bin:/opt/Xilinx/petalinux/v2018.2/tools/common/petalinux/bin:/opt/Xilinx/petalinux/v2018.2/tools/linux-i386/gcc-arm-none-eabi-r5/bin:/opt/Xilinx/petalinux/v2018.2/tools/linux-i386/microblaze-xilinx-elf/bin:/opt/Xilinx/petalinux/v2018.2/tools/linux-i386/microblazeel-xilinx-linux-gnu/bin:/opt/Xilinx/petalinux/v2018.2/tools/linux-i386/gcc-arm-none-eabi/bin:/opt/Xilinx/petalinux/v2018.2/tools/linux-i386/gcc-arm-linux-gnueabi/bin:/opt/Xilinx/petalinux/v2018.2/tools/linux-i386/aarch64-none-elf/bin:/opt/Xilinx/petalinux/v2018.2/tools/linux-i386/aarch64-linux-gnu/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
++++ tr : '\n'
++++ grep -v '^\./*$'
++++ tr '\n' :
+++ PATH=/opt/Xilinx/petalinux/v2018.2/tools/linux-i386/petalinux/bin:/opt/Xilinx/petalinux/v2018.2/tools/common/petalinux/bin:/opt/Xilinx/petalinux/v2018.2/tools/linux-i386/gcc-arm-none-eabi-r5/bin:/opt/Xilinx/petalinux/v2018.2/tools/linux-i386/microblaze-xilinx-elf/bin:/opt/Xilinx/petalinux/v2018.2/tools/linux-i386/microblazeel-xilinx-linux-gnu/bin:/opt/Xilinx/petalinux/v2018.2/tools/linux-i386/gcc-arm-none-eabi/bin:/opt/Xilinx/petalinux/v2018.2/tools/linux-i386/gcc-arm-linux-gnueabi/bin:/opt/Xilinx/petalinux/v2018.2/tools/linux-i386/aarch64-none-elf/bin:/opt/Xilinx/petalinux/v2018.2/tools/linux-i386/aarch64-linux-gnu/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:
++++ echo /opt/Xilinx/petalinux/v2018.2/tools/linux-i386/petalinux/bin:/opt/Xilinx/petalinux/v2018.2/tools/common/petalinux/bin:/opt/Xilinx/petalinux/v2018.2/tools/linux-i386/gcc-arm-none-eabi-r5/bin:/opt/Xilinx/petalinux/v2018.2/tools/linux-i386/microblaze-xilinx-elf/bin:/opt/Xilinx/petalinux/v2018.2/tools/linux-i386/microblazeel-xilinx-linux-gnu/bin:/opt/Xilinx/petalinux/v2018.2/tools/linux-i386/gcc-arm-none-eabi/bin:/opt/Xilinx/petalinux/v2018.2/tools/linux-i386/gcc-arm-linux-gnueabi/bin:/opt/Xilinx/petalinux/v2018.2/tools/linux-i386/aarch64-none-elf/bin:/opt/Xilinx/petalinux/v2018.2/tools/linux-i386/aarch64-linux-gnu/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:
++++ sed -e 's/:*$//g' -e 's/::*/:/g'
+++ PATH=/opt/Xilinx/petalinux/v2018.2/tools/linux-i386/petalinux/bin:/opt/Xilinx/petalinux/v2018.2/tools/common/petalinux/bin:/opt/Xilinx/petalinux/v2018.2/tools/linux-i386/gcc-arm-none-eabi-r5/bin:/opt/Xilinx/petalinux/v2018.2/tools/linux-i386/microblaze-xilinx-elf/bin:/opt/Xilinx/petalinux/v2018.2/tools/linux-i386/microblazeel-xilinx-linux-gnu/bin:/opt/Xilinx/petalinux/v2018.2/tools/linux-i386/gcc-arm-none-eabi/bin:/opt/Xilinx/petalinux/v2018.2/tools/linux-i386/gcc-arm-linux-gnueabi/bin:/opt/Xilinx/petalinux/v2018.2/tools/linux-i386/aarch64-none-elf/bin:/opt/Xilinx/petalinux/v2018.2/tools/linux-i386/aarch64-linux-gnu/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+++ export PATH
+++ echo PetaLinux environment set to ''\''/opt/Xilinx/petalinux/v2018.2'\'''
+PetaLinux environment set to '/opt/Xilinx/petalinux/v2018.2'
+++ for s in /bin/sh sh
+++ /bin/sh --version
+++ grep -q '^GNU bash'
+++ for s in /bin/sh sh
+++ sh --version
+++ grep -q '^GNU bash'
+++ /opt/Xilinx/petalinux/v2018.2/tools/common/petalinux//utils/petalinux-env-check
+INFO: Checking free disk space
+INFO: Checking installed tools
+INFO: Checking installed development libraries
+INFO: Checking network and other services
+WARNING: No tftp server found - please refer to "PetaLinux SDK Installation Guide" for its impact and solution
++ petalinux-util --webtalk off
+INFO: Turn off webtalk feature!
++ rm -rf /opt/Xilinx/tmp
++ sudo apt-get clean
++ sudo rm -rf /var/lib/apt/lists/lock /var/lib/apt/lists/partial '/tmp/*' '/var/tmp/*'
++ sudo debconf-set-selections
++ sudo echo 'debconf debconf/frontend select Dialog'
+Removing intermediate container 2ba241250003
+ ---> 8c44c9c17e68
+Successfully built 8c44c9c17e68
+Successfully tagged xilinx-petalinux:v2018.2
++ '[' 1 -ne 0 ']'
++ set +x
+-----------------------------------
+Shutting down Python HTTP Server...
+-----------------------------------
+Killing process ID 10199
+-----------------------------------
++ kill 10199
++ '[' 1 -ne 0 ']'
++ set +x
+./build_image.sh: line 164: 10199 Terminated              python3 -m http.server
+-----------------------------------
+Image Build Complete...
+STARTED :Fri Jul 24 10:03:43 EDT 2020
+ENDED   :Fri Jul 24 10:16:32 EDT 2020
+-----------------------------------
