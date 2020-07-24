@@ -1,0 +1,88 @@
+# Dockerfile
+########################################################################################
+# Maintainer:
+#	- Jason Moss (jason.moss@avnet.com)
+#	- Xilinx Applications Engineer, Embedded Software
+#
+# Created: 
+#	- 7/24/2020
+#
+# What's installed in the image created by this docker file?
+# ----------------------------------------------------------
+# - Ubuntu 16.04.3 x64 base OS image
+# - Xilinx Vivado v2018.2 (Xilinx Vivado v2018.2 release)
+#
+# Build organization:
+# -------------------------------
+# 1. base_os_depends_v2018.2							: Base Ubuntu 16.04.3 image with a few basics, locale setup and user account
+########################################################################################
+FROM ubuntu:16.04.3 AS base_os_depends_v2018.2
+LABEL author="Jason Moss"
+
+# Address build bug: https://github.com/docker/docker/issues/4032
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Turn on shell command expansion inside docker container IF Debug is configured
+ARG BUILD_DEBUG
+
+RUN if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi \
+# Configure APT to ignore recommended or suggested packages by default to keep the final image small \
+	&& echo "APT::Install-Recommends false;" > /etc/apt/apt.conf.d/00norecommends \
+	&& echo "APT::AutoRemove::RecommendsImportant false;" >> /etc/apt/apt.conf.d/00norecommends \
+	&& echo "APT::Install-Suggests false;" > /etc/apt/apt.conf.d/00nosuggests \
+	&& echo "APT::AutoRemove::SuggestsImportant false;" >> /etc/apt/apt.conf.d/00nosuggests \
+	&& apt-get update \
+# Install apt-utils which is needed by debconf for some of the other packages being installed \
+	&& apt-get install -y \
+		apt-utils \
+# Install vim for local file editing \
+		vim \
+# Install and setup locale \
+	&& apt-get install locales \
+	&& locale-gen en_US.UTF-8 \
+	&& dpkg-reconfigure \
+		--frontend $DEBIAN_FRONTEND locales
+
+# Install debconf-utils, dialog \
+RUN if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi \
+	&& apt-get install -y \
+		dialog \
+		debconf-utils \
+# Put debconf in non interactive mode \
+	&& echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections
+
+# Create a user account with no password and add user to sudoers
+# Install sudo and setup a user account, which is essential for Yocto and other tools
+# adduser command:  http://manpages.ubuntu.com/manpages/xenial/man8/adduser.8.html
+# Arguments can be filled at build time using the '--build-arg' option
+ARG USER_ACCT
+ARG HOME_DIR
+ARG XLNX_INSTALL_LOCATION
+
+RUN if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi \
+	&& apt-get install -y \
+		sudo \
+	&& adduser \
+		--disabled-password \
+		--gecos '' \
+		--shell /bin/bash \
+		--home $HOME_DIR \
+		$USER_ACCT \
+	&& echo \
+		"$USER_ACCT ALL=(ALL) NOPASSWD: ALL" \
+		>> /etc/sudoers \
+# Add user to the dialout group for serial port access \
+	&& adduser $USER_ACCT dialout \
+# Setup Java librxtx permission for /var/lock so Vivado can user the /dev/ttyUSB devices properly without crashing \
+# Add current user to uucp group \
+	&& adduser $USER_ACCT uucp \
+# Give uucp group permission to /var/lock \
+	&& chgrp uucp /var/lock \
+# Give write permission to the group \
+	&& chmod g+w /var/lock \
+# Create the Xilinx install folder and add appropriate permissions \
+	&& mkdir -p $XLNX_INSTALL_LOCATION \
+	&& chown -R $USER_ACCT:$USER_ACCT $XLNX_INSTALL_LOCATION \
+# Set BASH as the default shell \
+	&& echo "dash dash/sh boolean false" | debconf-set-selections \
+	&& DEBIAN_FRONTEND=$DEBIAN_FRONTEND dpkg-reconfigure dash
