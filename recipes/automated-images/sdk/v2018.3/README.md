@@ -25,7 +25,7 @@ Xilinx requires a valid xilinx.com account in order to download the Xilinx SDK W
 - Xilinx requires a valid xilinx.com account in order to download the Xilinx SDK Web Installer.
 	- Xilinx SDK v2018.3
 		- Download Link: 
-			- https://www.xilinx.com/member/forms/download/xef.html?filename=Xilinx_SDK_2018.3_1207_2324.bin
+			- https://www.xilinx.com/member/forms/download/xef.html?filename=Xilinx_SDK_2018.3_1207_2324_Lin64.bin
 		- Release Notes;
 			- https://www.xilinx.com/support/download/index.html/content/xilinx/en/downloadNav/embedded-design-tools/2018-3.html
 - Place the installer binary (or a link to it) in the ./depends folder
