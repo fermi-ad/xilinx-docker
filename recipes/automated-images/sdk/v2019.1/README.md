@@ -102,9 +102,7 @@ ENDED   :Fri Jul 17 21:14:05 EDT 2020
 $ popd
 ```
 
-< ---- NEEDS UPDATED ---- > 
-
-## Generate Vivado Image Install Configuration Files (one time)
+## Generate SDK Image Install Configuration Files (one time)
 
 Note: Disk use optimization doesn't run unless both ```CreateFileAssociation=1``` and ```EnableDiskUsageOptimization=1``` are set in the configuration
 

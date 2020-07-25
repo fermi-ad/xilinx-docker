@@ -57,7 +57,7 @@ $ perl ldd-recursive.pl /opt/Xilinx/Vivado/2019.2/bin/unwrapped/lnx64.o/vivado -
 - For Linux, execute the base image generation script __*../../base-images/ubuntu_16.04.4/build_image.sh*__
 
 ```bash
-$ pushd ../../base-images/ubuntu-18.04.1/
+$ pushd ../../base-images/ubuntu-16.04.4/
 $ ./build_image.sh 
 Base Relese Image Download [Good] ubuntu-base-16.04.4-base-amd64.tar.gz
 + docker import depends/ubuntu-base-16.04.4-base-amd64.tar.gz ubuntu:16.04.4
@@ -67,8 +67,8 @@ REPOSITORY                       TAG                  IMAGE ID            CREATE
 ubuntu                           16.04.4              3bd5992802b9        Less than a second ago   112MB
 ```
 
-## Generate an Ubuntu 18.04.1 user image (one time)
-- Execute the image generation script __*../../../user-images/v2018.3/ubuntu-18.04.1-user/build_image.sh*__
+## Generate an Ubuntu 16.04.4 user image (one time)
+- Execute the image generation script __*../../../user-images/v2018.3/ubuntu-16.04.4-user/build_image.sh*__
 ```bash
 $ pushd ../../../user-images/v2018.3/ubuntu-16.04.4-user/
 $ ./build_image.sh 
