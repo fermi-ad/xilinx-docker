@@ -1,0 +1,202 @@
+$ ./generate_installer.sh 
+-----------------------------------
+Checking for dependencies...
+-----------------------------------
+Base user image [found] (xilinx-ubuntu-16.04.3-user:v2018.2)
+Xilinx SDK Web Installer: [Exists] depends/Xilinx_SDK_2018.2_0614_1954_Lin64.bin
+Xilinx Batch Mode Configuration File: [Good] configs/xlnx_xsdk.config
+-----------------------------------
+Docker Build Context (Working)...
+-----------------------------------
+DOCKER_INSTALL_DIR=.
+DOCKER_BUILD_WORKING_DIR=/xilinx/local/repositories/gitlab/rjmoss/xilinx-docker/recipes/automated-images/sdk/v2018.2
+-----------------------------------
+-----------------------------------
+Launching Python HTTP Server...
+-----------------------------------
++ SERVER_PID=12455
++ python3 -m http.server
+++ ifconfig docker0
+++ grep 'inet\s'
+++ awk '{print $2}'
++ SERVER_IP=172.17.0.1
++ '[' 1 -ne 0 ']'
++ set +x
+SERVER_IP=172.17.0.1
+SERVER_PID=12455
+-----------------------------------
+access control disabled, clients can connect from any host
+-----------------------------------
+Create a base docker container...
+-----------------------------------
+DOCKER_CONTAINER_NAME=build_xsdk_installer_v2018.2
+-----------------------------------
++ docker run --name build_xsdk_installer_v2018.2 -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=:0 -itd xilinx-ubuntu-16.04.3-user:v2018.2 /bin/bash
+Serving HTTP on 0.0.0.0 port 8000 (http://0.0.0.0:8000/) ...
+8d5ab891ec5b720d1b516ac56efc8242fc9e646b2eb62fa6a58ef4b8097f99b7
++ '[' 1 -ne 0 ']'
++ set +x
+-----------------------------------
+Install support packages...
+-----------------------------------
++ docker exec -it build_xsdk_installer_v2018.2 bash -c 'if [ 1 -ne 0 ]; then set -x; fi         && sudo apt-get -y install wget'
++ sudo apt-get -y install wget
+Reading package lists... Done
+Building dependency tree       
+Reading state information... Done
+wget is already the newest version (1.17.1-1ubuntu1.5).
+0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
++ '[' 1 -ne 0 ']'
++ set +x
+-----------------------------------
+Building Offline Installer Bundle...
+-----------------------------------
+ - Install dependencies and download SDK Installer and configuration file into container...
+-----------------------------------
++ docker exec -it build_xsdk_installer_v2018.2 bash -c 'if [ 1 -ne 0 ]; then set -x; fi         && sudo apt-get update  && sudo apt-get -y install file xorg    && mkdir -p /home/xilinx/downloads/tmp      && cd /home/xilinx/downloads/tmp        && mkdir -p depends     && wget -nv 172.17.0.1:8000/depends/Xilinx_SDK_2018.2_0614_1954_Lin64.bin -O depends/Xilinx_SDK_2018.2_0614_1954_Lin64.bin  && chmod a+x depends/Xilinx_SDK_2018.2_0614_1954_Lin64.bin      && mkdir -p configs     && wget -nv 172.17.0.1:8000/configs/xlnx_xsdk.config -O configs/xlnx_xsdk.config    && ls -al depends/Xilinx_SDK_2018.2_0614_1954_Lin64.bin'
++ sudo apt-get update
+Get:1 http://security.ubuntu.com/ubuntu xenial-security InRelease [109 kB]
+Get:2 http://archive.ubuntu.com/ubuntu xenial InRelease [247 kB]                      
+Get:3 http://security.ubuntu.com/ubuntu xenial-security/main amd64 Packages [902 kB]
+Get:4 http://security.ubuntu.com/ubuntu xenial-security/main i386 Packages [680 kB]
+Get:5 http://security.ubuntu.com/ubuntu xenial-security/main Translation-en [336 kB]    
+Get:6 http://security.ubuntu.com/ubuntu xenial-security/restricted amd64 Packages [7204 B]     
+Get:7 http://security.ubuntu.com/ubuntu xenial-security/restricted i386 Packages [7224 B]
+Get:8 http://security.ubuntu.com/ubuntu xenial-security/restricted Translation-en [2152 B]
+Get:9 http://security.ubuntu.com/ubuntu xenial-security/universe amd64 Packages [496 kB]       
+Get:10 http://security.ubuntu.com/ubuntu xenial-security/universe i386 Packages [424 kB] 
+Get:11 http://security.ubuntu.com/ubuntu xenial-security/universe Translation-en [203 kB]
+Get:12 http://security.ubuntu.com/ubuntu xenial-security/multiverse amd64 Packages [6088 B]     
+Get:13 http://security.ubuntu.com/ubuntu xenial-security/multiverse i386 Packages [6248 B]
+Get:14 http://security.ubuntu.com/ubuntu xenial-security/multiverse Translation-en [2888 B]
+Get:15 http://archive.ubuntu.com/ubuntu xenial-updates InRelease [109 kB]                      
+Get:16 http://archive.ubuntu.com/ubuntu xenial-backports InRelease [107 kB]        
+Get:17 http://archive.ubuntu.com/ubuntu xenial/main amd64 Packages [1201 kB]                
+Get:18 http://archive.ubuntu.com/ubuntu xenial/main i386 Packages [1196 kB]                 
+Get:19 http://archive.ubuntu.com/ubuntu xenial/main Translation-en [568 kB]
+Get:20 http://archive.ubuntu.com/ubuntu xenial/restricted amd64 Packages [8344 B]
+Get:21 http://archive.ubuntu.com/ubuntu xenial/restricted i386 Packages [8684 B]
+Get:22 http://archive.ubuntu.com/ubuntu xenial/restricted Translation-en [2908 B]
+Get:23 http://archive.ubuntu.com/ubuntu xenial/universe amd64 Packages [7532 kB]
+Get:24 http://archive.ubuntu.com/ubuntu xenial/universe i386 Packages [7512 kB]
+Get:25 http://archive.ubuntu.com/ubuntu xenial/universe Translation-en [4354 kB]
+Get:26 http://archive.ubuntu.com/ubuntu xenial/multiverse amd64 Packages [144 kB]
+Get:27 http://archive.ubuntu.com/ubuntu xenial/multiverse i386 Packages [140 kB]
+Get:28 http://archive.ubuntu.com/ubuntu xenial/multiverse Translation-en [106 kB]
+Get:29 http://archive.ubuntu.com/ubuntu xenial-updates/main amd64 Packages [1178 kB]
+Get:30 http://archive.ubuntu.com/ubuntu xenial-updates/main i386 Packages [936 kB]
+Get:31 http://archive.ubuntu.com/ubuntu xenial-updates/main Translation-en [442 kB]
+Get:32 http://archive.ubuntu.com/ubuntu xenial-updates/restricted amd64 Packages [7576 B]
+Get:33 http://archive.ubuntu.com/ubuntu xenial-updates/restricted i386 Packages [7524 B]
+Get:34 http://archive.ubuntu.com/ubuntu xenial-updates/restricted Translation-en [2272 B]
+Get:35 http://archive.ubuntu.com/ubuntu xenial-updates/universe amd64 Packages [800 kB]
+Get:36 http://archive.ubuntu.com/ubuntu xenial-updates/universe i386 Packages [722 kB]
+Get:37 http://archive.ubuntu.com/ubuntu xenial-updates/universe Translation-en [335 kB]
+Get:38 http://archive.ubuntu.com/ubuntu xenial-updates/multiverse amd64 Packages [17.1 kB]
+Get:39 http://archive.ubuntu.com/ubuntu xenial-updates/multiverse i386 Packages [16.2 kB]
+Get:40 http://archive.ubuntu.com/ubuntu xenial-updates/multiverse Translation-en [8632 B]
+Get:41 http://archive.ubuntu.com/ubuntu xenial-backports/main amd64 Packages [7280 B]
+Get:42 http://archive.ubuntu.com/ubuntu xenial-backports/main i386 Packages [7288 B]
+Get:43 http://archive.ubuntu.com/ubuntu xenial-backports/main Translation-en [4456 B]
+Get:44 http://archive.ubuntu.com/ubuntu xenial-backports/universe amd64 Packages [8316 B]
+Get:45 http://archive.ubuntu.com/ubuntu xenial-backports/universe i386 Packages [8008 B]
+Get:46 http://archive.ubuntu.com/ubuntu xenial-backports/universe Translation-en [4476 B]
+Fetched 30.9 MB in 4s (6391 kB/s)                                 
+Reading package lists... Done
++ sudo apt-get -y install file xorg
+Reading package lists... Done
+Building dependency tree       
+Reading state information... Done
+file is already the newest version (1:5.25-2ubuntu1.4).
+xorg is already the newest version (1:7.7+13ubuntu3.1).
+0 upgraded, 0 newly installed, 0 to remove and 39 not upgraded.
++ mkdir -p /home/xilinx/downloads/tmp
++ cd /home/xilinx/downloads/tmp
++ mkdir -p depends
++ wget -nv 172.17.0.1:8000/depends/Xilinx_SDK_2018.2_0614_1954_Lin64.bin -O depends/Xilinx_SDK_2018.2_0614_1954_Lin64.bin
+172.17.0.5 - - [25/Jul/2020 14:11:56] "GET /depends/Xilinx_SDK_2018.2_0614_1954_Lin64.bin HTTP/1.1" 200 -
+                                                                                                         2020-07-25 18:11:57 URL:http://172.17.0.1:8000/depends/Xilinx_SDK_2018.2_0614_1954_Lin64.bin [104117777/104117777] -> "depends/Xilinx_SDK_2018.2_0614_1954_Lin64.bin" [1]
++ chmod a+x depends/Xilinx_SDK_2018.2_0614_1954_Lin64.bin
++ mkdir -p configs
++ wget -nv 172.17.0.1:8000/configs/xlnx_xsdk.config -O configs/xlnx_xsdk.config
+172.17.0.5 - - [25/Jul/2020 14:11:57] "GET /configs/xlnx_xsdk.config HTTP/1.1" 200 -
+                                                                                    2020-07-25 18:11:57 URL:http://172.17.0.1:8000/configs/xlnx_xsdk.config [1245/1245] -> "configs/xlnx_xsdk.config" [1]
++ ls -al depends/Xilinx_SDK_2018.2_0614_1954_Lin64.bin
+-rwxr-xr-x 1 xilinx xilinx 104117777 Oct 29  2018 depends/Xilinx_SDK_2018.2_0614_1954_Lin64.bin
++ '[' 1 -ne 0 ']'
++ set +x
+-----------------------------------
+ - Launch SDK Setup to create a download bundle...
+-----------------------------------
++ docker exec -it build_xsdk_installer_v2018.2 bash -c 'if [ 1 -ne 0 ]; then set -x; fi         && cd /home/xilinx/downloads/tmp        && depends/Xilinx_SDK_2018.2_0614_1954_Lin64.bin --noexec --nox11 --target unified_tmp      && cd unified_tmp       && sudo mkdir -p /opt/Xilinx/tmp        && sudo chown -R xilinx:xilinx /opt/Xilinx      && ./xsetup --agree XilinxEULA,3rdPartyEULA,WebTalkTerms --config configs/xlnx_xsdk.config  && cd /home/xilinx/downloads/tmp        && mkdir -p depends     && tar -zcf depends/Xilinx_SDK_2018.2_0614_1954_Lin64.tar.gz -C /opt/Xilinx/Downloads/v2018.2 .     && ls -al /opt/Xilinx/Downloads/v2018.2'
++ cd /home/xilinx/downloads/tmp
++ depends/Xilinx_SDK_2018.2_0614_1954_Lin64.bin --noexec --nox11 --target unified_tmp
+Creating directory unified_tmp
+Verifying archive integrity... All good.
+Uncompressing Xilinx Installer......................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................
++ cd unified_tmp
++ sudo mkdir -p /opt/Xilinx/tmp
++ sudo chown -R xilinx:xilinx /opt/Xilinx
++ ./xsetup --agree XilinxEULA,3rdPartyEULA,WebTalkTerms --config configs/xlnx_xsdk.config
+INFO : Log file location - /home/xilinx/.Xilinx/xinstall/xinstall_1595700719887.log+ cd /home/xilinx/downloads/tmp
++ mkdir -p depends
++ tar -zcf depends/Xilinx_SDK_2018.2_0614_1954_Lin64.tar.gz -C /opt/Xilinx/Downloads/v2018.2 .
++ ls -al /opt/Xilinx/Downloads/v2018.2
+total 48
+drwxr-xr-x 8 xilinx xilinx  4096 Jul 25 18:14 .
+drwxr-xr-x 3 xilinx xilinx  4096 Jul 25 18:12 ..
+drwxr-xr-x 2 xilinx xilinx  4096 Jul 25 18:14 bin
+drwxr-xr-x 3 xilinx xilinx  4096 Jul 25 18:14 data
+drwxr-xr-x 4 xilinx xilinx  4096 Jul 25 18:14 lib
+drwxr-xr-x 2 xilinx xilinx 16384 Jul 25 18:13 payload
+drwxr-xr-x 2 xilinx xilinx  4096 Jul 25 18:14 scripts
+drwxr-xr-x 3 xilinx xilinx  4096 Jul 25 18:14 tps
+-rwxr-xr-x 1 xilinx xilinx  2612 Jun 15  2018 xsetup
++ '[' 1 -ne 0 ']'
++ set +x
+-----------------------------------
+Copying Xilinx SDK offline installer to host ...
+-----------------------------------
++ mkdir -p _generated/depends
++ docker cp build_xsdk_installer_v2018.2:/home/xilinx/downloads/tmp/depends/Xilinx_SDK_2018.2_0614_1954_Lin64.tar.gz _generated/depends/Xilinx_SDK_2018.2_0614_1954_Lin64.tar.gz
++ echo -----------------------------------
+-----------------------------------
++ echo 'Shutting down Python HTTP Server...'
+Shutting down Python HTTP Server...
++ echo -----------------------------------
+-----------------------------------
++ echo 'Killing process ID 12455'
+Killing process ID 12455
++ echo -----------------------------------
+-----------------------------------
++ '[' 1 -ne 0 ']'
++ set -x
++ kill 12455
++ '[' 1 -ne 0 ']'
++ set +x
+-----------------------------------
+Removing temporary docker resources...
+-----------------------------------
++ docker rm -f build_xsdk_installer_v2018.2
+build_xsdk_installer_v2018.2
+./generate_installer.sh: line 228: 12455 Terminated              python3 -m http.server
++ docker rmi -f xilinx-xsdk:v2018.2
+Error: No such image: xilinx-xsdk:v2018.2
++ '[' 1 -ne 0 ']'
++ set +x
+-----------------------------------
+Configuration Generation Complete
+-----------------------------------
+STARTED :Sat Jul 25 14:11:48 EDT 2020
+ENDED   :Sat Jul 25 14:15:15 EDT 2020
+-----------------------------------
+DOCKER_FILE_STAGE=xilinx_install_xsdk_v2018.2
+DOCKER_IMAGE=xilinx-xsdk:v2018.2
+DOCKER_CONTAINER_NAME=build_xsdk_installer_v2018.2
+-----------------------------------
+Xilinx offline installer generated:
+-----------------------------------
+-rw-r--r-- 1 rjmoss rjmoss 1398792065 Jul 25 14:14 _generated/depends/Xilinx_SDK_2018.2_0614_1954_Lin64.tar.gz
+-----------------------------------
+Linking installer to dependencies folder
+-----------------------------------

@@ -1,0 +1,208 @@
+$ ./build_image.sh 
+-----------------------------------
+Checking for dependencies...
+-----------------------------------
+Base user image [found] (xilinx-ubuntu-16.04.3-user:v2018.2)
+Xilinx XSDK Offline Installer: [Good] depends/Xilinx_SDK_2018.2_0614_1954_Lin64.tar.gz
+Xilinx Batch Mode Configuration File: [Good] configs/xlnx_xsdk.config
+-----------------------------------
+Docker Build Context (Working)...
+-----------------------------------
++ cd /xilinx/local/repositories/gitlab/rjmoss/xilinx-docker/recipes/automated-images/sdk/v2018.2
++ '[' 1 -ne 0 ']'
++ set +x
+DOCKER_INSTALL_DIR=.
+DOCKER_BUILD_WORKING_DIR=/xilinx/local/repositories/gitlab/rjmoss/xilinx-docker/recipes/automated-images/sdk/v2018.2
+-----------------------------------
+-----------------------------------
+Launching Python HTTP Server...
+-----------------------------------
++ SERVER_PID=14098
++ python3 -m http.server
+++ ifconfig docker0
+++ grep 'inet\s'
+++ awk '{print $2}'
++ SERVER_IP=172.17.0.1
++ '[' 1 -ne 0 ']'
++ set +x
+SERVER_IP=172.17.0.1
+SERVER_PID=14098
+-----------------------------------
+-----------------------------------
+Building the Docker Image...
+-------------------------------
+DOCKER_CACHE=--no-cache
+DOCKER_FILE_NAME=Dockerfile
+DOCKER_FILE_STAGE=xilinx_install_xsdk_v2018.2
+DOCKER_IMAGE=xilinx-xsdk:v2018.2
+DOCKER_INSTALL_DIR=.
+INSTALL_SERVER_URL=172.17.0.1:8000
+-----------------------------------
+Arguments...
+-----------------------------------
+        --build-arg USER_ACCT="xilinx"
+        --build-arg HOME_DIR="/home/xilinx"
+  --build-arg XLNX_INSTALL_LOCATION="/opt/Xilinx"
+        --build-arg INSTALL_SERVER_URL="172.17.0.1:8000"
+        --build-arg XLNX_XSDK_BATCH_CONFIG_FILE="configs/xlnx_xsdk.config"
+        --build-arg XLNX_XSDK_OFFLINE_INSTALLER="depends/Xilinx_SDK_2018.2_0614_1954_Lin64.tar.gz"
+  --build-arg BUILD_DEBUG="1"
+-----------------------------------
++ docker build --no-cache -f ./Dockerfile --target xilinx_install_xsdk_v2018.2 -t xilinx-xsdk:v2018.2 --build-arg USER_ACCT=xilinx --build-arg HOME_DIR=/home/xilinx --build-arg XLNX_INSTALL_LOCATION=/opt/Xilinx --build-arg INSTALL_SERVER_URL=172.17.0.1:8000 --build-arg XLNX_XSDK_BATCH_CONFIG_FILE=configs/xlnx_xsdk.config --build-arg XLNX_XSDK_OFFLINE_INSTALLER=depends/Xilinx_SDK_2018.2_0614_1954_Lin64.tar.gz --build-arg BUILD_DEBUG=1 .
+Sending build context to Docker daemon  12.29kB
+Serving HTTP on 0.0.0.0 port 8000 (http://0.0.0.0:8000/) ...
+Step 1/13 : FROM xilinx-ubuntu-16.04.3-user:v2018.2 AS xilinx_install_xsdk_v2018.2
+ ---> c63f60c67792
+Step 2/13 : LABEL author="Jason Moss"
+ ---> Running in 11f1a5aaccec
+Removing intermediate container 11f1a5aaccec
+ ---> 928bbf757217
+Step 3/13 : ARG USER_ACCT
+ ---> Running in 07259af064bc
+Removing intermediate container 07259af064bc
+ ---> 68d837657b03
+Step 4/13 : ARG HOME_DIR
+ ---> Running in 1809e503db62
+Removing intermediate container 1809e503db62
+ ---> 29b3548b3e23
+Step 5/13 : ARG XLNX_INSTALL_LOCATION
+ ---> Running in f3bacca7276d
+Removing intermediate container f3bacca7276d
+ ---> 07d65d42bb1d
+Step 6/13 : ARG XLNX_DOWNLOAD_LOCATION
+ ---> Running in 64d2b730f2d7
+Removing intermediate container 64d2b730f2d7
+ ---> ff329f521ac0
+Step 7/13 : ARG INSTALL_SERVER_URL
+ ---> Running in e783fb9018d6
+Removing intermediate container e783fb9018d6
+ ---> e847394c80f4
+Step 8/13 : ARG BUILD_DEBUG
+ ---> Running in ed8feb14f3c8
+Removing intermediate container ed8feb14f3c8
+ ---> c0f55734c555
+Step 9/13 : ARG XLNX_XSDK_BATCH_CONFIG_FILE
+ ---> Running in 9ac9033f8b48
+Removing intermediate container 9ac9033f8b48
+ ---> b989bf58f3b2
+Step 10/13 : ARG XLNX_XSDK_OFFLINE_INSTALLER
+ ---> Running in 52a5c84d929c
+Removing intermediate container 52a5c84d929c
+ ---> 1050943fb4a7
+Step 11/13 : USER $USER_ACCT
+ ---> Running in f22045b9c785
+Removing intermediate container f22045b9c785
+ ---> 54d601ab2633
+Step 12/13 : ENV DEBIAN_FRONTEND=noninteractive
+ ---> Running in 9859db42a597
+Removing intermediate container 9859db42a597
+ ---> 92358533884d
+Step 13/13 : RUN if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi     && sudo mkdir -p $XLNX_INSTALL_LOCATION/tmp     && sudo chown -R $USER_ACCT:$USER_ACCT $XLNX_INSTALL_LOCATION   && cd $XLNX_INSTALL_LOCATION/tmp    && mkdir -p "${XLNX_XSDK_BATCH_CONFIG_FILE%/*}"         && wget -nv $INSTALL_SERVER_URL/$XLNX_XSDK_BATCH_CONFIG_FILE -O $XLNX_XSDK_BATCH_CONFIG_FILE        && cat $XLNX_XSDK_BATCH_CONFIG_FILE     && mkdir -p "${XLNX_XSDK_OFFLINE_INSTALLER%/*}"         && wget -nv --no-cache $INSTALL_SERVER_URL/$XLNX_XSDK_OFFLINE_INSTALLER -O $XLNX_XSDK_OFFLINE_INSTALLER     && chmod a+x $XLNX_XSDK_OFFLINE_INSTALLER       && tar -zxf $XLNX_XSDK_OFFLINE_INSTALLER && ls -al      && echo "cd $XLNX_INSTALL_LOCATION" >> $HOME_DIR/.bashrc    && echo "export LANG=en_US.UTF-8" >> $HOME_DIR/.bashrc  && export "LANG=en_US.UTF-8"    && echo ". $XLNX_INSTALL_LOCATION/SDK/2018.2/settings64.sh" >> $HOME_DIR/.bashrc    && echo "export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$XLNX_INSTALL_LOCATION/SDK/2018.2/lib/lnx64.o/" >> $HOME_DIR/.bashrc           && chmod a+x xsetup     && sudo apt-get install -y          xz-utils        && ./xsetup             --agree XilinxEULA,3rdPartyEULA,WebTalkTerms            --config $XLNX_XSDK_BATCH_CONFIG_FILE                   --batch INSTALL     && cd $HOME_DIR         && rm -rf $XLNX_INSTALL_LOCATION/tmp    && sudo apt-get clean   && sudo rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*   && sudo echo 'debconf debconf/frontend select Dialog' | sudo debconf-set-selections
+ ---> Running in 605708d9b464
++ sudo mkdir -p /opt/Xilinx/tmp
++ sudo chown -R xilinx:xilinx /opt/Xilinx
++ cd /opt/Xilinx/tmp
++ mkdir -p configs
++ wget -nv 172.17.0.1:8000/configs/xlnx_xsdk.config -O configs/xlnx_xsdk.config
+172.17.0.5 - - [25/Jul/2020 14:17:36] "GET /configs/xlnx_xsdk.config HTTP/1.1" 200 -
+2020-07-25 18:17:36 URL:http://172.17.0.1:8000/configs/xlnx_xsdk.config [1245/1245] -> "configs/xlnx_xsdk.config" [1]
++ cat configs/xlnx_xsdk.config
+#### Xilinx Software Development Kit (XSDK) Install Configuration ####
+Edition=Xilinx Software Development Kit (XSDK)
+
+# Path where Xilinx software will be installed.
+Destination=/opt/Xilinx
+
+# Choose the Products/Devices the you would like to install.
+Modules=DocNav:0,ARM Cortex R5:1,ARM Cortex-A53:1
+
+# Choose the post install scripts you'd like to run as part of the finalization step. Please note that some of these scripts may require user interaction during runtime.
+InstallOptions=Enable WebTalk for SDK to send usage statistics to Xilinx:0
+
+## Shortcuts and File associations ##
+# Choose whether Start menu/Application menu shortcuts will be created or not.
+CreateProgramGroupShortcuts=0
+
+# Choose the name of the Start menu/Application menu shortcut. This setting will be ignored if you choose NOT to create shortcuts.
+ProgramGroupFolder=Xilinx Design Tools
+
+# Choose whether shortcuts will be created for All users or just the Current user. Shortcuts can be created for all users only if you run the installer as administrator.
+CreateShortcutsForAllUsers=0
+
+# Choose whether shortcuts will be created on the desktop or not.
+CreateDesktopShortcuts=0
+
+# Choose whether file associations will be created or not.
+CreateFileAssociation=1
+
++ mkdir -p depends
++ wget -nv --no-cache 172.17.0.1:8000/depends/Xilinx_SDK_2018.2_0614_1954_Lin64.tar.gz -O depends/Xilinx_SDK_2018.2_0614_1954_Lin64.tar.gz
+172.17.0.5 - - [25/Jul/2020 14:17:36] "GET /depends/Xilinx_SDK_2018.2_0614_1954_Lin64.tar.gz HTTP/1.1" 200 -
+2020-07-25 18:17:37 URL:http://172.17.0.1:8000/depends/Xilinx_SDK_2018.2_0614_1954_Lin64.tar.gz [1398792065/1398792065] -> "depends/Xilinx_SDK_2018.2_0614_1954_Lin64.tar.gz" [1]
++ chmod a+x depends/Xilinx_SDK_2018.2_0614_1954_Lin64.tar.gz
++ tar -zxf depends/Xilinx_SDK_2018.2_0614_1954_Lin64.tar.gz
++ ls -al
+total 56
+drwxr-xr-x 10 xilinx xilinx  4096 Jul 25 18:14 .
+drwxr-xr-x  3 xilinx xilinx  4096 Jul 25 18:17 ..
+drwxr-xr-x  2 xilinx xilinx  4096 Jul 25 18:14 bin
+drwxr-xr-x  2 xilinx xilinx  4096 Jul 25 18:17 configs
+drwxr-xr-x  3 xilinx xilinx  4096 Jul 25 18:14 data
+drwxr-xr-x  2 xilinx xilinx  4096 Jul 25 18:17 depends
+drwxr-xr-x  4 xilinx xilinx  4096 Jul 25 18:14 lib
+drwxr-xr-x  2 xilinx xilinx 16384 Jul 25 18:13 payload
+drwxr-xr-x  2 xilinx xilinx  4096 Jul 25 18:14 scripts
+drwxr-xr-x  3 xilinx xilinx  4096 Jul 25 18:14 tps
+-rwxr-xr-x  1 xilinx xilinx  2612 Jun 15  2018 xsetup
++ echo 'cd /opt/Xilinx'
++ echo 'export LANG=en_US.UTF-8'
++ export LANG=en_US.UTF-8
++ LANG=en_US.UTF-8
++ echo '. /opt/Xilinx/SDK/2018.2/settings64.sh'
++ echo 'export LD_LIBRARY_PATH=:/opt/Xilinx/SDK/2018.2/lib/lnx64.o/'
++ chmod a+x xsetup
++ sudo apt-get install -y xz-utils
+Reading package lists...
+Building dependency tree...
+Reading state information...
+xz-utils is already the newest version (5.1.1alpha+20120614-2ubuntu2).
+xz-utils set to manually installed.
+0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
++ ./xsetup --agree XilinxEULA,3rdPartyEULA,WebTalkTerms --config configs/xlnx_xsdk.config --batch INSTALL
+Running in batch mode...
+Copyright (c) 1986-2020 Xilinx, Inc.  All rights reserved.
+INFO : Log file location - /home/xilinx/.Xilinx/xinstall/xinstall_1595701065601.log
+INFO : Edition Selected to be installed: Xilinx Software Development Kit (XSDK)
+INFO : Installing Edition: Xilinx Software Development Kit (XSDK)
+INFO : Installation directory is /opt/Xilinx
+.
+INFO : Installing.........................................................................................................................................................................................................................................
+INFO : Running post-install tasks.........
+INFO : Log file is copied to : /opt/Xilinx/.xinstall/SDK_2018.2/xinstall.log
+INFO : Installation completed successfully.
++ cd /home/xilinx
++ rm -rf /opt/Xilinx/tmp
++ sudo apt-get clean
++ sudo rm -rf /var/lib/apt/lists/lock /var/lib/apt/lists/partial /tmp/hsperfdata_xilinx /tmp/TMP_LD_LIB_PATH2020-07-25-18-18-22-1595701102 '/var/tmp/*'
++ sudo echo 'debconf debconf/frontend select Dialog'
++ sudo debconf-set-selections
+Removing intermediate container 605708d9b464
+ ---> 0909b274da2e
+Successfully built 0909b274da2e
+Successfully tagged xilinx-xsdk:v2018.2
++ '[' 1 -ne 0 ']'
++ set +x
+-----------------------------------
+Shutting down Python HTTP Server...
+-----------------------------------
+Killing process ID 14098
+-----------------------------------
++ kill 14098
++ '[' 1 -ne 0 ']'
++ set +x
+./build_image.sh: line 160: 14098 Terminated              python3 -m http.server
+-----------------------------------
+Image Build Complete...
+STARTED :Sat Jul 25 14:17:29 EDT 2020
+ENDED   :Sat Jul 25 14:21:38 EDT 2020
+-----------------------------------
