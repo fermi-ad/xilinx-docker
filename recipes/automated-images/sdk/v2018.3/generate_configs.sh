@@ -8,24 +8,24 @@
 #	- Xilinx Applications Engineer, Embedded Software
 #
 # Created: 
-#	- 7/24/2019
+#	- 7/20/2020
 #
-# Xilinx SDK Installer
-#	./Xilinx_SDK_2019.1_0524_1430_Lin64.bin --noexec --keep --nox11 --target xsdk_tmp
-#	Creating directory xsdk_tmp
+# XSDK Web Installer
+#	./Xilinx_SDK_2019.1_0524_1430_Lin64--noexec --keep --nox11 --target unified_tmp
+#	Creating directory unified_tmp
 #
 # Generate a batchmode configuration file
 #	./xsetup -b ConfigGen
 #
-# Source configuration information for a v2019.1 Vivado Image build
+# Source configuration information for a v2019.1 XSDK Image build
 source include/configuration.sh
 
-# Set the Docker File for Vivado
-DOCKER_FILE_NAME=Dockerfile
+# Set the Docker File for XSDK
+DOCKER_FILE_NAME=Dockerfile.generate_configs
 
 # Additional setup and overrides specificaly for dependency generation
 GENERATED_DIR=_generated
-DOCKER_FILE_STAGE="base_os_"$XLNX_TOOL_INFO"_"$XLNX_RELEASE_VERSION
+DOCKER_FILE_STAGE="base_os_depends_"$XLNX_RELEASE_VERSION
 DOCKER_IMAGE_NAME=dependency_generation
 DOCKER_IMAGE_VERSION=$XLNX_RELEASE_VERSION
 
@@ -51,6 +51,9 @@ if [[ "$(docker images -q $DOCKER_BASE_OS:$DOCKER_BASE_OS_TAG 2> /dev/null)" == 
 else
 	echo "Base docker image [found] ("$DOCKER_BASE_OS:$DOCKER_BASE_OS_TAG")"
 fi
+
+# Test for dependencies required to run this script
+# 1. SDK Web Installer
 
 # Check for dependency files in the build context
 # Since these builds use WGET instead of COPY or ADD
@@ -116,9 +119,9 @@ echo "	--build-arg USER_ACCT=\"${USER_ACCT}\""
 echo " 	--build-arg HOME_DIR=\"${HOME_DIR}\""
 echo " 	--build-arg XLNX_INSTALL_LOCATION=\"${XLNX_INSTALL_LOCATION}\""
 echo " 	--build-arg INSTALL_SERVER_URL=\"${SERVER_IP}:8000\""
-echo " 	--build-arg KEYBOARD_CONFIG_FILE=\"${KEYBOARD_CONFIG_FILE}\""
-echo " 	--build-arg XLNX_XSDK_BATCH_CONFIG_FILE=\"${XLNX_XSDK_BATCH_CONFIG_FILE}\""
-echo " 	--build-arg XLNX_XSDK_OFFLINE_INSTALLER=\"${XLNX_XSDK_OFFLINE_INSTALLER}\""
+echo "  --build-arg XLNX_XSDK_WEB_INSTALLER=\"${XLNX_XSDK_WEB_INSTALLER}\""
+echo "  --build-arg XLNX_XSDK_BATCH_CONFIG_FILE=\"${XLNX_XSDK_BATCH_CONFIG_FILE}\""
+echo "  --build-arg XLNX_XSDK_OFFLINE_INSTALLER=\"${XLNX_XSDK_OFFLINE_INSTALLER}\""
 echo "  --build-arg BUILD_DEBUG=\"${BUILD_DEBUG}\""
 echo "-----------------------------------"
 
@@ -132,8 +135,6 @@ docker build $DOCKER_CACHE -f ./$DOCKER_FILE_NAME \
  	--build-arg HOME_DIR="${HOME_DIR}" \
  	--build-arg XLNX_INSTALL_LOCATION="${XLNX_INSTALL_LOCATION}" \
  	--build-arg INSTALL_SERVER_URL="${INSTALL_SERVER_URL}" \
- 	--build-arg XLNX_XSDK_BATCH_CONFIG_FILE="${XLNX_XSDK_BATCH_CONFIG_FILE}" \
- 	--build-arg XLNX_XSDK_OFFLINE_INSTALLER="${XLNX_XSDK_OFFLINE_INSTALLER}" \
  	--build-arg BUILD_DEBUG="${BUILD_DEBUG}" \
  	$DOCKER_INSTALL_DIR
 
@@ -157,7 +158,7 @@ if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi
 docker run \
 	--name $DOCKER_CONTAINER_NAME \
 	-v /tmp/.X11-unix:/tmp/.X11-unix \
-	-e DISPLAY \
+	-e DISPLAY=$DISPLAY \
 	-itd $DOCKER_IMAGE_NAME:$DOCKER_IMAGE_VERSION \
 	/bin/bash
 
@@ -171,7 +172,8 @@ echo "-----------------------------------"
 if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi
 
 docker exec -it $DOCKER_CONTAINER_NAME \
-	bash -c "apt-get -y install wget"
+bash -c "if [ ${BUILD_DEBUG} -ne 0 ]; then set -x; fi \
+	&& apt-get -y install wget"
 
 if [ $BUILD_DEBUG -ne 0 ]; then set +x; fi
 
@@ -184,47 +186,17 @@ if [ $BUILD_DEBUG -ne 0 ]; then set +x; fi
 #		$ docker exec -i <container_name> bash -c "<command1> && <command2> && ..."
 
 echo "-----------------------------------"
-echo "Generating Xilinx Keyboard Configuration... (Interactive)"
-echo "-----------------------------------"
-# Install the keyboard configuration
-if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi
-
-docker exec -it $DOCKER_CONTAINER_NAME \
-	bash -c "if [ ${BUILD_DEBUG} -ne 0 ]; then set -x; fi \
-	&& apt-get install -y keyboard-configuration \
-	&& sudo dpkg-reconfigure keyboard-configuration \
-	&& mkdir -p ${HOME_DIR}/downloads/tmp \
-	&& cd ${HOME_DIR}/downloads/tmp \
-	&& mkdir -p ${KEYBOARD_CONFIG_FILE%/*} \
-	&& debconf-get-selections | grep keyboard-configuration > ${KEYBOARD_CONFIG_FILE} \
-	&& ls -al"
-#	&& sudo dpkg-reconfigure keyboard-configuration \
-
-if [ $BUILD_DEBUG -ne 0 ]; then set +x; fi
-
-# copy keyboard configuration from container to host
-echo "-----------------------------------"
-echo "Copying keyboard configuration to host..."
-echo "-----------------------------------"
-
-if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi
-
-mkdir -p $GENERATED_DIR/${KEYBOARD_CONFIG_FILE%/*}
-docker cp $DOCKER_CONTAINER_NAME:$HOME_DIR/downloads/tmp/$KEYBOARD_CONFIG_FILE $GENERATED_DIR/$KEYBOARD_CONFIG_FILE
-
-if [ $BUILD_DEBUG -ne 0 ]; then set +x; fi
-
-echo "-----------------------------------"
-echo "Building Offline SDK Installer Bundle..."
+echo "Building Offline Installer Configuration File..."
 echo "-----------------------------------"
 echo " - Install dependencies and download SDK installer into container..."
 echo "-----------------------------------"
-# Install the Xilinx SDK dependencies and download the SDK Installer
+# Install the Xilinx dependencies and Vivado Installer
 
 if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi
 
 docker exec -it $DOCKER_CONTAINER_NAME \
 	bash -c "if [ ${BUILD_DEBUG} -ne 0 ]; then set -x; fi \
+	&& apt-get update \
 	&& apt-get -y install file xorg \
 	&& mkdir -p ${HOME_DIR}/downloads/tmp \
 	&& cd ${HOME_DIR}/downloads/tmp \
@@ -266,37 +238,7 @@ if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi
 
 mkdir -p $GENERATED_DIR/${XLNX_XSDK_BATCH_CONFIG_FILE%/*}
 docker cp $DOCKER_CONTAINER_NAME:$HOME_DIR/downloads/tmp/$XLNX_XSDK_BATCH_CONFIG_FILE $GENERATED_DIR/$XLNX_XSDK_BATCH_CONFIG_FILE
-
-if [ $BUILD_DEBUG -ne 0 ]; then set +x; fi
-
-echo "-----------------------------------"
-echo " - Launch SDK Setup to create a download bundle..."
-echo "-----------------------------------"
-# Launch XSDK Setup in X11 Mode to create download bundle
-# Leave download location default (/opt/Xilinx/Downloads/<VERSION>)
-
-if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi
-
-docker exec -it $DOCKER_CONTAINER_NAME \
-	bash -c "if [ ${BUILD_DEBUG} -ne 0 ]; then set -x; fi \
-	&& cd ${HOME_DIR}/downloads/tmp/xsdk_tmp \
-	&& ./xsetup --agree XilinxEULA,3rdPartyEULA,WebTalkTerms --config ${XLNX_XSDK_BATCH_CONFIG_FILE} \
-	&& cd ${HOME_DIR}/downloads/tmp \
-	&& mkdir -p ${XLNX_XSDK_OFFLINE_INSTALLER%/*} \
-	&& tar -zcf ${XLNX_XSDK_OFFLINE_INSTALLER} -C /opt/Xilinx/Downloads/2019.1 . \
-	&& ls -al /opt/Xilinx/Downloads/2019.1"
-
-if [ $BUILD_DEBUG -ne 0 ]; then set +x; fi
-
-# copy sdk offline installer from container to host
-echo "-----------------------------------"
-echo "Copying Xilinx SDK offline installer to host ..."
-echo "-----------------------------------"
-
-if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi
-
-mkdir -p $GENERATED_DIR/${XLNX_XSDK_OFFLINE_INSTALLER%/*}
-docker cp $DOCKER_CONTAINER_NAME:$HOME_DIR/downloads/tmp/$XLNX_XSDK_OFFLINE_INSTALLER $GENERATED_DIR/$XLNX_XSDK_OFFLINE_INSTALLER
+chmod +rw $GENERATED_DIR/$XLNX_XSDK_BATCH_CONFIG_FILE
 
 if [ $BUILD_DEBUG -ne 0 ]; then set +x; fi
 
@@ -313,7 +255,7 @@ kill $SERVER_PID
 
 if [ $BUILD_DEBUG -ne 0 ]; then set +x; fi
 
-# Cleanup the container used to generate the dependencies
+# # Cleanup the container used to generate the dependencies
 echo "-----------------------------------"
 echo "Removing temporary docker resources..."
 echo "-----------------------------------"
@@ -329,7 +271,7 @@ if [ $BUILD_DEBUG -ne 0 ]; then set +x; fi
 DOCKER_BUILD_END_TIME=`date`
 # Docker Image Build Complete
 echo "-----------------------------------"
-echo "Dependency Generation Complete"
+echo "Configuration Generation Complete"
 echo "-----------------------------------"
 echo "STARTED :"$DOCKER_BUILD_START_TIME
 echo "ENDED   :"$DOCKER_BUILD_END_TIME
@@ -339,9 +281,10 @@ echo "DOCKER_FILE_STAGE="$DOCKER_FILE_STAGE
 echo "DOCKER_IMAGE="$DOCKER_IMAGE_NAME":"$DOCKER_IMAGE_VERSION
 echo "DOCKER_CONTAINER_NAME="$DOCKER_CONTAINER_NAME
 echo "-----------------------------------"
-echo "Dependencies Generated:"
+echo "Configurations Generated:"
 echo "-----------------------------------"
-ls -al $GENERATED_DIR/$KEYBOARD_CONFIG_FILE
 ls -al $GENERATED_DIR/$XLNX_XSDK_BATCH_CONFIG_FILE
-ls -al $GENERATED_DIR/$XLNX_XSDK_OFFLINE_INSTALLER
 echo "-----------------------------------"
+echo "Copying Configurations to the $INSTALL_CONFIGS_DIR Folder"
+echo "-----------------------------------"
+cp -f $GENERATED_DIR/$XLNX_XSDK_BATCH_CONFIG_FILE $XLNX_XSDK_BATCH_CONFIG_FILE
