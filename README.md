@@ -11,6 +11,7 @@ This repository requires installation and configuration of Docker-CE (and other 
 ### Ubuntu Host Support
 
 The recipes, tools and documentation in this repository have been primarily developed using an Ubuntu-based Host OS.
+- [Ubuntu 20.04](./documentation/host-os-setup/ubuntu-20.04/README.md)
 - [Ubuntu 18.04](./documentation/host-os-setup/ubuntu-18.04/README.md)
 
 ### Windows 10 Host Support
