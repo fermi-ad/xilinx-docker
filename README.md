@@ -133,6 +133,16 @@ This workflow consists of:
 - Manual installation of Xilinx Tools.
 - Committing changes to local repository to create a new images including the Xilinx tools pre-installed.
 
+### Manual Xilinx Tool installation quickstart
+
+For the latest v2020.1 Xilinx Tools:
+- [Build a base Ubuntu Docker Image](./recipes/base-images/ubuntu-18.04.2/README.md)
+- [Build an Ubuntu User Image](./recipes/user-images/v2020.1/README.md)
+- Manually install the Xilinx Tools
+	- [Manual Vivado Installation](./recipes/user-images/v2020.1/README.vivado-install.md)
+	- [Manual Vitis Installation](./recipes/user-images/v2020.1/README.vitis-install.md)
+	- [Manual Petalinux Installation](./recipes/user-images/v2020.1/README.petalinux-install.md)
+
 2. Automated Xilinx Tool installation
 
 The goal of this workflow is to automate creation of docker containers with Xilinx tools pre-installed.  This workflow requires the pre-generation of installation dependencies (configuration files) used by the automated image build.  The pre-generation of dependencies is a semi-automated, scripted process but does require user interaction during the process.
@@ -146,16 +156,6 @@ This workflow consists of:
 	- Scripted installation of Xilinx Tools.
 	- Results in a Docker image stored in the local repository.
 	
-### Manual Xilinx Tool installation quickstart
-
-For the latest v2020.1 Xilinx Tools:
-- [Build a base Ubuntu Docker Image](./recipes/base-images/ubuntu-18.04.2/README.md)
-- [Build an Ubuntu User Image](./recipes/user-images/v2020.1/README.md)
-- Manually install the Xilinx Tools
-	- [Manual Vivado Installation](./recipes/user-images/v2020.1/README.vivado-install.md)
-	- [Manual Vitis Installation](./recipes/user-images/v2020.1/README.vitis-install.md)
-	- [Manual Petalinux Installation](./recipes/user-images/v2020.1/README.petalinux-install.md)
-
 ### Automated Xilinx Tool installation quickstart
 
 For the latest v2020.1 Xilinx Tools:
