@@ -4,17 +4,78 @@
 #	- Uses: Dockerfile
 #
 # Maintainer:
-#	- Jason Moss (jason.moss@avnet.com)
-#	- Xilinx Applications Engineer, Embedded Software
+#	- Jason Moss
 #
 # Created: 
-#	- 7/6/2020
+#	- 11/17/2020
 #
-# Source configuration information for a v2020.1 Base Image build
+# Source configuration information
 source include/configuration.sh
 
-# Set the Docker File for Petalinux
-DOCKER_FILE_NAME=Dockerfile
+# Init command line parameters
+# Set the default Docker File for this script
+BUILD_DEBUG=0
+DOCKER_FILE_NAME=Dockerfile.iso
+
+# define options
+function show_opts {
+	echo "Syntax:"
+	echo "-------"
+	echo "${0} --<option>"
+	echo ""
+	echo "Valid Options:"
+	echo "--------------"
+	echo "  --debug"
+	echo ""
+	echo "		Enable debug output"
+	echo ""
+	echo "  --dockerfile <dockerfile name>"
+	echo ""
+	echo "      Specify the input dockerfile"
+	echo ""
+	echo " --help"
+	echo ""
+	echo "      display this syntax help"
+	echo ""
+}
+
+# Process Command line arguments
+PARAMS=""
+
+while (("$#")); do
+	case "$1" in
+		--debug) # Enable debug output
+			BUILD_DEBUG=1
+			echo "Set: BUILD_DEBUG=$BUILD_DEBUG"
+			shift
+			;;
+		--dockerfile) # Set the dockerfile name
+			shift
+			if test $# -gt 0; then
+				DOCKER_FILE_NAME=$1
+				echo "Set: DOCKER_FILE_NAME=$DOCKER_FILE_NAME"
+			else
+				echo "ERROR: No Dockerfile Specified!"
+				show_opts
+				exit 1
+			fi;
+			shift
+			;;
+		--help) # display syntax
+			show_opts
+			exit 0
+			;;
+		-*|--*=) # unsupported flags
+			echo "ERROR: Unsupported option $1" >&2
+			show_opts
+			exit 1
+			;;
+		*) # all other parameters pass through
+			PARAMS="$PARAMS $1"
+			shift
+			;;
+	esac
+done
 
 # Grab Start Time
 DOCKER_BUILD_START_TIME=`date`

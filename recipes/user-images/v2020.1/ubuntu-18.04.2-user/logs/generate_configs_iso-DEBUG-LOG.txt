@@ -1,0 +1,545 @@
+$ ./generate_configs.sh --debug --dockerfile Dockerfile.iso.generate_configs 
+Set: BUILD_DEBUG=1
+Set: DOCKER_FILE_NAME=Dockerfile.iso.generate_configs
+-----------------------------------
+Checking for dependencies...
+-----------------------------------
+Base docker image [found] (ubuntu:18.04.2)
+-----------------------------------
+Docker Build Context (Working)...
+-----------------------------------
+DOCKER_INSTALL_DIR=.
+DOCKER_BUILD_WORKING_DIR=/xilinx/local/repositories/gitlab/rjmoss/xilinx-docker/recipes/user-images/v2020.1/ubuntu-18.04.2-user
+-----------------------------------
+-----------------------------------
+Launching Python HTTP Server...
+-----------------------------------
++ SERVER_PID=277973
++ python3 -m http.server
+++ ifconfig docker0
+++ grep 'inet\s'
+++ awk '{print $2}'
++ SERVER_IP=172.17.0.1
++ '[' 1 -ne 0 ']'
++ set +x
+SERVER_IP=172.17.0.1
+SERVER_PID=277973
+-----------------------------------
+-----------------------------------
+Building the Docker Image...
+-----------------------------------
+DOCKER_CACHE=--no-cache
+DOCKER_FILE_NAME=Dockerfile.iso.generate_configs
+DOCKER_FILE_STAGE=base_os_depends_v2020.1
+DOCKER_IMAGE=dependency_generation:v2020.1
+DOCKER_INSTALL_DIR=.
+INSTALL_SERVER_URL=172.17.0.1:8000
+-----------------------------------
+Arguments...
+-----------------------------------
+        --build-arg USER_ACCT="xilinx"
+        --build-arg HOME_DIR="/home/xilinx"
+        --build-arg XLNX_INSTALL_LOCATION="/opt/Xilinx"
+        --build-arg INSTALL_SERVER_URL="172.17.0.1:8000"
+        --build-arg KEYBOARD_CONFIG_FILE="configs/keyboard_settings.conf"
+  --build-arg BUILD_DEBUG="1"
+-----------------------------------
++ docker build --no-cache -f ./Dockerfile.iso.generate_configs --target base_os_depends_v2020.1 -t dependency_generation:v2020.1 --build-arg USER_ACCT=xilinx --build-arg HOME_DIR=/home/xilinx --build-arg XLNX_INSTALL_LOCATION=/opt/Xilinx --build-arg INSTALL_SERVER_URL=172.17.0.1:8000 --build-arg KEYBOARD_CONFIG_FILE=configs/keyboard_settings.conf --build-arg BUILD_DEBUG=1 .
+Sending build context to Docker daemon  30.72kB
+Serving HTTP on 0.0.0.0 port 8000 (http://0.0.0.0:8000/) ...
+Step 1/10 : FROM ubuntu-iso:18.04.2 AS base_os_depends_v2020.1
+ ---> 05025006be9e
+Step 2/10 : LABEL author="Jason Moss"
+ ---> Running in 20017a09afbc
+Removing intermediate container 20017a09afbc
+ ---> a442a8d60ef2
+Step 3/10 : ENV DEBIAN_FRONTEND=noninteractive
+ ---> Running in 505407723c7c
+Removing intermediate container 505407723c7c
+ ---> 7060e4725d28
+Step 4/10 : ARG BUILD_DEBUG
+ ---> Running in 0c1727e05860
+Removing intermediate container 0c1727e05860
+ ---> 8c9233bec360
+Step 5/10 : RUN if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi      && echo "APT::Install-Recommends false;" > /etc/apt/apt.conf.d/00norecommends   && echo "APT::AutoRemove::RecommendsImportant false;" >> /etc/apt/apt.conf.d/00norecommends      && echo "APT::Install-Suggests false;" > /etc/apt/apt.conf.d/00nosuggests        && echo "APT::AutoRemove::SuggestsImportant false;" >> /etc/apt/apt.conf.d/00nosuggests         && apt-get update       && apt-get install -y            apt-utils               vim     && apt-get install locales      && locale-gen en_US.UTF-8       && dpkg-reconfigure             --frontend $DEBIAN_FRONTEND locales
+ ---> Running in 67dbcc03575e
++ echo APT::Install-Recommends false;
++ echo APT::AutoRemove::RecommendsImportant false;
++ echo APT::Install-Suggests false;
++ echo APT::AutoRemove::SuggestsImportant false;
++ apt-get update
+Get:1 http://security.ubuntu.com/ubuntu bionic-security InRelease [88.7 kB]
+Hit:2 http://archive.ubuntu.com/ubuntu bionic InRelease
+Get:3 http://archive.ubuntu.com/ubuntu bionic-updates InRelease [88.7 kB]
+Get:4 http://security.ubuntu.com/ubuntu bionic-security/main amd64 Packages [1425 kB]
+Get:5 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 Packages [1761 kB]
+Get:6 http://security.ubuntu.com/ubuntu bionic-security/main Translation-en [280 kB]
+Get:7 http://archive.ubuntu.com/ubuntu bionic-updates/main Translation-en [373 kB]
+Fetched 4016 kB in 2s (2214 kB/s)
+Reading package lists...
++ apt-get install -y apt-utils vim
+Reading package lists...
+Building dependency tree...
+Reading state information...
+The following additional packages will be installed:
+  apt libapt-pkg5.0 libgpm2 libpython3.6 libpython3.6-minimal
+  libpython3.6-stdlib libssl1.1 python3.6 python3.6-minimal vim-common
+  vim-runtime vim-tiny
+Suggested packages:
+  apt-doc aptitude | synaptic | wajig dpkg-dev gnupg | gnupg2 | gnupg1
+  powermgmt-base gpm python3.6-venv python3.6-doc binutils binfmt-support
+  ctags vim-doc vim-scripts indent
+The following NEW packages will be installed:
+  libgpm2 libpython3.6 vim vim-runtime
+The following packages will be upgraded:
+  apt apt-utils libapt-pkg5.0 libpython3.6-minimal libpython3.6-stdlib
+  libssl1.1 python3.6 python3.6-minimal vim-common vim-tiny
+10 upgraded, 4 newly installed, 0 to remove and 98 not upgraded.
+Need to get 16.1 MB of archives.
+After this operation, 37.4 MB of additional disk space will be used.
+Get:1 http://security.ubuntu.com/ubuntu bionic-security/main amd64 libapt-pkg5.0 amd64 1.6.12ubuntu0.1 [807 kB]
+Get:2 http://archive.ubuntu.com/ubuntu bionic/main amd64 libgpm2 amd64 1.20.7-5 [15.1 kB]
+Get:3 http://security.ubuntu.com/ubuntu bionic-security/main amd64 apt amd64 1.6.12ubuntu0.1 [1201 kB]
+Get:4 http://security.ubuntu.com/ubuntu bionic-security/main amd64 apt-utils amd64 1.6.12ubuntu0.1 [207 kB]
+Get:5 http://security.ubuntu.com/ubuntu bionic-security/main amd64 libssl1.1 amd64 1.1.1-1ubuntu2.1~18.04.6 [1301 kB]
+Get:6 http://security.ubuntu.com/ubuntu bionic-security/main amd64 python3.6 amd64 3.6.9-1~18.04ubuntu1.3 [203 kB]
+Get:7 http://security.ubuntu.com/ubuntu bionic-security/main amd64 libpython3.6-stdlib amd64 3.6.9-1~18.04ubuntu1.3 [1713 kB]
+Get:8 http://security.ubuntu.com/ubuntu bionic-security/main amd64 python3.6-minimal amd64 3.6.9-1~18.04ubuntu1.3 [1609 kB]
+Get:9 http://security.ubuntu.com/ubuntu bionic-security/main amd64 libpython3.6-minimal amd64 3.6.9-1~18.04ubuntu1.3 [533 kB]
+Get:10 http://security.ubuntu.com/ubuntu bionic-security/main amd64 vim-tiny amd64 2:8.0.1453-1ubuntu1.4 [476 kB]
+Get:11 http://security.ubuntu.com/ubuntu bionic-security/main amd64 vim-common all 2:8.0.1453-1ubuntu1.4 [70.4 kB]
+Get:12 http://security.ubuntu.com/ubuntu bionic-security/main amd64 libpython3.6 amd64 3.6.9-1~18.04ubuntu1.3 [1414 kB]
+Get:13 http://security.ubuntu.com/ubuntu bionic-security/main amd64 vim-runtime all 2:8.0.1453-1ubuntu1.4 [5435 kB]
+Get:14 http://security.ubuntu.com/ubuntu bionic-security/main amd64 vim amd64 2:8.0.1453-1ubuntu1.4 [1152 kB]
+Preconfiguring packages ...
+Fetched 16.1 MB in 1s (30.8 MB/s)
+(Reading database ... 11120 files and directories currently installed.)
+Preparing to unpack .../libapt-pkg5.0_1.6.12ubuntu0.1_amd64.deb ...
+Unpacking libapt-pkg5.0:amd64 (1.6.12ubuntu0.1) over (1.6.8) ...
+Setting up libapt-pkg5.0:amd64 (1.6.12ubuntu0.1) ...
+(Reading database ... 11120 files and directories currently installed.)
+Preparing to unpack .../apt_1.6.12ubuntu0.1_amd64.deb ...
+Unpacking apt (1.6.12ubuntu0.1) over (1.6.8) ...
+Setting up apt (1.6.12ubuntu0.1) ...
+Installing new version of config file /etc/apt/apt.conf.d/01autoremove ...
+(Reading database ... 11127 files and directories currently installed.)
+Preparing to unpack .../00-apt-utils_1.6.12ubuntu0.1_amd64.deb ...
+Unpacking apt-utils (1.6.12ubuntu0.1) over (1.6.8) ...
+Preparing to unpack .../01-libssl1.1_1.1.1-1ubuntu2.1~18.04.6_amd64.deb ...
+Unpacking libssl1.1:amd64 (1.1.1-1ubuntu2.1~18.04.6) over (1.1.0g-2ubuntu4.3) ...
+Preparing to unpack .../02-python3.6_3.6.9-1~18.04ubuntu1.3_amd64.deb ...
+Unpacking python3.6 (3.6.9-1~18.04ubuntu1.3) over (3.6.7-1~18.04) ...
+Preparing to unpack .../03-libpython3.6-stdlib_3.6.9-1~18.04ubuntu1.3_amd64.deb ...
+Unpacking libpython3.6-stdlib:amd64 (3.6.9-1~18.04ubuntu1.3) over (3.6.7-1~18.04) ...
+Preparing to unpack .../04-python3.6-minimal_3.6.9-1~18.04ubuntu1.3_amd64.deb ...
+Unpacking python3.6-minimal (3.6.9-1~18.04ubuntu1.3) over (3.6.7-1~18.04) ...
+Preparing to unpack .../05-libpython3.6-minimal_3.6.9-1~18.04ubuntu1.3_amd64.deb ...
+Unpacking libpython3.6-minimal:amd64 (3.6.9-1~18.04ubuntu1.3) over (3.6.7-1~18.04) ...
+Preparing to unpack .../06-vim-tiny_2%3a8.0.1453-1ubuntu1.4_amd64.deb ...
+Unpacking vim-tiny (2:8.0.1453-1ubuntu1.4) over (2:8.0.1453-1ubuntu1) ...
+Preparing to unpack .../07-vim-common_2%3a8.0.1453-1ubuntu1.4_all.deb ...
+Unpacking vim-common (2:8.0.1453-1ubuntu1.4) over (2:8.0.1453-1ubuntu1) ...
+Selecting previously unselected package libgpm2:amd64.
+Preparing to unpack .../08-libgpm2_1.20.7-5_amd64.deb ...
+Unpacking libgpm2:amd64 (1.20.7-5) ...
+Selecting previously unselected package libpython3.6:amd64.
+Preparing to unpack .../09-libpython3.6_3.6.9-1~18.04ubuntu1.3_amd64.deb ...
+Unpacking libpython3.6:amd64 (3.6.9-1~18.04ubuntu1.3) ...
+Selecting previously unselected package vim-runtime.
+Preparing to unpack .../10-vim-runtime_2%3a8.0.1453-1ubuntu1.4_all.deb ...
+Adding 'diversion of /usr/share/vim/vim80/doc/help.txt to /usr/share/vim/vim80/doc/help.txt.vim-tiny by vim-runtime'
+Adding 'diversion of /usr/share/vim/vim80/doc/tags to /usr/share/vim/vim80/doc/tags.vim-tiny by vim-runtime'
+Unpacking vim-runtime (2:8.0.1453-1ubuntu1.4) ...
+Selecting previously unselected package vim.
+Preparing to unpack .../11-vim_2%3a8.0.1453-1ubuntu1.4_amd64.deb ...
+Unpacking vim (2:8.0.1453-1ubuntu1.4) ...
+Processing triggers for mime-support (3.60ubuntu1) ...
+Setting up libgpm2:amd64 (1.20.7-5) ...
+Setting up apt-utils (1.6.12ubuntu0.1) ...
+Processing triggers for libc-bin (2.27-3ubuntu1) ...
+Setting up libssl1.1:amd64 (1.1.1-1ubuntu2.1~18.04.6) ...
+Checking for services that may need to be restarted...done.
+Checking for services that may need to be restarted...done.
+Setting up vim-common (2:8.0.1453-1ubuntu1.4) ...
+Setting up vim-runtime (2:8.0.1453-1ubuntu1.4) ...
+Setting up vim-tiny (2:8.0.1453-1ubuntu1.4) ...
+Setting up libpython3.6-minimal:amd64 (3.6.9-1~18.04ubuntu1.3) ...
+Setting up libpython3.6-stdlib:amd64 (3.6.9-1~18.04ubuntu1.3) ...
+Setting up python3.6-minimal (3.6.9-1~18.04ubuntu1.3) ...
+Setting up libpython3.6:amd64 (3.6.9-1~18.04ubuntu1.3) ...
+Setting up python3.6 (3.6.9-1~18.04ubuntu1.3) ...
+Setting up vim (2:8.0.1453-1ubuntu1.4) ...
+update-alternatives: using /usr/bin/vim.basic to provide /usr/bin/vim (vim) in auto mode
+update-alternatives: using /usr/bin/vim.basic to provide /usr/bin/vimdiff (vimdiff) in auto mode
+update-alternatives: using /usr/bin/vim.basic to provide /usr/bin/rvim (rvim) in auto mode
+update-alternatives: using /usr/bin/vim.basic to provide /usr/bin/rview (rview) in auto mode
+update-alternatives: using /usr/bin/vim.basic to provide /usr/bin/vi (vi) in auto mode
+update-alternatives: using /usr/bin/vim.basic to provide /usr/bin/view (view) in auto mode
+update-alternatives: using /usr/bin/vim.basic to provide /usr/bin/ex (ex) in auto mode
+update-alternatives: using /usr/bin/vim.basic to provide /usr/bin/editor (editor) in auto mode
+Processing triggers for libc-bin (2.27-3ubuntu1) ...
++ apt-get install locales
+Reading package lists...
+Building dependency tree...
+Reading state information...
+The following packages will be upgraded:
+  locales
+1 upgraded, 0 newly installed, 0 to remove and 97 not upgraded.
+Need to get 3613 kB of archives.
+After this operation, 0 B of additional disk space will be used.
+Get:1 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 locales all 2.27-3ubuntu1.3 [3613 kB]
+Preconfiguring packages ...
+Fetched 3613 kB in 1s (3399 kB/s)
+(Reading database ... 12908 files and directories currently installed.)
+Preparing to unpack .../locales_2.27-3ubuntu1.3_all.deb ...
+Unpacking locales (2.27-3ubuntu1.3) over (2.27-3ubuntu1) ...
+Setting up locales (2.27-3ubuntu1.3) ...
+Generating locales (this might take a while)...
+Generation complete.
++ locale-gen en_US.UTF-8
+Generating locales (this might take a while)...
+  en_US.UTF-8... done
+Generation complete.
++ dpkg-reconfigure --frontend noninteractive locales
+Generating locales (this might take a while)...
+  en_US.UTF-8... done
+Generation complete.
+Removing intermediate container 67dbcc03575e
+ ---> 7010d6f95765
+Step 6/10 : RUN if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi      && apt-get install -y           software-properties-common      && add-apt-repository universe   && apt-get update       && apt-get install -y           dialog                  debconf-utils   && echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections
+ ---> Running in c78ea20c075b
++ apt-get install -y software-properties-common
+Reading package lists...
+Building dependency tree...
+Reading state information...
+The following additional packages will be installed:
+  gpg gpgconf iso-codes libassuan0 python-apt-common python3-apt
+  python3-software-properties
+Suggested packages:
+  isoquery python3-apt-dbg python-apt-doc
+Recommended packages:
+  gnupg unattended-upgrades
+The following NEW packages will be installed:
+  gpg gpgconf iso-codes libassuan0 python-apt-common python3-apt
+  python3-software-properties software-properties-common
+0 upgraded, 8 newly installed, 0 to remove and 97 not upgraded.
+Need to get 3390 kB of archives.
+After this operation, 22.0 MB of additional disk space will be used.
+Get:1 http://security.ubuntu.com/ubuntu bionic-security/main amd64 gpgconf amd64 2.2.4-1ubuntu1.3 [123 kB]
+Get:2 http://security.ubuntu.com/ubuntu bionic-security/main amd64 gpg amd64 2.2.4-1ubuntu1.3 [467 kB]
+Get:3 http://security.ubuntu.com/ubuntu bionic-security/main amd64 python3-software-properties all 0.96.24.32.14 [23.9 kB]
+Get:4 http://security.ubuntu.com/ubuntu bionic-security/main amd64 software-properties-common all 0.96.24.32.14 [10.1 kB]
+Get:5 http://archive.ubuntu.com/ubuntu bionic/main amd64 iso-codes all 3.79-1 [2565 kB]
+Get:6 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 python-apt-common all 1.6.5ubuntu0.3 [16.8 kB]
+Get:7 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 python3-apt amd64 1.6.5ubuntu0.3 [149 kB]
+Get:8 http://archive.ubuntu.com/ubuntu bionic/main amd64 libassuan0 amd64 2.5.1-2 [35.0 kB]
+Fetched 3390 kB in 1s (2971 kB/s)
+Selecting previously unselected package iso-codes.
+(Reading database ... 12908 files and directories currently installed.)
+Preparing to unpack .../0-iso-codes_3.79-1_all.deb ...
+Unpacking iso-codes (3.79-1) ...
+Selecting previously unselected package python-apt-common.
+Preparing to unpack .../1-python-apt-common_1.6.5ubuntu0.3_all.deb ...
+Unpacking python-apt-common (1.6.5ubuntu0.3) ...
+Selecting previously unselected package python3-apt.
+Preparing to unpack .../2-python3-apt_1.6.5ubuntu0.3_amd64.deb ...
+Unpacking python3-apt (1.6.5ubuntu0.3) ...
+Selecting previously unselected package libassuan0:amd64.
+Preparing to unpack .../3-libassuan0_2.5.1-2_amd64.deb ...
+Unpacking libassuan0:amd64 (2.5.1-2) ...
+Selecting previously unselected package gpgconf.
+Preparing to unpack .../4-gpgconf_2.2.4-1ubuntu1.3_amd64.deb ...
+Unpacking gpgconf (2.2.4-1ubuntu1.3) ...
+Selecting previously unselected package gpg.
+Preparing to unpack .../5-gpg_2.2.4-1ubuntu1.3_amd64.deb ...
+Unpacking gpg (2.2.4-1ubuntu1.3) ...
+Selecting previously unselected package python3-software-properties.
+Preparing to unpack .../6-python3-software-properties_0.96.24.32.14_all.deb ...
+Unpacking python3-software-properties (0.96.24.32.14) ...
+Selecting previously unselected package software-properties-common.
+Preparing to unpack .../7-software-properties-common_0.96.24.32.14_all.deb ...
+Unpacking software-properties-common (0.96.24.32.14) ...
+Setting up python-apt-common (1.6.5ubuntu0.3) ...
+Setting up python3-apt (1.6.5ubuntu0.3) ...
+Setting up iso-codes (3.79-1) ...
+Processing triggers for libc-bin (2.27-3ubuntu1) ...
+Processing triggers for dbus (1.12.2-1ubuntu1) ...
+Setting up libassuan0:amd64 (2.5.1-2) ...
+Setting up gpgconf (2.2.4-1ubuntu1.3) ...
+Setting up gpg (2.2.4-1ubuntu1.3) ...
+Setting up python3-software-properties (0.96.24.32.14) ...
+Setting up software-properties-common (0.96.24.32.14) ...
+Processing triggers for libc-bin (2.27-3ubuntu1) ...
+Processing triggers for dbus (1.12.2-1ubuntu1) ...
++ add-apt-repository universe
+'universe' distribution component enabled for all sources.
+Hit:1 http://security.ubuntu.com/ubuntu bionic-security InRelease
+Hit:2 http://archive.ubuntu.com/ubuntu bionic InRelease
+Hit:3 http://archive.ubuntu.com/ubuntu bionic-updates InRelease
+Get:4 http://security.ubuntu.com/ubuntu bionic-security/universe amd64 Packages [1088 kB]
+Get:5 http://archive.ubuntu.com/ubuntu bionic/universe amd64 Packages [8570 kB]
+Get:6 http://security.ubuntu.com/ubuntu bionic-security/universe Translation-en [243 kB]
+Get:7 http://archive.ubuntu.com/ubuntu bionic/universe Translation-en [4941 kB]
+Get:8 http://archive.ubuntu.com/ubuntu bionic-updates/universe amd64 Packages [1692 kB]
+Get:9 http://archive.ubuntu.com/ubuntu bionic-updates/universe Translation-en [355 kB]
+Fetched 16.9 MB in 4s (4562 kB/s)
+Reading package lists...
++ apt-get update
+Hit:1 http://security.ubuntu.com/ubuntu bionic-security InRelease
+Hit:2 http://archive.ubuntu.com/ubuntu bionic InRelease
+Hit:3 http://archive.ubuntu.com/ubuntu bionic-updates InRelease
+Reading package lists...
++ apt-get install -y dialog debconf-utils
+Reading package lists...
+Building dependency tree...
+Reading state information...
+The following additional packages will be installed:
+  debconf debconf-i18n
+Suggested packages:
+  debconf-doc libterm-readline-gnu-perl libgtk3-perl libnet-ldap-perl perl
+  libqtgui4-perl libqtcore4-perl
+The following NEW packages will be installed:
+  debconf-utils dialog
+The following packages will be upgraded:
+  debconf debconf-i18n
+2 upgraded, 2 newly installed, 0 to remove and 95 not upgraded.
+Need to get 602 kB of archives.
+After this operation, 1255 kB of additional disk space will be used.
+Get:1 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 debconf-i18n all 1.5.66ubuntu1 [205 kB]
+Get:2 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 debconf all 1.5.66ubuntu1 [124 kB]
+Get:3 http://archive.ubuntu.com/ubuntu bionic-updates/universe amd64 debconf-utils all 1.5.66ubuntu1 [56.6 kB]
+Get:4 http://archive.ubuntu.com/ubuntu bionic/universe amd64 dialog amd64 1.3-20171209-1 [217 kB]
+Preconfiguring packages ...
+Fetched 602 kB in 1s (725 kB/s)
+(Reading database ... 14116 files and directories currently installed.)
+Preparing to unpack .../debconf-i18n_1.5.66ubuntu1_all.deb ...
+Unpacking debconf-i18n (1.5.66ubuntu1) over (1.5.66) ...
+Preparing to unpack .../debconf_1.5.66ubuntu1_all.deb ...
+Unpacking debconf (1.5.66ubuntu1) over (1.5.66) ...
+Setting up debconf (1.5.66ubuntu1) ...
+Selecting previously unselected package debconf-utils.
+(Reading database ... 14116 files and directories currently installed.)
+Preparing to unpack .../debconf-utils_1.5.66ubuntu1_all.deb ...
+Unpacking debconf-utils (1.5.66ubuntu1) ...
+Selecting previously unselected package dialog.
+Preparing to unpack .../dialog_1.3-20171209-1_amd64.deb ...
+Unpacking dialog (1.3-20171209-1) ...
+Setting up dialog (1.3-20171209-1) ...
+Setting up debconf-i18n (1.5.66ubuntu1) ...
+Setting up debconf-utils (1.5.66ubuntu1) ...
++ echo debconf debconf/frontend select Noninteractive
++ debconf-set-selections
+Removing intermediate container c78ea20c075b
+ ---> 3e874328f2ed
+Step 7/10 : ARG USER_ACCT
+ ---> Running in 10625cb0cbe9
+Removing intermediate container 10625cb0cbe9
+ ---> 122d11d38e60
+Step 8/10 : ARG HOME_DIR
+ ---> Running in 0666ac3461f8
+Removing intermediate container 0666ac3461f8
+ ---> e9034d732ff6
+Step 9/10 : ARG XLNX_INSTALL_LOCATION
+ ---> Running in 5b3c3ea11000
+Removing intermediate container 5b3c3ea11000
+ ---> d20afb4a4f29
+Step 10/10 : RUN if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi     && apt-get install -y           sudo    && adduser              --disabled-password     --gecos ''               --shell /bin/bash               --home $HOME_DIR                $USER_ACCT      && echo                 "$USER_ACCT ALL=(ALL) NOPASSWD: ALL"             >> /etc/sudoers         && adduser $USER_ACCT dialout   && adduser $USER_ACCT uucp      && chgrp uucp /var/lock         && chmod g+w /var/lock   && mkdir -p $XLNX_INSTALL_LOCATION      && chown -R $USER_ACCT:$USER_ACCT $XLNX_INSTALL_LOCATION        && echo "dash dash/sh boolean false" | debconf-set-selections    && DEBIAN_FRONTEND=$DEBIAN_FRONTEND dpkg-reconfigure dash
+ ---> Running in 89ad16c6ab79
++ apt-get install -y sudo
+Reading package lists...
+Building dependency tree...
+Reading state information...
+The following packages will be upgraded:
+  sudo
+1 upgraded, 0 newly installed, 0 to remove and 94 not upgraded.
+Need to get 428 kB of archives.
+After this operation, 0 B of additional disk space will be used.
+Get:1 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 sudo amd64 1.8.21p2-3ubuntu1.3 [428 kB]
+Fetched 428 kB in 1s (625 kB/s)
+(Reading database ... 14302 files and directories currently installed.)
+Preparing to unpack .../sudo_1.8.21p2-3ubuntu1.3_amd64.deb ...
+Unpacking sudo (1.8.21p2-3ubuntu1.3) over (1.8.21p2-3ubuntu1) ...
+Setting up sudo (1.8.21p2-3ubuntu1.3) ...
++ adduser --disabled-password --gecos  --shell /bin/bash --home /home/xilinx xilinx
+Adding user `xilinx' ...
+Adding new group `xilinx' (1000) ...
+Adding new user `xilinx' (1000) with group `xilinx' ...
+Creating home directory `/home/xilinx' ...
+Copying files from `/etc/skel' ...
++ echo xilinx ALL=(ALL) NOPASSWD: ALL
++ adduser xilinx dialout
+Adding user `xilinx' to group `dialout' ...
+Adding user xilinx to group dialout
+Done.
++ adduser xilinx uucp
+Adding user `xilinx' to group `uucp' ...
+Adding user xilinx to group uucp
+Done.
++ chgrp uucp /var/lock
++ chmod g+w /var/lock
++ mkdir -p /opt/Xilinx
++ chown -R xilinx:xilinx /opt/Xilinx
++ echo dash dash/sh boolean false
++ debconf-set-selections
++ DEBIAN_FRONTEND=noninteractive dpkg-reconfigure dash
+Removing 'diversion of /bin/sh to /bin/sh.distrib by dash'
+Adding 'diversion of /bin/sh to /bin/sh.distrib by bash'
+Removing 'diversion of /usr/share/man/man1/sh.1.gz to /usr/share/man/man1/sh.distrib.1.gz by dash'
+Adding 'diversion of /usr/share/man/man1/sh.1.gz to /usr/share/man/man1/sh.distrib.1.gz by bash'
+Removing intermediate container 89ad16c6ab79
+ ---> 2db12b7cad9d
+[Warning] One or more build-args [KEYBOARD_CONFIG_FILE INSTALL_SERVER_URL] were not consumed
+Successfully built 2db12b7cad9d
+Successfully tagged dependency_generation:v2020.1
++ xhost +
+access control disabled, clients can connect from any host
++ '[' 1 -ne 0 ']'
++ set +x
+-----------------------------------
+Create a base docker container...
+-----------------------------------
+DOCKER_CONTAINER_NAME=
+-----------------------------------
++ docker run --name build_ubuntu-18.04.2-user_depends_v2020.1 -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=:0 -itd dependency_generation:v2020.1 /bin/bash
+83b7410ffbbdf975c3f38e1eab25200a5c2f0b7eaf7798b01f061d941806660f
++ '[' 1 -ne 0 ']'
++ set +x
+-----------------------------------
+Install support packages...
+-----------------------------------
++ docker exec -it build_ubuntu-18.04.2-user_depends_v2020.1 bash -c 'if [ 1 -ne 0 ]; then set -x; fi    && apt-get -y install wget'
++ apt-get -y install wget
+Reading package lists... Done
+Building dependency tree       
+Reading state information... Done
+The following additional packages will be installed:
+  libpsl5
+Recommended packages:
+  publicsuffix
+The following NEW packages will be installed:
+  libpsl5 wget
+0 upgraded, 2 newly installed, 0 to remove and 94 not upgraded.
+Need to get 358 kB of archives.
+After this operation, 1030 kB of additional disk space will be used.
+Get:1 http://archive.ubuntu.com/ubuntu bionic/main amd64 libpsl5 amd64 0.19.1-5build1 [41.8 kB]
+Get:2 http://security.ubuntu.com/ubuntu bionic-security/main amd64 wget amd64 1.19.4-1ubuntu2.2 [316 kB]
+Fetched 358 kB in 1s (537 kB/s)                              
+Selecting previously unselected package libpsl5:amd64.
+(Reading database ... 14302 files and directories currently installed.)
+Preparing to unpack .../libpsl5_0.19.1-5build1_amd64.deb ...
+Unpacking libpsl5:amd64 (0.19.1-5build1) ...
+Selecting previously unselected package wget.
+Preparing to unpack .../wget_1.19.4-1ubuntu2.2_amd64.deb ...
+Unpacking wget (1.19.4-1ubuntu2.2) ...
+Setting up libpsl5:amd64 (0.19.1-5build1) ...
+Processing triggers for libc-bin (2.27-3ubuntu1) ...
+Setting up wget (1.19.4-1ubuntu2.2) ...
++ '[' 1 -ne 0 ']'
++ set +x
+-----------------------------------
+Generating Xilinx Keyboard Configuration... (Interactive)
+-----------------------------------
++ docker exec -it build_ubuntu-18.04.2-user_depends_v2020.1 bash -c 'if [ 1 -ne 0 ]; then set -x; fi    && apt-get install -y keyboard-configuration    && sudo dpkg-reconfigure keyboard-configuration  && mkdir -p /home/xilinx/downloads/tmp  && cd /home/xilinx/downloads/tmp        && mkdir -p configs     && debconf-get-selections | grep keyboard-configuration > configs/keyboard_settings.conf         && ls -al'
++ apt-get install -y keyboard-configuration
+Reading package lists... Done
+Building dependency tree       
+Reading state information... Done
+The following additional packages will be installed:
+  console-setup console-setup-linux
+The following packages will be upgraded:
+  console-setup console-setup-linux keyboard-configuration
+3 upgraded, 0 newly installed, 0 to remove and 91 not upgraded.
+Need to get 1456 kB of archives.
+After this operation, 1024 B of additional disk space will be used.
+Get:1 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 console-setup-linux all 1.178ubuntu2.9 [982 kB]
+Get:2 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 console-setup all 1.178ubuntu2.9 [105 kB]
+Get:3 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 keyboard-configuration all 1.178ubuntu2.9 [369 kB]
+Fetched 1456 kB in 1s (1153 kB/s)               
+Preconfiguring packages ...
+(Reading database ... 14318 files and directories currently installed.)
+Preparing to unpack .../console-setup-linux_1.178ubuntu2.9_all.deb ...
+Unpacking console-setup-linux (1.178ubuntu2.9) over (1.178ubuntu2.7) ...
+Preparing to unpack .../console-setup_1.178ubuntu2.9_all.deb ...
+Unpacking console-setup (1.178ubuntu2.9) over (1.178ubuntu2.7) ...
+Preparing to unpack .../keyboard-configuration_1.178ubuntu2.9_all.deb ...
+Unpacking keyboard-configuration (1.178ubuntu2.9) over (1.178ubuntu2.7) ...
+Setting up keyboard-configuration (1.178ubuntu2.9) ...
+Your console font configuration will be updated the next time your system
+boots. If you want to update it now, run 'setupcon' from a virtual console.
+update-initramfs: deferring update (trigger activated)
+Processing triggers for systemd (237-3ubuntu10.12) ...
+Setting up console-setup-linux (1.178ubuntu2.9) ...
+Setting up console-setup (1.178ubuntu2.9) ...
+/var/lib/dpkg/info/console-setup.postinst: line 134: type: plymouth: not found
+update-initramfs: deferring update (trigger activated)
+Processing triggers for initramfs-tools (0.130ubuntu3.6) ...
++ sudo dpkg-reconfigure keyboard-configuration
+Your console font configuration will be updated the next time your system
+boots. If you want to update it now, run 'setupcon' from a virtual console.
+update-initramfs: deferring update (trigger activated)
+Processing triggers for initramfs-tools (0.130ubuntu3.6) ...
++ mkdir -p /home/xilinx/downloads/tmp
++ cd /home/xilinx/downloads/tmp
++ mkdir -p configs
++ debconf-get-selections
++ grep keyboard-configuration
++ ls -al
+total 12
+drwxr-xr-x 3 root root 4096 Nov 17 21:31 .
+drwxr-xr-x 3 root root 4096 Nov 17 21:31 ..
+drwxr-xr-x 2 root root 4096 Nov 17 21:31 configs
++ '[' 1 -ne 0 ']'
++ set +x
+-----------------------------------
+Copying keyboard configuration to host...
+-----------------------------------
++ mkdir -p _generated/configs
++ docker cp build_ubuntu-18.04.2-user_depends_v2020.1:/home/xilinx/downloads/tmp/configs/keyboard_settings.conf _generated/configs/keyboard_settings.conf
++ '[' 1 -ne 0 ']'
++ set +x
+-----------------------------------
+Shutting down Python HTTP Server...
+-----------------------------------
+Killing process ID 277973
+-----------------------------------
++ kill 277973
++ '[' 1 -ne 0 ']'
++ set +x
+-----------------------------------
+Removing temporary docker resources...
+-----------------------------------
++ docker rm -f build_ubuntu-18.04.2-user_depends_v2020.1
+build_ubuntu-18.04.2-user_depends_v2020.1
++ docker rmi -f dependency_generation:v2020.1
+Untagged: dependency_generation:v2020.1
+Deleted: sha256:2db12b7cad9d00730b36242c663aba1f4feaedcfeb01c36a7d828782846490da
+Deleted: sha256:89f6529a7983047eb3994bd9f4c426819d5e8f73e894603c0aa53e01d698231a
+Deleted: sha256:d20afb4a4f291e3ebf70a484384265c2b24350f1b5f262a5c956ec0987e02502
+Deleted: sha256:e9034d732ff6ef6f232ac604460ab3245ab279f07270ee6e8df50ae37a300357
+Deleted: sha256:122d11d38e60469dfc3905a7d1034b0b2b032d1ae6d00e1e41050876d41a1287
+Deleted: sha256:3e874328f2edb288be588f1b7ba1e9a2455d7cb91a24360296e74e2d6d59b8aa
+Deleted: sha256:4c9d3168cf0ccd35c56b9dc6b16ac6931480efbb057ba52e12c01657f5cbe544
+Deleted: sha256:7010d6f95765c07761a729d8e487fb04716176ae1e94c9b307cafc0f32af19f7
+Deleted: sha256:23a1b5a5ccef199f8a219ffeaf8258b054512986ca25222c37f8932f123e400a
+Deleted: sha256:8c9233bec360defa59aac661e77f57c18b7b61f4c1cd65e8c8384af0d2e2e23b
+Deleted: sha256:7060e4725d2873fba4badd7fb029acedddd19d76744b716f9fdbf680129c0c49
+Deleted: sha256:a442a8d60ef2637b5570f15dc73b53e2591769ac2d27864b465d5372fe0cd954
++ '[' 1 -ne 0 ']'
++ set +x
+-----------------------------------
+Configuration Generation Complete
+-----------------------------------
+STARTED :Tue 17 Nov 2020 04:25:24 PM EST
+ENDED   :Tue 17 Nov 2020 04:31:11 PM EST
+-----------------------------------
+DOCKER_FILE_NAME=Dockerfile.iso.generate_configs
+DOCKER_FILE_STAGE=base_os_depends_v2020.1
+DOCKER_IMAGE=dependency_generation:v2020.1
+DOCKER_CONTAINER_NAME=build_ubuntu-18.04.2-user_depends_v2020.1
+-----------------------------------
+Configurations Generated:
+-----------------------------------
+-rw-r--r-- 1 rjmoss rjmoss 1554 Nov 17 16:31 _generated/configs/keyboard_settings.conf
+-----------------------------------
+Copying Configurations to the configs Folder
+-----------------------------------

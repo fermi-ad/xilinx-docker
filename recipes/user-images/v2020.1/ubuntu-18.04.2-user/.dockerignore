@@ -2,6 +2,7 @@
 *
 
 # Add files required back in context
-!Dockerfile
+!Dockerfile.iso
+!Dockerfile.base
 !configs
 !depends

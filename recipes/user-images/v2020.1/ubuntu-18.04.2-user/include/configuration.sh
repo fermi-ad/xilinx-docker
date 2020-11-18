@@ -13,10 +13,8 @@
 #
 ########################################################################################
 # Docker Build Script Debug Tracing
+# Moved to the command line argument '--debug'
 ########################################################################################
-#BUILD_DEBUG=1 Turns shell command expansion on in Docker build scripts
-#BUILD_DEBUG=0 Turns shell expandion off in Docker build scripts
-BUILD_DEBUG=1
 
 ########################################################################################
 # Override Dockerfile Build Arguments:
@@ -41,7 +39,7 @@ DOCKER_BASE_OS_TAG=18.04.2
 XLNX_RELEASE_VERSION=v2020.1
 
 # Xilinx tool information
-XLNX_TOOL_INFO=ubuntu-$DOCKER_BASE_OS_TAG-user
+XLNX_TOOL_INFO=ubuntu-iso-$DOCKER_BASE_OS_TAG-user
 
 # Docker File Recipe Name
 # Petalinux - possible stage assignments

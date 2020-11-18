@@ -1,4 +1,4 @@
-$ ./generate_configs.sh
+$ ./generate_configs.sh --debug --dockerfile Dockerfile.generate_configs
 -----------------------------------
 Checking for dependencies...
 -----------------------------------
