@@ -227,6 +227,15 @@ docker run \
 ...
 ```
 
+# Install Other Required Packages
+
+## Squashfs tools for working with Ubuntu ISO images
+- Install squashfs tools for extracting rootfs images from an Ubuntu ISO release
+
+```bash
+$ sudo apt-get install -y squashfs-tools
+```
+
 # Miscellaneous notes and tips:
 
 ### Using links to dependencies
@@ -450,12 +459,3 @@ $ sudo rm -rf /etc/apparmor.d/docker
 $ sudo groupdel docker
 $ sudo rm -rf /var/run/docker.sock
 ```
-
-
-< --- UPDATE ME BELOW AS OF 7/27/2020 --- >
-
-
-
-
-
-
