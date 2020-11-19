@@ -44,3 +44,12 @@ $ ./fetch_depends.sh --base --replace-existing
 bash:
 $ sudo ./build_image.sh --base
 ```
+
+## List images in the local docker repository
+```bash
+bash:
+$ docker image ls
+REPOSITORY                   TAG                 IMAGE ID            CREATED             SIZE
+ubuntu                       18.04.2             0a83f1240096        16 hours ago        88.3MB
+ubuntu-iso                   18.04.2             6165bfac6800        16 hours ago        243MB
+```

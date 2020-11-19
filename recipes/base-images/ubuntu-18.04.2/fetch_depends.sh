@@ -9,7 +9,7 @@
 #
 # Created: 
 #	- 11/17/2020
-#
+########################################################################################
 source include/configuration.sh
 
 # Temporary variables repeatedly used in this script

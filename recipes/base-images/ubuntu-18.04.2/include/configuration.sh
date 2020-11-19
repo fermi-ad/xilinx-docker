@@ -9,8 +9,7 @@
 #	- 11/17/2020
 #
 ########################################################################################
-# Docker Build Script Debug Tracing
-# This has been moved to a command line argument in the base scripts
+# Override Dockerfile Build Arguments:
 ########################################################################################
 
 # Path definitions
