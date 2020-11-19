@@ -1,8 +1,8 @@
 #!/bin/bash
 ########################################################################################
 # Docker Image Build Script:
-#	- Uses: Dockerfile.iso
-#   - Uses: Dockerfile.base
+#	- Uses: Dockerfile.iso.generate_configs
+#   - Uses: Dockerfile.base.generate_configs
 #
 # Maintainer:
 #	- Jason Moss
