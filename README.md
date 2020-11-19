@@ -25,20 +25,32 @@ Windows 10 adaptation of recipes, tools and documentation can be found in the [.
 
 ## Docker Image Recipe Overview
 
+### About Ubuntu Image Point Releases and Base Image Tarball Availability
+
+Ubuntu provides Base Image tarballs for each point release during active standard support for an LTS release. See: [ubuntu-base/releases](http://cdimage.ubuntu.com/ubuntu-base/releases/).  
+
+Interim/older point releases for an LTS version are periodically removed from the Ubuntu image archive so there is no guaranteed availability of point release base images.  This makes the base image tarball a poor choice for creating and maintaining base docker images for long-term development environment maintenance, unless you keep your own archive of these base release images.
+
+Recipes have been added to this repository to offer the option of creating and using the release ISO installer for point releases as the base for docker image creation.  See: [old-releases.ubuntu.com/releases](http://old-releases.ubuntu.com/releases/)
+
+
 ### Ubuntu Images
 
 These are the Base Ubuntu OS Images used for tool installations.
+There are two sizes listed based on if the image is generated from a base tarball release or an iso installer image.
 
-| Ubuntu Release | Base Image   |
-| -------------- | ----------   |
-| 18.04.2        | [88.3MB][4b] |
-| 18.04.1        | [83.5MB][3b] |
-| 16.04.4		 | [112MB][1b] |
-| 16.04.3		 | [120MB][0b] |
+| Ubuntu Release | Base ISO Image | Base Image   | 
+| -------------- | -------------- | ------------ |
+| 18.04.2        | [234MB][4b]    | [88.3MB][4b] | 
+| 18.04.1        | [TBD][3b]      | [83.5MB][3b] |
+| 16.04.4		 | [TBD][1b]      | [112MB][1b]  |
+| 16.04.3		 | [TBD][0b]      | [120MB][0b]  |
 
 ### Xilinx User Images (Manual Tool Installation)
 
 These user images include a tool-compatible Ubuntu OS installation and all (known) base Xilinx tool dependencies for that release.  Xilinx tools are installed and configured manually by each user to create the final user image.
+
+Image sizes in this table reflect images created from the Base ISO Image.
 
 | Xilinx Release | User Image     | Petalinux     | Vivado        | Vitis          | SDK             |
 | -------------- | -------------- | ---------     | ------------  | ------------   | --------------- |

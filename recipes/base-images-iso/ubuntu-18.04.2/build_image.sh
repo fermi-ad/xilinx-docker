@@ -92,7 +92,7 @@ fi
 XILINX_BUILD_START_TIME=`date`
 
 # Check for downloaded iso
-if [ -f depends/$UBUNTU_RELEASE_ARCHIVE ] || [ -L depends/$UBUNTU_RELEASE_ARCHIVE ]; then
+if [ -f $DOWLOAD_PATH/$UBUNTU_RELEASE_ARCHIVE ] || [ -L depends/$UBUNTU_RELEASE_ARCHIVE ]; then
 	echo "Base Release Image [Good] "$UBUNTU_RELEASE_ARCHIVE
 else
 	echo "Base Release Image [Missing] "$UBUNTU_RELEASE_ARCHIVE
