@@ -1,7 +1,8 @@
 #!/bin/bash
 ########################################################################################
 # Docker Image Build Script:
-#	- Uses: Dockerfile
+#	- Uses: Dockerfile.iso
+#   - Uses: Dockerfile.base
 #
 # Maintainer:
 #	- Jason Moss
@@ -9,13 +10,15 @@
 # Created: 
 #	- 11/17/2020
 #
-# Source configuration information
+# Source base image configuration
+source ../../../base-images/ubuntu-18.04.2/include/configuration.sh
+# Source user image configuration
 source include/configuration.sh
 
-# Init command line parameters
-# Set the default Docker File for this script
-BUILD_DEBUG=0
-DOCKER_FILE_NAME=Dockerfile.iso.generate_configs
+# Additional setup and overrides specificaly for dependency generation
+DOCKER_FILE_STAGE="base_os_depends_"$XLNX_RELEASE_VERSION
+DOCKER_IMAGE_NAME=dependency_generation
+DOCKER_IMAGE_VERSION=$XLNX_RELEASE_VERSION
 
 # define options
 function show_opts {
@@ -29,9 +32,14 @@ function show_opts {
 	echo ""
 	echo "		Enable debug output"
 	echo ""
-	echo "  --dockerfile <dockerfile name>"
+	echo "  --base"
 	echo ""
-	echo "      Specify the input dockerfile"
+	echo "      Generate docker image using Dockerfile.base"
+	echo ""
+	echo "  --iso"
+	echo ""
+	echo "      Generate docker image using Dockerfile.iso"
+	echo "      This will override the use of the '--base' flag"
 	echo ""
 	echo " --help"
 	echo ""
@@ -39,26 +47,29 @@ function show_opts {
 	echo ""
 }
 
+# Init command ling argument flags
+FLAG_BUILD_DEBUG=0 # Enable extra debug messages
+FLAG_BASE_IMAGE=0 # Use the base release image
+FLAG_ISO_IMAGE=0 # Use the iso release image
+
 # Process Command line arguments
 PARAMS=""
 
 while (("$#")); do
 	case "$1" in
 		--debug) # Enable debug output
-			BUILD_DEBUG=1
-			echo "Set: BUILD_DEBUG=$BUILD_DEBUG"
+			FLAG_FLAG_BUILD_DEBUG=1
+			echo "Set: FLAG_FLAG_BUILD_DEBUG=$FLAG_FLAG_BUILD_DEBUG"
 			shift
 			;;
-		--dockerfile) # Set the dockerfile name
+		--base) # Download the base release image
+			FLAG_BASE_IMAGE=1
+			echo "Set: FLAG_BASE_IMAGE=$FLAG_BASE_IMAGE"
 			shift
-			if test $# -gt 0; then
-				DOCKER_FILE_NAME=$1
-				echo "Set: DOCKER_FILE_NAME=$DOCKER_FILE_NAME"
-			else
-				echo "ERROR: No Dockerfile Specified!"
-				show_opts
-				exit 1
-			fi;
+			;;
+		--iso) # Download the iso release image
+			FLAG_ISO_IMAGE=1
+			echo "Set: FLAG_ISO_IMAGE=$FLAG_ISO_IMAGE"
 			shift
 			;;
 		--help) # display syntax
@@ -77,11 +88,30 @@ while (("$#")); do
 	esac
 done
 
-# Additional setup and overrides specificaly for dependency generation
-GENERATED_DIR=_generated
-DOCKER_FILE_STAGE="base_os_depends_"$XLNX_RELEASE_VERSION
-DOCKER_IMAGE_NAME=dependency_generation
-DOCKER_IMAGE_VERSION=$XLNX_RELEASE_VERSION
+# reset positional arguments
+eval set -- "$PARAMS"
+
+# Setup the docker image information
+if [ $FLAG_ISO_IMAGE -eq 1 ]; then
+	if [ $FLAG_FLAG_BUILD_DEBUG -ne 0 ]; then echo "Setting iso image parameters."; fi
+	DOCKER_FILE_NAME=Dockerfile.iso.generate_configs
+	DOCKER_BASE_IMAGE=$BASE_OS_NAME-iso:$BASE_OS_VERSION
+elif [ $FLAG_BASE_IMAGE -eq 1 ]; then
+	if [ $FLAG_FLAG_BUILD_DEBUG -ne 0 ]; then echo "Setting base image parameters."; fi
+	DOCKER_FILE_NAME=Dockerfile.base.generate_configs
+	DOCKER_BASE_IMAGE=$BASE_OS_NAME:$BASE_OS_VERSION
+else
+	echo "No base image type specified."
+	show_opts
+	exit $EX_OSFILE
+fi
+
+if [ $FLAG_FLAG_BUILD_DEBUG -ne 0 ]; then 
+	echo " Docker Image Configuration"
+	echo " --------------------"
+	echo "   Dockerfile       : [$DOCKER_FILE_NAME]"
+	echo "   Base Image       : [$DOCKER_BASE_IMAGE]"
+fi
 
 # Grab Start Time
 DOCKER_BUILD_START_TIME=`date`
@@ -97,13 +127,11 @@ echo "Checking for dependencies..."
 echo "-----------------------------------"
 
 # Check for existing ubuntu base os image:
-if [[ "$(docker images -q $DOCKER_BASE_OS:$DOCKER_BASE_OS_TAG 2> /dev/null)" == "" ]]; then
-  # create the docker base image
-  	echo "Base docker image [missing] ("$DOCKER_BASE_OS:$DOCKER_BASE_OS_TAG")"
-  	echo "See the ./base_os/"$DOCKER_BASE_OS"_"$DOCKER_BASE_OS_TAG" folder to create this image"
-  	exit $EX_OSFILE
+if [[ "$(docker images -q $DOCKER_BASE_IMAGE 2> /dev/null)" == "" ]]; then
+  	echo "Base docker image [missing] ("$DOCKER_BASE_IMAGE")"
+ 	exit $EX_OSFILE
 else
-	echo "Base docker image [found] ("$DOCKER_BASE_OS:$DOCKER_BASE_OS_TAG")"
+	echo "Base docker image [found] ("$DOCKER_BASE_IMAGE")"
 fi
 
 # Test for dependencies required to run this script
@@ -127,13 +155,13 @@ echo "-----------------------------------"
 echo "Launching Python HTTP Server..."
 echo "-----------------------------------"
 
-if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi
+if [ $FLAG_BUILD_DEBUG -ne 0 ]; then set -x; fi
 
 # Launch python3 http server ip address and capture process id
 python3 -m http.server & SERVER_PID=$!
 SERVER_IP=`ifconfig docker0 | grep 'inet\s' | awk '{print $2}'`
 
-if [ $BUILD_DEBUG -ne 0 ]; then set +x; fi
+if [ $FLAG_BUILD_DEBUG -ne 0 ]; then set +x; fi
 
 # Set the Install Server URL
 INSTALL_SERVER_URL="${SERVER_IP}:8000"
@@ -159,11 +187,11 @@ echo " 	--build-arg HOME_DIR=\"${HOME_DIR}\""
 echo " 	--build-arg XLNX_INSTALL_LOCATION=\"${XLNX_INSTALL_LOCATION}\""
 echo " 	--build-arg INSTALL_SERVER_URL=\"${SERVER_IP}:8000\""
 echo " 	--build-arg KEYBOARD_CONFIG_FILE=\"${KEYBOARD_CONFIG_FILE}\""
-echo "  --build-arg BUILD_DEBUG=\"${BUILD_DEBUG}\""
+echo "  --build-arg FLAG_BUILD_DEBUG=\"${FLAG_BUILD_DEBUG}\""
 echo "-----------------------------------"
 
 # Build a base OS image to work in
-if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi
+if [ $FLAG_BUILD_DEBUG -ne 0 ]; then set -x; fi
 
 docker build $DOCKER_CACHE -f ./$DOCKER_FILE_NAME \
 	--target $DOCKER_FILE_STAGE \
@@ -173,13 +201,13 @@ docker build $DOCKER_CACHE -f ./$DOCKER_FILE_NAME \
  	--build-arg XLNX_INSTALL_LOCATION="${XLNX_INSTALL_LOCATION}" \
  	--build-arg INSTALL_SERVER_URL="${INSTALL_SERVER_URL}" \
  	--build-arg KEYBOARD_CONFIG_FILE="${KEYBOARD_CONFIG_FILE}" \
- 	--build-arg BUILD_DEBUG="${BUILD_DEBUG}" \
+ 	--build-arg FLAG_BUILD_DEBUG="${FLAG_BUILD_DEBUG}" \
  	$DOCKER_INSTALL_DIR
 
 # Set Xhost permissions
 xhost +
 
-if [ $BUILD_DEBUG -ne 0 ]; then set +x; fi
+if [ $FLAG_BUILD_DEBUG -ne 0 ]; then set +x; fi
 
 # Create a temporary container to work in
 
@@ -190,7 +218,7 @@ echo "DOCKER_CONTAINER_NAME="$DOCKER_CONTAINER_NAME
 echo "-----------------------------------"
 DOCKER_CONTAINER_NAME="build_"$XLNX_TOOL_INFO"_depends_"$XLNX_RELEASE_VERSION
 
-if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi
+if [ $FLAG_BUILD_DEBUG -ne 0 ]; then set -x; fi
 
 # Create a docker container running in the background
 docker run \
@@ -200,20 +228,20 @@ docker run \
 	-itd $DOCKER_IMAGE_NAME:$DOCKER_IMAGE_VERSION \
 	/bin/bash
 
-if [ $BUILD_DEBUG -ne 0 ]; then set +x; fi
+if [ $FLAG_BUILD_DEBUG -ne 0 ]; then set +x; fi
 
 echo "-----------------------------------"
 echo "Install support packages..."
 echo "-----------------------------------"
 # Install WGET and download the MALI user-space binaries
 
-if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi
+if [ $FLAG_BUILD_DEBUG -ne 0 ]; then set -x; fi
 
 docker exec -it $DOCKER_CONTAINER_NAME \
-bash -c "if [ ${BUILD_DEBUG} -ne 0 ]; then set -x; fi \
+bash -c "if [ ${FLAG_BUILD_DEBUG} -ne 0 ]; then set -x; fi \
 	&& apt-get -y install wget"
 
-if [ $BUILD_DEBUG -ne 0 ]; then set +x; fi
+if [ $FLAG_BUILD_DEBUG -ne 0 ]; then set +x; fi
 
 # Send commands to the docker container using 'docker exec'
 # Ex: single command
@@ -227,10 +255,10 @@ echo "-----------------------------------"
 echo "Generating Xilinx Keyboard Configuration... (Interactive)"
 echo "-----------------------------------"
 # Install the keyboard configuration
-if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi
+if [ $FLAG_BUILD_DEBUG -ne 0 ]; then set -x; fi
 
 docker exec -it $DOCKER_CONTAINER_NAME \
-	bash -c "if [ ${BUILD_DEBUG} -ne 0 ]; then set -x; fi \
+	bash -c "if [ ${FLAG_BUILD_DEBUG} -ne 0 ]; then set -x; fi \
 	&& apt-get install -y keyboard-configuration \
 	&& sudo dpkg-reconfigure keyboard-configuration \
 	&& mkdir -p ${HOME_DIR}/downloads/tmp \
@@ -239,19 +267,19 @@ docker exec -it $DOCKER_CONTAINER_NAME \
 	&& debconf-get-selections | grep keyboard-configuration > ${KEYBOARD_CONFIG_FILE} \
 	&& ls -al"
 
-if [ $BUILD_DEBUG -ne 0 ]; then set +x; fi
+if [ $FLAG_BUILD_DEBUG -ne 0 ]; then set +x; fi
 
 # copy keyboard configuration from container to host
 echo "-----------------------------------"
 echo "Copying keyboard configuration to host..."
 echo "-----------------------------------"
 
-if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi
+if [ $FLAG_BUILD_DEBUG -ne 0 ]; then set -x; fi
 
-mkdir -p $GENERATED_DIR/${KEYBOARD_CONFIG_FILE%/*}
-docker cp $DOCKER_CONTAINER_NAME:$HOME_DIR/downloads/tmp/$KEYBOARD_CONFIG_FILE $GENERATED_DIR/$KEYBOARD_CONFIG_FILE
+mkdir -p $GENERATED_PATH/${KEYBOARD_CONFIG_FILE%/*}
+docker cp $DOCKER_CONTAINER_NAME:$HOME_DIR/downloads/tmp/$KEYBOARD_CONFIG_FILE $GENERATED_PATH/$KEYBOARD_CONFIG_FILE
 
-if [ $BUILD_DEBUG -ne 0 ]; then set +x; fi
+if [ $FLAG_BUILD_DEBUG -ne 0 ]; then set +x; fi
 
 # Shut down the python3 http server
 echo "-----------------------------------"
@@ -260,23 +288,23 @@ echo "-----------------------------------"
 echo "Killing process ID "$SERVER_PID
 echo "-----------------------------------"
 
-if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi
+if [ $FLAG_BUILD_DEBUG -ne 0 ]; then set -x; fi
 
 kill $SERVER_PID
 
-if [ $BUILD_DEBUG -ne 0 ]; then set +x; fi
+if [ $FLAG_BUILD_DEBUG -ne 0 ]; then set +x; fi
 
 # # Cleanup the container used to generate the dependencies
 echo "-----------------------------------"
 echo "Removing temporary docker resources..."
 echo "-----------------------------------"
 
-if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi
+if [ $FLAG_BUILD_DEBUG -ne 0 ]; then set -x; fi
 
 docker rm -f $DOCKER_CONTAINER_NAME
 docker rmi -f $DOCKER_IMAGE_NAME:$DOCKER_IMAGE_VERSION
 
-if [ $BUILD_DEBUG -ne 0 ]; then set +x; fi
+if [ $FLAG_BUILD_DEBUG -ne 0 ]; then set +x; fi
 
 # Grab End Time
 DOCKER_BUILD_END_TIME=`date`
@@ -294,8 +322,8 @@ echo "DOCKER_CONTAINER_NAME="$DOCKER_CONTAINER_NAME
 echo "-----------------------------------"
 echo "Configurations Generated:"
 echo "-----------------------------------"
-ls -al $GENERATED_DIR/$KEYBOARD_CONFIG_FILE
+ls -al $GENERATED_PATH/$KEYBOARD_CONFIG_FILE
 echo "-----------------------------------"
 echo "Copying Configurations to the $INSTALL_CONFIGS_DIR Folder"
 echo "-----------------------------------"
-cp -f $GENERATED_DIR/$KEYBOARD_CONFIG_FILE $KEYBOARD_CONFIG_FILE
+cp -f $GENERATED_PATH/$KEYBOARD_CONFIG_FILE $KEYBOARD_CONFIG_FILE

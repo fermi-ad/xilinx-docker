@@ -1,24 +1,21 @@
 #!/bin/bash
 ########################################################################################
-# Docker Image Build Variable Custom Configuration:
-#   - Customize definitions of arguments for building images for ubuntu 18.04.1 userimage
-#	- Used with: Dockerfile
+# Docker Image Build Variable Customization/Configuration:
 #
 # Maintainer:
-#	- Jason Moss (jason.moss@avnet.com)
-#	- Xilinx Applications Engineer, Embedded Software
+#	- Jason Moss
 #
 # Created: 
-#	- 7/6/2020
+#	- 11/17/2020
 #
-########################################################################################
-# Docker Build Script Debug Tracing
-# Moved to the command line argument '--debug'
-########################################################################################
-
 ########################################################################################
 # Override Dockerfile Build Arguments:
 ########################################################################################
+
+# Path definitions
+GENERATED_PATH=_generated
+TMP_PATH=tmp
+
 # User account information
 # USER_ACCT: user account name within docker image
 # HOME_DIR : user account home directory
@@ -31,15 +28,11 @@ HOME_DIR=/home/$USER_ACCT
 GIT_USER_NAME="Xilinx User"
 GIT_USER_EMAIL="Xilinx.User@dummyaddress.com"
 
-# Docker base OS Images
-DOCKER_BASE_OS=ubuntu
-DOCKER_BASE_OS_TAG=18.04.2
-
 # Xilinx Release Information
 XLNX_RELEASE_VERSION=v2020.1
 
 # Xilinx tool information
-XLNX_TOOL_INFO=ubuntu-iso-$DOCKER_BASE_OS_TAG-user
+XLNX_TOOL_INFO=ubuntu-$BASE_OS_VERSION-user
 
 # Docker File Recipe Name
 # Petalinux - possible stage assignments
@@ -139,6 +132,3 @@ INSTALL_SERVER_URL=0.0.0.0:8000
 
 ########################################################################################
 ########################################################################################
-
-# Define File system error code
-EX_OSFILE=72

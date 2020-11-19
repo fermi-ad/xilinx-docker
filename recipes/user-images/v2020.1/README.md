@@ -26,7 +26,11 @@
 ```
 -> .dockerignore
 -> build_image.sh
--> Dockerfile
+-> generate_configs.sh
+-> Dockerfile.base
+-> Dockerfile.iso
+-> Dockerfile.generate_configs
+-> Dockerfile.iso.generate_configs
 -> configs/
 	-> .minirc.dfl
 	-> keyboard_settings.conf
@@ -41,21 +45,8 @@
 
 ```bash
 $ pushd ../../base-images/ubuntu-18.04.2/
-$ ./build_image.sh 
-Base Release Image [Good] ubuntu-base-18.04.2-base-amd64.tar.gz
-+ docker import depends/ubuntu-base-18.04.2-base-amd64.tar.gz ubuntu:18.04.2
-sha256:76df73440f9c444f3397d23ad0f33339337c9061dfe2d4a8f52378e3704da71d
-+ docker image ls -a
-REPOSITORY                       TAG                  IMAGE ID            CREATED                  SIZE
-ubuntu                           18.04.2              76df73440f9c        Less than a second ago   88.3MB
-+ docker system df
-TYPE                TOTAL               ACTIVE              SIZE                RECLAIMABLE
-Images              1                   1                   88.3MB              0B (0%)
-Containers          0                   0                   0B                  0B (0%)
-Local Volumes       0                   0                   0B                  0B
-Build Cache         0                   0                   0B                  0B
-+ '[' 1 -ne 0 ']'
-+ set +x
+$ ./build_image.sh --debug --dockerfile Dockerfile.iso
+
 
 $ popd
 ```
@@ -67,7 +58,7 @@ $ popd
 - For Linux, execute the following script:
 ```bash
 bash:
-$ ./generate_configs.sh
+$ ./generate_configs.sh --debug --dockerfile Dockerfile.iso.generate_configs 
 ```
 
 - Follow the build process in the terminal (manual interaction required)
@@ -85,7 +76,7 @@ bash:
 -----------------------------------
 Configurations Generated:
 -----------------------------------
--rw-r--r-- 1 xilinx xilinx 1554 Jul 16 16:32 _generated/configs/keyboard_settings.conf
+-rw-r--r-- 1 xilinx xilinx 1554 Nov 17 16:31 _generated/configs/keyboard_settings.conf
 -----------------------------------
 
 ```
@@ -106,7 +97,9 @@ $ cp _generated/configs/* configs/
 ### Execute the image build script
 ```bash
 bash:
-$ ./build_image.sh 
+$ ./build_image.sh --debug --dockerfile Dockerfile.iso
+Set: BUILD_DEBUG=1
+Set: DOCKER_FILE_NAME=Dockerfile.iso
 -----------------------------------
 Checking for dependencies...
 -----------------------------------
@@ -118,25 +111,24 @@ Minicom Configuration File: [Good] configs/.minirc.dfl
 
 ...
 
-Removing intermediate container f0caed766af2
- ---> 5d774cff76ff
-Successfully built 5d774cff76ff
-Successfully tagged xilinx-ubuntu-18.04.2-user:v2020.1
+Removing intermediate container b88912adbd93
+ ---> 0eccb7354ef4
+Successfully built 0eccb7354ef4
+Successfully tagged xilinx-ubuntu-iso-18.04.2-user:v2020.1
 + '[' 1 -ne 0 ']'
 + set +x
 -----------------------------------
 Shutting down Python HTTP Server...
 -----------------------------------
-Killing process ID 14815
+Killing process ID 315902
 -----------------------------------
-+ kill 14815
++ kill 315902
 + '[' 1 -ne 0 ']'
 + set +x
-./build_image.sh: line 171: 14815 Terminated              python3 -m http.server
 -----------------------------------
 Image Build Complete...
-STARTED :Mon Jul 6 15:58:02 EDT 2020
-ENDED   :Mon Jul 6 16:03:28 EDT 2020
+STARTED :Tue 17 Nov 2020 09:57:28 PM EST
+ENDED   :Tue 17 Nov 2020 10:26:46 PM EST
 -----------------------------------
 ```
 
@@ -149,9 +141,11 @@ ENDED   :Mon Jul 6 16:03:28 EDT 2020
 ```bash
 bash:
 $ docker image ls
-REPOSITORY                       TAG                  IMAGE ID            CREATED             SIZE
-xilinx-ubuntu-18.04.2-user       v2020.1              5d774cff76ff        16 hours ago        2.01GB
-ubuntu                           18.04.2              76df73440f9c        12 days ago         88.3MB
+REPOSITORY                       TAG                 IMAGE ID            CREATED             SIZE
+xilinx-ubuntu-iso-18.04.2-user   v2020.1             0eccb7354ef4        11 hours ago        2.26GB
+xilinx-ubuntu-18.04.2-user       v2020.1             5d774cff76ff        16 hours ago        2.01GB
+ubuntu-iso                       18.04.2             05025006be9e        18 hours ago        243MB
+ubuntu                           18.04.2             76df73440f9c        12 days ago         88.3MB
 ```
 
 ### Create a working container
@@ -159,7 +153,7 @@ ubuntu                           18.04.2              76df73440f9c        12 day
 #### Run the helper script to create a working container
 
 ```bash
-$ ../../../../tools/bash/run_image_x11_macaddr.sh xilinx-ubuntu-18.04.2-user:v2020.1 xilinx_user_v2020.1 02:de:ad:be:ef:91
+$ ../../../../tools/bash/run_image_x11_macaddr.sh xilinx-ubuntu-iso-18.04.2-user:v2020.1 xilinx_user_v2020.1 02:de:ad:be:ef:91
 DOCKER_IMAGE_NAME: xilinx-ubuntu-18.04.2-user:v2020.1
 DOCKER_CONTAINER_NAME: xilinx_user_v2020.1
 DOCKER_CONTAINER_MACADDR: 02:de:ad:be:ef:91
@@ -182,7 +176,7 @@ $ docker run \
 	-e DISPLAY=$DISPLAY \
 	--mac-address "02:de:ad:be:ef:91" \
 	--user xilinx \
-	-itd xilinx-ubuntu-18.04.2-user:v2020.1 \
+	-itd xilinx-ubuntu-iso-18.04.2-user:v2020.1 \
 	/bin/bash
 4924fbeebe6f016b6e918d44a968fe5b5e89e42334a9fe2dc965a784d6d0c53f
 ```
@@ -192,7 +186,7 @@ $ docker run \
 ```bash
 $ docker ps -a
 CONTAINER ID        IMAGE                                COMMAND             CREATED             STATUS              PORTS               NAMES
-3e285137eeb0        xilinx-ubuntu-18.04.2-user:v2020.1   "/bin/bash"         16 seconds ago      Up 14 seconds                           xilinx_user_v2020.1
+3e285137eeb0        xilinx-ubuntu-iso-18.04.2-user:v2020.1   "/bin/bash"         16 seconds ago      Up 14 seconds                           xilinx_user_v2020.1
 ```
 
 
@@ -341,5 +335,5 @@ xilinx@xilinx_user_v2020-1:/$ read escape sequence
 bash:
 $ docker ps
 CONTAINER ID        IMAGE                                COMMAND             CREATED             STATUS              PORTS               NAMES
-3e285137eeb0        xilinx-ubuntu-18.04.2-user:v2020.1   "/bin/bash"         2 minutes ago       Up 2 minutes                            xilinx_user_v2020.1
+3e285137eeb0        xilinx-ubuntu-iso-18.04.2-user:v2020.1   "/bin/bash"         2 minutes ago       Up 2 minutes                            xilinx_user_v2020.1
 ```
