@@ -31,6 +31,7 @@
 ```
 
 # Quickstart
+
 ## Generate a base Ubuntu 18.04.2 image (one time)
 
 ```bash
@@ -57,6 +58,14 @@ $ ./generate_configs.sh --iso
 
 ```bash
 bash:
+...
+-----------------------------------
+Configuration Generation Complete
+-----------------------------------
+STARTED :Fri 20 Nov 2020 12:22:11 PM EST
+ENDED   :Fri 20 Nov 2020 12:29:00 PM EST
+-----------------------------------
+...
 -----------------------------------
 Configurations Generated:
 -----------------------------------
@@ -81,13 +90,13 @@ $ cp _generated/configs/* configs/
 ```bash
 bash:
 $ ./build_image.sh --iso
-```
-
-### List images in the local docker repository
-```bash
-bash:
-$ docker image ls
-REPOSITORY                   TAG                 IMAGE ID            CREATED             SIZE
-xilinx-ubuntu-18.04.2-user   v2020.1             e95d2bfeeae2        15 hours ago        2.26GB
-ubuntu-iso                   18.04.2             6165bfac6800        16 hours ago        243MB
+	...
+	-----------------------------------
+	REPOSITORY                   TAG                 IMAGE ID            CREATED             SIZE
+	xilinx-ubuntu-18.04.2-user   v2020.1             ef89bd6212a9        5 seconds ago       2.26GB
+	-----------------------------------
+	Image Build Complete...
+	STARTED :Fri 20 Nov 2020 12:30:11 PM EST
+	ENDED   :Fri 20 Nov 2020 01:01:33 PM EST
+	-----------------------------------
 ```

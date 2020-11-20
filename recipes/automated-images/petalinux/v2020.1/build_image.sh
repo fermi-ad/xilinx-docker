@@ -4,17 +4,70 @@
 #	- Uses: Dockerfile
 #
 # Maintainer:
-#	- Jason Moss (jason.moss@avnet.com)
-#	- Xilinx Applications Engineer, Embedded Software
+#	- Jason Moss
 #
 # Created: 
-#	- 7/13/2020
+#	- 11/18/2020
 #
-# Source configuration information for a v2020.1 Petalinux Image build
+# Source base image configuration
+source ../../../base-images/ubuntu-18.04.2/include/configuration.sh
+# Source user image configuration
+source ../../../user-images/v2020.1/ubuntu-18.04.2-user/include/configuration.sh
+# Source tool image configuration
 source include/configuration.sh
 
 # Set the Docker File for Petalinux
 DOCKER_FILE_NAME=Dockerfile
+
+# define options
+function show_opts {
+	echo "Syntax:"
+	echo "-------"
+	echo "${0} --<option>"
+	echo ""
+	echo "Valid Options:"
+	echo "--------------"
+	echo "  --debug"
+	echo ""
+	echo "		Enable debug output"
+	echo ""
+	echo " --help"
+	echo ""
+	echo "      display this syntax help"
+	echo ""
+}
+
+# Init command ling argument flags
+FLAG_BUILD_DEBUG=0 # Enable extra debug messages
+
+# Process Command line arguments
+PARAMS=""
+
+while (("$#")); do
+	case "$1" in
+		--debug) # Enable debug output
+			FLAG_BUILD_DEBUG=1
+			echo "Set: FLAG_BUILD_DEBUG=$FLAG_BUILD_DEBUG"
+			shift
+			;;
+		--help) # display syntax
+			show_opts
+			exit 0
+			;;
+		-*|--*=) # unsupported flags
+			echo "ERROR: Unsupported option $1" >&2
+			show_opts
+			exit 1
+			;;
+		*) # all other parameters pass through
+			PARAMS="$PARAMS $1"
+			shift
+			;;
+	esac
+done
+
+# reset positional arguments
+eval set -- "$PARAMS"
 
 # Grab Start Time
 DOCKER_BUILD_START_TIME=`date`
@@ -73,11 +126,11 @@ echo "-----------------------------------"
 echo "Docker Build Context (Working)..."
 echo "-----------------------------------"
 
-if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi
+if [ $FLAG_BUILD_DEBUG -ne 0 ]; then set -x; fi
 
 cd $DOCKER_BUILD_WORKING_DIR
 
-if [ $BUILD_DEBUG -ne 0 ]; then set +x; fi
+if [ $FLAG_BUILD_DEBUG -ne 0 ]; then set +x; fi
 
 echo "DOCKER_INSTALL_DIR="$DOCKER_INSTALL_DIR
 echo "DOCKER_BUILD_WORKING_DIR="$DOCKER_BUILD_WORKING_DIR
@@ -90,13 +143,13 @@ echo "-----------------------------------"
 echo "Launching Python HTTP Server..."
 echo "-----------------------------------"
 
-if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi
+if [ $FLAG_BUILD_DEBUG -ne 0 ]; then set -x; fi
 
 # Launch python3 http server ip address and capture process id
 python3 -m http.server & SERVER_PID=$!
 SERVER_IP=`ifconfig docker0 | grep 'inet\s' | awk '{print $2}'`
 
-if [ $BUILD_DEBUG -ne 0 ]; then set +x; fi
+if [ $FLAG_BUILD_DEBUG -ne 0 ]; then set +x; fi
 
 # Set the Install Server URL
 INSTALL_SERVER_URL="${SERVER_IP}:8000"
@@ -126,10 +179,10 @@ echo " 	--build-arg INSTALL_SERVER_URL=\"${SERVER_IP}:8000\""
 echo " 	--build-arg XLNX_PETALINUX_INSTALLER=\"${XLNX_PETALINUX_INSTALLER}\""
 echo "  --build-arg XLNX_PETALINUX_AUTOINSTALL_SCRIPT=\"${XLNX_PETALINUX_AUTOINSTALL_SCRIPT}\""
 echo "  --build-arg XLNX_PETALINUX_INSTALL_DIR=\"${XLNX_PETALINUX_INSTALL_DIR}\""
-echo "  --build-arg BUILD_DEBUG=\"${BUILD_DEBUG}\""
+echo "  --build-arg BUILD_DEBUG=\"${FLAG_BUILD_DEBUG}\""
 echo "-----------------------------------"
 
-if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi
+if [ $FLAG_BUILD_DEBUG -ne 0 ]; then set -x; fi
 
 docker build $DOCKER_CACHE -f ./$DOCKER_FILE_NAME \
 	--target $DOCKER_FILE_STAGE \
@@ -143,10 +196,10 @@ docker build $DOCKER_CACHE -f ./$DOCKER_FILE_NAME \
  	--build-arg XLNX_PETALINUX_INSTALLER="${XLNX_PETALINUX_INSTALLER}" \
  	--build-arg XLNX_PETALINUX_AUTOINSTALL_SCRIPT="${XLNX_PETALINUX_AUTOINSTALL_SCRIPT}" \
  	--build-arg XLNX_PETALINUX_INSTALL_DIR="${XLNX_PETALINUX_INSTALL_DIR}" \
- 	--build-arg BUILD_DEBUG="${BUILD_DEBUG}" \
+ 	--build-arg BUILD_DEBUG="${FLAG_BUILD_DEBUG}" \
   	$DOCKER_INSTALL_DIR
 
-if [ $BUILD_DEBUG -ne 0 ]; then set +x; fi
+if [ $FLAG_BUILD_DEBUG -ne 0 ]; then set +x; fi
 
 # Shut down the python3 http server
 echo "-----------------------------------"
@@ -155,15 +208,18 @@ echo "-----------------------------------"
 echo "Killing process ID "$SERVER_PID
 echo "-----------------------------------"
 
-if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi
+if [ $FLAG_BUILD_DEBUG -ne 0 ]; then set -x; fi
 
 kill $SERVER_PID
 
-if [ $BUILD_DEBUG -ne 0 ]; then set +x; fi
+if [ $FLAG_BUILD_DEBUG -ne 0 ]; then set +x; fi
 
 # Grab End Time
 DOCKER_BUILD_END_TIME=`date`
 # Docker Image Build Complete
+echo "-----------------------------------"
+# Show docker images
+docker image ls -a $DOCKER_IMAGE_NAME:$DOCKER_IMAGE_VERSION
 echo "-----------------------------------"
 echo "Image Build Complete..."
 echo "STARTED :"$DOCKER_BUILD_START_TIME

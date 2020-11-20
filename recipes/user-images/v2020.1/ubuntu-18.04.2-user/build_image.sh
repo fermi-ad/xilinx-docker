@@ -262,6 +262,9 @@ if [ $FLAG_BUILD_DEBUG -ne 0 ]; then set +x; fi
 DOCKER_BUILD_END_TIME=`date`
 # Docker Image Build Complete
 echo "-----------------------------------"
+# Show docker images
+docker image ls -a $DOCKER_IMAGE_NAME:$DOCKER_IMAGE_VERSION
+echo "-----------------------------------"
 echo "Image Build Complete..."
 echo "STARTED :"$DOCKER_BUILD_START_TIME
 echo "ENDED   :"$DOCKER_BUILD_END_TIME

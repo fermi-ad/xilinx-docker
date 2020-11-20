@@ -1,5 +1,12 @@
 [//]: # (Readme.md - Petalinux v2020.1 Build Environment)
 
+# References
+
+## Additional Documentation
+
+- [Backup and Sharing of Docker Containers and Images](../../../documentation/backup-and-sharing-docker-images/README.md)
+- [Creating Docker Containers from Images](../../../documentation/creating-containers-from-docker-images/README.md)
+
 # Organization
 ```
 -> .dockerignore
@@ -47,137 +54,45 @@
 	- Modify build options in the file __*./include/configuration.sh*__
 
 ## Generate a base Ubuntu 18.04.2 image (one time)
-- Execute the image generation script __*../../../base-images/ubuntu_18.04.2/build_image.sh*__
-
 ```bash
-$ pushd ../../../base-images/ubuntu-18.04.2
-$ ./build_image.sh 
-Base Release Image [Missing] ubuntu-base-18.04.2-base-amd64.tar.gz
-Attempting to download http://cdimage.ubuntu.com/ubuntu-base/releases/18.04.2/release/ubuntu-base-18.04.2-base-amd64.tar.gz
-+ wget http://cdimage.ubuntu.com/ubuntu-base/releases/18.04.2/release/ubuntu-base-18.04.2-base-amd64.tar.gz -O depends/ubuntu-base-18.04.2-base-amd64.tar.gz
---2019-12-18 10:20:17--  http://cdimage.ubuntu.com/ubuntu-base/releases/18.04.2/release/ubuntu-base-18.04.2-base-amd64.tar.gz
-Resolving cdimage.ubuntu.com (cdimage.ubuntu.com)... 2001:67c:1360:8001::28, 2001:67c:1360:8001::27, 2001:67c:1560:8001::1d, ...
-Connecting to cdimage.ubuntu.com (cdimage.ubuntu.com)|2001:67c:1360:8001::28|:80... connected.
-HTTP request sent, awaiting response... 200 OK
-Length: 31858560 (30M) [application/x-gzip]
-Saving to: ‘depends/ubuntu-base-18.04.2-base-amd64.tar.gz’
-
-depends/ubuntu-base-18.04.2-base-amd64.tar.gz            100%[=================================================================================================================================>]  30.38M  18.9MB/s    in 1.6s    
-
-2019-12-18 10:20:18 (18.9 MB/s) - ‘depends/ubuntu-base-18.04.2-base-amd64.tar.gz’ saved [31858560/31858560]
-
-+ '[' 1 -ne 0 ']'
-+ set +x
-Base Relese Image Download [Good] ubuntu-base-18.04.2-base-amd64.tar.gz
-+ docker import depends/ubuntu-base-18.04.2-base-amd64.tar.gz ubuntu:18.04.2
-sha256:1c767f5d46fef0b75f5a1ab0f971b79f5fe3343f90c2861842713c6be7cf2a46
-+ docker image ls -a
-REPOSITORY                       TAG                  IMAGE ID            CREATED                  SIZE
-ubuntu                           18.04.2              1c767f5d46fe        Less than a second ago   88.3MB
-+ docker system df
-TYPE                TOTAL               ACTIVE              SIZE                RECLAIMABLE
-Images              1                   1                   88.3MB              0B (0%)
-Containers          0                   0                   0B            	 	0B (0%)
-Local Volumes       0                   0                   0B                  0B
-Build Cache         0                   0                   0B                  0B
-+ '[' 1 -ne 0 ']'
-+ set +x
-
+$ pushd ../../base-images/ubuntu-18.04.2/
+$ sudo ./build_image.sh --iso
 $ popd
 ```
 
-## Generate an Ubuntu 18.04.2 user image (one time)
-- Execute the image generation script __*../../../user-images/v2020.1/ubuntu-18.04.2-user/build_image.sh*__
-```bash
-$ pushd ../../../user-images/v2020.1/ubuntu-18.04.2-user/
-$ ./build_image.sh 
------------------------------------
-Checking for configurations...
------------------------------------
-Base docker image [found] (ubuntu:18.04.2)
-Keyboard Configuration: [Good] configs/keyboard_settings.conf
-XTerm Configuration File: [Good] configs/XTerm
-Minicom Configuration File: [Good] configs/.minirc.dfl
------------------------------------
-Docker Build Context (Working)...
------------------------------------
-...
-Removing intermediate container f0caed766af2
- ---> 5d774cff76ff
-Successfully built 5d774cff76ff
-Successfully tagged xilinx-ubuntu-18.04.2-user:v2020.1
-+ '[' 1 -ne 0 ']'
-+ set +x
------------------------------------
-Shutting down Python HTTP Server...
------------------------------------
-Killing process ID 14815
------------------------------------
-+ kill 14815
-+ '[' 1 -ne 0 ']'
-+ set +x
-./build_image.sh: line 171: 14815 Terminated              python3 -m http.server
------------------------------------
-Image Build Complete...
-STARTED :Mon Jul 6 15:58:02 EDT 2020
-ENDED   :Mon Jul 6 16:03:28 EDT 2020
------------------------------------
+## Generate an Ubuntu 18.04.2 user image 
+- This contains all the dependencies for the v2020.1 Xilinx Tools
 
+```bash
+bash:
+$ pushd ../../user-images/v2020.1/ubuntu-18.04.2-user
+$ ./build_image.sh --iso
 $ popd
 ```
 
 ## Build a v2020.1 Petalinux Image (one time)
 
 ### Execute the image build script
-- Note: The build error is expected Build times reflected below were on an HP ZBook 15 G3, on battery power, connected to a WiFi 4G Hotspot
 ```bash
 bash:
 $ ./build_image.sh
-...
-Removing intermediate container 533c7f48acb1
- ---> 2fd9179f459d
-Successfully built 2fd9179f459d
-Successfully tagged xilinx-petalinux:v2020.1
-...
------------------------------------
-Image Build Complete...
-STARTED :Thu Jul 16 14:28:16 EDT 2020
-ENDED   :Thu Jul 16 14:32:43 EDT 2020
------------------------------------
+	...
+	-----------------------------------
+	REPOSITORY                   TAG                 IMAGE ID            CREATED             SIZE
+	xilinx-petalinux             v2020.1             ddb1f5167959        5 seconds ago       10.9GB
+	-----------------------------------
+	Image Build Complete...
+	STARTED :Fri 20 Nov 2020 01:07:52 PM EST
+	ENDED   :Fri 20 Nov 2020 01:14:34 PM EST
+	-----------------------------------
 ```
 
-## Create a working container (running in daemon mode) based on the vitis image
-- The container is started in __interactive daemon__ mode
-- You may also specify the MAC address of the container (making it easier to deal with tool licenses that are tied to a machine's MAC address)
-- Make sure you mount at least one host folder so the docker container can access the Petalinux installer
-- Example: using `-v /srv/software/xilinx:/srv/software`
-	- gives access to host files under `/srv/software/xilinx` in the Docker container
-	- `/srv/software` is the mounted location inside of the Docker container
-	- `/srv/software/xilinx/` is the location of the Xilinx installers, bsps, etc...
-	- `/srv/software/licenses/` is the location of the Xilinx license files
+# Create a container and verify tool installation
 
-### List images in the local docker repository
-```bash
-bash:
-$ docker image ls
-REPOSITORY                       TAG                  IMAGE ID            CREATED             SIZE
-xilinx-petalinux                 v2020.1              1dae8173cb40        3 minutes ago       10.7GB
-xilinx-ubuntu-18.04.2-user       v2020.1              371b01c68a88        2 days ago          2.01GB
-ubuntu                           18.04.2              c31ac5f5c1b0        4 days ago          88.3MB
-```
+## More information about creating containers can be found here
+- [Creating Docker Containers from Images](../../../documentation/creating-containers-from-docker-images/README.md)
 
-- For images with the MALI Binaries pre-included, the image is slightly larger
-```bash
-bash:
-$ docker image ls
-REPOSITORY                       TAG                  IMAGE ID            CREATED             SIZE
-xilinx-petalinux-with-mali       v2020.1              1dae8173cb40        3 minutes ago       10.9GB
-xilinx-ubuntu-18.04.2-user       v2020.1              371b01c68a88        2 days ago          2.01GB
-ubuntu        
-```
-
-#### Create a working container manually
-
+### Create a working container manually
 ```bash
 $ docker run \
 	--name xilinx_petalinux_v2020.1 \
@@ -196,22 +111,23 @@ $ docker run \
 ```
 
 #### Verify the container was created and the MAC Address was set properly
-
 ```bash
 $ docker ps -a
-CONTAINER ID        IMAGE                      COMMAND             CREATED             STATUS              PORTS               NAMES
-375953f37e74        xilinx-petalinux:v2020.1   "/bin/bash"         12 seconds ago      Up 11 seconds                           xilinx_petalinux_v2020.1
+
 ```
 
 ## Connect to the running container
 
 ### Launch an xterm session in the running container from the host command line
 - Launch an X-windows terminal shell for access to the container
+
 ```bash
 bash:
 $ docker exec -it xilinx_petalinux_v2020.1 bash -c "xterm" &
 ```
+
 - This launches an X-windows terminal shell and sources the Vitis and Vivado settings script
+
 ```bash
 xterm:
 PetaLinux environment set to '/opt/Xilinx/petalinux/v2020.1'
@@ -225,6 +141,7 @@ xilinx@xilinx_petalinux_v2020-1:/opt/Xilinx/petalinux/v2020.1$
 
 ## Execute Petalinux Tools
 - Verify petalinux tools can execute
+
 ```bash
 xterm:
 xilinx@xilinx_petalinux_v2020-1:/opt/Xilinx/petalinux/v2020.1$ petalinux-create --help

@@ -218,6 +218,9 @@ fi
 # Grab End Time
 XILINX_BUILD_END_TIME=`date`
 echo "-----------------------------------"
+# Show docker images
+docker image ls -a $BASE_OS_NAME:$BASE_OS_VERSION
+echo "-----------------------------------"
 echo "Task Complete..."
 echo "STARTED :"$XILINX_BUILD_START_TIME
 echo "ENDED   :"$XILINX_BUILD_END_TIME

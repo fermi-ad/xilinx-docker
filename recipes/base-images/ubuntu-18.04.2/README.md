@@ -27,6 +27,15 @@ $ ./fetch_depends.sh --iso --replace-existing
 ```bash
 bash:
 $ sudo ./build_image.sh --iso
+	...
+	-----------------------------------
+	REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+	ubuntu-iso          18.04.2             e349972b7588        1 second ago        243MB
+	-----------------------------------
+	Task Complete...
+	STARTED :Fri 20 Nov 2020 12:09:34 PM EST
+	ENDED   :Fri 20 Nov 2020 12:09:43 PM EST
+	-----------------------------------
 ```
 
 ## Example Workflow using Ubuntu base tarball image
@@ -43,13 +52,13 @@ $ ./fetch_depends.sh --base --replace-existing
 ```bash
 bash:
 $ sudo ./build_image.sh --base
-```
-
-## List images in the local docker repository
-```bash
-bash:
-$ docker image ls
-REPOSITORY                   TAG                 IMAGE ID            CREATED             SIZE
-ubuntu                       18.04.2             0a83f1240096        16 hours ago        88.3MB
-ubuntu-iso                   18.04.2             6165bfac6800        16 hours ago        243MB
+	...
+	-----------------------------------
+	REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+	ubuntu              18.04.2             92555c3294c4        1 second ago        88.3MB
+	-----------------------------------
+	Task Complete...
+	STARTED :Fri 20 Nov 2020 12:08:33 PM EST
+	ENDED   :Fri 20 Nov 2020 12:08:36 PM EST
+	-----------------------------------
 ```

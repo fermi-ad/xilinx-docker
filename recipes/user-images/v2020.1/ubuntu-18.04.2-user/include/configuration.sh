@@ -32,7 +32,7 @@ GIT_USER_EMAIL="Xilinx.User@dummyaddress.com"
 XLNX_RELEASE_VERSION=v2020.1
 
 # Xilinx tool information
-XLNX_TOOL_INFO=ubuntu-$BASE_OS_VERSION-user
+XLNX_TOOL_INFO=$BASE_OS_NAME-$BASE_OS_VERSION-user
 
 # Docker File Recipe Name
 # Petalinux - possible stage assignments

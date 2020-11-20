@@ -4,6 +4,19 @@ Do you need traceable, repeatable build environments for your Xilinx Development
 
 This repository provides a collection of recipes and tools that enable Xilinx FPGA-based embedded development workflows in docker-ce containers.  Use the container recipes to build docker containers from scratch (not using existing base containers) that run Xilinx FPGA Development Tools.
 
+## About the layered image approach
+
+Docker images are layered (generically) as follows:
+
+- ```[Base OS Image]```
+	- ```--> [User OS Image]```
+		- ```--> [Xilinx Tool Image]```
+
+
+The ```[Base OS Image]``` contains a basic root filesystem that supports package management and command line interaction.
+The ```[User OS Image]``` contains all dependencies and configurations to install and use of Xilinx tools in the container.
+The ```[Xilinx Tool Image]``` contains the complete installation of the Xilinx development tool.
+
 ## Host OS Setup
 
 This repository requires installation and configuration of Docker-CE (and other support tools such as python, xterm, ...) on your host machine.
@@ -54,7 +67,7 @@ Image sizes in this table reflect images created from the Base ISO Image.
 
 | Xilinx Release | User Image     | Petalinux     | Vivado        | Vitis          | SDK             |
 | -------------- | -------------- | ---------     | ------------  | ------------   | --------------- |
-| v2020.1        | [2.01GB][4u]   | [10.7GB][4mp] | [53.2GB][4mv] | [72.2GB][4mvi] | N/A             |
+| v2020.1        | [2.26GB][4u]   | [10.7GB][4mp] | [53.2GB][4mv] | [72.2GB][4mvi] | N/A             |
 | v2019.2        | [2.02GB][3u]   | [18.4GB][3mp] | [40.9GB][3mv] | [55.4GB][3mvi] | N/A             |
 | v2019.1        | [2.02GB][2u]   | [16.5GB][2mp] | [35.2GB][2mv] | N/A            | [9.99GB][2msdk] |
 | v2018.3        | [1.61GB][1u]   | [15.9GB][1mp] | [58.3GB][1mv] | N/A            | [12.2GB][1msdk] |
@@ -66,7 +79,7 @@ These user images include a tool-compatible Ubuntu OS installation with tool spe
 
 | Xilinx Release | Ubuntu Release | Petalinux     | Vivado        | Vitis          | SDK             |
 | -------------- | -------------- | ---------     | ------------  | ------------   | --------------- |
-| v2020.1        | [18.04.2][4u]  | [10.7GB][4ap] | [52.3GB][4av] | [71.3GB][4avi] | N/A             |
+| v2020.1        | [18.04.2][4u]  | [10.9GB][4ap] | [52.3GB][4av] | [71.3GB][4avi] | N/A             |
 | v2019.2        | [18.04.2][3u]  | [18.4GB][3ap] | [40.9GB][3av] | [55.2GB][3avi] | N/A             |
 | v2019.1        | [18.04.1][2u]  | [16.5GB][2ap] | [35.2GB][2av] | N/A            | [9.96GB][2asdk] |
 | v2018.3        | [16.04.4][1u]  | [15.9GB][1ap] | [43.4GB][1av] | N/A            | [10.6GB][1asdk] |

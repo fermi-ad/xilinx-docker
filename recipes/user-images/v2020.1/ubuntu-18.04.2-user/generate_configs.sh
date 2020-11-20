@@ -58,8 +58,8 @@ PARAMS=""
 while (("$#")); do
 	case "$1" in
 		--debug) # Enable debug output
-			FLAG_FLAG_BUILD_DEBUG=1
-			echo "Set: FLAG_FLAG_BUILD_DEBUG=$FLAG_FLAG_BUILD_DEBUG"
+			FLAG_BUILD_DEBUG=1
+			echo "Set: FLAG_BUILD_DEBUG=$FLAG_BUILD_DEBUG"
 			shift
 			;;
 		--base) # Download the base release image
@@ -93,11 +93,11 @@ eval set -- "$PARAMS"
 
 # Setup the docker image information
 if [ $FLAG_ISO_IMAGE -eq 1 ]; then
-	if [ $FLAG_FLAG_BUILD_DEBUG -ne 0 ]; then echo "Setting iso image parameters."; fi
+	if [ $FLAG_BUILD_DEBUG -ne 0 ]; then echo "Setting iso image parameters."; fi
 	DOCKER_FILE_NAME=Dockerfile.iso.generate_configs
 	DOCKER_BASE_IMAGE=$BASE_OS_NAME-iso:$BASE_OS_VERSION
 elif [ $FLAG_BASE_IMAGE -eq 1 ]; then
-	if [ $FLAG_FLAG_BUILD_DEBUG -ne 0 ]; then echo "Setting base image parameters."; fi
+	if [ $FLAG_BUILD_DEBUG -ne 0 ]; then echo "Setting base image parameters."; fi
 	DOCKER_FILE_NAME=Dockerfile.base.generate_configs
 	DOCKER_BASE_IMAGE=$BASE_OS_NAME:$BASE_OS_VERSION
 else
@@ -106,7 +106,7 @@ else
 	exit $EX_OSFILE
 fi
 
-if [ $FLAG_FLAG_BUILD_DEBUG -ne 0 ]; then 
+if [ $FLAG_BUILD_DEBUG -ne 0 ]; then 
 	echo " Docker Image Configuration"
 	echo " --------------------"
 	echo "   Dockerfile       : [$DOCKER_FILE_NAME]"
@@ -187,7 +187,7 @@ echo " 	--build-arg HOME_DIR=\"${HOME_DIR}\""
 echo " 	--build-arg XLNX_INSTALL_LOCATION=\"${XLNX_INSTALL_LOCATION}\""
 echo " 	--build-arg INSTALL_SERVER_URL=\"${SERVER_IP}:8000\""
 echo " 	--build-arg KEYBOARD_CONFIG_FILE=\"${KEYBOARD_CONFIG_FILE}\""
-echo "  --build-arg FLAG_BUILD_DEBUG=\"${FLAG_BUILD_DEBUG}\""
+echo "  --build-arg BUILD_DEBUG=\"${FLAG_BUILD_DEBUG}\""
 echo "-----------------------------------"
 
 # Build a base OS image to work in
@@ -201,7 +201,7 @@ docker build $DOCKER_CACHE -f ./$DOCKER_FILE_NAME \
  	--build-arg XLNX_INSTALL_LOCATION="${XLNX_INSTALL_LOCATION}" \
  	--build-arg INSTALL_SERVER_URL="${INSTALL_SERVER_URL}" \
  	--build-arg KEYBOARD_CONFIG_FILE="${KEYBOARD_CONFIG_FILE}" \
- 	--build-arg FLAG_BUILD_DEBUG="${FLAG_BUILD_DEBUG}" \
+ 	--build-arg BUILD_DEBUG="${FLAG_BUILD_DEBUG}" \
  	$DOCKER_INSTALL_DIR
 
 # Set Xhost permissions
