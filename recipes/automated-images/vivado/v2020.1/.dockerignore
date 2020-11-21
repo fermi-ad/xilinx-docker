@@ -3,5 +3,7 @@
 
 # Add files required back in context
 !Dockerfile
+!Dockerfile.iso.generate_configs
+!Dockerfile.base.generate_configs
 !configs
 !depends
