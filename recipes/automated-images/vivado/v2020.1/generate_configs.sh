@@ -74,8 +74,8 @@ PARAMS=""
 while (("$#")); do
 	case "$1" in
 		--debug) # Enable debug output
-			FLAG_FLAG_BUILD_DEBUG=1
-			echo "Set: FLAG_FLAG_BUILD_DEBUG=$FLAG_FLAG_BUILD_DEBUG"
+			FLAG_BUILD_DEBUG=1
+			echo "Set: FLAG_BUILD_DEBUG=$FLAG_BUILD_DEBUG"
 			shift
 			;;
 		--base) # Use the base release image
@@ -109,11 +109,11 @@ eval set -- "$PARAMS"
 
 # Setup the docker image information
 if [ $FLAG_ISO_IMAGE -eq 1 ]; then
-	if [ $FLAG_FLAG_BUILD_DEBUG -ne 0 ]; then echo "Setting iso image parameters."; fi
+	if [ $FLAG_BUILD_DEBUG -ne 0 ]; then echo "Setting iso image parameters."; fi
 	DOCKER_FILE_NAME=Dockerfile.iso.generate_configs
 	DOCKER_BASE_IMAGE=$BASE_OS_NAME-iso:$BASE_OS_VERSION
 elif [ $FLAG_BASE_IMAGE -eq 1 ]; then
-	if [ $FLAG_FLAG_BUILD_DEBUG -ne 0 ]; then echo "Setting base image parameters."; fi
+	if [ $FLAG_BUILD_DEBUG -ne 0 ]; then echo "Setting base image parameters."; fi
 	DOCKER_FILE_NAME=Dockerfile.base.generate_configs
 	DOCKER_BASE_IMAGE=$BASE_OS_NAME:$BASE_OS_VERSION
 else
@@ -122,7 +122,7 @@ else
 	exit $EX_OSFILE
 fi
 
-if [ $FLAG_FLAG_BUILD_DEBUG -ne 0 ]; then 
+if [ $FLAG_BUILD_DEBUG -ne 0 ]; then 
 	echo " Docker Image Configuration"
 	echo " --------------------"
 	echo "   Dockerfile       : [$DOCKER_FILE_NAME]"
