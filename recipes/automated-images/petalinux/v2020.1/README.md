@@ -113,7 +113,6 @@ $ docker run \
 #### Verify the container was created and the MAC Address was set properly
 ```bash
 $ docker ps -a
-
 ```
 
 ## Connect to the running container
