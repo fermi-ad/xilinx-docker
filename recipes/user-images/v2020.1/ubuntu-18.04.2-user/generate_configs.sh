@@ -34,11 +34,11 @@ function show_opts {
 	echo ""
 	echo "  --base"
 	echo ""
-	echo "      Generate docker image using Dockerfile.base"
+	echo "      Generate configurations using Dockerfile.base.generate_configs"
 	echo ""
 	echo "  --iso"
 	echo ""
-	echo "      Generate docker image using Dockerfile.iso"
+	echo "      Generate configurations using Dockerfile.iso.generate_configs"
 	echo "      This will override the use of the '--base' flag"
 	echo ""
 	echo " --help"
@@ -62,12 +62,12 @@ while (("$#")); do
 			echo "Set: FLAG_BUILD_DEBUG=$FLAG_BUILD_DEBUG"
 			shift
 			;;
-		--base) # Download the base release image
+		--base) # Use the base release image
 			FLAG_BASE_IMAGE=1
 			echo "Set: FLAG_BASE_IMAGE=$FLAG_BASE_IMAGE"
 			shift
 			;;
-		--iso) # Download the iso release image
+		--iso) # Use the iso release image
 			FLAG_ISO_IMAGE=1
 			echo "Set: FLAG_ISO_IMAGE=$FLAG_ISO_IMAGE"
 			shift
