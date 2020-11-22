@@ -43,6 +43,15 @@
 			- https://www.xilinx.com/products/design-tools/embedded-software/petalinux-sdk/arm-mali-400-software-download.html
 - Place the installer binary (or a link to it) in the ./depends folder
 
+## Generate Petalinux Installer Links (one time)
+- Create links to the installer/dependencies in the dependency folder
+
+```bash
+bash:
+$ ln -s <path-to-offline-installer>/petalinux-v2020.1-final-installer.run depends/
+$ ln -s <path-to-offline-installer>/mali-400-userspace.tar depends/
+```
+
 ## Setting the Host IP Address
 - Currently the build scripts pull the correct host IP address from the system, so there is no need to set this manually.
 

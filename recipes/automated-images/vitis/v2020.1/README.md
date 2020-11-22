@@ -64,6 +64,15 @@ https://github.com/Xilinx/XRT/blob/master/src/runtime_src/tools/scripts/xrtdeps.
 - Vitis v2020.1 Release Notes:
 	- https://www.xilinx.com/html_docs/xilinx2020_1/vitis_doc/wlk1553469789555.html
 
+## Generate Vitis Installer Links (one time)
+- Create links to the installer/dependencies in the dependency folder
+
+```bash
+bash:
+$ ln -s <path-to-offline-installer>/Xilinx_Unified_2020.1_0602_1208.tar.gz depends/
+$ ln -s <path-to-offline-installer>/Xilinx_Unified_2020.1_0602_1208_Lin64.bin depends/
+```
+
 ## Download the Xilinx Runtime (XRT)
 - The Xilinx Runtime provides a software interface to Xilinx programmable logic devices.
 	- Pre-built XRT Ubuntu 18.04 Package for v2020.1
@@ -146,14 +155,6 @@ Configurations Generated:
 ```bash
 bash:
 $ cp _generated/configs/* configs/
-```
-
-## Generate Vitis Offline Installer Bundle (one time)
-- Create a link to the offline installer in the dependency folder
-
-```bash
-bash:
-$ ln -s <path-to-offline-installer>/Xilinx_Unified_2020.1_0602_1208.tar.gz depends/
 ```
 
 ## Build a v2020.1 Vitis Image (one time)
