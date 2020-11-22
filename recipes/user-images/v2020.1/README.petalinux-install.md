@@ -8,9 +8,10 @@
 ```bash
 bash:
 $ docker image ls
-REPOSITORY                       TAG                  IMAGE ID            CREATED             SIZE
-xilinx-ubuntu-18.04.2-user       v2020.1              5d774cff76ff        16 hours ago        2.01GB
-ubuntu                           18.04.2              76df73440f9c        12 days ago         88.3MB
+REPOSITORY                   TAG                 IMAGE ID            CREATED             SIZE
+xilinx-ubuntu-18.04.2-user   v2020.1             ef89bd6212a9        2 days ago          2.26GB
+ubuntu-iso                   18.04.2             e349972b7588        2 days ago          243MB
+ubuntu                       18.04.2             d1afd0299433        23 hours ago        88.3MB
 ```
 
 ### Create a working petalinux install container
