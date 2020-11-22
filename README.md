@@ -65,10 +65,16 @@ These user images include a tool-compatible Ubuntu OS installation and all (know
 
 Image sizes in this table reflect images created from the Base ISO Image.
 
+New ISO Based Images:
+
 | Xilinx Release | User Image     | Petalinux     | Vivado        | Vitis          | SDK             |
 | -------------- | -------------- | ---------     | ------------  | ------------   | --------------- |
 | v2020.1        | [2.26GB][4u]   | [10.9GB][4mp] | [52.2GB][4mv] | [71.5GB][4mvi] | N/A             |
 
+Old BASE Rootfs Based Images:
+
+| Xilinx Release | User Image     | Petalinux     | Vivado        | Vitis          | SDK             |
+| -------------- | -------------- | ---------     | ------------  | ------------   | --------------- |
 | v2019.2        | [2.02GB][3u]   | [18.4GB][3mp] | [40.9GB][3mv] | [55.4GB][3mvi] | N/A             |
 | v2019.1        | [2.02GB][2u]   | [16.5GB][2mp] | [35.2GB][2mv] | N/A            | [9.99GB][2msdk] |
 | v2018.3        | [1.61GB][1u]   | [15.9GB][1mp] | [58.3GB][1mv] | N/A            | [12.2GB][1msdk] |
@@ -89,6 +95,7 @@ These user images include a tool-compatible Ubuntu OS installation with tool spe
 #### Automated Image Build Times
 
 These build times are approximate, rounded to the nearest minute and reflect one particular build machine configuration.
+
 
 | Xilinx Release | User Image     | Petalinux     | Vivado        | Vitis        | SDK       |
 | -------------- | -------------- | ------------- | ------------- | ------------ | --------- |
@@ -147,11 +154,11 @@ These build times are approximate, rounded to the nearest minute and reflect one
 [1asdk]: ./recipes/automated-images/sdk/v2018.3/README.md
 [0asdk]: ./recipes/automated-images/sdk/v2018.2/README.md
 
-## Workflow overviews
+# Workflow overviews
 
 The recipes in this repository support two separate development environment creation workflows.
 
-1. Manual Xilinx Tool installation
+## Manual Xilinx Tool installation
 
 The goal of this workflow is to quickly setup and start using Xilinx tools in Docker containers.
 
@@ -170,7 +177,7 @@ For the latest v2020.1 Xilinx Tools:
 	- [Manual Vitis Installation](./recipes/user-images/v2020.1/README.vitis-install.md)
 	- [Manual Petalinux Installation](./recipes/user-images/v2020.1/README.petalinux-install.md)
 
-2. Automated Xilinx Tool installation
+## Automated Xilinx Tool installation
 
 The goal of this workflow is to automate creation of docker containers with Xilinx tools pre-installed.  This workflow requires the pre-generation of installation dependencies (configuration files) used by the automated image build.  The pre-generation of dependencies is a semi-automated, scripted process but does require user interaction during the process.
 
