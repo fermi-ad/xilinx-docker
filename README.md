@@ -4,6 +4,19 @@ Do you need traceable, repeatable build environments for your Xilinx Development
 
 This repository provides a collection of recipes and tools that enable Xilinx FPGA-based embedded development workflows in docker-ce containers.  Use the container recipes to build docker containers from scratch (not using existing base containers) that run Xilinx FPGA Development Tools.
 
+## About the layered image approach
+
+Docker images are layered (generically) as follows:
+
+- ```[Base OS Image]```
+	- ```--> [User OS Image]```
+		- ```--> [Xilinx Tool Image]```
+
+
+The ```[Base OS Image]``` contains a basic root filesystem that supports package management and command line interaction.
+The ```[User OS Image]``` contains all dependencies and configurations to install and use of Xilinx tools in the container.
+The ```[Xilinx Tool Image]``` contains the complete installation of the Xilinx development tool.
+
 ## Host OS Setup
 
 This repository requires installation and configuration of Docker-CE (and other support tools such as python, xterm, ...) on your host machine.
@@ -25,24 +38,37 @@ Windows 10 adaptation of recipes, tools and documentation can be found in the [.
 
 ## Docker Image Recipe Overview
 
+### About Ubuntu Image Point Releases and Base Image Tarball Availability
+
+Ubuntu provides Base Image tarballs for each point release during active standard support for an LTS release. See: [ubuntu-base/releases](http://cdimage.ubuntu.com/ubuntu-base/releases/).  
+
+Interim/older point releases for an LTS version are periodically removed from the Ubuntu image archive so there is no guaranteed availability of point release base images.  This makes the base image tarball a poor choice for creating and maintaining base docker images for long-term development environment maintenance, unless you keep your own archive of these base release images.
+
+Recipes have been added to this repository to offer the option of creating and using the release ISO installer for point releases as the base for docker image creation.  See: [old-releases.ubuntu.com/releases](http://old-releases.ubuntu.com/releases/)
+
+
 ### Ubuntu Images
 
 These are the Base Ubuntu OS Images used for tool installations.
+There are two sizes listed based on if the image is generated from a base tarball release or an iso installer image.
 
-| Ubuntu Release | Base Image   |
-| -------------- | ----------   |
-| 18.04.2        | [88.3MB][4b] |
-| 18.04.1        | [83.5MB][3b] |
-| 16.04.4		 | [112MB][1b] |
-| 16.04.3		 | [120MB][0b] |
+| Ubuntu Release | Base ISO Image | Base Image   | 
+| -------------- | -------------- | ------------ |
+| 18.04.2        | [234MB][4b]    | [88.3MB][4b] | 
+| 18.04.1        | [TBD][3b]      | [83.5MB][3b] |
+| 16.04.4		 | [TBD][1b]      | [112MB][1b]  |
+| 16.04.3		 | [TBD][0b]      | [120MB][0b]  |
 
 ### Xilinx User Images (Manual Tool Installation)
 
 These user images include a tool-compatible Ubuntu OS installation and all (known) base Xilinx tool dependencies for that release.  Xilinx tools are installed and configured manually by each user to create the final user image.
 
+Image sizes in this table reflect images created from the Base ISO Image.
+
 | Xilinx Release | User Image     | Petalinux     | Vivado        | Vitis          | SDK             |
 | -------------- | -------------- | ---------     | ------------  | ------------   | --------------- |
-| v2020.1        | [2.01GB][4u]   | [10.7GB][4mp] | [53.2GB][4mv] | [72.2GB][4mvi] | N/A             |
+| v2020.1        | [2.26GB][4u]   | [10.9GB][4mp] | [52.2GB][4mv] | [71.5GB][4mvi] | N/A             |
+
 | v2019.2        | [2.02GB][3u]   | [18.4GB][3mp] | [40.9GB][3mv] | [55.4GB][3mvi] | N/A             |
 | v2019.1        | [2.02GB][2u]   | [16.5GB][2mp] | [35.2GB][2mv] | N/A            | [9.99GB][2msdk] |
 | v2018.3        | [1.61GB][1u]   | [15.9GB][1mp] | [58.3GB][1mv] | N/A            | [12.2GB][1msdk] |
@@ -54,7 +80,7 @@ These user images include a tool-compatible Ubuntu OS installation with tool spe
 
 | Xilinx Release | Ubuntu Release | Petalinux     | Vivado        | Vitis          | SDK             |
 | -------------- | -------------- | ---------     | ------------  | ------------   | --------------- |
-| v2020.1        | [18.04.2][4u]  | [10.7GB][4ap] | [52.3GB][4av] | [71.3GB][4avi] | N/A             |
+| v2020.1        | [18.04.2][4u]  | [10.9GB][4ap] | [52.3GB][4av] | [71.3GB][4avi] | N/A             |
 | v2019.2        | [18.04.2][3u]  | [18.4GB][3ap] | [40.9GB][3av] | [55.2GB][3avi] | N/A             |
 | v2019.1        | [18.04.1][2u]  | [16.5GB][2ap] | [35.2GB][2av] | N/A            | [9.96GB][2asdk] |
 | v2018.3        | [16.04.4][1u]  | [15.9GB][1ap] | [43.4GB][1av] | N/A            | [10.6GB][1asdk] |

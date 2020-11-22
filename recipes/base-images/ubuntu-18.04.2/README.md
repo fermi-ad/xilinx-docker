@@ -4,51 +4,61 @@
 ```
 -> README.md (this file)
 -> build_image.sh
+-> fetch_depends.sh
 -> depends/
 	-> .gitignore
 -> include/
 	-> configuration.sh
--> logs/
-	-> build_image.sh-DEBUG-LOG.txt
 ```
 
-# Ubuntu 18.04.2 Docker Image
+# Ubuntu 18.04.2 Docker Base Image Quickstart
 
-## Build an Ubuntu 18.04.2 base docker image
+## Example Workflow Using Ubuntu ISO install image
 
-### Build script configuration
-- For Linux Hosts, see the file:
-	- __./include/configuration.sh__
+1. Fetch the Ubuntu ISO install image
 
-### For building on a Linux Host under the BASH Shell:
-- Execute the command:
 ```bash
 bash:
-$ cd xilinx-docker/recipes/base-images/ubuntu-18.04.2
-$ ./build_image.sh
+$ ./fetch_depends.sh --iso --replace-existing
 ```
 
-#### Example: Create the Ubuntu 18.04.2 OS using the included script
+2. Build the Ubuntu Base Docker image using the ISO installer
+
 ```bash
 bash:
-$ ./build_image.sh
-Base Release Image [Good] ubuntu-base-18.04.2-base-amd64.tar.gz
-sha256:fc6c834c4aefbe1f8ea515d2a1898a6ef6ce55d8517597d0beab1f2840eab41b
-REPOSITORY          TAG                 IMAGE ID            CREATED                  SIZE
-ubuntu              18.04.2             0beab1f2840e        Less than a second ago   88.3MB
+$ sudo ./build_image.sh --iso
+	...
+	-----------------------------------
+	REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+	ubuntu-iso          18.04.2             e349972b7588        1 second ago        243MB
+	-----------------------------------
+	Task Complete...
+	STARTED :Fri 20 Nov 2020 12:09:34 PM EST
+	ENDED   :Fri 20 Nov 2020 12:09:43 PM EST
+	-----------------------------------
 ```
 
-# Additional information
+## Example Workflow using Ubuntu base tarball image
 
-## Ubuntu base release image information
-- Where does the base Ubuntu image come from?...
-	- Note: This is a rootfs image, not an installation ISO
+1. Fetch the Ubuntu base tarball image
 
-### Official Ubuntu release archives:
-- http://cdimage.ubuntu.com/ubuntu-base/releases/18.04/release/
-
-### Download the Base filesystem from Ubuntu archives:
 ```bash
 bash:
-$ wget http://cdimage.ubuntu.com/ubuntu-base/releases/18.04/release/ubuntu-base-18.04.2-base-amd64.tar.gz
+$ ./fetch_depends.sh --base --replace-existing
+```
+
+2. Build the Ubuntu Base Docker image using the BASE ROOTFS tarball
+
+```bash
+bash:
+$ sudo ./build_image.sh --base
+	...
+	-----------------------------------
+	REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+	ubuntu              18.04.2             92555c3294c4        1 second ago        88.3MB
+	-----------------------------------
+	Task Complete...
+	STARTED :Fri 20 Nov 2020 12:08:33 PM EST
+	ENDED   :Fri 20 Nov 2020 12:08:36 PM EST
+	-----------------------------------
 ```

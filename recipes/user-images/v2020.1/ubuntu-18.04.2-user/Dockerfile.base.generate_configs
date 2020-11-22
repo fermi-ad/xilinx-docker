@@ -1,19 +1,10 @@
 # Dockerfile
 ########################################################################################
 # Maintainer:
-#	- Jason Moss (jason.moss@avnet.com)
-#	- Xilinx Applications Engineer, Embedded Software
+#	- Jason Moss
 #
 # Created: 
-#	- 7/13/2020
-#
-# What's installed in the image created by this docker file?
-# ----------------------------------------------------------
-# - Ubuntu 18.04.2 x64 base OS image
-#
-# Build organization:
-# -------------------------------
-# 1. base_os_depends_v2020.1							: Base Ubuntu 18.04.2 image with a few basics, locale setup and user account
+#	- 11/17/2020
 ########################################################################################
 FROM ubuntu:18.04.2 AS base_os_depends_v2020.1
 LABEL author="Jason Moss"
