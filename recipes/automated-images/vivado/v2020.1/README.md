@@ -8,12 +8,11 @@
 -> Dockerfile.base.generate_configs
 -> Dockerfile.iso.generate_configs
 -> generate_configs.sh
--> generate_installer.sh
 -> configs/
 	-> xlnx_unified_vivado.config
 -> depends/
 	-> Xilinx_Unified_2020.1_0602_1208_Lin64.bin
-	-> (Xilinx_Unified_2020.1_0602_1208_Lin64.bin.tar.gz)
+	-> Xilinx_Unified_2020.1_0602_1208_Lin64.tar.gz
 -> include/
 	-> configuration.sh
 ```
@@ -120,7 +119,7 @@ $ cp _generated/configs/* configs/
 ```
 
 ## Link to the Vivado Offline Installer Bundle (one time)
-- Create a link to the offline installer in the dependency folder
+- Create a link to the full/offline installer in the dependency folder
 
 ```bash
 bash:
@@ -149,7 +148,6 @@ $ ./build_image.sh
 
 ## More information about creating containers can be found here
 - [Creating Docker Containers from Images](../../../documentation/creating-containers-from-docker-images/README.md)
-
 
 #### Create a working container manually
 
