@@ -1,22 +1,12 @@
 # Dockerfile
 ########################################################################################
 # Maintainer:
-#	- Jason Moss (jason.moss@avnet.com)
-#	- Xilinx Applications Engineer, Embedded Software
+#	- Jason Moss
 #
 # Created: 
-#	- 7/16/2020
-#
-# What's installed in the image created by this docker file?
-# ----------------------------------------------------------
-# - Ubuntu 18.04.2 x64 base OS image
-# - Xilinx Vivado v2019.2 (Xilinx Vivado v2019.2 release)
-#
-# Build organization:
-# -------------------------------
-# 1. base_os_depends_v2019.2							: Base Ubuntu 18.04.2 image with a few basics, locale setup and user account
+#	- 11/22/2020
 ########################################################################################
-FROM ubuntu:18.04.2 AS base_os_depends_v2019.2
+FROM ubuntu-iso:18.04.2 AS base_os_depends_v2019.2
 LABEL author="Jason Moss"
 
 # Address build bug: https://github.com/docker/docker/issues/4032
@@ -44,12 +34,17 @@ RUN if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi \
 		--frontend $DEBIAN_FRONTEND locales
 
 # Install debconf-utils, dialog \
-RUN if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi \
+ RUN if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi \
+ 	&& apt-get install -y \
+# Install pre-reqs on server ISO for dialog utilities \
+		software-properties-common \
+	&& add-apt-repository universe \
+	&& apt-get update \
 	&& apt-get install -y \
-		dialog \
-		debconf-utils \
+ 		dialog \
+ 		debconf-utils \
 # Put debconf in non interactive mode \
-	&& echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections
+ 	&& echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections
 
 # Create a user account with no password and add user to sudoers
 # Install sudo and setup a user account, which is essential for Yocto and other tools
