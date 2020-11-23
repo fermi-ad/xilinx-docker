@@ -54,7 +54,7 @@ There are two sizes listed based on if the image is generated from a base tarbal
 
 | Ubuntu Release | Base ISO Image | Base Image   | 
 | -------------- | -------------- | ------------ |
-| 18.04.2        | [234MB][4b]    | [88.3MB][4b] | 
+| 18.04.2        | [243MB][4b]    | [88.3MB][4b] | 
 | 18.04.1        | [TBD][3b]      | [83.5MB][3b] |
 | 16.04.4		 | [TBD][1b]      | [112MB][1b]  |
 | 16.04.3		 | [TBD][0b]      | [120MB][0b]  |
@@ -70,12 +70,12 @@ New ISO Based Images:
 | Xilinx Release | User Image     | Petalinux     | Vivado        | Vitis          | SDK             |
 | -------------- | -------------- | ---------     | ------------  | ------------   | --------------- |
 | v2020.1        | [2.26GB][4u]   | [10.9GB][4mp] | [52.2GB][4mv] | [71.5GB][4mvi] | N/A             |
+| v2019.2        | [2.26GB][3u]   | [18.7GB][3mp] | [41.1GB][3mv] | [TBD][3mvi] | N/A             |
 
 Old BASE Rootfs Based Images:
 
 | Xilinx Release | User Image     | Petalinux     | Vivado        | Vitis          | SDK             |
 | -------------- | -------------- | ---------     | ------------  | ------------   | --------------- |
-| v2019.2        | [2.02GB][3u]   | [18.4GB][3mp] | [40.9GB][3mv] | [55.4GB][3mvi] | N/A             |
 | v2019.1        | [2.02GB][2u]   | [16.5GB][2mp] | [35.2GB][2mv] | N/A            | [9.99GB][2msdk] |
 | v2018.3        | [1.61GB][1u]   | [15.9GB][1mp] | [58.3GB][1mv] | N/A            | [12.2GB][1msdk] |
 | v2018.2        | [1.62GB][0u]   | [16.2GB][0mp] | [54.5GB][0mv] | N/A            | [12.0GB][0msdk] |
