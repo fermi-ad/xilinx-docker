@@ -5,9 +5,9 @@
 -> .dockerignore
 -> build_image.sh
 -> Dockerfile
--> Dockerfile.generate_configs
+-> Dockerfile.base.generate_configs
+-> Dockerfile.iso.generate_configs
 -> generate_configs.sh
--> generate_installer.sh
 -> configs/
 	-> xlnx_unified_vivado.config
 -> depends/
