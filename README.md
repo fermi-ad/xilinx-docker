@@ -70,7 +70,7 @@ New ISO Based Images:
 | Xilinx Release | User Image     | Petalinux     | Vivado        | Vitis          | SDK             |
 | -------------- | -------------- | ---------     | ------------  | ------------   | --------------- |
 | v2020.1        | [2.26GB][4u]   | [10.9GB][4mp] | [52.2GB][4mv] | [71.5GB][4mvi] | N/A             |
-| v2019.2        | [2.26GB][3u]   | [18.7GB][3mp] | [41.1GB][3mv] | [TBD][3mvi] | N/A             |
+| v2019.2        | [2.26GB][3u]   | [18.7GB][3mp] | [41.1GB][3mv] | [55.5GB][3mvi] | N/A             |
 
 Old BASE Rootfs Based Images:
 
