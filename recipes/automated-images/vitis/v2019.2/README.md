@@ -5,15 +5,14 @@
 -> .dockerignore
 -> build_image.sh
 -> Dockerfile
--> Dockerfile.generate_configs
+-> Dockerfile.base.generate_configs
+-> Dockerfile.iso.generate_configs
 -> generate_configs.sh
--> generate_installer.sh
 -> configs/
 	-> xlnx_unified_vitis.config
 -> depends/
-	-> Xilinx_Unified_2019.2_1024_1831_Lin64.bin
-	-> (Vitis_Xilinx_Unified_2019.2_1024_1831_Lin64.bin.tar.gz)
-	-> xrt_201920.2.3.1301_18.04-xrt.deb
+	-> Xilinx_Unified_2019.2_1106_2127_Lin64.bin
+	-> Xilinx_Vitis_2019.2_1106_2127.tar.gz
 -> include/
 	-> configuration.sh
 ```
@@ -45,7 +44,7 @@ https://github.com/Xilinx/XRT/blob/master/src/runtime_src/tools/scripts/xrtdeps.
 - Xilinx requires a valid xilinx.com account in order to download the Xilinx SDK Web Installer.
 	- Xilinx Unified Installer v2019.2
 		- Download Link: 
-			- https://www.xilinx.com/member/forms/download/xef.html?filename=Xilinx_Unified_2019.2_1106_2127_Lin64.bin
+			- https://www.xilinx.com/member/forms/download/xef.html?filename=Xilinx_Vitis_2019.2_1106_2127.tar.gz
 		- Release Notes;
 			- https://www.xilinx.com/support/download/index.html/content/xilinx/en/downloadNav/vivado-design-tools/2019-2.html
 			- https://www.xilinx.com/support/documentation/sw_manuals/xilinx2019_2/ug973-vivado-release-notes-install-license.pdf
@@ -53,6 +52,25 @@ https://github.com/Xilinx/XRT/blob/master/src/runtime_src/tools/scripts/xrtdeps.
 - Vitis v2019.2 Release Notes:
 	- https://www.xilinx.com/html_docs/xilinx2019_2/vitis_doc/Chunk300137739.html
 
+## Download Xilinx Unified All OS Single-File Download Installer
+- Xilinx requires a valid xilinx.com account in order to download the Xilinx Unified Web Installer.
+	- Xilinx Unified Installer v2019.2
+		- Download Link: 
+			- https://www.xilinx.com/member/forms/download/xef-vitis.html?filename=Xilinx_Vitis_2019.2_1106_2127.tar.gz
+		- Documentation:
+			- https://www.xilinx.com/html_docs/xilinx2019_2/vitis_doc/index.html
+- Place the installer binary (or a link to it) in the ./depends folder
+- Vitis v2019.2 Release Notes:
+	- https://www.xilinx.com/html_docs/xilinx2019_2/vitis_doc/Chunk300137739.html
+
+## Generate Vitis Installer Links (one time)
+- Create links to the installer/dependencies in the dependency folder
+
+```bash
+bash:
+$ ln -s <path-to-offline-installer>/Xilinx_Unified_2019.2_1106_2127_Lin64.bin depends/
+$ ln -s <path-to-offline-installer>/Xilinx_Vitis_2019.2_1106_2127.tar.gz depends/
+```
 
 ## Download the Xilinx Runtime (XRT)
 - The Xilinx Runtime provides a software interface to Xilinx programmable logic devices.
@@ -95,82 +113,19 @@ https://github.com/Xilinx/XRT/blob/master/src/runtime_src/tools/scripts/xrtdeps.
 	- Modify build options in the file __*./include/configuration.sh*__
 
 ## Generate a base Ubuntu 18.04.2 image (one time)
-- Execute the image generation script __*../../../base-images/ubuntu_18.04.2/build_image.sh*__
-
 ```bash
-$ pushd ../../../base-images/ubuntu-18.04.2
-$ ./build_image.sh 
-Base Release Image [Missing] ubuntu-base-18.04.2-base-amd64.tar.gz
-Attempting to download http://cdimage.ubuntu.com/ubuntu-base/releases/18.04.2/release/ubuntu-base-18.04.2-base-amd64.tar.gz
-+ wget http://cdimage.ubuntu.com/ubuntu-base/releases/18.04.2/release/ubuntu-base-18.04.2-base-amd64.tar.gz -O depends/ubuntu-base-18.04.2-base-amd64.tar.gz
---2019-12-18 10:20:17--  http://cdimage.ubuntu.com/ubuntu-base/releases/18.04.2/release/ubuntu-base-18.04.2-base-amd64.tar.gz
-Resolving cdimage.ubuntu.com (cdimage.ubuntu.com)... 2001:67c:1360:8001::28, 2001:67c:1360:8001::27, 2001:67c:1560:8001::1d, ...
-Connecting to cdimage.ubuntu.com (cdimage.ubuntu.com)|2001:67c:1360:8001::28|:80... connected.
-HTTP request sent, awaiting response... 200 OK
-Length: 31858560 (30M) [application/x-gzip]
-Saving to: ‘depends/ubuntu-base-18.04.2-base-amd64.tar.gz’
-
-depends/ubuntu-base-18.04.2-base-amd64.tar.gz            100%[=================================================================================================================================>]  30.38M  18.9MB/s    in 1.6s    
-
-2019-12-18 10:20:18 (18.9 MB/s) - ‘depends/ubuntu-base-18.04.2-base-amd64.tar.gz’ saved [31858560/31858560]
-
-+ '[' 1 -ne 0 ']'
-+ set +x
-Base Relese Image Download [Good] ubuntu-base-18.04.2-base-amd64.tar.gz
-+ docker import depends/ubuntu-base-18.04.2-base-amd64.tar.gz ubuntu:18.04.2
-sha256:1c767f5d46fef0b75f5a1ab0f971b79f5fe3343f90c2861842713c6be7cf2a46
-+ docker image ls -a
-REPOSITORY                       TAG                  IMAGE ID            CREATED                  SIZE
-ubuntu                           18.04.2              1c767f5d46fe        Less than a second ago   88.3MB
-+ docker system df
-TYPE                TOTAL               ACTIVE              SIZE                RECLAIMABLE
-Images              1                   1                   88.3MB              0B (0%)
-Containers          0                   0                   0B            	 	0B (0%)
-Local Volumes       0                   0                   0B                  0B
-Build Cache         0                   0                   0B                  0B
-+ '[' 1 -ne 0 ']'
-+ set +x
-
+$ pushd ../../base-images/ubuntu-18.04.2/
+$ sudo ./build_image.sh --iso
 $ popd
 ```
 
-## Generate an Ubuntu 18.04.2 user image (one time)
-- Execute the image generation script __*../../../user-images/v2019.2/ubuntu-18.04.2-user/build_image.sh*__
-```bash
-$ pushd ../../../user-images/v2019.2/ubuntu-18.04.2-user/
-$ ./build_image.sh 
------------------------------------
-Checking for configurations...
------------------------------------
-Base docker image [found] (ubuntu:18.04.2)
-Keyboard Configuration: [Good] configs/keyboard_settings.conf
-XTerm Configuration File: [Good] configs/XTerm
-Minicom Configuration File: [Good] configs/.minirc.dfl
------------------------------------
-Docker Build Context (Working)...
------------------------------------
-...
-Removing intermediate container f0caed766af2
- ---> 5d774cff76ff
-Successfully built 5d774cff76ff
-Successfully tagged xilinx-ubuntu-18.04.2-user:v2019.2
-+ '[' 1 -ne 0 ']'
-+ set +x
------------------------------------
-Shutting down Python HTTP Server...
------------------------------------
-Killing process ID 14815
------------------------------------
-+ kill 14815
-+ '[' 1 -ne 0 ']'
-+ set +x
-./build_image.sh: line 171: 14815 Terminated              python3 -m http.server
------------------------------------
-Image Build Complete...
-STARTED :Mon Jul 6 15:58:02 EDT 2020
-ENDED   :Mon Jul 6 16:03:28 EDT 2020
------------------------------------
+## Generate an Ubuntu 18.04.2 user image 
+- This contains all the dependencies for the v2020.1 Xilinx Tools
 
+```bash
+bash:
+$ pushd ../../user-images/v2020.1/ubuntu-18.04.2-user
+$ ./build_image.sh --iso
 $ popd
 ```
 
@@ -218,58 +173,6 @@ bash:
 $ cp _generated/configs/* configs/
 ```
 
-## Generate Vitis Offline Installer Bundle (one time)
-
-### Execute the installer generation script
-
-- For Linux, execute the following script:
-```bash
-bash:
-$ ./generate_installer.sh
-```
-
-- Xilinx Unified Installer (download only)
-	- This should launch an X11-based Xilinx Unified Installer Setup window on your host
-	- Continue with curent version if prompted that a new version exists: ```Continue```
-	- Skip welcome screen: ```Next```
-	- Enter User ID and Password in the ```User Authentication``` section
-	- Select the ```Download Image (Install Separately)```
-		- Use the following selections:
-			- download directory: ```/opt/Xilinx/Downloads/v2019.2```
-			- download files to create full image for selected platform(s): ```Linux```
-	- Continue: ```Next```
-	- Create the download directory (in the container) when prompted: ```Yes```
-	- Select the product to install
-		- ```Vitis```
-		- Continue: ```Next```
-	- Futher configure the installation:
-		- Design Tools
-			- Vitis Unified Software Platform
-				- Check ```System Generator for DSP```
-		- Uncheck ```DocNav```
-	- Review the download summary:
-		- Download location: 
-			- ```/opt/Xilinx/Downloads/v2019.2```
-		- Disk Space Required:
-			- ```Download Size: 27.22GB```
-			- ```Disk Space Required: 27.22GB```
-		- Download Platform
-			- ```Linux```
-	- Download the files for offline install: ```Download```
-	- Finish the download: ```OK```
-
-- Review the generated installer bundle
-
-```bash
-bash:
------------------------------------
-Configurations Generated:
------------------------------------
--rw-r--r-- 1 xilinx xilinx 29365118015 Jul 17 09:55 _generated/depends/Xilinx_Unified_2019.2_1024_1831_Lin64.bin.tar.gz
------------------------------------
-
-```
-
 ## Build a v2019.2 Vitis Image (one time)
 
 ### Execute the image build script
@@ -277,36 +180,21 @@ Configurations Generated:
 ```bash
 bash:
 $ ./build_image.sh
-...
-Successfully built 4d6c43867fe3
-Successfully tagged xilinx-vitis:v2019.2
-...
------------------------------------
-Image Build Complete...
-STARTED :Fri Jul 17 11:00:17 EDT 2020
-ENDED   :Fri Jul 17 11:45:51 EDT 2020
------------------------------------
+	...
+	-----------------------------------
+	REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+	xilinx-vitis        v2019.2             f035639c5d12        19 seconds ago      55.5GB
+	-----------------------------------
+	Image Build Complete...
+	STARTED :Mon 23 Nov 2020 02:54:01 PM EST
+	ENDED   :Mon 23 Nov 2020 04:28:13 PM EST
+	-----------------------------------
 ```
 
-## Create a working container (running in daemon mode) based on the vitis image
-- The container is started in __interactive daemon__ mode
-- You may also specify the MAC address of the container (making it easier to deal with tool licenses that are tied to a machine's MAC address)
-- Make sure you mount at least one host folder so the docker container can access the Petalinux installer
-- Example: using `-v /srv/software/xilinx:/srv/software`
-	- gives access to host files under `/srv/software/xilinx` in the Docker container
-	- `/srv/software` is the mounted location inside of the Docker container
-	- `/srv/software/xilinx/` is the location of the Xilinx installers, bsps, etc...
-	- `/srv/software/licenses/` is the location of the Xilinx license files
+# Create a container and verify tool installation
 
-### List images in the local docker repository
-```bash
-bash:
-$ docker image ls
-REPOSITORY                       TAG                  IMAGE ID            CREATED             SIZE
-xilinx-vitis                     v2019.2              4d6c43867fe3        29 minutes ago      55.2GB
-xilinx-ubuntu-18.04.2-user       v2019.2              7af5c40d781f        44 hours ago        2.02GB
-ubuntu                           18.04.2              c31ac5f5c1b0        4 days ago          88.3MB
-```
+## More information about creating containers can be found here
+- [Creating Docker Containers from Images](../../../documentation/creating-containers-from-docker-images/README.md)
 
 #### Create a working container manually
 

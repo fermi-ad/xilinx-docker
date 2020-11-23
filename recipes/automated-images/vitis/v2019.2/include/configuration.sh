@@ -1,39 +1,16 @@
 #!/bin/bash
 ########################################################################################
-# Docker Image Build Variable Custom Configuration:
-#   - Customize definitions of arguments for building images for v2019.2
-#	- Used with: Dockerfile.xx_v2019.2
+# Docker Image Build Variable Customization/Configuration:
 #
 # Maintainer:
-#	- Jason Moss (jason.moss@avnet.com)
-#	- Xilinx Applications Engineer, Embedded Software
+#	- Jason Moss
 #
 # Created: 
-#	- 7/16/2020
+#	- 11/23/2020
 #
-#######################################################################################
-# Docker Build Script Debug Tracing
 ########################################################################################
-#BUILD_DEBUG=1 Turns shell command expansion on in Docker build scripts
-#BUILD_DEBUG=0 Turns shell expandion off in Docker build scripts
-BUILD_DEBUG=1
-
+# Override Dockerfile Build Arguments:
 ########################################################################################
-########################################################################################
-# DOCKER FILE GENERAL CONFIGURATION PARAMETERS:
-########################################################################################
-########################################################################################
-# User account information
-# USER_ACCT: user account name within docker image
-# HOME_DIR : user account home directory
-USER_ACCT=xilinx
-HOME_DIR=/home/$USER_ACCT
-
-# GIT Configuration
-# GIT_USER_NAME: Username for git configuration
-# GIT_USER_EMAIL: email address for git configuration
-GIT_USER_NAME="Xilinx User"
-GIT_USER_EMAIL="Xilinx.User@dummyaddress.com"
 
 # Xilinx Release Information
 XLNX_RELEASE_VERSION=v2019.2
@@ -42,43 +19,20 @@ XLNX_RELEASE_VERSION=v2019.2
 XLNX_TOOL_INFO=vitis
 XLNX_TOOL_INSTALLER_NAME=Vitis
 
-# Docker File Recipe Name
-# Dockerfile - possible stage assignments
-#DOCKER_FILE_NAME=Dockerfile.$XLNX_TOOL_INFO_$XLNX_RELEASE_VERSION
-#DOCKER_FILE_STAGE=base_os_$XLNX_TOOL_INFO"_"$XLNX_RELEASE_VERSION
-#DOCKER_FILE_STAGE=xilinx_install_depends_$XLNX_TOOL_INFO"_"$XLNX_RELEASE_VERSION
-#DOCKER_FILE_STAGE=xilinx_install_$XLNX_TOOL_INFO"_"$XLNX_RELEASE_VERSION
+# Docker File Recipe Target Stage
 DOCKER_FILE_STAGE=xilinx_install_$XLNX_TOOL_INFO"_"$XLNX_RELEASE_VERSION
 
-# Docker Image Name
+# Docker Target Image Information
 DOCKER_IMAGE_NAME=xilinx-$XLNX_TOOL_INFO
+DOCKER_IMAGE_VERSION=$XLNX_RELEASE_VERSION
 
-# Docker base OS Images
-DOCKER_BASE_OS=ubuntu
-DOCKER_BASE_OS_TAG=18.04.2
-
-DOCKER_USER_IMAGE_NAME=xilinx-ubuntu-18.04.2-user
+# Docker User Image Information
 DOCKER_USER_IMAGE_VERSION=$XLNX_RELEASE_VERSION
-
-# Should Docker use Cache when building?
-# - A couple of important reasons to DISABLE the use of the cache
-#    - 1) You want to ensure you can build the image completey from scratch
-#    - 2) The image build is failiing on an APT stage fetch
-#         - Updates are made to repositories regularly and your apt-cache in the cached image may be stale
-#         - This causes apt-get instructions to fail because the system has outdated information about a package
-# To use cached images, set DOCKER_CACHE= ''
-# To force rebuild, set DOCKER_CACHE='--no-cache'
-# DOCKER_CACHE='--no-cache'
-# Turn off use of cached images
-#DOCKER_CACHE='--no-cache'
-DOCKER_CACHE=''
+DOCKER_USER_IMAGE_NAME=xilinx-$BASE_OS_NAME-$BASE_OS_VERSION-user
 
 # Location the build is executed from
 DOCKER_BUILD_WORKING_DIR=`pwd`
 DOCKER_BUILD_TMPDIR=$DOCKER_BUILD_WORKING_DIR/tmp
-
-# Docker build image parameters
-DOCKER_IMAGE_VERSION=$XLNX_RELEASE_VERSION
 
 ########################################################################################
 ########################################################################################
@@ -89,7 +43,7 @@ DOCKER_IMAGE_VERSION=$XLNX_RELEASE_VERSION
 XLNX_INSTALL_LOCATION=/opt/Xilinx
 
 # Xilinx Tool Downloads Location
-XLNX_DOWNLOAD_LOCATION=$XLNX_INSTALL_LOCATION/downloads
+XLNX_DOWNLOAD_LOCATION=/tools/Xilinx/Downloads/2019.2
 
 ########################################################################################
 ########################################################################################
@@ -118,14 +72,22 @@ INSTALL_DEPENDS_DIR=depends
 XLNX_UNIFIED_BATCH_CONFIG_FILE=$INSTALL_CONFIGS_DIR/xlnx_unified_$XLNX_TOOL_INFO.config
 
 # Xilinx Unified Web-based installer
-XLNX_UNIFIED_WEB_INSTALLER=$INSTALL_DEPENDS_DIR/Xilinx_Unified_2019.2_1024_1831_Lin64.bin
+XLNX_UNIFIED_INSTALLER_BASENAME=Xilinx_Unified_2019.2_1106_2127
+XLNX_UNIFIED_WEB_INSTALLER=$INSTALL_DEPENDS_DIR/${XLNX_UNIFIED_INSTALLER_BASENAME}_Lin64.bin
 
 # Xilinx Unified Pre-downloaded offline install bundle
 # - This is downloaded and created by:
 #   1. Running the web-installer with the batch mode configuration
 #   2. Downloading the files for offline install
 #   3. Manually archiving files in a tarball
-XLNX_UNIFIED_OFFLINE_INSTALLER=$INSTALL_DEPENDS_DIR/Xilinx_Unified_2019.2_1024_1831_Lin64.bin.tar.gz
+
+# Xilinx Vivado Full installer
+# v2019.2 Downloads are not "unified" - The web installer is named "unified", the full download bundle is named "Vivado"
+XLNX_VITIS_INSTALLER_BASENAME=Xilinx_Vitis_2019.2_1106_2127
+#XLNX_UNIFIED_OFFLINE_INSTALLER=$INSTALL_DEPENDS_DIR/Xilinx_Unified_2020.1_0602_1208_Lin64.bin.tar.gz
+XLNX_UNIFIED_FULL_INSTALLER=$INSTALL_DEPENDS_DIR/${XLNX_VITIS_INSTALLER_BASENAME}.tar.gz
+#XLNX_UNIFIED_OFFLINE_INSTALLER=${XLNX_UNIFIED_WEB_INSTALLER}.tar.gz
+XLNX_UNIFIED_OFFLINE_INSTALLER=${XLNX_UNIFIED_FULL_INSTALLER}
 
 # Xilinx XRT Binary Information
 # XRT Binaries are installed locally on the HOST, Not the container
