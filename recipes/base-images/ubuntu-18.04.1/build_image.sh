@@ -211,6 +211,8 @@ elif [ $FLAG_BASE_IMAGE -eq 1 ]; then
 	if [ $FLAG_BUILD_DEBUG -ne 0 ]; then echo "Generating docker image using base installer."; fi
 	# Import into a new image
 	docker import $DOWNLOAD_PATH/${image_file[0]} $BASE_OS_NAME:$BASE_OS_VERSION
+	# Show docker image
+	docker image ls -a $BASE_OS_NAME:$BASE_OS_VERSION
 fi
 
 # Grab End Time
