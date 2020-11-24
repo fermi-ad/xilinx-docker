@@ -8,7 +8,7 @@
 #	- Jason Moss
 #
 # Created: 
-#	- 11/17/2020
+#	- 11/24/2020
 ########################################################################################
 source include/configuration.sh
 
@@ -211,12 +211,13 @@ elif [ $FLAG_BASE_IMAGE -eq 1 ]; then
 	if [ $FLAG_BUILD_DEBUG -ne 0 ]; then echo "Generating docker image using base installer."; fi
 	# Import into a new image
 	docker import $DOWNLOAD_PATH/${image_file[0]} $BASE_OS_NAME:$BASE_OS_VERSION
-	# Show docker images
-	docker image ls -a $BASE_OS_NAME:$BASE_OS_VERSION
 fi
 
 # Grab End Time
 XILINX_BUILD_END_TIME=`date`
+echo "-----------------------------------"
+# Show docker images
+docker image ls -a ${BASE_OS_NAME}*:$BASE_OS_VERSION
 echo "-----------------------------------"
 echo "Task Complete..."
 echo "STARTED :"$XILINX_BUILD_START_TIME
