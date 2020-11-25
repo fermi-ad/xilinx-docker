@@ -59,18 +59,18 @@ $ ./generate_configs.sh --iso
 ```bash
 bash:
 ...
------------------------------------
-Configuration Generation Complete
------------------------------------
-STARTED :Sun 22 Nov 2020 01:03:32 PM EST
-ENDED   :Sun 22 Nov 2020 01:09:31 PM EST
------------------------------------
-...
------------------------------------
-Configurations Generated:
------------------------------------
--rw-r--r-- 1 xilinx xilinx 1554 Nov 22 13:09 _generated/configs/keyboard_settings.conf
------------------------------------
+	-----------------------------------
+	Configuration Generation Complete
+	-----------------------------------
+	STARTED :Sun 22 Nov 2020 01:03:32 PM EST
+	ENDED   :Sun 22 Nov 2020 01:09:31 PM EST
+	-----------------------------------
+	...
+	-----------------------------------
+	Configurations Generated:
+	-----------------------------------
+	-rw-r--r-- 1 xilinx xilinx 1554 Nov 22 13:09 _generated/configs/keyboard_settings.conf
+	-----------------------------------
 ```
 
 - Copy the generated configurations to the configuration folder
