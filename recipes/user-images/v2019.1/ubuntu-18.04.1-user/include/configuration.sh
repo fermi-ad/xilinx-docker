@@ -1,26 +1,21 @@
 #!/bin/bash
 ########################################################################################
-# Docker Image Build Variable Custom Configuration:
-#   - Customize definitions of arguments for building images for ubuntu 18.04.1 userimage
-#	- Used with: Dockerfile
+# Docker Image Build Variable Customization/Configuration:
 #
 # Maintainer:
-#	- Jason Moss (jason.moss@avnet.com)
-#	- Xilinx Applications Engineer, Embedded Software
+#	- Jason Moss
 #
 # Created: 
-#	- 7/15/2020
+#	- 11/25/2020
 #
-########################################################################################
-# Docker Build Script Debug Tracing
-########################################################################################
-#BUILD_DEBUG=1 Turns shell command expansion on in Docker build scripts
-#BUILD_DEBUG=0 Turns shell expandion off in Docker build scripts
-BUILD_DEBUG=1
-
 ########################################################################################
 # Override Dockerfile Build Arguments:
 ########################################################################################
+
+# Path definitions
+GENERATED_PATH=_generated
+TMP_PATH=tmp
+
 # User account information
 # USER_ACCT: user account name within docker image
 # HOME_DIR : user account home directory
@@ -41,20 +36,12 @@ DOCKER_BASE_OS_TAG=18.04.1
 XLNX_RELEASE_VERSION=v2019.1
 
 # Xilinx tool information
-XLNX_TOOL_INFO=ubuntu-$DOCKER_BASE_OS_TAG-user
+XLNX_TOOL_INFO=$BASE_OS_NAME-$BASE_OS_VERSION-user
 
-# Docker File Recipe Name
-# Petalinux - possible stage assignments
-#DOCKER_FILE_NAME=Dockerfile.$XLNX_TOOL_INFO_$XLNX_RELEASE_VERSION
-#DOCKER_FILE_STAGE=base_os_$XLNX_TOOL_INFO"_"$XLNX_RELEASE_VERSION
-#DOCKER_FILE_STAGE=xilinx_install_depends_$XLNX_TOOL_INFO"_"$XLNX_RELEASE_VERSION
-#DOCKER_FILE_STAGE=xilinx_install_$XLNX_TOOL_INFO"_"$XLNX_RELEASE_VERSION
+# Docker File Recipe Stage
 DOCKER_FILE_STAGE=xilinx_install_$XLNX_TOOL_INFO"_"$XLNX_RELEASE_VERSION
 
 # Docker Image Name
-#DOCKER_IMAGE_NAME=xilinx-yocto
-#DOCKER_IMAGE_NAME=xilinx-vivado
-#DOCKER_IMAGE_NAME=xilinx-petalinux
 DOCKER_IMAGE_NAME=xilinx-$XLNX_TOOL_INFO
 
 # Should Docker use Cache when building?
@@ -141,6 +128,3 @@ INSTALL_SERVER_URL=0.0.0.0:8000
 
 ########################################################################################
 ########################################################################################
-
-# Define File system error code
-EX_OSFILE=72
