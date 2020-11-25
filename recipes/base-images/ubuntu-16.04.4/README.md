@@ -4,51 +4,61 @@
 ```
 -> README.md (this file)
 -> build_image.sh
+-> fetch_depends.sh
 -> depends/
 	-> .gitignore
 -> include/
 	-> configuration.sh
--> logs/
-	-> build_image.sh-DEBUG-LOG.txt
 ```
 
 # Ubuntu 16.04.4 Docker Image
 
-## Build an Ubuntu 16.04.4 base docker image
+## Example Workflow Using Ubuntu ISO install image
 
-### Build script configuration
-- For Linux Hosts, see the file:
-	- __./include/configuration.sh__
+1. Fetch the Ubuntu ISO install image
 
-### For building on a Linux Host under the BASH Shell:
-- Execute the command:
 ```bash
 bash:
-$ cd xilinx-docker/recipes/base-images/ubuntu-16.04.4
-$ ./build_image.sh
+$ ./fetch_depends.sh --iso --replace-existing
 ```
 
-#### Example: Create the Ubuntu 16.04.4 OS using the included script
+2. Build the Ubuntu Base Docker image using the ISO installer
+
 ```bash
 bash:
-$ ./build_image.sh
-Base Release Image [Good] ubuntu-base-16.04.4-base-amd64.tar.gz
-sha256:fc6c834c4aefbe1f8ea515d2a1898a6ef6ce55d8517597d0beab1f2840eab41b
-REPOSITORY                       TAG                  IMAGE ID            CREATED                  SIZE
-ubuntu                           16.04.4              3bd5992802b9        Less than a second ago   112MB
+$ sudo ./build_image.sh --iso
+	...
+	-----------------------------------
+	REPOSITORY          TAG                 IMAGE ID            CREATED                  SIZE
+	ubuntu-iso          16.04.4             54dac7b9ec62        Less than a second ago   203MB
+	-----------------------------------
+	Task Complete...
+	STARTED :Tue 24 Nov 2020 10:21:21 PM EST
+	ENDED   :Tue 24 Nov 2020 10:21:29 PM EST
+	-----------------------------------
 ```
 
-# Additional information
+## Example Workflow using Ubuntu base tarball image
 
-## Ubuntu base release image information
-- Where does the base Ubuntu image come from?...
-	- Note: This is a rootfs image, not an installation ISO
+1. Fetch the Ubuntu base tarball image
 
-### Official Ubuntu release archives:
-- http://cdimage.ubuntu.com/ubuntu-base/releases/16.04/release/
-
-### Download the Base filesystem from Ubuntu archives:
 ```bash
 bash:
-$ wget http://cdimage.ubuntu.com/ubuntu-base/releases/16.04/release/ubuntu-base-16.04.4-base-amd64.tar.gz
+$ ./fetch_depends.sh --base --replace-existing
+```
+
+2. Build the Ubuntu Base Docker image using the BASE ROOTFS tarball
+
+```bash
+bash:
+$ sudo ./build_image.sh --base
+	...
+	-----------------------------------
+	REPOSITORY          TAG                 IMAGE ID            CREATED                  SIZE
+	ubuntu              16.04.4             596d8e119ea0        Less than a second ago   112MB
+	-----------------------------------
+	Task Complete...
+	STARTED :Tue 24 Nov 2020 10:23:25 PM EST
+	ENDED   :Tue 24 Nov 2020 10:23:27 PM EST
+	----------------------------------
 ```

@@ -55,7 +55,7 @@ There are two sizes listed based on if the image is generated from a base tarbal
 | Ubuntu Release | Base ISO Image | Base Image   | 
 | -------------- | -------------- | ------------ |
 | 18.04.2        | [243MB][4b]    | [88.3MB][4b] | 
-| 18.04.1        | [TBD][3b]      | [83.5MB][3b] |
+| 18.04.1        | [238MB][3b]    | [83.5MB][3b] |
 | 16.04.4		 | [TBD][1b]      | [112MB][1b]  |
 | 16.04.3		 | [TBD][0b]      | [120MB][0b]  |
 
