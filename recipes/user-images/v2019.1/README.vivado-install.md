@@ -8,9 +8,10 @@
 ```bash
 bash:
 $ docker image ls
-REPOSITORY                       TAG                  IMAGE ID            CREATED             SIZE
-xilinx-ubuntu-18.04.1-user       v2019.1              469af6a10c38        About an hour ago   2.02GB
-ubuntu                           18.04.1              1f5eefc33d49        2 hours ago         83.5MB
+REPOSITORY          		 TAG                 IMAGE ID            CREATED             SIZE
+xilinx-ubuntu-18.04.1-user   v2019.1             bc2b2473ce69        36 minutes ago      2.26GB
+ubuntu              		 18.04.1             2a3d27e2eca9        23 hours ago        83.5MB
+ubuntu-iso          		 18.04.1             b2b31f343d6a        23 hours ago        238MB
 ```
 
 ### Create a working vivado install container

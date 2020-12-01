@@ -213,7 +213,8 @@ sha256:3d64cba62109a12b608977874e3754afbc8c957d5d82898c700a2eff25bf73b6
 bash:
 $ docker image ls
 REPOSITORY                       TAG                  IMAGE ID            CREATED             SIZE
-xilinx-vitis-licensed            v2019.2              3459a4ab312a        2 seconds ago       55.4GB
-xilinx-ubuntu-18.04.2-user       v2019.2              7af5c40d781f        3 minutes ago       2.02GB
-ubuntu                           18.04.2              76df73440f9c        12 days ago         88.3MB
+xilinx-vitis                 	 v2019.2              f035639c5d12        46 hours ago        55.5GB
+xilinx-ubuntu-18.04.2-user       v2019.2              7af5c40d781f        10 minutes ago      2.26GB
+ubuntu-iso                   	 18.04.2              e349972b7588        2 days ago          243MB
+ubuntu                       	 18.04.2              d1afd0299433        23 hours ago        88.3MB
 ```
