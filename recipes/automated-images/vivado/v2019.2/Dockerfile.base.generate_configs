@@ -1,21 +1,12 @@
 # Dockerfile
 ########################################################################################
 # Maintainer:
-#	- Jason Moss (jason.moss@avnet.com)
-#	- Xilinx Applications Engineer, Embedded Software
+#	- Jason Moss
 #
 # Created: 
-#	- 7/18/2020
-#
-# What's installed in the image created by this docker file?
-# ----------------------------------------------------------
-# - Ubuntu 18.04.1 x64 base OS image
-#
-# Build organization:
-# -------------------------------
-# 1. base_os_depends_v2019.1							: Base Ubuntu 18.04.1 image with a few basics, locale setup and user account
+#	- 11/22/2020
 ########################################################################################
-FROM ubuntu:18.04.1 AS base_os_depends_v2019.1
+FROM ubuntu:18.04.2 AS base_os_depends_v2019.2
 LABEL author="Jason Moss"
 
 # Address build bug: https://github.com/docker/docker/issues/4032

@@ -1,28 +1,10 @@
 # Dockerfile
 ########################################################################################
 # Maintainer:
-#	- Jason Moss (jason.moss@avnet.com)
-#	- Xilinx Applications Engineer, Embedded Software
+#	- Jason Moss
 #
 # Created: 
-#	-7/18/2020
-# 
-# What's installed in the image created by this docker file?
-# ----------------------------------------------------------
-# - Ubuntu 18.04.1 x64 base OS image
-# - User Account and basic configuration for xterm access
-# - Petalinux, Vivado and Vitis dependencies
-# - This image is useful as a baseline for manual tool installation
-#
-# Multi-stage build organization:
-# -------------------------------
-# 1. base_os_ubuntu-user_18.04.1						: Base Ubuntu 18.04.1 image with a few basics, locale setup and user account
-# 2. |___ xilinx_install_ubuntu-user_18.04.1	: +Base packages for an operating environment with xterm
-########################################################################################
-# Base OS Image:
-# --------------
-#	- Ubuntu 18.04.1
-#		- start with the base Ubuntu 18.04.1 build from Ubuntu release tarballs
+#	- 11/25/2020
 ########################################################################################
 FROM ubuntu:18.04.1 AS base_os_ubuntu-18.04.1-user_v2019.1
 LABEL author="Jason Moss"

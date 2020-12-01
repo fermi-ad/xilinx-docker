@@ -56,7 +56,7 @@ $ perl ldd-recursive.pl /opt/Xilinx/Vivado/2020.1/bin/unwrapped/lnx64.o/vivado -
 - Vitis v2020.1 Release Notes:
 	- https://www.xilinx.com/html_docs/xilinx2020_1/vitis_doc/wlk1553469789555.html
 
-## Generate Vitis Installer Links (one time)
+## Generate Unified Installer Links (one time)
 - Create links to the installer/dependencies in the dependency folder
 
 ```bash

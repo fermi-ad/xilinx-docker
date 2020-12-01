@@ -1,6 +1,6 @@
 [//]: # (Readme.vivado-install.md - Install Vivado on a Base Ubuntu User Image for v2019.2 Xilinx Tools)
 
-# Install Vitis
+# Install Vivado
 
 ## Create a working container (running in daemon mode)
 
@@ -9,8 +9,9 @@
 bash:
 $ docker image ls
 REPOSITORY                       TAG                  IMAGE ID            CREATED             SIZE
-xilinx-ubuntu-18.04.2-user       v2019.2              7af5c40d781f        3 minutes ago       2.02GB
-ubuntu                           18.04.2              76df73440f9c        12 days ago         88.3MB
+xilinx-ubuntu-18.04.2-user       v2019.2              7af5c40d781f        10 minutes ago      2.26GB
+ubuntu-iso                   	 18.04.2              e349972b7588        2 days ago          243MB
+ubuntu                       	 18.04.2              d1afd0299433        23 hours ago        88.3MB
 ```
 
 ### Create a working vivado install container
@@ -212,7 +213,8 @@ sha256:3d64cba62109a12b608977874e3754afbc8c957d5d82898c700a2eff25bf73b6
 bash:
 $ docker image ls
 REPOSITORY                       TAG                  IMAGE ID            CREATED             SIZE
-xilinx-vivado-licensed           v2019.2              b35a36751e77        3 seconds ago       40.9GB
-xilinx-ubuntu-18.04.2-user       v2019.2              7af5c40d781f        3 minutes ago       2.02GB
-ubuntu                           18.04.2              76df73440f9c        12 days ago         88.3MB
+xilinx-vivado                	 v2019.2              520beceefa3d        2 days ago          41.1GB
+xilinx-ubuntu-18.04.2-user       v2019.2              7af5c40d781f        10 minutes ago      2.26GB
+ubuntu-iso                   	 18.04.2              e349972b7588        2 days ago          243MB
+ubuntu                       	 18.04.2              d1afd0299433        23 hours ago        88.3MB
 ```

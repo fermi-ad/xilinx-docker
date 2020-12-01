@@ -34,18 +34,10 @@ XLNX_RELEASE_VERSION=v2020.1
 # Xilinx tool information
 XLNX_TOOL_INFO=$BASE_OS_NAME-$BASE_OS_VERSION-user
 
-# Docker File Recipe Name
-# Petalinux - possible stage assignments
-#DOCKER_FILE_NAME=Dockerfile.$XLNX_TOOL_INFO_$XLNX_RELEASE_VERSION
-#DOCKER_FILE_STAGE=base_os_$XLNX_TOOL_INFO"_"$XLNX_RELEASE_VERSION
-#DOCKER_FILE_STAGE=xilinx_install_depends_$XLNX_TOOL_INFO"_"$XLNX_RELEASE_VERSION
-#DOCKER_FILE_STAGE=xilinx_install_$XLNX_TOOL_INFO"_"$XLNX_RELEASE_VERSION
+# Docker File Recipe Stage
 DOCKER_FILE_STAGE=xilinx_install_$XLNX_TOOL_INFO"_"$XLNX_RELEASE_VERSION
 
 # Docker Image Name
-#DOCKER_IMAGE_NAME=xilinx-yocto
-#DOCKER_IMAGE_NAME=xilinx-vivado
-#DOCKER_IMAGE_NAME=xilinx-petalinux
 DOCKER_IMAGE_NAME=xilinx-$XLNX_TOOL_INFO
 
 # Should Docker use Cache when building?

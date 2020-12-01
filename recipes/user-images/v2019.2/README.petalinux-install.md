@@ -9,8 +9,9 @@
 bash:
 $ docker image ls
 REPOSITORY                       TAG                  IMAGE ID            CREATED             SIZE
-xilinx-ubuntu-18.04.2-user       v2019.2              7af5c40d781f        10 minutes ago      2.02GB
-ubuntu                           18.04.2              76df73440f9c        12 days ago         88.3MB
+xilinx-ubuntu-18.04.2-user       v2019.2              7af5c40d781f        10 minutes ago      2.26GB
+ubuntu-iso                   	 18.04.2              e349972b7588        2 days ago          243MB
+ubuntu                       	 18.04.2              d1afd0299433        23 hours ago        88.3MB
 ```
 
 ### Create a working petalinux install container
@@ -169,8 +170,9 @@ sha256:c3c0739fbc73d9d9deb4bd539921846f245b9b688d2769260c2018abc02fc13d
 ```bash
 bash:
 $ docker image ls
-REPOSITORY                       TAG                  IMAGE ID            CREATED                  SIZE
-xilinx-petalinux                 v2019.2              6351d30dc2a7        Less than a second ago   18.4GB
-xilinx-ubuntu-18.04.2-user       v2019.2              7af5c40d781f        31 minutes ago           2.02GB
-ubuntu                           18.04.2              76df73440f9c        12 days ago         	   88.3MB
+REPOSITORY                       TAG                  IMAGE ID            CREATED             SIZE
+xilinx-petalinux             	 v2019.2              caa44dc25d6e        3 days ago          18.7GB
+xilinx-ubuntu-18.04.2-user       v2019.2              7af5c40d781f        10 minutes ago      2.26GB
+ubuntu-iso                   	 18.04.2              e349972b7588        2 days ago          243MB
+ubuntu                       	 18.04.2              d1afd0299433        23 hours ago        88.3MB
 ```

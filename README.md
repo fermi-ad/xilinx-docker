@@ -54,10 +54,10 @@ There are two sizes listed based on if the image is generated from a base tarbal
 
 | Ubuntu Release | Base ISO Image | Base Image   | 
 | -------------- | -------------- | ------------ |
-| 18.04.2        | [234MB][4b]    | [88.3MB][4b] | 
-| 18.04.1        | [TBD][3b]      | [83.5MB][3b] |
-| 16.04.4		 | [TBD][1b]      | [112MB][1b]  |
-| 16.04.3		 | [TBD][0b]      | [120MB][0b]  |
+| 18.04.2        | [243MB][4b]    | [88.3MB][4b] | 
+| 18.04.1        | [238MB][3b]    | [83.5MB][3b] |
+| 16.04.4		 | [203MB][1b]    | [112MB][1b]  |
+| 16.04.3		 | [210MB][0b]    | [120MB][0b]  |
 
 ### Xilinx User Images (Manual Tool Installation)
 
@@ -65,17 +65,26 @@ These user images include a tool-compatible Ubuntu OS installation and all (know
 
 Image sizes in this table reflect images created from the Base ISO Image.
 
+User Image Sizes:
+
+| Xilinx Release | Ubuntu Release | User Image     | 
+| -------------- | -------------- | ----------     |
+| v2020.1        | [18.04.2][4u]  | [2.26GB][4u]   |
+| v2019.2        | [18.04.2][3u]  | [2.26GB][3u]   |
+| v2019.1        | [18.04.1][2u]  | [2.26GB][2u]   |
+
 New ISO Based Images:
 
 | Xilinx Release | User Image     | Petalinux     | Vivado        | Vitis          | SDK             |
 | -------------- | -------------- | ---------     | ------------  | ------------   | --------------- |
-| v2020.1        | [2.26GB][4u]   | [10.9GB][4mp] | [52.2GB][4mv] | [71.5GB][4mvi] | N/A             |
+
 
 Old BASE Rootfs Based Images:
 
 | Xilinx Release | User Image     | Petalinux     | Vivado        | Vitis          | SDK             |
 | -------------- | -------------- | ---------     | ------------  | ------------   | --------------- |
-| v2019.2        | [2.02GB][3u]   | [18.4GB][3mp] | [40.9GB][3mv] | [55.4GB][3mvi] | N/A             |
+| v2020.1        | [2.26GB][4u]   | [10.9GB][4mp] | [52.2GB][4mv] | [71.5GB][4mvi] | N/A             |
+| v2019.2        | [2.26GB][3u]   | [18.7GB][3mp] | [41.1GB][3mv] | [55.5GB][3mvi] | N/A             |
 | v2019.1        | [2.02GB][2u]   | [16.5GB][2mp] | [35.2GB][2mv] | N/A            | [9.99GB][2msdk] |
 | v2018.3        | [1.61GB][1u]   | [15.9GB][1mp] | [58.3GB][1mv] | N/A            | [12.2GB][1msdk] |
 | v2018.2        | [1.62GB][0u]   | [16.2GB][0mp] | [54.5GB][0mv] | N/A            | [12.0GB][0msdk] |
@@ -83,6 +92,14 @@ Old BASE Rootfs Based Images:
 ### Xilinx User Images (Automated/Scripted Tool Installation)
 
 These user images include a tool-compatible Ubuntu OS installation with tool specific dependencies and the Xilinx tool pre-installed.  Xilinx tool installation is automated to support offline/archival and automation of development environment creation.  These images are slightly larger (by default) than the manually created counterparts due to the storage used for intermediate build staging during creation of these images.  These recipes are provided as examples and can further be optimized for size before deployment in your environment if necessary.
+
+New ISO Based Images:
+
+| Xilinx Release | Ubuntu Release | Petalinux     | Vivado        | Vitis          | SDK             |
+| -------------- | -------------- | ---------     | ------------  | ------------   | --------------- |
+| v2020.1        | [18.04.2][4u]  | [10.9GB][4mp] | [52.2GB][4mv] | [71.5GB][4mvi] | N/A             |
+| v2019.2        | [18.04.2][3u]  | [18.7GB][3mp] | [41.1GB][3mv] | [55.5GB][3mvi] | N/A             |
+
 
 | Xilinx Release | Ubuntu Release | Petalinux     | Vivado        | Vitis          | SDK             |
 | -------------- | -------------- | ---------     | ------------  | ------------   | --------------- |

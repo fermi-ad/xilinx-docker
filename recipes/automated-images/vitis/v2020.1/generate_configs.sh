@@ -10,7 +10,7 @@
 #	- 11/20/2020
 #
 # Unified Web Installer
-#	./Xilinx_Unified_2020.1_0602_1208_Lin64.bin--noexec --keep --nox11 --target unified_tmp
+#	./Xilinx_Unified_2020.1_0602_1208_Lin64.bin --noexec --keep --nox11 --target unified_tmp
 #	Creating directory unified_tmp
 #
 # Generate a batchmode configuration file
@@ -30,9 +30,6 @@ source ../../../base-images/ubuntu-18.04.2/include/configuration.sh
 source ../../../user-images/v2020.1/ubuntu-18.04.2-user/include/configuration.sh
 # Source tool image configuration
 source include/configuration.sh
-
-# Set the Docker File for Vitis
-DOCKER_FILE_NAME=Dockerfile.generate_configs
 
 # Additional setup and overrides specificaly for dependency generation
 DOCKER_FILE_STAGE="base_os_depends_"$XLNX_RELEASE_VERSION
