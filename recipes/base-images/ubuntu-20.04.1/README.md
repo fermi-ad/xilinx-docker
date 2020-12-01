@@ -28,7 +28,14 @@ $ ./fetch_depends.sh --iso --replace-existing
 bash:
 $ sudo ./build_image.sh --iso
 	...
-
+	-----------------------------------
+	REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+	ubuntu-iso          20.04.1             803d92d833cd        1 second ago        267MB
+	-----------------------------------
+	Task Complete...
+	STARTED :Tue 01 Dec 2020 04:11:19 PM EST
+	ENDED   :Tue 01 Dec 2020 04:11:28 PM EST
+	-----------------------------------
 ```
 
 ## Example Workflow using Ubuntu base tarball image
