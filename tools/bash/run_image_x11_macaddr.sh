@@ -127,7 +127,7 @@ docker run \
 	-v /xilinx/local/sstate-cache:/srv/sstate-cache \
 	-v /xilinx/local/trds:/srv/trds \
 	-v /srv/tftpboot:/tftpboot \
-	-v /srv/software/xilinx:/srv/software \
+	-v /srv/software:/srv/software \
 	-v /srv/hardware_definitions:/srv/hardware_definitions \
 	-v /srv/shared:/srv/shared \
 	-v /dev:/dev \

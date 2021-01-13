@@ -54,6 +54,7 @@ There are two sizes listed based on if the image is generated from a base tarbal
 
 | Ubuntu Release | Base ISO Image | Base Image   | 
 | -------------- | -------------- | ------------ |
+| 20.04.1        | [267MB][5b]    | [72,9MB][5b] |
 | 18.04.2        | [243MB][4b]    | [88.3MB][4b] | 
 | 18.04.1        | [238MB][3b]    | [83.5MB][3b] |
 | 16.04.4		 | [203MB][1b]    | [112MB][1b]  |
@@ -69,6 +70,8 @@ User Image Sizes:
 
 | Xilinx Release | Ubuntu Release | User Image     | 
 | -------------- | -------------- | ----------     |
+| v2020.2        | [20.04.1][5u2] | [TBDGB][5u2]  |
+| v2020.2        | [18.04.2][5u1] | [TBDGB][5u1]  |
 | v2020.1        | [18.04.2][4u]  | [2.26GB][4u]   |
 | v2019.2        | [18.04.2][3u]  | [2.26GB][3u]   |
 | v2019.1        | [18.04.1][2u]  | [2.26GB][2u]   |
@@ -122,6 +125,8 @@ These build times are approximate, rounded to the nearest minute and reflect one
 | v2018.3        | 5 min          | 11 min        | 26 min        | N/A          | 4 min     |
 | v2018.2        | 5 min          | 13 min        | 25 min        | N/A          | 4 min     |
 
+
+[5b]: ./recipes/base-images/ubuntu-20.04.1/README.md
 [4b]: ./recipes/base-images/ubuntu-18.04.2/README.md
 [3b]: ./recipes/base-images/ubuntu-18.04.1/README.md
 [1b]: ./recipes/base-images/ubuntu-16.04.4/README.md

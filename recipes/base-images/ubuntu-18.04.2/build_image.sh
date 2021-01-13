@@ -39,7 +39,7 @@ function show_opts {
 	echo ""
 }
 
-# Init command ling argument flags
+# Init command line argument flags
 FLAG_BUILD_DEBUG=0 # Enable extra debug messages
 FLAG_BASE_IMAGE=0 # Use the base release image
 FLAG_ISO_IMAGE=0 # Use the iso release image
