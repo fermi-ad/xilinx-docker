@@ -24,12 +24,12 @@ ubuntu                       18.04.2             d1afd0299433        23 hours ag
 
 ```bash
 $ docker run \
-	--name xilinx_petalinux_install_v2020.1 \
+	--name xilinx_petalinux_install_v2020.2 \
 	--device-cgroup-rule "c 188:* rwm" \
 	-h xilinx_petalinux_v2020-2 \
 	-v /tmp/.X11-unix:/tmp/.X11-unix \
 	-v ~/.Xauthority:/home/xilinx/.Xauthority \
-	-v /srv/software/xilinx:/srv/software \
+	-v /srv/software/install/xilinx:/srv/software \
 	-v /dev:/dev \
 	-e DISPLAY=$DISPLAY \
 	--mac-address "02:de:ad:be:ef:91" \

@@ -8,7 +8,7 @@
 #	- Jason Moss
 #
 # Created: 
-#	- 12/01/2020
+#	- 1/13/2021
 #
 # Source base image configuration
 source ../../../base-images/ubuntu-20.04.1/include/configuration.sh
@@ -16,7 +16,7 @@ source ../../../base-images/ubuntu-20.04.1/include/configuration.sh
 source include/configuration.sh
 
 # Temporary Override of Docker File Stage
-DOCKER_FILE_STAGE=base_os_ubuntu-20.04.1-user_v2020.2
+#DOCKER_FILE_STAGE=base_os_ubuntu-20.04.1-user_v2020.2
 
 # define options
 function show_opts {

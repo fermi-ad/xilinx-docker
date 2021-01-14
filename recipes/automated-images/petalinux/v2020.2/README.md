@@ -1,4 +1,4 @@
-[//]: # (Readme.md - Petalinux v2020.1 Build Environment)
+[//]: # (Readme.md - Petalinux v2020.2 Build Environment)
 
 # References
 
@@ -38,7 +38,7 @@
 
 ## Download the MALI Userspace Binaries
 - Xilinx requires a valid xilinx.com account in order to download the MALI Userspace Binaries.
-	- MALI Userspace Binaries for v2019.1 and earlier (used with v2020.1)
+	- MALI Userspace Binaries for v2019.1 and earlier (used with v2020.2)
 		- Download Link:
 			- https://www.xilinx.com/products/design-tools/embedded-software/petalinux-sdk/arm-mali-400-software-download.html
 - Place the installer binary (or a link to it) in the ./depends folder

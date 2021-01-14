@@ -70,7 +70,7 @@ User Image Sizes:
 
 | Xilinx Release | Ubuntu Release | User Image     | 
 | -------------- | -------------- | ----------     |
-| v2020.2        | [20.04.1][5u2] | [0.65GB][5u]  |
+| v2020.2        | [20.04.1][5u2] | [1.69GB][5u]  |
 | v2020.2        | [18.04.2][5u1] | [2.26GB][5u]  |
 | v2020.1        | [18.04.2][4u]  | [2.26GB][4u]   |
 | v2019.2        | [18.04.2][3u]  | [2.26GB][3u]   |
@@ -122,7 +122,7 @@ These build times are approximate, rounded to the nearest minute and reflect one
 
 | Xilinx Release | User Image     | Petalinux     | Vivado        | Vitis        | SDK       |
 | -------------- | -------------- | ------------- | ------------- | ------------ | --------- |
-| v2020.2        | - min          | 7 min         |               |              | N/A       |
+| v2020.2        | 9 min          | 7 min         |               |              | N/A       |
 | v2020.1        | 6 min          | 5 min         | 54 min        | 1 hr, 21 min | N/A       |
 | v2019.2        | 6 min          | 9 min         | 39 min        | 45 min       | N/A       |
 | v2019.1        | 6 min          | 8 min         | 27 min        | N/A          | 4 min     |

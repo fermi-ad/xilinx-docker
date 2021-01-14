@@ -126,118 +126,22 @@ RUN if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi \
 		g++ \
 		libtinfo5 \
 # For v++ flow \
-	&& ln -s /usr/bin/make /usr/bin/gmake \
+	&& sudo ln -s /usr/bin/make /usr/bin/gmake \
 ######################################################################################## \
 # Xilinx Vivado Dependencies: \
 # from ldd-recursive.pl script \
 ######################################################################################## \
 	&& sudo apt-get install -y \
 # derived from the perl 'ldd-recursive.pl' script \
-	 	libboost-signals-dev \
+# NOTE: This has been deprecated in libboost - the correct version is included with the vivado installation \
+#	 	libboost-signals-dev \ 
 	 	google-perftools \
 # Libgtk required for Xilinx SDK \
 		libgtk2.0-0 \
 ######################################################################################## \
 # Xilinx Vitis Dependencies: \
 ######################################################################################## \
-# Installer hangs at post install, see if these two help \
-# undocumented vitis dependencies \
-		file \
-		gcc \
-
-
-######################################################################################## \
-# Xilinx DocNav Dependencies: \
-######################################################################################## \
-	 	lib32stdc++6 \
-	 	libgtk2.0-0:i386 \
-	 	libfontconfig1:i386 \
-	 	libx11-6:i386 \
-	 	libext6:i386 \
-	 	libxrender1:i386 \
-	 	libsm6:i386 \
-	 	libqtgui4:i386 \
-
-######################################################################################## \
-# Xilinx Vitis OpenCL Installable Client Driver Loader Dependencies: \
-######################################################################################## \
-		ocl-icd--libopencl1 \
-		opencl-headers \
-		ocl-icd-opencl-dev \
-
-
-######################################################################################## \
-# Xilinx Petalinux Dependencies: \
-######################################################################################## \
-	&& sudo apt-get install -y \
-	  	tofrodos \
-	  	iproute2 \
-		gawk \
-		xvfb \
-		git \
-		make \
-		net-tools \
-		libncurses5-dev \
-# Note: Python2 is requried, Python3 is included by default with Ubuntu 18 \
-		python \
-# Install update-inetd for tftpd \
-	  	update-inetd \
-	  	tftpd \
-		zlib1g-dev:i386 \
-	  	libssl-dev \
-	  	flex \
-	  	bison \
-	  	libselinux1 \
-	  	gnupg \
-	  	wget \
-		diffstat \
-		chrpath \
-		socat \
-		xterm \
-		autoconf \
-		libtool \
-		libtool-bin \
-# Use BSDTAR vs.  TAR due to issues in docker container \
-		tar \
-	  	unzip \
-	  	texinfo \
-		zlib1g-dev \
-		gcc-multilib \
-		build-essential \
-		libsdl1.2-dev \
-		libglib2.0-dev \
-		screen \
-		pax \
-		gzip \
-# python3-gi is used by bitbake's dependency explorer \
-		python3-gi \
-# undocumented dependencies \
-		less \
-		lsb-release \
-		fakeroot \
-		libgtk2.0-0 \
-		libgtk2.0-dev \
-# yocto depedencies (for petalinux) \
-		cpio \
-		rsync \
-		xorg \
-# dependency for autoinstall of petalinux \
-		expect \
-# used to strip windows line terminations from autoinstall scripts in powershell \
-		dos2unix \
-# Added 9.27.2019 for RFSoC ZCU111 Build Support \
-		idn \
-# Already Installed \
-#		sudo \
-#		locales \
-#		git \
-# Add minicom for /dev/ttyUSB* access from command line \
-	 	minicom \
-
-######################################################################################## \
-# Xilinx Vitis Dependencies: \
-######################################################################################## \
-# undocumented vitis dependencies \
+# Installer hangs at post install stage if these aren't installed \
 # ---------------------------- \
 # Failure to install QEMU data \
 # Setting it up...Failed to replace perl. Relocate script failed. Abort!, stderr: \
@@ -247,11 +151,46 @@ RUN if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi \
 	 	file \
 # petalinux-gblibc-x86_64-petalinux-image-minimal-aarch64-toolchain.sh requires this in post install
 	 	gcc \
-# Undocumented Vivado Dependency for running cmake \
+# ######################################################################################## \
+# # Xilinx Vitis OpenCL Installable Client Driver Loader Dependencies: \
+# ######################################################################################## \
+ 		ocl-icd-libopencl1 \
+ 		opencl-headers \
+ 		ocl-icd-opencl-dev \
+######################################################################################## \
+# Additional Tools \	
+######################################################################################## \
+# X-org required for docker container windowing in host OS \
+		xorg \
+		xterm \
+# Development tools \
+		git \
+		wget \
+# Compression support \
+		tar \
+		gzip \
+		unzip \
+# dependency for autoinstall of petalinux \
+		expect \
+# used to strip windows line terminations from autoinstall scripts in powershell \
+		dos2unix \
+# Add minicom for /dev/ttyUSB* access from command line \
+	 	minicom \
 # Uncovered during OpenAMP Pre-built Example Generation \
 	 	libidn11 \
 # Non-required packages for productivity \
-	 	xvfb 
+	 	xvfb
+# ######################################################################################## \
+# # Xilinx DocNav Dependencies: \
+# ######################################################################################## \
+# 	 	lib32stdc++6 \
+# 	 	libgtk2.0-0:i386 \
+# 	 	libfontconfig1:i386 \
+# 	 	libx11-6:i386 \
+# 	 	libext6:i386 \
+# 	 	libxrender1:i386 \
+# 	 	libsm6:i386 \
+# 	 	libqtgui4:i386 \
 
 ARG GIT_USER_NAME
 ARG GIT_USER_EMAIL
@@ -302,3 +241,4 @@ RUN if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi \
 	&& sudo apt-get clean \
 	&& sudo rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
 	&& sudo echo 'debconf debconf/frontend select Dialog' | sudo debconf-set-selections
+
