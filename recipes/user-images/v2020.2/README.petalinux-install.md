@@ -9,7 +9,7 @@
 bash:
 $ docker image ls
 REPOSITORY                   TAG                 IMAGE ID            CREATED             SIZE
-xilinx-ubuntu-18.04.2-user   v2020.1             ef89bd6212a9        2 days ago          2.26GB
+xilinx-ubuntu-18.04.2-user   v2020.2             ef89bd6212a9        2 days ago          2.26GB
 ubuntu-iso                   18.04.2             e349972b7588        2 days ago          243MB
 ubuntu                       18.04.2             d1afd0299433        23 hours ago        88.3MB
 ```
@@ -36,15 +36,15 @@ $ docker run \
 	--user xilinx \
 	-itd xilinx-ubuntu-18.04.2-user:v2020.2 \
 	/bin/bash
-4924fbeebe6f016b6e918d44a968fe5b5e89e42334a9fe2dc965a784d6d0c53f
+4dddd0ed710c1589bfe7920725ea21f867a97d0e7b5541f72377ba527896736d
 ```
 
 #### Verify the container was created and the MAC Address was set properly
 
 ```bash
 $ docker ps -a
-CONTAINER ID        IMAGE                                COMMAND             CREATED             STATUS              PORTS               NAMES
-
+CONTAINER ID   IMAGE                                COMMAND       CREATED          STATUS         PORTS     NAMES
+4dddd0ed710c   xilinx-ubuntu-18.04.2-user:v2020.2   "/bin/bash"   11 seconds ago   Up 6 seconds             xilinx_petalinux_install_v2020.2
 ```
 
 ## Connect to the running container
@@ -84,7 +84,7 @@ xilinx@xilinx_petalinux_v2020-2:/$ sudo chown -hR xilinx:xilinx /opt
 ```bash
 xterm:
 xilinx@xilinx_petalinux_v2020-2:/$ cd /opt/Xilinx/
-xilinx@xilinx_petalinux_v2020-2:/opt/Xilinx$ /srv/software/petalinux/petalinux-v2020.2-final-installer.run --dir petalinux/v2020.1 --log petalinux_install.log
+xilinx@xilinx_petalinux_v2020-2:/opt/Xilinx$ /srv/software/petalinux/petalinux-v2020.2-final-installer.run --dir petalinux/v2020.2 --log petalinux_install.log
 INFO: Checking installation environment requirements...
 INFO: Checking free disk space
 INFO: Checking installed tools
@@ -149,7 +149,7 @@ INFO: Turn off webtalk feature!
 
 ```bash
 xterm:
-xilinx@xilinx_petalinux_v2020-2:/opt/Xilinx$ Exit
+xilinx@xilinx_petalinux_v2020-2:/opt/Xilinx$ exit
 ```
 
 # Create a Petalinux Docker Image in your local repository
@@ -161,13 +161,16 @@ Save a copy of the current working container as a new image in your local Docker
 - This may take a short time while the changes are committed
 ```bash
 $ docker commit xilinx_petalinux_install_v2020.2 xilinx-petalinux:v2020.2
-sha256:c3c0739fbc73d9d9deb4bd539921846f245b9b688d2769260c2018abc02fc13d
+
 ```
 
 ### List images in the local docker repository
 ```bash
 bash:
 $ docker image ls
-REPOSITORY                       TAG                  IMAGE ID            CREATED             SIZE
-
+REPOSITORY                   TAG                 IMAGE ID            CREATED             SIZE
+xilinx-petalinux             v2020.2   			 9a48236611c9   	 7 minutes ago   	 12.3GB
+xilinx-ubuntu-18.04.2-user   v2020.2             ef89bd6212a9        2 days ago          2.26GB
+ubuntu-iso                   18.04.2             e349972b7588        2 days ago          243MB
+ubuntu                       18.04.2             d1afd0299433        23 hours ago        88.3MB
 ```
