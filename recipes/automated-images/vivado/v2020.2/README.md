@@ -117,7 +117,6 @@ Configurations Generated:
 -----------------------------------
 -rw-r--r-- 1 xilinx xilinx 1888 Jan 15 10:43 _generated/configs/xlnx_unified_vivado.config
 -----------------------------------
-
 ```
 
 - Copy the generated configurations to the configuration folder
@@ -127,7 +126,7 @@ bash:
 $ cp _generated/configs/* configs/
 ```
 
-## Build a v2020.1 Vivado Image (one time)
+## Build a v2020.2 Vivado Image (one time)
 
 ### Execute the image build script
 - Note: The build error is expected Build times reflected below were on an HP ZBook 15 G3, on battery power, connected to a WiFi 4G Hotspot
@@ -136,12 +135,12 @@ bash:
 $ ./build_image.sh
 	...
 	-----------------------------------
-	REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
-	xilinx-vivado       v2020.1             56428027c963        12 seconds ago      52.5GB
+	REPOSITORY      TAG       IMAGE ID       CREATED          SIZE
+	xilinx-vivado   v2020.2   1107cb7c9ba7   34 seconds ago   69.9GB
 	-----------------------------------
 	Image Build Complete...
-	STARTED :Sat 21 Nov 2020 01:29:56 PM EST
-	ENDED   :Sat 21 Nov 2020 02:43:38 PM EST
+	STARTED :Fri 15 Jan 2021 11:04:40 AM EST
+	ENDED   :Fri 15 Jan 2021 01:01:37 PM EST
 	-----------------------------------
 ```
 
@@ -154,27 +153,26 @@ $ ./build_image.sh
 
 ```bash
 $ docker run \
-	--name xilinx_vivado_v2020.1 \
+	--name xilinx_vivado_v2020.2 \
 	--device-cgroup-rule "c 188:* rwm" \
-	-h xilinx_vivado_v2020-1 \
+	-h xilinx_vivado_v2020-2 \
 	-v /tmp/.X11-unix:/tmp/.X11-unix \
 	-v ~/.Xauthority:/home/xilinx/.Xauthority \
-	-v /srv/software/xilinx:/srv/software \
+	-v /srv/software/install/xilinx:/srv/software \
 	-v /dev:/dev \
 	-e DISPLAY=$DISPLAY \
 	--mac-address "02:de:ad:be:ef:91" \
 	--user xilinx \
-	-itd xilinx-vivado:v2020.1 \
+	-itd xilinx-vivado:v2020.2 \
 	/bin/bash
-cc6b51a1688a416a814e6ba704b6fe82ff5d59c65569522fe386700b4c0a405b
+f61dee84339b873026eef87fd4b39488bd8e01764e6976897d9cccd917f57df2
 ```
 
 #### Verify the container was created and the MAC Address was set properly
 
 ```bash
 $ docker ps -a
-	CONTAINER ID        IMAGE                   COMMAND             CREATED             STATUS              PORTS               NAMES
-	49f7642b502b        xilinx-vivado:v2020.1   "/bin/bash"         8 seconds ago       Up 6 seconds                            xilinx_vivado_v2020.1
+
 ```
 
 ## Connect to the running container
@@ -184,26 +182,27 @@ $ docker ps -a
 
 ```bash
 bash:
-$ docker exec -id xilinx_vivado_v2020.1 bash -c "xterm"
+$ docker exec -id xilinx_vivado_v2020.2 bash -c "xterm"
 ```
 
 - This launches an X-windows terminal shell and sources the Vivado settings script
 
 ```bash
 xterm:
-xilinx@xilinx_vivado_v2020-1:/$
+xilinx@xilinx_vivado_v2020-2:/opt/Xilinx$ 
 ```
 
 ## Execute Vivado Tools
 - Launch Vivado from the working container
 ```bash
 xterm:
-xilinx@xilinx_vivado_v2020-1:/opt/Xilinx$ vivado
+xilinx@xilinx_vivado_v2020-2:/opt/Xilinx$ vivado
 
-****** Vivado v2020.1 (64-bit)
-  **** SW Build 2902540 on Wed May 27 19:54:35 MDT 2020
-  **** IP Build 2902112 on Wed May 27 22:43:36 MDT 2020
+****** Vivado v2020.2 (64-bit)
+  **** SW Build 3064766 on Wed Nov 18 09:12:47 MST 2020
+  **** IP Build 3064653 on Wed Nov 18 14:17:31 MST 2020
     ** Copyright 1986-2020 Xilinx, Inc. All Rights Reserved.
 
 start_gui
+
 ```
