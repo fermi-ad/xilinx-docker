@@ -151,6 +151,10 @@ RUN if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi \
 	 	file \
 # petalinux-gblibc-x86_64-petalinux-image-minimal-aarch64-toolchain.sh requires this in post install
 	 	gcc \
+# Vitis fails to load libswt-pi4-gtk: \
+# ----------------------------------- \
+		libswt-gtk-4-jni \
+		libswt-gtk-4-java \
 # ######################################################################################## \
 # # Xilinx Vitis OpenCL Installable Client Driver Loader Dependencies: \
 # ######################################################################################## \
