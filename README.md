@@ -70,7 +70,7 @@ User Image Sizes:
 
 | Xilinx Release | Ubuntu Release | User Image     | 
 | -------------- | -------------- | ----------     |
-| v2020.2        | [20.04.1][5u2] | [1.69GB][5u]  |
+| v2020.2        | [20.04.1][5u2] | [1.71GB][5u]  |
 | v2020.2        | [18.04.2][5u1] | [2.26GB][5u]  |
 | v2020.1        | [18.04.2][4u]  | [2.26GB][4u]   |
 | v2019.2        | [18.04.2][3u]  | [2.26GB][3u]   |
@@ -80,7 +80,8 @@ New ISO Based Images:
 
 | Xilinx Release | User Image     | Petalinux     | Vivado        | Vitis          | SDK             |
 | -------------- | -------------- | ---------     | ------------  | ------------   | --------------- |
-
+| v2020.2		 | [1.69GB][5u]   | N/A           | [69.9GB][5mv] | [79.9GB][5mvi] | N/A             |
+| v2020.2        | [2.26GB][5u]   | [12.3GB][4mp] | N/A           | N/A            | N/A             |
 
 Old BASE Rootfs Based Images:
 
@@ -100,8 +101,8 @@ New ISO Based Images:
 
 | Xilinx Release | Ubuntu Release | Petalinux     | Vivado        | Vitis          | SDK             |
 | -------------- | -------------- | ---------     | ------------  | ------------   | --------------- |
-| v2020.2        | [20.04.1][5u]  |               | [TBD GB][5mv] | [TBD GB][5mvi] | N/A             |
-| v2020.2        | [18.04.2][5u]  | [12.3GB][5mp] |               |                | N/A             |
+| v2020.2        | [20.04.1][5u]  | N/A           | [69.9GB][5mv] | [TBD GB][5mvi] | N/A             |
+| v2020.2        | [18.04.2][5u]  | [12.3GB][5mp] | N/A           | N/A            | N/A             |
 | v2020.1        | [18.04.2][4u]  | [10.9GB][4mp] | [52.2GB][4mv] | [71.5GB][4mvi] | N/A             |
 | v2019.2        | [18.04.2][3u]  | [18.7GB][3mp] | [41.1GB][3mv] | [55.5GB][3mvi] | N/A             |
 
@@ -122,8 +123,8 @@ These build times are approximate, rounded to the nearest minute and reflect one
 
 | Xilinx Release | User Image     | Petalinux     | Vivado        | Vitis        | SDK       |
 | -------------- | -------------- | ------------- | ------------- | ------------ | --------- |
-| v2020.2        | 9 min          | 7 min         |               |              | N/A       |
-| v2020.1        | 6 min          | 5 min         | 54 min        | 1 hr, 21 min | N/A       |
+| v2020.2        | 9 min          | 7 min         | 2 hr 13 min   | 2 hr, 45 min | N/A       |
+| v2020.1        | 6 min          | 5 min         | 54 min        | 2 hr, 25 min | N/A       |
 | v2019.2        | 6 min          | 9 min         | 39 min        | 45 min       | N/A       |
 | v2019.1        | 6 min          | 8 min         | 27 min        | N/A          | 4 min     |
 | v2018.3        | 5 min          | 11 min        | 26 min        | N/A          | 4 min     |
