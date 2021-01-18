@@ -1,0 +1,7 @@
+# Ignore everything in this location
+*
+# Keep this gitignore file so the folder remains
+!.gitignore
+
+# Keep the batch mode installer configurations
+!xlnx_unified_vitis.config
