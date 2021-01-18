@@ -227,13 +227,14 @@ This workflow consists of:
 ### Automated Xilinx Tool installation quickstart
 
 For the latest v2020.1 Xilinx Tools:
-- [Build a base Ubuntu Docker Image](./recipes/base-images/ubuntu-18.04.2/README.md)
-- [Build an Ubuntu User Image](./recipes/user-images/v2020.1/README.md)
+- [Build a base Ubuntu Docker Image for 18.04.2](./recipes/base-images/ubuntu-18.04.2/README.md)
+- [Build a base Ubuntu Docker Image for 20.04.1](./recipes/base-images/ubuntu-20.04.1/README.md)
+- [Build an Ubuntu User Image](./recipes/user-images/v2020.2/README.md)
 - Generate install configurations and dependencies
-	- [Generate Vivado Install Configuration files](./recipes/automated-images/vivado/v2020.1/README.md#generate-vivado-image-install-configuration-files-one-time)
-	- [Generate Vitis Installation Configuration files](./recipes/automated-images/vitis/v2020.1/README.md#generate-vitis-image-install-configuration-files-one-time)
-	- [Generate Petalinux Installation Configuration files](recipes/automated-images/vivado/v2020.1/README.md#generate-petalinux-image-install-configuration-files-one-time)
+	- [Generate Vivado Install Configuration files](./recipes/automated-images/vivado/v2020.2/README.md#generate-vivado-image-install-configuration-files-one-time)
+	- [Generate Vitis Installation Configuration files](./recipes/automated-images/vitis/v2020.2/README.md#generate-vitis-image-install-configuration-files-one-time)
+	- [Generate Petalinux Installation Configuration files](recipes/automated-images/vivado/v2020.2/README.md#generate-petalinux-image-install-configuration-files-one-time)
 - Build Docker images with Xilinx Tools pre-installed
-	- [Automated Vivado Installation](./recipes/automated-images/vivado/v2020.1/README.md)
-	- [Automated Vitis Installation](./recipes/automated-images/vitis/v2020.1/README.md)
-	- [Automated Petalinux Installation](./recipes/automated-images/petalinux/v2020.1/README.md)
+	- [Automated Vivado Installation](./recipes/automated-images/vivado/v2020.2/README.md)
+	- [Automated Vitis Installation](./recipes/automated-images/vitis/v2020.2/README.md)
+	- [Automated Petalinux Installation](./recipes/automated-images/petalinux/v2020.2/README.md)
