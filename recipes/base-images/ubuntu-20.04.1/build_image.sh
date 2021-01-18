@@ -39,7 +39,7 @@ function show_opts {
 	echo ""
 }
 
-# Init command line argument flags
+# Init command ling argument flags
 FLAG_BUILD_DEBUG=0 # Enable extra debug messages
 FLAG_BASE_IMAGE=0 # Use the base release image
 FLAG_ISO_IMAGE=0 # Use the iso release image
@@ -126,8 +126,8 @@ fi
 if [ $FLAG_BUILD_DEBUG -ne 0 ]; then 
 	echo " Image Selected"
 	echo " --------------------"
-	echo "   Image[$i]        : [${image_file[$i]}]"
-	echo "   ChecksumType[$i] : [${image_checksum_type[$i]}]"
+	echo "   Image[0]        : [${image_file[0]}]"
+	echo "   ChecksumType[0] : [${image_checksum_type[0]}]"
 fi
 
 # Grab Start Time
