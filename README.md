@@ -13,9 +13,9 @@ Docker images are layered (generically) as follows:
 		- ```--> [Xilinx Tool Image]```
 
 
-The ```[Base OS Image]``` contains a basic root filesystem that supports package management and command line interaction.
-The ```[User OS Image]``` contains all dependencies and configurations to install and use of Xilinx tools in the container.
-The ```[Xilinx Tool Image]``` contains the complete installation of the Xilinx development tool.
+- The ```[Base OS Image]``` contains a basic root filesystem that supports package management and command line interaction.
+- The ```[User OS Image]``` contains all dependencies and configurations to install and use of Xilinx tools in the container.
+- The ```[Xilinx Tool Image]``` contains the complete installation of the Xilinx development tool.
 
 ## Host OS Setup
 
@@ -81,7 +81,7 @@ New ISO Based Images:
 | Xilinx Release | User Image     | Petalinux     | Vivado        | Vitis          | SDK             |
 | -------------- | -------------- | ---------     | ------------  | ------------   | --------------- |
 | v2020.2		 | [1.69GB][5u]   | N/A           | [69.9GB][5mv] | [79.9GB][5mvi] | N/A             |
-| v2020.2        | [2.26GB][5u]   | [12.3GB][4mp] | N/A           | N/A            | N/A             |
+| v2020.2        | [2.26GB][5u]   | [12.3GB][5mp] | N/A           | N/A            | N/A             |
 
 Old BASE Rootfs Based Images:
 
@@ -101,10 +101,10 @@ New ISO Based Images:
 
 | Xilinx Release | Ubuntu Release | Petalinux     | Vivado        | Vitis          | SDK             |
 | -------------- | -------------- | ---------     | ------------  | ------------   | --------------- |
-| v2020.2        | [20.04.1][5u]  | N/A           | [69.9GB][5mv] | [TBD GB][5mvi] | N/A             |
-| v2020.2        | [18.04.2][5u]  | [12.3GB][5mp] | N/A           | N/A            | N/A             |
-| v2020.1        | [18.04.2][4u]  | [10.9GB][4mp] | [52.2GB][4mv] | [71.5GB][4mvi] | N/A             |
-| v2019.2        | [18.04.2][3u]  | [18.7GB][3mp] | [41.1GB][3mv] | [55.5GB][3mvi] | N/A             |
+| v2020.2        | [20.04.1][5u]  | N/A           | [69.9GB][5av] | [TBD GB][5avi] | N/A             |
+| v2020.2        | [18.04.2][5u]  | [12.3GB][5ap] | N/A           | N/A            | N/A             |
+| v2020.1        | [18.04.2][4u]  | [10.9GB][4ap] | [52.2GB][4av] | [71.5GB][4avi] | N/A             |
+| v2019.2        | [18.04.2][3u]  | [18.7GB][3ap] | [41.1GB][3av] | [55.5GB][3avi] | N/A             |
 
 Base RootFS Release Based Images:
 
@@ -151,12 +151,14 @@ These build times are approximate, rounded to the nearest minute and reflect one
 [1mp]: ./recipes/user-images/v2018.3/README.petalinux-install.md
 [0mp]: ./recipes/user-images/v2018.2/README.petalinux-install.md
 
+[5mv]: ./recipes/user-images/v2020.2/README.vivado-install.md
 [4mv]: ./recipes/user-images/v2020.1/README.vivado-install.md
 [3mv]: ./recipes/user-images/v2019.2/README.vivado-install.md
 [2mv]: ./recipes/user-images/v2019.1/README.vivado-install.md
 [1mv]: ./recipes/user-images/v2018.3/README.vivado-install.md
 [0mv]: ./recipes/user-images/v2018.2/README.vivado-install.md
 
+[5mvi]: ./recipes/user-images/v2020.2/README.vitis-install.md
 [4mvi]: ./recipes/user-images/v2020.1/README.vitis-install.md
 [3mvi]: ./recipes/user-images/v2019.2/README.vitis-install.md
 
@@ -164,18 +166,21 @@ These build times are approximate, rounded to the nearest minute and reflect one
 [1msdk]: ./recipes/user-images/v2018.3/README.sdk-install.md
 [0msdk]: ./recipes/user-images/v2018.2/README.sdk-install.md
 
+[5ap]: ./recipes/automated-images/petalinux/v2020.2/README.md
 [4ap]: ./recipes/automated-images/petalinux/v2020.1/README.md
 [3ap]: ./recipes/automated-images/petalinux/v2019.2/README.md
 [2ap]: ./recipes/automated-images/petalinux/v2019.1/README.md
 [1ap]: ./recipes/automated-images/petalinux/v2018.3/README.md
 [0ap]: ./recipes/automated-images/petalinux/v2018.2/README.md
 
+[5av]: ./recipes/automated-images/vivado/v2020.2/README.md
 [4av]: ./recipes/automated-images/vivado/v2020.1/README.md
 [3av]: ./recipes/automated-images/vivado/v2019.2/README.md
 [2av]: ./recipes/automated-images/vivado/v2019.1/README.md
 [1av]: ./recipes/automated-images/vivado/v2018.3/README.md
 [0av]: ./recipes/automated-images/vivado/v2018.2/README.md
 
+[5avi]: ./recipes/automated-images/vitis/v2020.2/README.md
 [4avi]: ./recipes/automated-images/vitis/v2020.1/README.md
 [3avi]: ./recipes/automated-images/vitis/v2019.2/README.md
 
