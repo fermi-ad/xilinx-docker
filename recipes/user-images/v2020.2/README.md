@@ -165,5 +165,12 @@ $ cp _generated/configs/* configs/
 bash:
 $ ./build_image.sh --iso
 	...
-
+	-----------------------------------
+	REPOSITORY                   TAG       IMAGE ID       CREATED        SIZE
+	xilinx-ubuntu-20.04.1-user   v2020.2   44e56794dafc   1 second ago   1.71GB
+	-----------------------------------
+	Image Build Complete...
+	STARTED :Sun 17 Jan 2021 05:03:11 PM EST
+	ENDED   :Sun 17 Jan 2021 05:22:38 PM EST
+	-----------------------------------
 ```
