@@ -173,6 +173,9 @@ RUN if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi \
 #		sudo \
 #		locales \
 #		git \
+# Dependencies for GIT SSH support from container \
+		openssh-client\
+		openssh-client-ssh1 \
 # Add minicom for /dev/ttyUSB* access from command line \
 	 	minicom \
 ######################################################################################## \

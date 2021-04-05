@@ -52,7 +52,7 @@ RUN if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi \
 # Setup bashrc to source petalinux settings on login \
 	&& echo ". ${XLNX_INSTALL_LOCATION}/Vitis/2020.2/settings64.sh" >> $HOME_DIR/.bashrc \
 # Setup LD_LIBRARY_PATH to include Unified included Linux libraries \
-	&& echo "export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${XLNX_INSTALL_LOCATION}/Vitis/2020.1/lib/lnx64.o/" >> $HOME_DIR/.bashrc \
+	&& echo "export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${XLNX_INSTALL_LOCATION}/Vitis/2020.2/lib/lnx64.o/" >> $HOME_DIR/.bashrc \
 # Setup installer permissions \
 	&& cd $XLNX_UNIFIED_INSTALLER_BASENAME \
   	&& chmod a+x xsetup \
