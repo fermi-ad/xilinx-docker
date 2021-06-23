@@ -1,0 +1,10 @@
+# Ignore all files except those explicitly included in context
+*
+
+# Add files required back in context
+!Dockerfile.iso
+!Dockerfile.base
+!Dockerfile.iso.generate_configs
+!Dockerfile.base.generate_configs
+!configs
+!depends
