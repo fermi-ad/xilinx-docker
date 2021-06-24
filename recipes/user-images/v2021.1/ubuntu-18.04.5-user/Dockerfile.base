@@ -103,6 +103,78 @@ RUN if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi \
 # add i386 architecture for zlib1g-dev dependency \
 	&& sudo dpkg --add-architecture i386 \
 	&& sudo apt-get update \
+	&& sudo apt-get install -y \
+######################################################################################## \
+# Xilinx Petalinux Dependencies: \
+######################################################################################## \
+	  	tofrodos \
+	  	iproute2 \
+		gawk \
+		xvfb \
+		git \
+		make \
+		net-tools \
+		libncurses5-dev \
+# Note: Python2 is requried, Python3 is included by default with Ubuntu 18 \
+		python \
+# Install update-inetd for tftpd \
+	  	update-inetd \
+	  	tftpd \
+		zlib1g-dev:i386 \
+	  	libssl-dev \
+	  	flex \
+	  	bison \
+	  	libselinux1 \
+	  	gnupg \
+	  	wget \
+		diffstat \
+		chrpath \
+		socat \
+		xterm \
+		autoconf \
+		libtool \
+		libtool-bin \
+# Use BSDTAR vs.  TAR due to issues in docker container \
+		tar \
+	  	unzip \
+	  	texinfo \
+		zlib1g-dev \
+		gcc-multilib \
+		build-essential \
+		libsdl1.2-dev \
+		libglib2.0-dev \
+		screen \
+		pax \
+		gzip \
+# python3-gi is used by bitbake's dependency explorer \
+		python3-gi \
+# undocumented dependencies \
+		less \
+		lsb-release \
+		fakeroot \
+		libgtk2.0-0 \
+		libgtk2.0-dev \
+# yocto depedencies (for petalinux) \
+		cpio \
+		rsync \
+		xorg \
+# dependency for autoinstall of petalinux \
+		expect \
+# used to strip windows line terminations from autoinstall scripts in powershell \
+		dos2unix \
+# Added 9.27.2019 for RFSoC ZCU111 Build Support \
+		idn \
+# Already Installed \
+#		sudo \
+#		locales \
+#		git \
+# Dependencies for GIT SSH support from container \
+		openssh-client\
+		openssh-client-ssh1 \
+# Add minicom for /dev/ttyUSB* access from command line \
+	 	minicom \
+# Added for v2021.1 settings.sh script \
+		bc \
 ######################################################################################## \
 # Xilinx Unified Installer Dependencies: \
 ######################################################################################## \
