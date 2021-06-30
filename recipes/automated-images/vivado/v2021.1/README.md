@@ -198,10 +198,9 @@ xterm:
 xilinx@xilinx_vivado_v2021-1:/opt/Xilinx$ vivado
 
 ****** Vivado v2021.1 (64-bit)
-  **** SW Build 3064766 on Wed Nov 18 09:12:47 MST 2020
-  **** IP Build 3064653 on Wed Nov 18 14:17:31 MST 2020
-    ** Copyright 1986-2020 Xilinx, Inc. All Rights Reserved.
+  **** SW Build 3247384 on Thu Jun 10 19:36:07 MDT 2021
+  **** IP Build 3246043 on Fri Jun 11 00:30:35 MDT 2021
+    ** Copyright 1986-2021 Xilinx, Inc. All Rights Reserved.
 
 start_gui
-
 ```
