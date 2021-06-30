@@ -54,11 +54,6 @@ RUN if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi \
 	&& dos2unix -ascii -q $XLNX_PETALINUX_AUTOINSTALL_SCRIPT \
 # Have new user shell start in yocto folder \
 	&& echo "cd $XLNX_PETALINUX_INSTALL_DIR" >> $HOME_DIR/.bashrc \
-# Setup the User Locale \
-# Yocto requires a 'UTF-8' locale \
-# Xilinx tools specifically require the 'en_US.UTF-8' locale \
-	&& echo "export LANG=en_US.UTF-8" >> $HOME_DIR/.bashrc \
-	&& export "LANG=en_US.UTF-8" \
 # Setup installer permissions \
 	&& chmod a+x $XLNX_PETALINUX_INSTALLER \
 	&& chmod a+x $XLNX_PETALINUX_AUTOINSTALL_SCRIPT	\
