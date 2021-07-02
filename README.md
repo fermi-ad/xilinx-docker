@@ -55,6 +55,7 @@ There are two sizes listed based on if the image is generated from a base tarbal
 | Ubuntu Release | Base ISO Image | Base Image   | 
 | -------------- | -------------- | ------------ |
 | 20.04.1        | [267MB][5b]    | [72.9MB][5b] |
+| 18.04.5        | [670MB][6b]    | [63.2MB][6b] | 
 | 18.04.2        | [243MB][4b]    | [88.3MB][4b] | 
 | 18.04.1        | [238MB][3b]    | [83.5MB][3b] |
 | 16.04.4		 | [203MB][1b]    | [112MB][1b]  |
@@ -70,6 +71,8 @@ User Image Sizes:
 
 | Xilinx Release | Ubuntu Release | User Image     | 
 | -------------- | -------------- | ----------     |
+| v2021.1        | [20.04.1][6u]  | [2.09GB][6u]   |
+| v2021.1        | [18.04.5][6u]  | [2.45GB][6u]   |
 | v2020.2        | [20.04.1][5u]  | [1.71GB][5u]   |
 | v2020.2        | [18.04.2][5u]  | [2.26GB][5u]   |
 | v2020.1        | [18.04.2][4u]  | [2.26GB][4u]   |
@@ -80,6 +83,7 @@ New ISO Based Images:
 
 | Xilinx Release | User Image     | Petalinux     | Vivado        | Vitis          | SDK             |
 | -------------- | -------------- | ---------     | ------------  | ------------   | --------------- |
+| v2021.1        | [2.09GB][6u]   | [14.8GB][6mp] | [40.6GB][6mv] | | |
 | v2020.2		 | [1.69GB][5u]   | N/A           | [69.9GB][5mv] | [79.9GB][5mvi] | N/A             |
 | v2020.2        | [2.26GB][5u]   | [12.3GB][5mp] | N/A           | N/A            | N/A             |
 
@@ -101,6 +105,7 @@ New ISO Based Images:
 
 | Xilinx Release | Ubuntu Release | Petalinux     | Vivado        | Vitis          | SDK             |
 | -------------- | -------------- | ---------     | ------------  | ------------   | --------------- |
+| v2021.1        | [2.09GB][6u]   | [14.8GB][6mp] | [40.6GB][6mv] | | |
 | v2020.2        | [20.04.1][5u]  | N/A           | [69.9GB][5av] | [TBD GB][5avi] | N/A             |
 | v2020.2        | [18.04.2][5u]  | [12.3GB][5ap] | N/A           | N/A            | N/A             |
 | v2020.1        | [18.04.2][4u]  | [10.9GB][4ap] | [52.2GB][4av] | [71.5GB][4avi] | N/A             |
@@ -123,6 +128,7 @@ These build times are approximate, rounded to the nearest minute and reflect one
 
 | Xilinx Release | User Image     | Petalinux     | Vivado        | Vitis        | SDK       |
 | -------------- | -------------- | ------------- | ------------- | ------------ | --------- |
+| v2021.1        |                |               | 1 hr 55 min   |              | N/A       |
 | v2020.2        | 9 min          | 7 min         | 2 hr 13 min   | 2 hr, 45 min | N/A       |
 | v2020.1        | 6 min          | 5 min         | 54 min        | 2 hr, 25 min | N/A       |
 | v2019.2        | 6 min          | 9 min         | 39 min        | 45 min       | N/A       |
@@ -130,13 +136,14 @@ These build times are approximate, rounded to the nearest minute and reflect one
 | v2018.3        | 5 min          | 11 min        | 26 min        | N/A          | 4 min     |
 | v2018.2        | 5 min          | 13 min        | 25 min        | N/A          | 4 min     |
 
-
+[6b]: ./recipes/base-images/ubuntu-18.04.5/README.md
 [5b]: ./recipes/base-images/ubuntu-20.04.1/README.md
 [4b]: ./recipes/base-images/ubuntu-18.04.2/README.md
 [3b]: ./recipes/base-images/ubuntu-18.04.1/README.md
 [1b]: ./recipes/base-images/ubuntu-16.04.4/README.md
 [0b]: ./recipes/base-images/ubuntu-16.04.3/README.md
 
+[6u]: ./recipes/user-images/v2021.1/README.md
 [5u]: ./recipes/user-images/v2020.2/README.md
 [4u]: ./recipes/user-images/v2020.1/README.md
 [3u]: ./recipes/user-images/v2019.2/README.md
@@ -144,6 +151,7 @@ These build times are approximate, rounded to the nearest minute and reflect one
 [1u]: ./recipes/user-images/v2018.3/README.md
 [0u]: ./recipes/user-images/v2018.2/README.md
 
+[6mp]: ./recipes/user-images/v2021.1/README.petalinux-install.md
 [5mp]: ./recipes/user-images/v2020.2/README.petalinux-install.md
 [4mp]: ./recipes/user-images/v2020.1/README.petalinux-install.md
 [3mp]: ./recipes/user-images/v2019.2/README.petalinux-install.md
@@ -151,6 +159,7 @@ These build times are approximate, rounded to the nearest minute and reflect one
 [1mp]: ./recipes/user-images/v2018.3/README.petalinux-install.md
 [0mp]: ./recipes/user-images/v2018.2/README.petalinux-install.md
 
+[6mv]: ./recipes/user-images/v2021.1/README.vivado-install.md
 [5mv]: ./recipes/user-images/v2020.2/README.vivado-install.md
 [4mv]: ./recipes/user-images/v2020.1/README.vivado-install.md
 [3mv]: ./recipes/user-images/v2019.2/README.vivado-install.md
@@ -158,6 +167,7 @@ These build times are approximate, rounded to the nearest minute and reflect one
 [1mv]: ./recipes/user-images/v2018.3/README.vivado-install.md
 [0mv]: ./recipes/user-images/v2018.2/README.vivado-install.md
 
+[6mvi]: ./recipes/user-images/v2021.1/README.vitis-install.md
 [5mvi]: ./recipes/user-images/v2020.2/README.vitis-install.md
 [4mvi]: ./recipes/user-images/v2020.1/README.vitis-install.md
 [3mvi]: ./recipes/user-images/v2019.2/README.vitis-install.md
