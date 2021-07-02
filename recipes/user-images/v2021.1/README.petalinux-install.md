@@ -1,4 +1,4 @@
-[//]: # (Readme.petalinux-install.md - Install Petalinux on a Base Ubuntu User Image for v2021.2 Xilinx Tools)
+[//]: # (Readme.petalinux-install.md - Install Petalinux on a Base Ubuntu User Image for v2021.1 Xilinx Tools)
 
 # Install Petalinux
 
