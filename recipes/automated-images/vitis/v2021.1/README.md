@@ -1,4 +1,4 @@
-[//]: # (README.md - Vivado v2021.1 Build Environment)
+[//]: # (README.md - Vitis v2021.1 Build Environment)
 
 # Organization
 ```
@@ -9,14 +9,33 @@
 -> Dockerfile.iso.generate_configs
 -> generate_configs.sh
 -> configs/
-	-> xlnx_unified_vivado.config
+	-> xlnx_unified_vitis.config
 -> depends/
 	-> Xilinx_Unified_2021.1_0610_2318_Lin64.bin
 	-> Xilinx_Unified_2021.1_0610_2318_Lin64.tar.gz
 	-> Xilinx_Unified_2021.1_0610_2318_Lin64.tar.gz.sha256
+	-> tbd-amd64-xrt.deb
+	-> xrtdeps.sh
 -> include/
 	-> configuration.sh
 ```
+
+# Setup Host System for XRT
+## Download xrtdeps.sh shell script
+- Package configurations are listed in the shell script
+https://github.com/Xilinx/XRT/blob/master/src/runtime_src/tools/scripts/xrtdeps.sh
+- See UG1301 Getting Started Guide Alveo Accelerator Cards
+	- https://www.xilinx.com/support/documentation/boards_and_kits/accelerator-cards/ug1301-getting-started-guide-alveo-accelerator-cards.pdf
+```bash
+$ wget -nv https://raw.githubusercontent.com/Xilinx/XRT/2021.1/src/runtime_src/tools/scripts/xrtdeps.sh -O depends/xrtdeps.sh
+```
+
+# Need to determine XRT configurations?
+## Download xrtdeps.sh shell script
+- Package configurations are listed in the shell script
+https://github.com/Xilinx/XRT/blob/master/src/runtime_src/tools/scripts/xrtdeps.sh
+- See UG1301 Getting Started Guide Alveo Accelerator Cards
+	- https://www.xilinx.com/html_docs/accelerator_cards/alveo_doc_280/dwt1537506874594.html
 
 # Quickstart
 ## Download Xilinx Public Signing Key
@@ -74,7 +93,6 @@ $ popd
 
 ## Generate an Ubuntu 20.04.1 user image 
 - This contains all the dependencies for the v2021.1 Xilinx Tools
-- Note: Petalinux v2021.1 requires Ubuntu 18.04 or 16.04 due to glibc compatibility
 
 ```bash
 bash:
@@ -83,7 +101,7 @@ $ ./build_image.sh --iso
 $ popd
 ```
 
-## Generate Vivado Image Install Configuration Files (one time)
+## Generate Vitis Image Install Configuration Files (one time)
 
 ### Execute the configuration file generation script
 
@@ -96,10 +114,9 @@ $ ./generate_configs.sh --iso
 - Follow the build process in the terminal (manual interaction required)
 
 - Xilinx Unified batch mode configuration (generate)
-	- Select ```Vivado ML Standard```: option ```1```
+	- Select ```Vivado Unified Software Platform```: option ```1```
 	- The configuration opens in the ```vim``` editor
 	- Make the following modifications:
-		- ```Modules=...DocNav:0,...``` 
 		- ```CreateProgramGroupShortcuts=0```
 		- ```CreateShortcutsForAllUsers=0```
 		- ```CreateDesktopShortcuts=0```
@@ -114,7 +131,7 @@ bash:
 -----------------------------------
 Configurations Generated:
 -----------------------------------
--rw-r--r-- 1 xilinx xilinx 1511 Jun 30 11:06 _generated/configs/xlnx_unified_vivado.config
+-rw-r--r-- 1 xilinx xilinx 1946 Jul  2 08:50 _generated/configs/xlnx_unified_vitis.config
 -----------------------------------
 ```
 
@@ -134,12 +151,12 @@ bash:
 $ ./build_image.sh
 	...
 	-----------------------------------
-	REPOSITORY      TAG       IMAGE ID       CREATED          SIZE
-	xilinx-vivado   v2021.1   c0a5062d3012   27 seconds ago   41.3GB
+	REPOSITORY     TAG       IMAGE ID       CREATED          SIZE
+	xilinx-vitis   v2021.1   5422302308ce   33 seconds ago   88.8GB
 	-----------------------------------
 	Image Build Complete...
-	STARTED :Fri 02 Jul 2021 02:19:48 PM EDT
-	ENDED   :Fri 02 Jul 2021 04:08:54 PM EDT
+	STARTED :Fri 02 Jul 2021 04:14:03 PM EDT
+	ENDED   :Fri 02 Jul 2021 07:17:39 PM EDT
 	-----------------------------------
 ```
 
@@ -198,9 +215,10 @@ xterm:
 xilinx@xilinx_vivado_v2021-1:/opt/Xilinx$ vivado
 
 ****** Vivado v2021.1 (64-bit)
-  **** SW Build 3247384 on Thu Jun 10 19:36:07 MDT 2021
-  **** IP Build 3246043 on Fri Jun 11 00:30:35 MDT 2021
-    ** Copyright 1986-2021 Xilinx, Inc. All Rights Reserved.
+  **** SW Build 3064766 on Wed Nov 18 09:12:47 MST 2020
+  **** IP Build 3064653 on Wed Nov 18 14:17:31 MST 2020
+    ** Copyright 1986-2020 Xilinx, Inc. All Rights Reserved.
 
 start_gui
+
 ```

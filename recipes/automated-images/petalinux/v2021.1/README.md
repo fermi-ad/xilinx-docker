@@ -86,12 +86,12 @@ bash:
 $ ./build_image.sh
 	...
 	-----------------------------------
-	REPOSITORY         TAG       IMAGE ID       CREATED              SIZE
-	xilinx-petalinux   v2021.1   984fbf08607e   About a minute ago   14.8GB
+	REPOSITORY         TAG       IMAGE ID       CREATED         SIZE
+	xilinx-petalinux   v2021.1   25e91af159cc   2 minutes ago   15.5GB
 	-----------------------------------
 	Image Build Complete...
-	STARTED :Thu 24 Jun 2021 09:37:02 AM EDT
-	ENDED   :Thu 24 Jun 2021 09:47:02 AM EDT
+	STARTED :Fri 02 Jul 2021 01:58:23 PM EDT
+	ENDED   :Fri 02 Jul 2021 02:08:19 PM EDT
 	-----------------------------------
 ```
 

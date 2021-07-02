@@ -255,7 +255,65 @@ RUN if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi \
 # Uncovered during OpenAMP Pre-built Example Generation \
 	 	libidn11 \
 # Non-required packages for productivity \
-	 	xvfb
+	 	xvfb \
+# ######################################################################################## \
+# # v2021.1 XRTDEPS.SH Dependencies for Vitis: \
+# # https://github.com/Xilinx/XRT/blob/2021.1/src/runtime_src/tools/scripts/xrtdeps.sh
+# ######################################################################################## \
+# ub_package_list() \
+# {
+#    UB_LIST=(\
+ 	    cmake \
+    	cppcheck \
+#     	curl \
+     	dkms \
+#       g++ \
+#     	gcc \
+	    gdb \
+#     	git \
+     	gnuplot \
+#     	graphviz \
+     	libboost-dev \
+     	libboost-filesystem-dev \
+     	libboost-program-options-dev \
+     	libcurl4-openssl-dev \
+     	libdrm-dev \
+     	libgtest-dev \
+     	libjpeg-dev \
+     	libjson-glib-dev \
+#     	libncurses5-dev \
+		libopencv-core-dev \
+		libpng-dev \
+		libprotoc-dev \
+		libssl-dev \
+		libsystemd-dev \
+		libtiff5-dev \
+		libudev-dev \
+		libyaml-dev \
+		linux-libc-dev \
+		lm-sensors \
+		lsb-release \
+		make \
+		ocl-icd-dev \
+		ocl-icd-libopencl1 \
+		ocl-icd-opencl-dev \
+		opencl-headers \
+		pciutils \
+		perl \
+		rapidjson-dev \
+		pkg-config \
+		protobuf-compiler \
+		python3 \
+		libpython3-dev \
+		python3-breathe \
+		python3-pip \
+		python3-sphinx \
+		python3-sphinx-rtd-theme \
+		sphinx-common \
+		strace \
+		unzip \
+		uuid-dev 
+#    } \
 # ######################################################################################## \
 # # Xilinx DocNav Dependencies: \
 # ######################################################################################## \

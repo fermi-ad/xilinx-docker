@@ -1,0 +1,5 @@
+# Ignore everything in this location
+*
+# Keep this gitignore file so the folder remains
+!.gitignore
+!xrtdeps.sh

@@ -98,11 +98,11 @@ $ ./build_image.sh --iso
 	...
 	-----------------------------------
 	REPOSITORY                   TAG       IMAGE ID       CREATED        SIZE
-	xilinx-ubuntu-18.04.5-user   v2021.1   67a6dcb52415   1 second ago   2.45GB
+	xilinx-ubuntu-18.04.5-user   v2021.1   704c99d2fb9f   1 second ago   3.17GB
 	-----------------------------------
 	Image Build Complete...
-	STARTED :Wed 23 Jun 2021 02:13:47 PM EDT
-	ENDED   :Wed 23 Jun 2021 02:39:44 PM EDT
+	STARTED :Fri 02 Jul 2021 12:04:40 PM EDT
+	ENDED   :Fri 02 Jul 2021 12:41:22 PM EDT
 	-----------------------------------
 ```
 
@@ -167,10 +167,10 @@ $ ./build_image.sh --iso
 	...
 	-----------------------------------
 	REPOSITORY                   TAG       IMAGE ID       CREATED        SIZE
-	xilinx-ubuntu-20.04.1-user   v2021.1   37f2b937e675   1 second ago   2.09GB
+	xilinx-ubuntu-20.04.1-user   v2021.1   7cdb17df7a13   1 second ago   2.8GB
 	-----------------------------------
 	Image Build Complete...
-	STARTED :Wed 23 Jun 2021 01:45:31 PM EDT
-	ENDED   :Wed 23 Jun 2021 02:13:13 PM EDT
+	STARTED :Fri 02 Jul 2021 01:03:44 PM EDT
+	ENDED   :Fri 02 Jul 2021 01:43:35 PM EDT
 	-----------------------------------
 ```
