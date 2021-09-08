@@ -257,7 +257,7 @@ RUN if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi \
 	 	xvfb \
 # ######################################################################################## \
 # # v2021.1 XRTDEPS.SH Dependencies for Vitis: \
-# # https://github.com/Xilinx/XRT/blob/2021.1/src/runtime_src/tools/scripts/xrtdeps.sh
+# # https://github.com/Xilinx/XRT/blob/2021.1/src/runtime_src/tools/scripts/xrtdeps.sh \
 # ######################################################################################## \
 # ub_package_list() \
 # {
@@ -311,7 +311,7 @@ RUN if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi \
 		sphinx-common \
 		strace \
 		unzip \
-		uuid-dev 
+		uuid-dev
 #    } \
 # ######################################################################################## \
 # # Xilinx DocNav Dependencies: \
@@ -323,7 +323,7 @@ RUN if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi \
 # 	 	libext6:i386 \
 # 	 	libxrender1:i386 \
 # 	 	libsm6:i386 \
-# 	 	libqtgui4:i386 \
+# 	 	libqtgui4:i386
 
 ARG GIT_USER_NAME
 ARG GIT_USER_EMAIL

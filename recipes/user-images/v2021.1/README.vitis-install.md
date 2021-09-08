@@ -16,11 +16,10 @@ ubuntu                           20.04.1   16d905ba1cbe   6 months ago   72.9MB
 
 ### Create a working vitis install container
 - Make sure you mount at least one host folder so the docker container can access the Petalinux installer
-- Example: using `-v /srv/software/xilinx:/srv/software`
-	- gives access to host files under `/srv/software/xilinx` in the Docker container
-	- `/srv/software` is the mounted location inside of the Docker container
-	- `/srv/software/xilinx/` is the location of the Xilinx tool installer binaries
-	- `/srv/software/licenses/` is the location of the Xilinx license files
+- Example: using `-v /srv/software:/srv/software`
+	- gives access to installer and other Xilinx downloads on my host system under `/srv/software` in the Docker container
+- Example: using `-v /xilinx:/xilinx`
+	- gives access to vitis platforms, pre-builts, trds and working projects on my host system under `/xilinx` in the Docker container
 
 #### Create a working container manually
 
@@ -31,7 +30,8 @@ $ docker run \
 	-h xilinx_vitis_v2021-1 \
 	-v /tmp/.X11-unix:/tmp/.X11-unix \
 	-v ~/.Xauthority:/home/xilinx/.Xauthority \
-	-v /srv/software/install/xilinx:/srv/software \
+	-v /srv/software:/srv/software \
+	-v /xilinx:/xilinx \
 	-v /dev:/dev \
 	-e DISPLAY=$DISPLAY \
 	--mac-address "02:de:ad:be:ef:91" \
@@ -76,7 +76,7 @@ xilinx@xilinx_vitis_v2021-1:/$  ls -al /srv/software/unified/web/*2021.1*
 
 ```bash
 xterm:
-xilinx@xilinx_vitis_v2021-1:/$ sudo mkdir -p /opt/Xilinx
+xilinx@xilinx_vitis_v2021-1:/$ sudo mkdir -p /opt/tools/Xilinx
 xilinx@xilinx_vitis_v2021-1:/$ sudo chown -hR xilinx:xilinx /opt
 ```
 
@@ -87,8 +87,8 @@ xilinx@xilinx_vitis_v2021-1:/$ sudo chown -hR xilinx:xilinx /opt
 
 ```bash
 xterm:
-xilinx@xilinx_vitis_v2021-1:/$ cd /opt/Xilinx/
-xilinx@xilinx_vitis_v2021-1:/opt/Xilinx$ /srv/software/unified/web/Xilinx_Unified_2021.1_0610_2318_Lin64.bin
+xilinx@xilinx_vitis_v2021-1:/$ cd /opt/tools/Xilinx/
+xilinx@xilinx_vitis_v2021-1:/opt/tools/Xilinx$ /srv/software/xilinx/2021.1/Xilinx_Unified_2021.1_0610_2318_Lin64.bin
 Verifying archive integrity... All good.
 Uncompressing Xilinx Installer..............................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................
 ```
@@ -124,7 +124,15 @@ Uncompressing Xilinx Installer..................................................
 
 ```bash
 xterm:
-xilinx@xilinx_vitis_v2021-1:/opt/Xilinx$ echo ". /opt/Xilinx/Vitis/2021.1/settings64.sh" > ~/.bashrc
+xilinx@xilinx_vitis_v2021-1:/opt/tools/Xilinx$ echo ". /opt/tools/Xilinx/Vitis/2021.1/settings64.sh" > ~/.bashrc
+```
+
+### Set vitis platfor path for new shell sessions
+- Specify this in the `.bashrc` file
+
+```bash
+xterm:
+xilinx@xilinx_vitis_v2021-1:/opt/tools/Xilinx$ echo "export PLATFORM_REPO_PATHS=/xilinx/local/platforms/2021.1" >> ~/.bashrc
 ```
 
 ### Turn off webtalk
@@ -132,13 +140,13 @@ xilinx@xilinx_vitis_v2021-1:/opt/Xilinx$ echo ". /opt/Xilinx/Vitis/2021.1/settin
 ### Initialize the Vitis paths
 ```bash
 xterm:
-xilinx@xilinx_vitis_v2021-1:/opt/Xilinx$ source /opt/Xilinx/Vitis/2021.1/settings64.sh
+xilinx@xilinx_vitis_v2021-1:/opt/tools/Xilinx$ source /opt/tools/Xilinx/Vitis/2021.1/settings64.sh
 ```
 
 ### Disable webtalk
 ```bash
 xterm:
-xilinx@xilinx_vitis_v2021-1:/opt/Xilinx$ vivado -mode tcl
+xilinx@xilinx_vitis_v2021-1:/opt/tools/Xilinx$ vivado -mode tcl
 
 ****** Vivado v2021.1 (64-bit)
   **** SW Build 3064766 on Wed Nov 18 09:12:47 MST 2020
@@ -163,7 +171,7 @@ INFO: [Common 17-206] Exiting Vivado at Thu Jan 14 18:10:32 2021...
 
 ```bash
 xterm:
-xilinx@xilinx_vitis_v2021-1:/opt/Xilinx$ vivado
+xilinx@xilinx_vitis_v2021-1:/opt/tools/Xilinx$ vivado
 
 ****** Vivado v2021.1 (64-bit)
   **** SW Build 3064766 on Wed Nov 18 09:12:47 MST 2020
@@ -183,12 +191,32 @@ From the Vivado menu, select `Help` -> `Manage Licenses`
 	- Repeat for additional license files
 	- Exit License Manager when done
 
+
+## Install XRT (only needed for Alveo Cards)
+- XRT Notes:
+	- XRT inside of a docker container cannot access the host kernel, so it must be installed in the host OS and in the container.
+	- Link: https://github.com/Xilinx/Xilinx_Base_Runtime#run-base-docker-image
+
+### XRT Layered Communication Overview
+- Note: This communication path only applies to FPGA-based PCIe cards in the Alveo family
+- Note: Embedded platforms use the ZOCL driver and XRT is run on the embedded processor, not the host PC
+- Host Machine: [XRT Driver] -> [FPGA Platform]
+- Docker Container: [Application] -> [XRT Runtime] -> [Host: XRT Driver] -> [Host: FPGA Platform]
+
+### Set XRT script to execute for new shell sessions
+- Specify this in the `.bashrc` file
+
+```bash
+xterm:
+xilinx@xilinx_vitis_v2021-1:/opt/tools/Xilinx$ echo ". /opt/tools/Xilinx/xrt/setup.sh" > ~/.bashrc
+```
+
 ## Exit the Xterm session
 - The Xterm window can be closed
 
 ```bash
 xterm:
-xilinx@xilinx_vitis_v2021-1:/opt/Xilinx$ exit
+xilinx@xilinx_vitis_v2021-1:/opt/tools/Xilinx$ exit
 ```
 
 # Create a Vitis Docker Image in your local repository
