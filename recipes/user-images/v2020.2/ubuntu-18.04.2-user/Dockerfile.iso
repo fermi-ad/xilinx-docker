@@ -205,7 +205,11 @@ RUN if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi \
 # Uncovered during OpenAMP Pre-built Example Generation \
 	 	libidn11 \
 # Non-required packages for productivity \
-	 	xvfb 
+	 	xvfb \
+######################################################################################## \
+# Xilinx Vitis AI Repository Dependencies: \
+######################################################################################## \
+		parted
 
 ARG GIT_USER_NAME
 ARG GIT_USER_EMAIL

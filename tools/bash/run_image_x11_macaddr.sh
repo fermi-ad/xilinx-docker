@@ -123,13 +123,9 @@ docker run \
 	-h $DOCKER_CONTAINER_NAME \
 	-v /tmp/.X11-unix:/tmp/.X11-unix \
 	-v ~/.Xauthority:/home/xilinx/.Xauthority \
-	-v /xilinx/local/sstate-mirrors:/srv/sstate-mirrors \
-	-v /xilinx/local/sstate-cache:/srv/sstate-cache \
-	-v /xilinx/local/trds:/srv/trds \
-	-v /srv/shared/tftpboot:/srv/tftpboot \
+	-v /xilinx:/xilinx \
+	-v /srv/tftpboot:/srv/tftpboot \
 	-v /srv/software:/srv/software \
-	-v /srv/hardware_definitions:/srv/hardware_definitions \
-	-v /srv/shared:/srv/shared \
 	-v /dev:/dev \
 	-e DISPLAY=$DISPLAY \
 	--mac-address $DOCKER_CONTAINER_MACADDR \

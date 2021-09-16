@@ -21,6 +21,8 @@
 ```
 
 # Setup Host System for XRT
+- Note: XRT installation is only required for ALVEO Target platforms
+- Note: Install dependencies so container is ready for Alveo, but don't install XRT package
 ## Download xrtdeps.sh shell script
 - Package configurations are listed in the shell script
 https://github.com/Xilinx/XRT/blob/master/src/runtime_src/tools/scripts/xrtdeps.sh

@@ -47,6 +47,8 @@ RUN if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi \
 	&& echo "cd ${XLNX_INSTALL_LOCATION}" >> $HOME_DIR/.bashrc \
 # Setup bashrc to source petalinux settings on login \
 	&& echo ". ${XLNX_INSTALL_LOCATION}/Vitis/2021.1/settings64.sh" >> $HOME_DIR/.bashrc \
+# Setup LIBRARY_PATH per AR#73698 https://www.xilinx.com/support/answers/73698.html \
+	&& echo "export LIBRARY_PATH=/usr/lib/x86_64-linux-gnu" >> $HOME_DIR/.bashrc \
 # Setup LD_LIBRARY_PATH to include Unified included Linux libraries \
 #	&& echo "export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${XLNX_INSTALL_LOCATION}/Vivado/2021.1/lib/lnx64.o/" >> $HOME_DIR/.bashrc \
 # Setup installer permissions \

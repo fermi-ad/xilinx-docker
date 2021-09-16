@@ -177,7 +177,15 @@ RUN if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi \
 # Uncovered during OpenAMP Pre-built Example Generation \
 	 	libidn11 \
 # Non-required packages for productivity \
-	 	xvfb
+	 	xvfb \
+# AR76616 - Installer Hang due to missing library \
+# https://www.xilinx.com/support/answers/76616.html \
+		libtinfo5 \
+######################################################################################## \
+# Xilinx Vitis AI Repository Dependencies: \
+######################################################################################## \
+		parted
+
 # ######################################################################################## \
 # # Xilinx DocNav Dependencies: \
 # ######################################################################################## \

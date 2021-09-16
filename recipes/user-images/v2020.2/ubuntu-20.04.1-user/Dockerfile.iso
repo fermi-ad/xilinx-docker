@@ -110,6 +110,76 @@ RUN if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi \
 	&& sudo apt-get update \
 	&& sudo apt-get install -y \
 ######################################################################################## \
+# Xilinx Petalinux Dependencies: \
+######################################################################################## \
+	  	tofrodos \
+	  	iproute2 \
+		gawk \
+		xvfb \
+		git \
+		make \
+		net-tools \
+		libncurses5-dev \
+# Note: Python2 is requried, Python3 is included by default with Ubuntu 18 \
+		python \
+# Install update-inetd for tftpd \
+	  	update-inetd \
+	  	tftpd \
+		zlib1g-dev:i386 \
+	  	libssl-dev \
+	  	flex \
+	  	bison \
+	  	libselinux1 \
+	  	gnupg \
+	  	wget \
+		diffstat \
+		chrpath \
+		socat \
+		xterm \
+		autoconf \
+		libtool \
+		libtool-bin \
+# Use BSDTAR vs.  TAR due to issues in docker container \
+		tar \
+	  	unzip \
+	  	texinfo \
+		zlib1g-dev \
+		gcc-multilib \
+		build-essential \
+		libsdl1.2-dev \
+		libglib2.0-dev \
+		screen \
+		pax \
+		gzip \
+# python3-gi is used by bitbake's dependency explorer \
+		python3-gi \
+# undocumented dependencies \
+		less \
+		lsb-release \
+		fakeroot \
+		libgtk2.0-0 \
+		libgtk2.0-dev \
+# yocto depedencies (for petalinux) \
+		cpio \
+		rsync \
+		xorg \
+# dependency for autoinstall of petalinux \
+		expect \
+# used to strip windows line terminations from autoinstall scripts in powershell \
+		dos2unix \
+# Added 9.27.2019 for RFSoC ZCU111 Build Support \
+		idn \
+# Already Installed \
+#		sudo \
+#		locales \
+#		git \
+# Dependencies for GIT SSH support from container \
+		openssh-client\
+		openssh-client-ssh1 \
+# Add minicom for /dev/ttyUSB* access from command line \
+	 	minicom \
+		bc \
+######################################################################################## \
 # Xilinx Unified Installer Dependencies: \
 ######################################################################################## \
 # JRE is required by the Eclipse Standard Widget Toolkit (SWT) \
@@ -186,8 +256,16 @@ RUN if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi \
 	 	xvfb \
 # AR76616 - Installer Hang due to missing library \
 # https://www.xilinx.com/support/answers/76616.html \
-		libtinfo5
+		libtinfo5 \
+######################################################################################## \
+# Xilinx Vitis AI Repository Dependencies: \
+######################################################################################## \
+		parted
+
 # ######################################################################################## \
+# Note: Petalinux v2020.2 does not support Ubuntu 20.04 \
+#       But including the dependencies allows containers \
+#       to use similar tools and scripting \
 # # Xilinx DocNav Dependencies: \
 # ######################################################################################## \
 # 	 	lib32stdc++6 \

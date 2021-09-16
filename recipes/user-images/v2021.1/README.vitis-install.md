@@ -135,6 +135,14 @@ xterm:
 xilinx@xilinx_vitis_v2021-1:/opt/tools/Xilinx$ echo "export PLATFORM_REPO_PATHS=/xilinx/local/platforms/2021.1" >> ~/.bashrc
 ```
 
+### Address AR #73698
+- Link: https://www.xilinx.com/support/answers/73698.html
+
+```bash
+xterm:
+xilinx@xilinx_vitis_v2020-2:/opt/Xilinx$ echo "export LIBRARY_PATH=/usr/lib/x86_64-linux-gnu"
+```
+
 ### Turn off webtalk
 
 ### Initialize the Vitis paths

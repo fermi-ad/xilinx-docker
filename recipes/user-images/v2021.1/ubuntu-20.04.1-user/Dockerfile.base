@@ -250,6 +250,10 @@ RUN if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi \
 	 	libidn11 \
 # Non-required packages for productivity \
 	 	xvfb \
+######################################################################################## \
+# Xilinx Vitis AI Repository Dependencies: \
+######################################################################################## \
+		parted \
 # ######################################################################################## \
 # # v2021.1 XRTDEPS.SH Dependencies for Vitis: \
 # # https://github.com/Xilinx/XRT/blob/2021.1/src/runtime_src/tools/scripts/xrtdeps.sh
