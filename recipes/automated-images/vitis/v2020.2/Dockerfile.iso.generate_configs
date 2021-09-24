@@ -6,7 +6,7 @@
 # Created: 
 #	- 1/15/2021
 ########################################################################################
-FROM ubuntu-iso:20.04.1 AS base_os_depends_v2020.2
+FROM ubuntu-iso:18.04.2 AS base_os_depends_v2020.2
 LABEL author="Jason Moss"
 
 # Address build bug: https://github.com/docker/docker/issues/4032

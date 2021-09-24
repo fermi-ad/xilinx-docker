@@ -9,9 +9,9 @@
 bash:
 $ docker image ls
 REPOSITORY                   TAG       IMAGE ID       CREATED              SIZE
-xilinx-ubuntu-20.04.1-user   v2020.2   70d07c214d28   About a minute ago   1.69GB
-ubuntu-iso                   20.04.1   803d92d833cd   6 weeks ago          267MB
-ubuntu                       20.04.1   16d905ba1cbe   6 weeks ago    	   72.9MB
+xilinx-ubuntu-18.04.2-user   v2020.2             ef89bd6212a9        2 days ago          2.26GB
+ubuntu-iso                   18.04.2             e349972b7588        2 days ago          243MB
+ubuntu                       18.04.2             d1afd0299433        23 hours ago        88.3MB
 ```
 
 ### Create a working vivado install container
@@ -36,7 +36,7 @@ $ docker run \
 	-e DISPLAY=$DISPLAY \
 	--mac-address "02:de:ad:be:ef:91" \
 	--user xilinx \
-	-itd xilinx-ubuntu-20.04.1-user:v2020.2 \
+	-itd xilinx-ubuntu-18.04.2-user:v2020.2 \
 	/bin/bash
 4bfe23a8d62c4a6553db6cda3fe61f091f1e86b3327f446bc01c0da90ef03010
 ```
@@ -46,7 +46,7 @@ $ docker run \
 ```bash
 $ docker ps -a
 CONTAINER ID   IMAGE                                COMMAND       CREATED          STATUS          PORTS     NAMES
-4bfe23a8d62c   xilinx-ubuntu-20.04.1-user:v2020.2   "/bin/bash"   13 seconds ago   Up 11 seconds             xilinx_vivado_install_v2020.2
+4bfe23a8d62c   xilinx-ubuntu-18.04.2-user:v2020.2   "/bin/bash"   13 seconds ago   Up 11 seconds             xilinx_vivado_install_v2020.2
 ```
 
 ## Connect to the running container
@@ -193,7 +193,7 @@ bash:
 $ docker image ls
 REPOSITORY                   TAG       IMAGE ID       CREATED        		SIZE
 xilinx-vivado-manual         v2020.2   a4831b0d125b   4 hours ago    		69.9GB
-xilinx-ubuntu-20.04.1-user   v2020.2   70d07c214d28   About a minute ago    1.69GB
-ubuntu-iso                   20.04.1   803d92d833cd   6 weeks ago           267MB
-ubuntu                       20.04.1   16d905ba1cbe   6 weeks ago    	    72.9MB
+xilinx-ubuntu-18.04.2-user   v2020.2   70d07c214d28   About a minute ago    1.69GB
+ubuntu-iso                   18.04.2   803d92d833cd   6 weeks ago           267MB
+ubuntu                       18.04.2   16d905ba1cbe   6 weeks ago    	    72.9MB
 ```

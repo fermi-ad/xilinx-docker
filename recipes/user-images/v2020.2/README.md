@@ -17,8 +17,10 @@
 
 - The following user image recipes are provided
 	- 18.04.2 for Petalinux, Vivado & Vitis (Works with Vitis-AI Repository)
-	- 20.04.1 for Vivado & Vitis (Does not work with Vitis-AI Repository)
-	- 20.04.3 for Vivado & Vitis (Does not work with Vitis-AI Repository)
+	- DEPRECATED: 20.04.x for Vivado & Vitis
+		- This works fine for normal tool flows and other TRDS but does not work with Vitis-AI designs and DPU workflows
+		- There is an unresolved Segfault with Ubuntu 20.04.x during impementation when running in a docker container
+		- Recommend using 18.04.2 for compatibility
 
 ```
 -> .dockerignore

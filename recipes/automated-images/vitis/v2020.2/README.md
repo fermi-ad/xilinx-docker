@@ -13,7 +13,6 @@
 -> depends/
 	-> Xilinx_Unified_2020.2_1118_1232_Lin64.bin
 	-> Xilinx_Unified_2020.2_1118_1232.tar.gz
-	-> tbd-amd64-xrt.deb
 -> include/
 	-> configuration.sh
 ```
