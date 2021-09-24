@@ -15,9 +15,10 @@
 
 # Organization
 
-- Two user image recipes are provided
-	- 18.04.2 for Petalinux, Vivado & Vitis
-	- 20.04.1 for Vivado & Vitis
+- The following user image recipes are provided
+	- 18.04.2 for Petalinux, Vivado & Vitis (Works with Vitis-AI Repository)
+	- 20.04.1 for Vivado & Vitis (Does not work with Vitis-AI Repository)
+	- 20.04.3 for Vivado & Vitis (Does not work with Vitis-AI Repository)
 
 ```
 -> .dockerignore

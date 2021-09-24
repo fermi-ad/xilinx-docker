@@ -5,8 +5,11 @@
 #
 # Created: 
 #	- 1/15/2021
+# Updated:
+#   - 9/22/2021: VPL Link issue with Vivado TCL flow stemming from GLIBC/PTHREAD double-free
+#                Roll back to Ubuntu 18.04.2 which does not exhibit this issue for 2020.2 tools
 ########################################################################################
-FROM xilinx-ubuntu-20.04.1-user:v2020.2 AS xilinx_install_vivado_v2020.2
+FROM xilinx-ubuntu-18.04.2-user:v2020.2 AS xilinx_install_vivado_v2020.2
 LABEL author="Jason Moss"
 
 # Arguments can be filled at build time using the '--build-arg' option

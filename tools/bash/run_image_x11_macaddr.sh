@@ -11,6 +11,10 @@
 # Updated:
 #   - 3/23/2020:  Add /dev:/dev mapping to container for access to JTAG
 #   - 3/24/2020:  Add automatic CGROUP definition for container create to access /dev/ttyUSB*
+#   - 9/22/2021:  Add '--cpus' switch to limit CPU Utilization of any container
+#	- 9/23/2021:  Add '--memory' switch to limit physical memory use of any container
+#   - 9/23/2021:  Do not add '--memory-swap' switch, default behavior use double --memory option
+#    
 #
 # Created: 
 #	- 1/9/2019
@@ -28,7 +32,7 @@ if [[ $# -ne 3 ]]; then
 	echo "${@}"
 	echo "This scripts requires exactly 3 arguments.\n"
 	echo "Syntax:"
-	echo "${0} <docker_image_name> <docker_container_name> <docker_container_macaddr>"
+	echo "${0} <docker_image_name> <docker_container_name> <docker_container_macaddr> <docker_container_cpulimit> <docker_container_memorylimit> <docker_container_swaplimit>"
 	echo "Where:"
 	echo "<docker_image_name> is a valid, existing docker image (docker image ls)"
 	echo "<docker_container_name> is the name to use when creating the new working container\n"
@@ -39,11 +43,16 @@ if [[ $# -ne 3 ]]; then
 	echo "      - x6:xx:xx:xx:xx:xx"
 	echo "      - xA:xx:xx:xx:xx:xx"
 	echo "      - xE:xx:xx:xx:xx:xx"
-	echo " "
+	echo "<docker_container_cpulimit> is the maximum number of Host CPU threads the container can use\n"
+#	echo "<docker_container_memorylimit> is the maximum amount of physical Host RAM the container can use\n"
+#	echo "                               - valid suffixes:\n"
+#	echo "                               - b=bytes, k=kilobytes, m=megabytes, g=gigabytes"
+#	echo " "
+#	echo "<docker_container_swaplimit> is the maximum amount of Host SWAP space the container can use\n"
 	echo "Examples:"
-	echo "${0} xilinx-petalinux:v2018.3 xilinx_petalinux 00:00:00:00:00:00"
-	echo "${0} xilinx-vivado:v2018.3 xilinx_vivado 00:00:00:00:00:00"
-	echo "${0} xilinx-yocto:v2018.3 xilinx_yocto 00:00:00:00:00:00"
+	echo "${0} xilinx-petalinux:v2018.3 xilinx_petalinux 00:00:00:00:00:00 4"
+	echo "${0} xilinx-vivado:v2018.3 xilinx_vivado 00:00:00:00:00:00 4"
+	echo "${0} xilinx-yocto:v2018.3 xilinx_yocto 00:00:00:00:00:00 4"
 	echo " "
 	echo "Here are your valid docker images:"
 	echo "----------------------------------"
@@ -62,6 +71,12 @@ else
 	echo "DOCKER_CONTAINER_MACADDR: $3"
 	DOCKER_CONTAINER_MACADDR=$3
 	echo "DOCKER_TTYUSB_CGROUP=$DOCKER_TTYUSB_CGROUP"
+#	DOCKER_CONTAINER_CPULIMIT=$4
+#	echo "DOCKER_CONTAINER_CPULIMIT: $4"
+#	DOCKER_CONTAINER_MEMORYLIMIT=$5
+#	echo "DOCKER_CONTAINER_MEMORYLIMIT: $5"
+#	DOCKER_CONTAINER_SWAPLIMIT=$6
+#	echo "DOCKER_CONTAINER_SWAPLIMIT: $6"
 fi
 
 # Enable sharing of x session
@@ -116,6 +131,8 @@ xhost +
 # '-v /dev:/dev \'
 #	- Share the /dev devices so Vitis/SDK has access to JTAG debugging connection
 
+#	--memory=$DOCKER_CONTAINER_MEMORYLIMIT \
+#	--cpus=$DOCKER_CONTAINER_CPULIMIT \
 
 docker run \
 	--name $DOCKER_CONTAINER_NAME \
