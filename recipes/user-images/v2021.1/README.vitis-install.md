@@ -9,9 +9,9 @@
 bash:
 $ docker image ls
 REPOSITORY                       TAG       IMAGE ID       CREATED        SIZE
-xilinx-ubuntu-20.04.1-user       v2021.1   0dd5b171751c   6 days ago     2.09GB
-ubuntu-iso                       20.04.1   b22e81a44813   3 hours ago    267MB
-ubuntu                           20.04.1   16d905ba1cbe   6 months ago   72.9MB
+xilinx-ubuntu-18.04.5-user       v2021.1   0dd5b171751c   6 days ago     2.09GB
+ubuntu-iso                       18.04.5   b22e81a44813   3 hours ago    267MB
+ubuntu                           18.04.5   16d905ba1cbe   6 months ago   72.9MB
 ```
 
 ### Create a working vitis install container
@@ -36,7 +36,7 @@ $ docker run \
 	-e DISPLAY=$DISPLAY \
 	--mac-address "02:de:ad:be:ef:91" \
 	--user xilinx \
-	-itd xilinx-ubuntu-20.04.1-user:v2021.1 \
+	-itd xilinx-ubuntu-18.04.5-user:v2021.1 \
 	/bin/bash
 8fb2e18710aded4399d776cf6a39d28faf7af77a00c27b225046799fd1046466
 ```
@@ -46,7 +46,7 @@ $ docker run \
 ```bash
 $ docker ps -a
 CONTAINER ID   IMAGE                                    COMMAND       CREATED          STATUS          PORTS     NAMES
-8fb2e18710ad   xilinx-ubuntu-20.04.1-user:v2021.1       "/bin/bash"   11 seconds ago   Up 9 seconds              xilinx_vitis_install_v2021.1
+8fb2e18710ad   xilinx-ubuntu-18.04.5-user:v2021.1       "/bin/bash"   11 seconds ago   Up 9 seconds              xilinx_vitis_install_v2021.1
 ```
 
 ## Connect to the running container
@@ -245,7 +245,7 @@ bash:
 $ docker image ls
 REPOSITORY                   TAG       IMAGE ID       CREATED        		SIZE
 xilinx-vitis-manual          v2021.1   3abffebbfc51   3 hours ago    		79.9GB
-xilinx-ubuntu-20.04.1-user   v2021.1   70d07c214d28   About a minute ago    1.69GB
-ubuntu-iso                   20.04.1   803d92d833cd   6 weeks ago           267MB
-ubuntu                       20.04.1   16d905ba1cbe   6 weeks ago    	    72.9MB
+xilinx-ubuntu-18.04.5-user   v2021.1   70d07c214d28   About a minute ago    1.69GB
+ubuntu-iso                   18.04.5   803d92d833cd   6 weeks ago           267MB
+ubuntu                       18.04.5   16d905ba1cbe   6 weeks ago    	    72.9MB
 ```

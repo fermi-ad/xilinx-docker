@@ -9,9 +9,9 @@
 bash:
 $ docker image ls
 REPOSITORY                       TAG       IMAGE ID       CREATED        SIZE
-xilinx-ubuntu-20.04.1-user       v2021.1   0dd5b171751c   6 days ago     2.09GB
-ubuntu-iso                       20.04.1   b22e81a44813   3 hours ago    267MB
-ubuntu                           20.04.1   16d905ba1cbe   6 months ago   72.9MB
+xilinx-ubuntu-18.04.5-user       v2021.1   0dd5b171751c   6 days ago     2.09GB
+ubuntu-iso                       18.04.5   b22e81a44813   3 hours ago    267MB
+ubuntu                           18.04.5   16d905ba1cbe   6 months ago   72.9MB
 ```
 
 ### Create a working vivado install container
@@ -36,7 +36,7 @@ $ docker run \
 	-e DISPLAY=$DISPLAY \
 	--mac-address "02:de:ad:be:ef:91" \
 	--user xilinx \
-	-itd xilinx-ubuntu-20.04.1-user:v2021.1 \
+	-itd xilinx-ubuntu-18.04.5-user:v2021.1 \
 	/bin/bash
 4bfe23a8d62c4a6553db6cda3fe61f091f1e86b3327f446bc01c0da90ef03010
 ```
@@ -46,7 +46,7 @@ $ docker run \
 ```bash
 $ docker ps -a
 CONTAINER ID   IMAGE                                COMMAND       CREATED          STATUS          PORTS     NAMES
-4bfe23a8d62c   xilinx-ubuntu-20.04.1-user:v2021.1   "/bin/bash"   13 seconds ago   Up 11 seconds             xilinx_vivado_install_v2021.1
+4bfe23a8d62c   xilinx-ubuntu-18.04.5-user:v2021.1   "/bin/bash"   13 seconds ago   Up 11 seconds             xilinx_vivado_install_v2021.1
 ```
 
 ## Connect to the running container
@@ -192,7 +192,7 @@ bash:
 $ docker image ls
 REPOSITORY                       TAG       IMAGE ID       CREATED        SIZE
 
-xilinx-ubuntu-20.04.1-user       v2021.1   0dd5b171751c   6 days ago     2.09GB
-ubuntu-iso                       20.04.1   b22e81a44813   3 hours ago    267MB
-ubuntu                           20.04.1   16d905ba1cbe   6 months ago   72.9MB
+xilinx-ubuntu-18.04.5-user       v2021.1   0dd5b171751c   6 days ago     2.09GB
+ubuntu-iso                       18.04.5   b22e81a44813   3 hours ago    267MB
+ubuntu                           18.04.5   16d905ba1cbe   6 months ago   72.9MB
 ```

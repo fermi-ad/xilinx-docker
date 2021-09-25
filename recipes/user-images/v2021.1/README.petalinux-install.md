@@ -9,9 +9,9 @@
 bash:
 $ docker image ls
 REPOSITORY                       TAG       IMAGE ID       CREATED        SIZE
-xilinx-ubuntu-20.04.1-user       v2021.1   e3b96ce9f445   3 hours ago    1.75GB
-ubuntu-iso                       20.04.1   b22e81a44813   3 hours ago    267MB
-ubuntu                           20.04.1   16d905ba1cbe   6 months ago   72.9MB
+xilinx-ubuntu-18.04.5-user       v2021.1   e3b96ce9f445   3 hours ago    1.75GB
+ubuntu-iso                       18.04.5   b22e81a44813   3 hours ago    267MB
+ubuntu                           18.04.5   16d905ba1cbe   6 months ago   72.9MB
 ```
 
 ### Create a working petalinux install container
@@ -34,7 +34,7 @@ $ docker run \
 	-e DISPLAY=$DISPLAY \
 	--mac-address "02:de:ad:be:ef:91" \
 	--user xilinx \
-	-itd xilinx-ubuntu-20.04.1-user:v2021.1 \
+	-itd xilinx-ubuntu-18.04.5-user:v2021.1 \
 	/bin/bash
 8b7e03ff9bb8d7b74994d74b7d12be67d8b7b100a38e84230bee1d25795adb12
 ```
@@ -44,7 +44,7 @@ $ docker run \
 ```bash
 $ docker ps -a
 CONTAINER ID   IMAGE                                    COMMAND       CREATED          STATUS                    PORTS     NAMES
-8b7e03ff9bb8   xilinx-ubuntu-20.04.1-user:v2021.1       "/bin/bash"   35 seconds ago   Up 32 seconds                       xilinx_petalinux_install_v2021.1
+8b7e03ff9bb8   xilinx-ubuntu-18.04.5-user:v2021.1       "/bin/bash"   35 seconds ago   Up 32 seconds                       xilinx_petalinux_install_v2021.1
 ```
 
 ## Connect to the running container
@@ -173,7 +173,7 @@ bash:
 $ docker image ls
 REPOSITORY                       TAG       IMAGE ID       CREATED          SIZE
 xilinx-petalinux	             v2021.1   ac3adff373fe   39 seconds ago   14.8GB
-xilinx-ubuntu-20.04.1-user       v2021.1   37f2b937e675   19 hours ago     2.09GB
-ubuntu-iso                       20.04.1   b22e81a44813   23 hours ago     267MB
-ubuntu                           20.04.1   16d905ba1cbe   6 months ago     72.9MB
+xilinx-ubuntu-18.04.5-user       v2021.1   37f2b937e675   19 hours ago     2.09GB
+ubuntu-iso                       18.04.5   b22e81a44813   23 hours ago     267MB
+ubuntu                           18.04.5   16d905ba1cbe   6 months ago     72.9MB
 ```
