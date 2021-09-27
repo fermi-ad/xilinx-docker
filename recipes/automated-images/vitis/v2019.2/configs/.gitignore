@@ -4,4 +4,4 @@
 !.gitignore
 
 # Keep the batch mode installer configurations
-!xlnx_unified_vivado.config
+!xlnx_unified_vitis.config

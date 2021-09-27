@@ -6,7 +6,8 @@
 # Created: 
 #	- 6/24/2021
 ########################################################################################
-FROM xilinx-ubuntu-20.04.1-user:v2021.1 AS xilinx_install_petalinux_v2021.1
+#FROM xilinx-ubuntu-20.04.1-user:v2021.1 AS xilinx_install_petalinux_v2021.1
+FROM xilinx-ubuntu-18.04.5-user:v2021.1 AS xilinx_install_petalinux_v2021.1
 LABEL author="Jason Moss"
 
 # Arguments can be filled at build time using the '--build-arg' option
