@@ -136,7 +136,7 @@ xhost +
 
 docker run \
 	--name $DOCKER_CONTAINER_NAME \
-#	--cpus=$DOCKER_CONTAINER_CPULIMIT \
+	--cpus=$DOCKER_CONTAINER_CPULIMIT \
 	--device-cgroup-rule "c $DOCKER_TTYUSB_CGROUP:* rwm" \
 	-h $DOCKER_CONTAINER_NAME \
 	-v /tmp/.X11-unix:/tmp/.X11-unix \
