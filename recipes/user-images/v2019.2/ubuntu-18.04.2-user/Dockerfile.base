@@ -103,6 +103,29 @@ RUN if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi \
 # add i386 architecture for zlib1g-dev dependency \
 	&& sudo dpkg --add-architecture i386 \
 	&& sudo apt-get update \
+	&& sudo apt-get install -y \
+######################################################################################## \
+# Container / Workflow Support \
+######################################################################################## \
+# X-org required for docker container windowing in host OS \
+		xorg \
+		xterm \
+# Development tools \
+		git \
+		wget \
+# Compression support \
+		tar \
+		gzip \
+		unzip \
+		xz-utils \	
+# Add minicom for /dev/ttyUSB* access from command line \
+	 	minicom \
+######################################################################################## \
+# Xilinx Unified Installer Dependencies: \
+######################################################################################## \
+# AR76616 - Installer Hang due to missing library \
+# https://www.xilinx.com/support/answers/76616.html \
+		libtinfo5 \
 ######################################################################################## \
 # Xilinx Petalinux Dependencies: \
 ######################################################################################## \
@@ -168,8 +191,9 @@ RUN if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi \
 #		sudo \
 #		locales \
 #		git \
-# Add minicom for /dev/ttyUSB* access from command line \
-	 	minicom \
+# Dependencies for GIT SSH support from container \
+		openssh-client\
+		openssh-client-ssh1 \
 ######################################################################################## \
 # Xilinx Vivado Dependencies: \
 ######################################################################################## \
@@ -181,13 +205,23 @@ RUN if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi \
 # Libgtk required for Xilinx SDK \
 		libgtk2.0-0 \
 ######################################################################################## \
+# Xilinx Vitis Dependencies from installLibs.sh script post-installation: \
+######################################################################################## \
+# AIE Tools \
+		libc6-dev-i386 \
+		net-tools \
+		graphviz \
+# Vitis \
+		unzip \
+		g++ \
+		libtinfo5 \
+######################################################################################## \
+# Xilinx Vitis AI Repository Dependencies: \
+######################################################################################## \
+		parted \
+######################################################################################## \
 # Xilinx Vitis Dependencies: \
 ######################################################################################## \
-# vitis base dependencies - UG1400 \
-	     ocl-icd-dev \
-	     ocl-icd-libopencl1 \
-	     opencl-headers \
-	     ocl-icd-opencl-dev \
 # undocumented vitis dependencies \
 # ---------------------------- \
 # Failure to install QEMU data \
@@ -196,13 +230,28 @@ RUN if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi \
 # ---------------------------- \
 # Requires 'file' to be installed \
 	 	file \
-# petalinux-gblibc-x86_64-petalinux-image-minimal-aarch64-toolchain.sh requires this in post install
+# petalinux-gblibc-x86_64-petalinux-image-minimal-aarch64-toolchain.sh requires this in post install \
 	 	gcc \
-# Undocumented Vivado Dependency for running cmake \
 # Uncovered during OpenAMP Pre-built Example Generation \
 	 	libidn11 \
-# Non-required packages for productivity \
-	 	xvfb 
+# ######################################################################################## \
+# # Xilinx Vitis OpenCL Installable Client Driver Loader Dependencies: \
+# ######################################################################################## \
+ 		ocl-icd-libopencl1 \
+ 		opencl-headers \
+ 		ocl-icd-opencl-dev
+
+# ######################################################################################## \
+# # Xilinx DocNav Dependencies: \
+# ######################################################################################## \
+# 	 	lib32stdc++6 \
+# 	 	libgtk2.0-0:i386 \
+# 	 	libfontconfig1:i386 \
+# 	 	libx11-6:i386 \
+# 	 	libext6:i386 \
+# 	 	libxrender1:i386 \
+# 	 	libsm6:i386 \
+# 	 	libqtgui4:i386 \
 
 ARG GIT_USER_NAME
 ARG GIT_USER_EMAIL

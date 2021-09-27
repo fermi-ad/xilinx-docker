@@ -106,6 +106,7 @@ New ISO Based Images:
 | Xilinx Release | Ubuntu Release | Petalinux     | Vivado        | Vitis          | SDK             |
 | -------------- | -------------- | ---------     | ------------  | ------------   | --------------- |
 | v2021.1        | [20.04.1][6u]  | [15.5GB][6mp] | [41.3GB][6mv] | [88.8GB][6avi] | N/A             |
+| v2021.1        | [18.04.5][6u]  | [TBD.GB][6mp] | [TBD.GB][6mv] | [TBD.B][6avi] | N/A             |
 | v2020.2        | [20.04.1][5u]  | N/A           | [69.9GB][5av] | [TBD GB][5avi] | N/A             |
 | v2020.2        | [18.04.2][5u]  | [12.3GB][5ap] | N/A           | N/A            | N/A             |
 | v2020.1        | [18.04.2][4u]  | [10.9GB][4ap] | [52.2GB][4av] | [71.5GB][4avi] | N/A             |

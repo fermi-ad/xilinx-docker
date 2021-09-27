@@ -25,9 +25,11 @@
 #			7. Documentation Navigator (Standalone)
 #
 # Source base image configuration
-source ../../../base-images/ubuntu-20.04.1/include/configuration.sh
+#source ../../../base-images/ubuntu-20.04.1/include/configuration.sh
+source ../../../base-images/ubuntu-18.04.2/include/configuration.sh
 # Source user image configuration
-source ../../../user-images/v2020.2/ubuntu-20.04.1-user/include/configuration.sh
+#source ../../../user-images/v2020.2/ubuntu-20.04.1-user/include/configuration.sh
+source ../../../user-images/v2020.2/ubuntu-18.04.2-user/include/configuration.sh
 # Source tool image configuration
 source include/configuration.sh
 

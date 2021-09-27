@@ -100,8 +100,8 @@ bash:
 $ ./build_image.sh --iso
 	...
 	-----------------------------------
-	REPOSITORY                   TAG       IMAGE ID       CREATED        SIZE
-	xilinx-ubuntu-18.04.5-user   v2021.1   704c99d2fb9f   1 second ago   3.17GB
+	REPOSITORY                   TAG       IMAGE ID       CREATED        		   SIZE
+	xilinx-ubuntu-18.04.5-user   v2021.1   4e42a69b8420   Less than a second ago   2.56GB
 	-----------------------------------
 	Image Build Complete...
 	STARTED :Fri 02 Jul 2021 12:04:40 PM EDT

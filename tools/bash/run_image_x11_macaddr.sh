@@ -28,7 +28,7 @@
 # - xE:xx:xx:xx:xx:xx
 
 # Process Command line arguments
-if [[ $# -ne 3 ]]; then
+if [[ $# -ne 4 ]]; then
 	echo "${@}"
 	echo "This scripts requires exactly 3 arguments.\n"
 	echo "Syntax:"
@@ -71,8 +71,8 @@ else
 	echo "DOCKER_CONTAINER_MACADDR: $3"
 	DOCKER_CONTAINER_MACADDR=$3
 	echo "DOCKER_TTYUSB_CGROUP=$DOCKER_TTYUSB_CGROUP"
-#	DOCKER_CONTAINER_CPULIMIT=$4
-#	echo "DOCKER_CONTAINER_CPULIMIT: $4"
+	DOCKER_CONTAINER_CPULIMIT=$4
+	echo "DOCKER_CONTAINER_CPULIMIT: $4"
 #	DOCKER_CONTAINER_MEMORYLIMIT=$5
 #	echo "DOCKER_CONTAINER_MEMORYLIMIT: $5"
 #	DOCKER_CONTAINER_SWAPLIMIT=$6
@@ -136,6 +136,7 @@ xhost +
 
 docker run \
 	--name $DOCKER_CONTAINER_NAME \
+#	--cpus=$DOCKER_CONTAINER_CPULIMIT \
 	--device-cgroup-rule "c $DOCKER_TTYUSB_CGROUP:* rwm" \
 	-h $DOCKER_CONTAINER_NAME \
 	-v /tmp/.X11-unix:/tmp/.X11-unix \

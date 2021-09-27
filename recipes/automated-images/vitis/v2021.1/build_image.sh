@@ -10,9 +10,11 @@
 #	- 6/30/2021
 #
 # Source base image configuration
-source ../../../base-images/ubuntu-20.04.1/include/configuration.sh
+#source ../../../base-images/ubuntu-20.04.1/include/configuration.sh
+source ../../../base-images/ubuntu-18.04.5/include/configuration.sh
 # Source user image configuration
-source ../../../user-images/v2021.1/ubuntu-20.04.1-user/include/configuration.sh
+#source ../../../user-images/v2021.1/ubuntu-20.04.1-user/include/configuration.sh
+source ../../../user-images/v2021.1/ubuntu-18.04.5-user/include/configuration.sh
 # Source tool image configuration
 source include/configuration.sh
 
