@@ -16,7 +16,7 @@ source ../../../user-images/v2019.2/ubuntu-18.04.2-user/include/configuration.sh
 # Source tool image configuration
 source include/configuration.sh
 
- Set the Docker File for Vivado
+# Set the Docker File for Vivado
 DOCKER_FILE_NAME=Dockerfile
 
 # define options
@@ -88,6 +88,49 @@ echo "-----------------------------------"
 echo "Checking for dependencies..."
 echo "-----------------------------------"
 
+# Check for native host linux kernel header package
+dpkg -s linux-headers-$(uname -r)
+if [[ $? -ne 0 ]]; then
+	# must install linux headers on host first
+	echo "Linux Header package must be installed on host system before building this container."
+	echo "Install using the following command:"
+	echo "sudo apt install -y linux-header-$(uname -r)"
+	exit $EX_OSFILE
+fi
+
+# Check for Kernel Header folder which will be shared with the container for installing XRT
+if [ -d $HOST_KERNEL_HEADER_PATH ] || [ -L $HOST_KERNEL_HEADER_PATH ]; then
+	# Kernel Headers Exist
+	echo "Linux Kernel Headers: [Found] "$HOST_KERNEL_HEADER_PATH
+else
+	# File does not exist
+	echo "ERROR: Linux Kernel Headers: [Missing] "$HOST_KERNEL_HEADER_PATH
+	exit $EX_OSFILE
+fi
+
+# Package the Kernel Headers in a tarball to transfer to the docker container
+# Because The docker container uses the HOST Kernel and the Docker Container
+# may be based on an older version of Linux, the HOST Kernel headers may not
+# be available for that release, so we will transfer the HOST header files so
+# the XRT installer will at least install the XRT tools.  These will not be
+# fully functional, but we don't intend to use this docker container to 
+# communicate with Alveo cards.  To support that flow, XRT will need to
+# be built from source on both the Host system and within the docker container.
+if [ -f $HOST_KERNEL_HEADER_ARCHIVE ]; then
+	# Kernel Header Archive already created
+	echo "Linux Kernel Header Archive: [Found] "$HOST_KERNEL_HEADER_ARCHIVE
+else
+	# Kernel Header Archive needs created
+	sudo tar -zcvf $HOST_KERNEL_HEADER_ARCHIVE $HOST_KERNEL_HEADER_PATH 
+	if [ -f $HOST_KERNEL_HEADER_ARCHIVE ]; then 
+		# Created successfully
+		ls -al $HOST_KERNEL_HEADER_ARCHIVE
+	else
+		echo "ERROR: Linux Kernel Header Archive creation FAILED: "$HOST_KERNEL_HEADER_ARCHIVE
+		exit $EX_OSFILE
+	fi
+fi
+
 # Check for existing ubuntu user image:
 if [[ "$(docker images -q $DOCKER_USER_IMAGE_NAME:$DOCKER_USER_IMAGE_VERSION 2> /dev/null)" == "" ]]; then
   # create the docker base image
@@ -101,6 +144,16 @@ fi
 # Since these builds use WGET instead of COPY or ADD
 # files links within the build context can point outside
 # the context and they will get transferred just fine.
+
+# Check for XRT Offline Installer
+if [ -f $XLNX_XRT_PREBUILT_INSTALLER ] || [ -L $XLNX_XRT_PREBUILT_INSTALLER ]; then
+	# File exists and is not a link
+	echo "Xilinx XRT Installer: [Good] "$XLNX_XRT_PREBUILT_INSTALLER
+else
+	# File does not exist
+	echo "ERROR: Xilinx XRT Installer: [Missing] "$XLNX_XRT_PREBUILT_INSTALLER
+	exit $EX_OSFILE
+fi
 
 # Check for Xilinx Unified Offline Installer
 if [ -f $XLNX_UNIFIED_OFFLINE_INSTALLER ] || [ -L $XLNX_UNIFIED_OFFLINE_INSTALLER ]; then
@@ -179,6 +232,10 @@ echo " 	--build-arg INSTALL_SERVER_URL=\"${SERVER_IP}:8000\""
 echo " 	--build-arg XLNX_UNIFIED_BATCH_CONFIG_FILE=\"${XLNX_UNIFIED_BATCH_CONFIG_FILE}\""
 echo " 	--build-arg XLNX_UNIFIED_OFFLINE_INSTALLER=\"${XLNX_UNIFIED_OFFLINE_INSTALLER}\""
 echo "  --build-arg XLNX_UNIFIED_INSTALLER_BASENAME=\"${XLNX_VITIS_INSTALLER_BASENAME}\""
+#echo "  --build-arg XLNX_XRT_DEPENDENCY_SCRIPT_URL=\"${XLNX_XRT_DEPENDENCY_SCRIPT_URL}\""
+#echo "  --build-arg XLNX_XRT_DEPENDENCY_SCRIPT=\"${XLNX_XRT_DEPENDENCY_SCRIPT}\""
+echo "  --build-arg HOST_KERNEL_HEADER_ARCHIVE=\"${HOST_KERNEL_HEADER_ARCHIVE}\""
+echo "  --build-arg XLNX_XRT_PREBUILT_INSTALLER=\"${XLNX_XRT_PREBUILT_INSTALLER}\""
 echo "  --build-arg BUILD_DEBUG=\"${FLAG_BUILD_DEBUG}\""
 echo "-----------------------------------"
 
@@ -191,12 +248,17 @@ docker build $DOCKER_CACHE -f ./$DOCKER_FILE_NAME \
  	--build-arg HOME_DIR="${HOME_DIR}" \
  	--build-arg XLNX_INSTALL_LOCATION="${XLNX_INSTALL_LOCATION}" \
  	--build-arg XLNX_DOWNLOAD_LOCATION="${XLNX_DOWNLOAD_LOCATION}" \
-  	--build-arg INSTALL_SERVER_URL="${INSTALL_SERVER_URL}" \
-  	--build-arg XLNX_UNIFIED_BATCH_CONFIG_FILE="${XLNX_UNIFIED_BATCH_CONFIG_FILE}" \
-  	--build-arg XLNX_UNIFIED_OFFLINE_INSTALLER="${XLNX_UNIFIED_OFFLINE_INSTALLER}" \
-  	--build-arg XLNX_UNIFIED_INSTALLER_BASENAME="${XLNX_VITIS_INSTALLER_BASENAME}" \
+  --build-arg INSTALL_SERVER_URL="${INSTALL_SERVER_URL}" \
+  --build-arg XLNX_UNIFIED_BATCH_CONFIG_FILE="${XLNX_UNIFIED_BATCH_CONFIG_FILE}" \
+  --build-arg XLNX_UNIFIED_OFFLINE_INSTALLER="${XLNX_UNIFIED_OFFLINE_INSTALLER}" \
+  --build-arg XLNX_UNIFIED_INSTALLER_BASENAME="${XLNX_VITIS_INSTALLER_BASENAME}" \
+	--build-arg HOST_KERNEL_HEADER_ARCHIVE="${HOST_KERNEL_HEADER_ARCHIVE}" \
+	--build-arg XLNX_XRT_PREBUILT_INSTALLER="${XLNX_XRT_PREBUILT_INSTALLER}" \
  	--build-arg BUILD_DEBUG="${FLAG_BUILD_DEBUG}" \
   	$DOCKER_INSTALL_DIR
+
+# --build-arg XLNX_XRT_DEPENDENCY_SCRIPT_URL="${XLNX_XRT_DEPENDENCY_SCRIPT_URL}" \
+#	--build-arg XLNX_XRT_DEPENDENCY_SCRIPT="${XLNX_XRT_DEPENDENCY_SCRIPT}" \
 
 if [ $FLAG_BUILD_DEBUG -ne 0 ]; then set +x; fi
 

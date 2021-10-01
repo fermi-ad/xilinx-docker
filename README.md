@@ -72,30 +72,12 @@ User Image Sizes:
 | Xilinx Release | Ubuntu Release | User Image     | 
 | -------------- | -------------- | ----------     |
 | v2021.1        | [20.04.1][6u]  | [2.80GB][6u]   |
-| v2021.1        | [18.04.5][6u]  | [3.17GB][6u]   |
+| v2021.1        | [18.04.5][6u]  | [2.56GB][6u]   |
 | v2020.2        | [20.04.1][5u]  | [2.11GB][5u]   |
-| v2020.2        | [18.04.2][5u]  | [2.26GB][5u]   |
-| v2020.1        | [18.04.2][4u]  | [2.26GB][4u]   |
-| v2019.2        | [18.04.2][3u]  | [2.26GB][3u]   |
+| v2020.2        | [18.04.2][5u]  | [2.31GB][5u]   |
+| v2020.1        | [18.04.2][4u]  | [2.31GB][4u]   |
+| v2019.2        | [18.04.2][3u]  | [2.31GB][3u]   |
 | v2019.1        | [18.04.1][2u]  | [2.26GB][2u]   |
-
-New ISO Based Images:
-
-| Xilinx Release | User Image     | Petalinux     | Vivado        | Vitis          | SDK             |
-| -------------- | -------------- | ---------     | ------------  | ------------   | --------------- |
-| v2021.1        | [2.80GB][6u]   | [15.5GB][6mp] | [41.3GB][6mv] | [88.8GB][6mvi] | N/A             |
-| v2020.2		 | [2.11GB][5u]   | N/A           | [69.9GB][5mv] | [79.9GB][5mvi] | N/A             |
-| v2020.2        | [2.26GB][5u]   | [12.3GB][5mp] | N/A           | N/A            | N/A             |
-
-Old BASE Rootfs Based Images:
-
-| Xilinx Release | User Image     | Petalinux     | Vivado        | Vitis          | SDK             |
-| -------------- | -------------- | ---------     | ------------  | ------------   | --------------- |
-| v2020.1        | [2.26GB][4u]   | [10.9GB][4mp] | [52.2GB][4mv] | [71.5GB][4mvi] | N/A             |
-| v2019.2        | [2.26GB][3u]   | [18.7GB][3mp] | [41.1GB][3mv] | [55.5GB][3mvi] | N/A             |
-| v2019.1        | [2.02GB][2u]   | [16.5GB][2mp] | [35.2GB][2mv] | N/A            | [9.99GB][2msdk] |
-| v2018.3        | [1.61GB][1u]   | [15.9GB][1mp] | [58.3GB][1mv] | N/A            | [12.2GB][1msdk] |
-| v2018.2        | [1.62GB][0u]   | [16.2GB][0mp] | [54.5GB][0mv] | N/A            | [12.0GB][0msdk] |
 
 ### Xilinx User Images (Automated/Scripted Tool Installation)
 
@@ -105,12 +87,10 @@ New ISO Based Images:
 
 | Xilinx Release | Ubuntu Release | Petalinux     | Vivado        | Vitis          | SDK             |
 | -------------- | -------------- | ---------     | ------------  | ------------   | --------------- |
-| v2021.1        | [20.04.1][6u]  | [15.5GB][6mp] | [41.3GB][6mv] | [88.8GB][6avi] | N/A             |
-| v2021.1        | [18.04.5][6u]  | [TBD.GB][6mp] | [TBD.GB][6mv] | [TBD.B][6avi] | N/A             |
-| v2020.2        | [20.04.1][5u]  | N/A           | [69.9GB][5av] | [TBD GB][5avi] | N/A             |
-| v2020.2        | [18.04.2][5u]  | [12.3GB][5ap] | N/A           | N/A            | N/A             |
+| v2021.1        | [18.04.5][6u]  | [15.3GB][6mp] | [41.1GB][6mv] | [88.6GB][6avi] | N/A             |
+| v2020.2        | [18.04.2][5u]  | [12.4GB][5ap] | [70.6GB][5av] | [80.5GB][5avi] | N/A             |
 | v2020.1        | [18.04.2][4u]  | [10.9GB][4ap] | [52.2GB][4av] | [71.5GB][4avi] | N/A             |
-| v2019.2        | [18.04.2][3u]  | [18.7GB][3ap] | [41.1GB][3av] | [55.5GB][3avi] | N/A             |
+| v2019.2        | [18.04.2][3u]  | [18.7GB][3ap] | [41.2GB][3av] | [56.6GB][3avi] | N/A             |
 
 Base RootFS Release Based Images:
 
@@ -126,13 +106,12 @@ Base RootFS Release Based Images:
 
 These build times are approximate, rounded to the nearest minute and reflect one particular build machine configuration.
 
-
 | Xilinx Release | User Image     | Petalinux     | Vivado        | Vitis        | SDK       |
 | -------------- | -------------- | ------------- | ------------- | ------------ | --------- |
 | v2021.1        | 7 min          | 10 min        | 1 hr 49 min   | 2 hr, 57 min | N/A       |
 | v2020.2        | 9 min          |  7 min        | 2 hr 13 min   | 2 hr, 45 min | N/A       |
 | v2020.1        | 6 min          |  5 min        | 54 min        | 2 hr, 25 min | N/A       |
-| v2019.2        | 6 min          |  9 min        | 39 min        | 45 min       | N/A       |
+| v2019.2        | 6 min          |  9 min        | 39 min        | 55 min       | N/A       |
 | v2019.1        | 6 min          |  8 min        | 27 min        | N/A          | 4 min     |
 | v2018.3        | 5 min          | 11 min        | 26 min        | N/A          | 4 min     |
 | v2018.2        | 5 min          | 13 min        | 25 min        | N/A          | 4 min     |
@@ -218,7 +197,7 @@ This workflow consists of:
 ### Manual Xilinx Tool installation quickstart
 
 For the latest v2021.1 Xilinx Tools:
-- [Build a base Ubuntu Docker Image](./recipes/base-images/ubuntu-20.04.1/README.md)
+- [Build a base Ubuntu Docker Image](./recipes/base-images/ubuntu-18.04.5/README.md)
 - [Build an Ubuntu User Image](./recipes/user-images/v2021.1/README.md)
 - Manually install the Xilinx Tools
 	- [Manual Vivado Installation](./recipes/user-images/v2021.1/README.vivado-install.md)
@@ -242,7 +221,6 @@ This workflow consists of:
 
 For the latest v2021.1 Xilinx Tools:
 - [Build a base Ubuntu Docker Image for 18.04.5](./recipes/base-images/ubuntu-18.04.5/README.md)
-- [Build a base Ubuntu Docker Image for 20.04.1](./recipes/base-images/ubuntu-20.04.1/README.md)
 - [Build an Ubuntu User Image](./recipes/user-images/v2021.1/README.md)
 - Generate install configurations and dependencies
 	- [Generate Vivado Install Configuration files](./recipes/automated-images/vivado/v2021.1/README.md#generate-vivado-image-install-configuration-files-one-time)

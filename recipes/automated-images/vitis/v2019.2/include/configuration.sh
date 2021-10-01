@@ -20,10 +20,10 @@ XLNX_TOOL_INFO=vitis
 XLNX_TOOL_INSTALLER_NAME=Vitis
 
 # Docker File Recipe Target Stage
-DOCKER_FILE_STAGE=xilinx_install_$XLNX_TOOL_INFO"_"$XLNX_RELEASE_VERSION
+DOCKER_FILE_STAGE=xilinx_install_$XLNX_TOOL_INFO"_"${XLNX_RELEASE_VERSION}
 
 # Docker Target Image Information
-DOCKER_IMAGE_NAME=xilinx-$XLNX_TOOL_INFO
+DOCKER_IMAGE_NAME=xilinx-${XLNX_TOOL_INFO}
 DOCKER_IMAGE_VERSION=$XLNX_RELEASE_VERSION
 
 # Docker User Image Information
@@ -96,10 +96,18 @@ XLNX_UNIFIED_OFFLINE_INSTALLER=${XLNX_UNIFIED_FULL_INSTALLER}
 #   for easy access should XRT need to be rebuilt or debugged
 #
 # Dependency Install Script for Ubuntu/CentOS
-XLNX_XRT_DEPENDENCY_SCRIPT=https://raw.githubusercontent.com/Xilinx/XRT/2019.2/src/runtime_src/tools/scripts/xrtdeps.sh
+XLNX_XRT_DEPENDENCY_SCRIPT_FILE=xrtdeps.sh
+XLNX_XRT_DEPENDENCY_SCRIPT_URL=https://raw.githubusercontent.com/Xilinx/XRT/2019.2/src/runtime_src/tools/scripts/$XLNX_XRT_DEPENDENCY_SCRIPT_FILE
+XLNX_XRT_DEPENDENCY_SCRIPT=$INSTALL_DEPENDS_DIR/$XLNX_XRT_DEPENDENCY_SCRIPT_FILE
 
 # Pre-built Installer file for Ubuntu 18.04
-XLNX_XRT_PREBUILT_INSTALLER=$INSTALL_DEPENDS_DIR/xrt_201920.2.3.1301_18.04-xrt.deb
+XLNX_XRT_PREBUILT_INSTALLER_FILE=xrt_201920.2.3.1301_18.04-xrt.deb
+XLNX_XRT_PREBUILT_INSTALLER=$INSTALL_DEPENDS_DIR/$XLNX_XRT_PREBUILT_INSTALLER_FILE
+
+# Host Kernel Headers required to install XRT
+HOST_KERNEL_HEADER_PATH=/usr/src/linux-headers-$(uname -r)
+HOST_KERNEL_HEADER_ARCHIVE_FILE=linux-headers-$(uname -r)".tar.gz"
+HOST_KERNEL_HEADER_ARCHIVE=$INSTALL_DEPENDS_DIR/$HOST_KERNEL_HEADER_ARCHIVE_FILE
 
 # Xilinx XRT Repository
 XLNX_XRT_GIT_REPO="https://github.com/Xilinx/XRT.git"

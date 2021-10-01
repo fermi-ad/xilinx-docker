@@ -62,7 +62,14 @@ $ docker exec -it xilinx_vitis_install_v2019.2 bash -c "xterm" &
 xterm:
 xilinx@xilinx_vitis_v2019-2:/$
 ```
+## Install XRT
 
+```bash
+xterm:
+xilinx@xilinx_vitis_v2019-2:/$ sudo apt-get update
+xilinx@xilinx_vitis_v2019-2:/$ sudo apt install /srv/software/xilinx/2019.2/xrt_201920.2.3.1301_18.04-xrt.deb 
+
+```
 ## Install Vitis
 
 ### Locate the unified installer on the mounted host drive

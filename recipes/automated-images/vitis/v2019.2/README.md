@@ -13,10 +13,15 @@
 -> depends/
 	-> Xilinx_Unified_2019.2_1106_2127_Lin64.bin
 	-> Xilinx_Vitis_2019.2_1106_2127.tar.gz
+	-> xrt_201920.2.3.1301_18.04-xrt.deb
 -> include/
 	-> configuration.sh
 ```
+
 # Setup Host System for XRT
+- Note: in v2019.2, XRT is required on the host in order to build for embedded targets
+- The debian package will be installed in the docker container
+
 ## Download xrtdeps.sh shell script
 - Package dependencies are listed in the shell script
 https://github.com/Xilinx/XRT/blob/master/src/runtime_src/tools/scripts/xrtdeps.sh
@@ -70,6 +75,7 @@ https://github.com/Xilinx/XRT/blob/master/src/runtime_src/tools/scripts/xrtdeps.
 bash:
 $ ln -s <path-to-offline-installer>/Xilinx_Unified_2019.2_1106_2127_Lin64.bin depends/
 $ ln -s <path-to-offline-installer>/Xilinx_Vitis_2019.2_1106_2127.tar.gz depends/
+$ ln -s <path-to-offline-installer>/xrt_201920.2.3.1301_18.04-xrt.deb depends/
 ```
 
 ## Download the Xilinx Runtime (XRT)
