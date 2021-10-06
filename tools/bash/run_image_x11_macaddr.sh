@@ -89,31 +89,22 @@ xhost +
 # '-v ~/.Xauthority:/home/xilinx/.Xauthority'
 #	- required to launch X-based applications in the container and connect them to the host system
 #
-# '-v /xilinx/local/sstate-mirrors:/srv/sstate-mirrors'
-#	- share petalinux pre-downloaded sstate-cache mirror on the host system
-#
-# '-v /xilinx/local/sstate-cache:/srv/sstate-cache'
-#	- share petalinux/yocto working sstate-cache folder on the host system
-#	- this keeps work product/temp files outside of the container that can be re-used
-#
-# '-v /xilinx/local/trds:/srv/trds'
-#	- share trd working build folders on the host system
-#	- this keeps work product/temp files outside of the container that can be re-used
+# '-v /xilinx:/xilinx'
+#	- share all xilinx development related folders on host
+#   - includes: 
+#        - Petalinux: sstate-cache, sstate-mirrors, downloads
+#        - Xilinx TRD designs, shared project folders accessible by all containers
 #
 # '-v /srv/tftpboot:/tftpboot'
 #	- provides a tftpboot folder for the container (and installed Xilinx tools) but files
 #	- actually reside on the host filesystem where the TFTP server is actually installed and running
 #
-# '-v /srf/software/xilinx:/srv/software'
+# '-v /srv/software:/srv/software'
 #	- share xilinx software downloaded on host system, including bsps, trd bundles, etc...
 #
-# '-v /srv/shared:/srv/shared'
-#	- generic share folder with host for temporary file sharing between container and host OS
-#
-# '-v /srv/hardware_definitions:/srv/hardware_definitions'
-#	- generic share folder with Vivado HDF design files that can be shared between containers
-#	- Export HDF files from a Vivado container using this folder
-#	- Import HDF files to a Petalinux container using this folder
+# '-v ~/repositories:/xilinx/local/shared/repositories'
+#	- Git repositories in host user folder are shared with all containers
+#   - This eliminates the need for duplicate clones/checkouts of GIT repos across containers
 #
 # '-e DISPLAY'
 #	- share the host system's DISPLAY definition, which allows X-windows sessions to use the host system display
@@ -141,6 +132,7 @@ docker run \
 	-h $DOCKER_CONTAINER_NAME \
 	-v /tmp/.X11-unix:/tmp/.X11-unix \
 	-v ~/.Xauthority:/home/xilinx/.Xauthority \
+	-v ~/repositories:/xilinx/local/shared/repositories \
 	-v /xilinx:/xilinx \
 	-v /srv/tftpboot:/srv/tftpboot \
 	-v /srv/software:/srv/software \
