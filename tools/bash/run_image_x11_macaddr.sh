@@ -142,3 +142,12 @@ docker run \
 	--user xilinx \
 	-itd $DOCKER_IMAGE_NAME \
 	/bin/bash
+
+# Add development helper scripts to the bashrc for new shell sessions
+# This sets paths and aliases for working across containers in my development workflow
+docker exec $DOCKER_CONTAINER_NAME bash -c '\
+	echo "# Source development helper scripts for working across containers in dev workflow" >> ~/.bashrc ;\
+	echo ". /xilinx/local/shared/repositories/gitlab/xilinx-dev-scripts/set_env.sh" >> ~/.bashrc ;\
+	echo ". /xilinx/local/shared/repositories/gitlab/xilinx-dev-scripts/set_paths.sh" >> ~/.bashrc ;\
+	echo ". /xilinx/local/shared/repositories/gitlab/xilinx-dev-scripts/set_aliases.sh" >> ~/.bashrc \
+	'
