@@ -102,7 +102,7 @@ xhost +
 # '-v /srv/software:/srv/software'
 #	- share xilinx software downloaded on host system, including bsps, trd bundles, etc...
 #
-# '-v ~/repositories:/xilinx/local/shared/repositories'
+# '-v ~/repositories:~/repositories'
 #	- Git repositories in host user folder are shared with all containers
 #   - This eliminates the need for duplicate clones/checkouts of GIT repos across containers
 #
@@ -132,7 +132,7 @@ docker run \
 	-h $DOCKER_CONTAINER_NAME \
 	-v /tmp/.X11-unix:/tmp/.X11-unix \
 	-v ~/.Xauthority:/home/xilinx/.Xauthority \
-	-v ~/repositories:/xilinx/local/shared/repositories \
+	-v ~/repositories:~/repositories \
 	-v /xilinx:/xilinx \
 	-v /srv/tftpboot:/srv/tftpboot \
 	-v /srv/software:/srv/software \
@@ -147,7 +147,7 @@ docker run \
 # This sets paths and aliases for working across containers in my development workflow
 docker exec $DOCKER_CONTAINER_NAME bash -c '\
 	echo "# Source development helper scripts for working across containers in dev workflow" >> ~/.bashrc ;\
-	echo ". /xilinx/local/shared/repositories/gitlab/xilinx-dev-scripts/set_env.sh" >> ~/.bashrc ;\
-	echo ". /xilinx/local/shared/repositories/gitlab/xilinx-dev-scripts/set_paths.sh" >> ~/.bashrc ;\
-	echo ". /xilinx/local/shared/repositories/gitlab/xilinx-dev-scripts/set_aliases.sh" >> ~/.bashrc \
+	echo ". ~/repositories/gitlab/xilinx-dev-scripts/set_env.sh" >> ~/.bashrc ;\
+	echo ". ~/repositories/gitlab/xilinx-dev-scripts/set_paths.sh" >> ~/.bashrc ;\
+	echo ". ~/repositories/gitlab/xilinx-dev-scripts/set_aliases.sh" >> ~/.bashrc \
 	'
