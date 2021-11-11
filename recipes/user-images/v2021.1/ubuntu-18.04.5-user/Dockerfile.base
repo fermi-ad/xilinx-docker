@@ -202,6 +202,10 @@ RUN if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi \
 	 	google-perftools \
 # GTK is required by the Eclipse Standard Widget Toolkit (SWT) \
 		default-jre \
+# Vitis fails to load libswt-pi4-gtk: \
+# ----------------------------------- \
+		libswt-gtk-4-jni \
+		libswt-gtk-4-java \
 # Libgtk required for Xilinx SDK \
 		libgtk2.0-0 \
 ######################################################################################## \

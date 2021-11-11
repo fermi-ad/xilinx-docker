@@ -4,9 +4,9 @@
 #	- Jason Moss
 #
 # Created: 
-#	- 6/23/2021
+#	- 11/2/2021
 ########################################################################################
-FROM ubuntu-iso:18.04.5 AS base_os_ubuntu-18.04.5-user_v2021.1
+FROM ubuntu-iso:18.04.5 AS base_os_ubuntu-18.04.5-user_v2021.2
 LABEL author="Jason Moss"
 
 # Address build bug: https://github.com/docker/docker/issues/4032
@@ -83,7 +83,7 @@ RUN if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi \
 # Base Ubuntu Configuration for Xilinx Tool Install
 # -------------------------------------------------
 ########################################################################################
-FROM base_os_ubuntu-18.04.5-user_v2021.1 AS xilinx_install_ubuntu-18.04.5-user_v2021.1
+FROM base_os_ubuntu-18.04.5-user_v2021.2 AS xilinx_install_ubuntu-18.04.5-user_v2021.2
 LABEL author="Jason Moss"
 
 # Re-use previous stage ARG
