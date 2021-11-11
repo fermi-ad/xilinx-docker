@@ -88,7 +88,7 @@ New ISO Based Images:
 
 | Xilinx Release | Ubuntu Release | Petalinux     | Vivado        | Vitis          | SDK             |
 | -------------- | -------------- | ---------     | ------------  | ------------   | --------------- |
-| v2021.2        | [18.04.5][7u]  | [15.6GB][7mp] | [xx.xGB][7mv] | [ 123GB][7avi] | N/A             |
+| v2021.2        | [18.04.5][7u]  | [15.6GB][7mp] | [80.9GB][7mv] | [ 123GB][7avi] | N/A             |
 | v2021.1        | [18.04.5][6u]  | [15.3GB][6mp] | [41.1GB][6mv] | [88.7GB][6avi] | N/A             |
 | v2020.2        | [18.04.2][5u]  | [12.4GB][5ap] | [70.6GB][5av] | [80.5GB][5avi] | N/A             |
 | v2020.1        | [18.04.2][4u]  | [10.9GB][4ap] | [52.2GB][4av] | [71.5GB][4avi] | N/A             |
@@ -107,10 +107,12 @@ Base RootFS Release Based Images:
 #### Automated Image Build Times
 
 These build times are approximate, rounded to the nearest minute and reflect one particular build machine configuration.
+Note: v2020.x and earlier builds were performed on an i7-5820k based machine
+Note: v2021.x and later build were performed on a ryzen9-5950x based machine
 
 | Xilinx Release | User Image     | Petalinux     | Vivado        | Vitis        | SDK       |
 | -------------- | -------------- | ------------- | ------------- | ------------ | --------- |
-| v2021.2        | 4 min          | 05 min        | x hr xx min   | 2 hr, 01 min | N/A       |
+| v2021.2        | 4 min          | 05 min        | 1 hr 12 min   | 2 hr, 01 min | N/A       |
 | v2021.1        | 7 min          | 10 min        | 1 hr 49 min   | 2 hr, 57 min | N/A       |
 | v2020.2        | 9 min          |  7 min        | 2 hr 13 min   | 2 hr, 45 min | N/A       |
 | v2020.1        | 6 min          |  5 min        | 54 min        | 2 hr, 25 min | N/A       |
