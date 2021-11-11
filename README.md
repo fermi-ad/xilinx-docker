@@ -71,8 +71,9 @@ User Image Sizes:
 
 | Xilinx Release | Ubuntu Release | User Image     | 
 | -------------- | -------------- | ----------     |
+| v2021.2        | [18.04.5][7u]  | [2.63GB][7u]   |
 | v2021.1        | [20.04.1][6u]  | [2.80GB][6u]   |
-| v2021.1        | [18.04.5][6u]  | [2.56GB][6u]   |
+| v2021.1        | [18.04.5][6u]  | [2.63GB][6u]   |
 | v2020.2        | [20.04.1][5u]  | [2.11GB][5u]   |
 | v2020.2        | [18.04.2][5u]  | [2.31GB][5u]   |
 | v2020.1        | [18.04.2][4u]  | [2.31GB][4u]   |
@@ -87,7 +88,8 @@ New ISO Based Images:
 
 | Xilinx Release | Ubuntu Release | Petalinux     | Vivado        | Vitis          | SDK             |
 | -------------- | -------------- | ---------     | ------------  | ------------   | --------------- |
-| v2021.1        | [18.04.5][6u]  | [15.3GB][6mp] | [41.1GB][6mv] | [88.6GB][6avi] | N/A             |
+| v2021.2        | [18.04.5][7u]  | [15.6GB][7mp] | [xx.xGB][7mv] | [ 123GB][7avi] | N/A             |
+| v2021.1        | [18.04.5][6u]  | [15.3GB][6mp] | [41.1GB][6mv] | [88.7GB][6avi] | N/A             |
 | v2020.2        | [18.04.2][5u]  | [12.4GB][5ap] | [70.6GB][5av] | [80.5GB][5avi] | N/A             |
 | v2020.1        | [18.04.2][4u]  | [10.9GB][4ap] | [52.2GB][4av] | [71.5GB][4avi] | N/A             |
 | v2019.2        | [18.04.2][3u]  | [18.7GB][3ap] | [41.2GB][3av] | [56.6GB][3avi] | N/A             |
@@ -108,6 +110,7 @@ These build times are approximate, rounded to the nearest minute and reflect one
 
 | Xilinx Release | User Image     | Petalinux     | Vivado        | Vitis        | SDK       |
 | -------------- | -------------- | ------------- | ------------- | ------------ | --------- |
+| v2021.2        | 4 min          | 05 min        | x hr xx min   | 2 hr, 01 min | N/A       |
 | v2021.1        | 7 min          | 10 min        | 1 hr 49 min   | 2 hr, 57 min | N/A       |
 | v2020.2        | 9 min          |  7 min        | 2 hr 13 min   | 2 hr, 45 min | N/A       |
 | v2020.1        | 6 min          |  5 min        | 54 min        | 2 hr, 25 min | N/A       |
@@ -116,6 +119,7 @@ These build times are approximate, rounded to the nearest minute and reflect one
 | v2018.3        | 5 min          | 11 min        | 26 min        | N/A          | 4 min     |
 | v2018.2        | 5 min          | 13 min        | 25 min        | N/A          | 4 min     |
 
+[7b]: ./recipes/base-images/ubuntu-18.04.5/README.md
 [6b]: ./recipes/base-images/ubuntu-18.04.5/README.md
 [5b]: ./recipes/base-images/ubuntu-20.04.1/README.md
 [4b]: ./recipes/base-images/ubuntu-18.04.2/README.md
@@ -123,6 +127,7 @@ These build times are approximate, rounded to the nearest minute and reflect one
 [1b]: ./recipes/base-images/ubuntu-16.04.4/README.md
 [0b]: ./recipes/base-images/ubuntu-16.04.3/README.md
 
+[7u]: ./recipes/user-images/v2021.2/README.md
 [6u]: ./recipes/user-images/v2021.1/README.md
 [5u]: ./recipes/user-images/v2020.2/README.md
 [4u]: ./recipes/user-images/v2020.1/README.md
@@ -131,6 +136,7 @@ These build times are approximate, rounded to the nearest minute and reflect one
 [1u]: ./recipes/user-images/v2018.3/README.md
 [0u]: ./recipes/user-images/v2018.2/README.md
 
+[7mp]: ./recipes/user-images/v2021.2/README.petalinux-install.md
 [6mp]: ./recipes/user-images/v2021.1/README.petalinux-install.md
 [5mp]: ./recipes/user-images/v2020.2/README.petalinux-install.md
 [4mp]: ./recipes/user-images/v2020.1/README.petalinux-install.md
@@ -139,6 +145,7 @@ These build times are approximate, rounded to the nearest minute and reflect one
 [1mp]: ./recipes/user-images/v2018.3/README.petalinux-install.md
 [0mp]: ./recipes/user-images/v2018.2/README.petalinux-install.md
 
+[7mv]: ./recipes/user-images/v2021.2/README.vivado-install.md
 [6mv]: ./recipes/user-images/v2021.1/README.vivado-install.md
 [5mv]: ./recipes/user-images/v2020.2/README.vivado-install.md
 [4mv]: ./recipes/user-images/v2020.1/README.vivado-install.md
@@ -147,6 +154,7 @@ These build times are approximate, rounded to the nearest minute and reflect one
 [1mv]: ./recipes/user-images/v2018.3/README.vivado-install.md
 [0mv]: ./recipes/user-images/v2018.2/README.vivado-install.md
 
+[7mvi]: ./recipes/user-images/v2021.2/README.vitis-install.md
 [6mvi]: ./recipes/user-images/v2021.1/README.vitis-install.md
 [5mvi]: ./recipes/user-images/v2020.2/README.vitis-install.md
 [4mvi]: ./recipes/user-images/v2020.1/README.vitis-install.md
@@ -156,6 +164,7 @@ These build times are approximate, rounded to the nearest minute and reflect one
 [1msdk]: ./recipes/user-images/v2018.3/README.sdk-install.md
 [0msdk]: ./recipes/user-images/v2018.2/README.sdk-install.md
 
+[7ap]: ./recipes/automated-images/petalinux/v2021.2/README.md
 [6ap]: ./recipes/automated-images/petalinux/v2021.1/README.md
 [5ap]: ./recipes/automated-images/petalinux/v2020.2/README.md
 [4ap]: ./recipes/automated-images/petalinux/v2020.1/README.md
@@ -164,6 +173,7 @@ These build times are approximate, rounded to the nearest minute and reflect one
 [1ap]: ./recipes/automated-images/petalinux/v2018.3/README.md
 [0ap]: ./recipes/automated-images/petalinux/v2018.2/README.md
 
+[7av]: ./recipes/automated-images/vivado/v2021.2/README.md
 [6av]: ./recipes/automated-images/vivado/v2021.1/README.md
 [5av]: ./recipes/automated-images/vivado/v2020.2/README.md
 [4av]: ./recipes/automated-images/vivado/v2020.1/README.md
@@ -172,6 +182,7 @@ These build times are approximate, rounded to the nearest minute and reflect one
 [1av]: ./recipes/automated-images/vivado/v2018.3/README.md
 [0av]: ./recipes/automated-images/vivado/v2018.2/README.md
 
+[7avi]: ./recipes/automated-images/vitis/v2021.2/README.md
 [6avi]: ./recipes/automated-images/vitis/v2021.1/README.md
 [5avi]: ./recipes/automated-images/vitis/v2020.2/README.md
 [4avi]: ./recipes/automated-images/vitis/v2020.1/README.md
@@ -196,13 +207,13 @@ This workflow consists of:
 
 ### Manual Xilinx Tool installation quickstart
 
-For the latest v2021.1 Xilinx Tools:
+For the latest v2021.2 Xilinx Tools:
 - [Build a base Ubuntu Docker Image](./recipes/base-images/ubuntu-18.04.5/README.md)
-- [Build an Ubuntu User Image](./recipes/user-images/v2021.1/README.md)
+- [Build an Ubuntu User Image](./recipes/user-images/v2021.2/README.md)
 - Manually install the Xilinx Tools
-	- [Manual Vivado Installation](./recipes/user-images/v2021.1/README.vivado-install.md)
-	- [Manual Vitis Installation](./recipes/user-images/v2021.1/README.vitis-install.md)
-	- [Manual Petalinux Installation](./recipes/user-images/v2021.1/README.petalinux-install.md)
+	- [Manual Vivado Installation](./recipes/user-images/v2021.2/README.vivado-install.md)
+	- [Manual Vitis Installation](./recipes/user-images/v2021.2/README.vitis-install.md)
+	- [Manual Petalinux Installation](./recipes/user-images/v2021.2/README.petalinux-install.md)
 
 ## Automated Xilinx Tool installation
 
@@ -219,14 +230,14 @@ This workflow consists of:
 	
 ### Automated Xilinx Tool installation quickstart
 
-For the latest v2021.1 Xilinx Tools:
+For the latest v2021.2 Xilinx Tools:
 - [Build a base Ubuntu Docker Image for 18.04.5](./recipes/base-images/ubuntu-18.04.5/README.md)
-- [Build an Ubuntu User Image](./recipes/user-images/v2021.1/README.md)
+- [Build an Ubuntu User Image](./recipes/user-images/v2021.2/README.md)
 - Generate install configurations and dependencies
-	- [Generate Vivado Install Configuration files](./recipes/automated-images/vivado/v2021.1/README.md#generate-vivado-image-install-configuration-files-one-time)
-	- [Generate Vitis Installation Configuration files](./recipes/automated-images/vitis/v2021.1/README.md#generate-vitis-image-install-configuration-files-one-time)
-	- [Generate Petalinux Installation Configuration files](recipes/automated-images/vivado/v2021.1/README.md#generate-petalinux-image-install-configuration-files-one-time)
+	- [Generate Vivado Install Configuration files](./recipes/automated-images/vivado/v2021.2/README.md#generate-vivado-image-install-configuration-files-one-time)
+	- [Generate Vitis Installation Configuration files](./recipes/automated-images/vitis/v2021.2/README.md#generate-vitis-image-install-configuration-files-one-time)
+	- [Generate Petalinux Installation Configuration files](recipes/automated-images/vivado/v2021.2/README.md#generate-petalinux-image-install-configuration-files-one-time)
 - Build Docker images with Xilinx Tools pre-installed
-	- [Automated Vivado Installation](./recipes/automated-images/vivado/v2021.1/README.md)
-	- [Automated Vitis Installation](./recipes/automated-images/vitis/v2021.1/README.md)
-	- [Automated Petalinux Installation](./recipes/automated-images/petalinux/v2021.1/README.md)
+	- [Automated Vivado Installation](./recipes/automated-images/vivado/v2021.2/README.md)
+	- [Automated Vitis Installation](./recipes/automated-images/vitis/v2021.2/README.md)
+	- [Automated Petalinux Installation](./recipes/automated-images/petalinux/v2021.2/README.md)
