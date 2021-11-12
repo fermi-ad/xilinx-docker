@@ -135,11 +135,11 @@ $ ./build_image.sh
 	...
 	-----------------------------------
 	REPOSITORY      TAG       IMAGE ID       CREATED          SIZE
-	xilinx-vivado   v2021.1   c0a5062d3012   27 seconds ago   41.3GB
+	xilinx-vivado   v2021.1   5a687148a3d7   15 seconds ago   41.2GB
 	-----------------------------------
 	Image Build Complete...
-	STARTED :Fri 02 Jul 2021 02:19:48 PM EDT
-	ENDED   :Fri 02 Jul 2021 04:08:54 PM EDT
+	STARTED :Thu 11 Nov 2021 10:02:58 AM EST
+	ENDED   :Thu 11 Nov 2021 10:51:17 AM EST
 	-----------------------------------
 ```
 

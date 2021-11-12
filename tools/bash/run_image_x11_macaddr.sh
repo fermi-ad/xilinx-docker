@@ -30,9 +30,10 @@
 # Process Command line arguments
 if [[ $# -ne 4 ]]; then
 	echo "${@}"
-	echo "This scripts requires exactly 3 arguments.\n"
+	echo "This scripts requires exactly 4 arguments.\n"
 	echo "Syntax:"
-	echo "${0} <docker_image_name> <docker_container_name> <docker_container_macaddr> <docker_container_cpulimit> <docker_container_memorylimit> <docker_container_swaplimit>"
+	echo "${0} <docker_image_name> <docker_container_name> <docker_container_macaddr> <docker_container_cpulimit>"
+	#echo "${0} <docker_image_name> <docker_container_name> <docker_container_macaddr> <docker_container_cpulimit> <docker_container_memorylimit> <docker_container_swaplimit>"
 	echo "Where:"
 	echo "<docker_image_name> is a valid, existing docker image (docker image ls)"
 	echo "<docker_container_name> is the name to use when creating the new working container\n"
@@ -132,7 +133,7 @@ docker run \
 	-h $DOCKER_CONTAINER_NAME \
 	-v /tmp/.X11-unix:/tmp/.X11-unix \
 	-v ~/.Xauthority:/home/xilinx/.Xauthority \
-	-v ~/repositories:~/repositories \
+	-v ~/repositories:/home/xilinx/repositories \
 	-v /xilinx:/xilinx \
 	-v /srv/tftpboot:/srv/tftpboot \
 	-v /srv/software:/srv/software \

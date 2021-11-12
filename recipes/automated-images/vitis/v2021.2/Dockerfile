@@ -46,7 +46,7 @@ RUN if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi \
 # Have new user shell start in Xilinx tool folder \
 	&& echo "cd ${XLNX_INSTALL_LOCATION}" >> $HOME_DIR/.bashrc \
 # Setup bashrc to source petalinux settings on login \
-	&& echo ". ${XLNX_INSTALL_LOCATION}/Vitis/2021.1/settings64.sh" >> $HOME_DIR/.bashrc \
+	&& echo ". ${XLNX_INSTALL_LOCATION}/Vitis/2021.2/settings64.sh" >> $HOME_DIR/.bashrc \
 # Setup LIBRARY_PATH per AR#73698 https://www.xilinx.com/support/answers/73698.html \
 	&& echo "export LIBRARY_PATH=/usr/lib/x86_64-linux-gnu" >> $HOME_DIR/.bashrc \
 # Setup LD_LIBRARY_PATH to include Unified included Linux libraries \
