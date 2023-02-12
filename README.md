@@ -71,6 +71,7 @@ User Image Sizes:
 
 | Xilinx Release | Ubuntu Release | User Image     | 
 | -------------- | -------------- | ----------     |
+| v2022.1        | [18.04.5][8u]  | [2.69GB][8u]   |  
 | v2021.2        | [18.04.5][7u]  | [2.63GB][7u]   |
 | v2021.1        | [20.04.1][6u]  | [2.80GB][6u]   |
 | v2021.1        | [18.04.5][6u]  | [2.63GB][6u]   |
@@ -88,6 +89,7 @@ New ISO Based Images:
 
 | Xilinx Release | Ubuntu Release | Petalinux + Vitis  |
 | -------------- | -------------- | ------------------ |
+| v2022.1        | [18.04.5][8u]  | [    GB][8mp]      |
 | v2021.2        | [18.04.5][7u]  | [ 136GB][7mp]      |
 
 ### Xilinx User Images (Automated/Scripted Tool Installation)
@@ -131,6 +133,7 @@ Note: v2021.x and later build were performed on a ryzen9-5950x based machine
 | v2018.3        | 5 min          | 11 min        | 26 min        | N/A          | 4 min     |
 | v2018.2        | 5 min          | 13 min        | 25 min        | N/A          | 4 min     |
 
+[8b]: ./recipes/base-images/ubuntu-18.04.5/README.md
 [7b]: ./recipes/base-images/ubuntu-18.04.5/README.md
 [6b]: ./recipes/base-images/ubuntu-18.04.5/README.md
 [5b]: ./recipes/base-images/ubuntu-20.04.1/README.md
@@ -139,6 +142,7 @@ Note: v2021.x and later build were performed on a ryzen9-5950x based machine
 [1b]: ./recipes/base-images/ubuntu-16.04.4/README.md
 [0b]: ./recipes/base-images/ubuntu-16.04.3/README.md
 
+[8u]: ./recipes/user-images/v2022.1/README.md
 [7u]: ./recipes/user-images/v2021.2/README.md
 [6u]: ./recipes/user-images/v2021.1/README.md
 [5u]: ./recipes/user-images/v2020.2/README.md
@@ -148,6 +152,7 @@ Note: v2021.x and later build were performed on a ryzen9-5950x based machine
 [1u]: ./recipes/user-images/v2018.3/README.md
 [0u]: ./recipes/user-images/v2018.2/README.md
 
+[8mp]: ./recipes/user-images/v2022.1/README.petalinux-install.md
 [7mp]: ./recipes/user-images/v2021.2/README.petalinux-install.md
 [6mp]: ./recipes/user-images/v2021.1/README.petalinux-install.md
 [5mp]: ./recipes/user-images/v2020.2/README.petalinux-install.md
@@ -157,6 +162,7 @@ Note: v2021.x and later build were performed on a ryzen9-5950x based machine
 [1mp]: ./recipes/user-images/v2018.3/README.petalinux-install.md
 [0mp]: ./recipes/user-images/v2018.2/README.petalinux-install.md
 
+[8mv]: ./recipes/user-images/v2022.1/README.vivado-install.md
 [7mv]: ./recipes/user-images/v2021.2/README.vivado-install.md
 [6mv]: ./recipes/user-images/v2021.1/README.vivado-install.md
 [5mv]: ./recipes/user-images/v2020.2/README.vivado-install.md
@@ -166,6 +172,7 @@ Note: v2021.x and later build were performed on a ryzen9-5950x based machine
 [1mv]: ./recipes/user-images/v2018.3/README.vivado-install.md
 [0mv]: ./recipes/user-images/v2018.2/README.vivado-install.md
 
+[8mvi]: ./recipes/user-images/v2022.1/README/vitis-install.md
 [7mvi]: ./recipes/user-images/v2021.2/README.vitis-install.md
 [6mvi]: ./recipes/user-images/v2021.1/README.vitis-install.md
 [5mvi]: ./recipes/user-images/v2020.2/README.vitis-install.md
@@ -176,6 +183,7 @@ Note: v2021.x and later build were performed on a ryzen9-5950x based machine
 [1msdk]: ./recipes/user-images/v2018.3/README.sdk-install.md
 [0msdk]: ./recipes/user-images/v2018.2/README.sdk-install.md
 
+[8ap]: ./recipes/automated-images/petalinux/v2022.1/README.md
 [7ap]: ./recipes/automated-images/petalinux/v2021.2/README.md
 [6ap]: ./recipes/automated-images/petalinux/v2021.1/README.md
 [5ap]: ./recipes/automated-images/petalinux/v2020.2/README.md
@@ -185,6 +193,7 @@ Note: v2021.x and later build were performed on a ryzen9-5950x based machine
 [1ap]: ./recipes/automated-images/petalinux/v2018.3/README.md
 [0ap]: ./recipes/automated-images/petalinux/v2018.2/README.md
 
+[8av]: ./recipes/automated-images/vivaod/v2022.1/README.md
 [7av]: ./recipes/automated-images/vivado/v2021.2/README.md
 [6av]: ./recipes/automated-images/vivado/v2021.1/README.md
 [5av]: ./recipes/automated-images/vivado/v2020.2/README.md
@@ -194,6 +203,7 @@ Note: v2021.x and later build were performed on a ryzen9-5950x based machine
 [1av]: ./recipes/automated-images/vivado/v2018.3/README.md
 [0av]: ./recipes/automated-images/vivado/v2018.2/README.md
 
+[8avi]: ./recipes/automated-images/vitis/v2022.1/README.md
 [7avi]: ./recipes/automated-images/vitis/v2021.2/README.md
 [6avi]: ./recipes/automated-images/vitis/v2021.1/README.md
 [5avi]: ./recipes/automated-images/vitis/v2020.2/README.md
