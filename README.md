@@ -80,6 +80,16 @@ User Image Sizes:
 | v2019.2        | [18.04.2][3u]  | [2.31GB][3u]   |
 | v2019.1        | [18.04.1][2u]  | [2.26GB][2u]   |
 
+### Xilinx User Images (Manual Tool Installation)
+
+These user images include a tool-compatible Ubuntu OS installation with tool specific dependencies and the complete suite of Xilinx tools for that tool release pre-instaled.
+
+New ISO Based Images:
+
+| Xilinx Release | Ubuntu Release | Petalinux + Vitis  |
+| -------------- | -------------- | ------------------ |
+| v2021.2        | [18.04.5][7u]  | [ 136GB][7mp]      |
+
 ### Xilinx User Images (Automated/Scripted Tool Installation)
 
 These user images include a tool-compatible Ubuntu OS installation with tool specific dependencies and the Xilinx tool pre-installed.  Xilinx tool installation is automated to support offline/archival and automation of development environment creation.  These images are slightly larger (by default) than the manually created counterparts due to the storage used for intermediate build staging during creation of these images.  These recipes are provided as examples and can further be optimized for size before deployment in your environment if necessary.
