@@ -89,7 +89,7 @@ New ISO Based Images:
 
 | Xilinx Release | Ubuntu Release | Petalinux + Vitis  |
 | -------------- | -------------- | ------------------ |
-| v2022.1        | [18.04.5][8u]  | [    GB][8mp]      |
+| v2022.1        | [18.04.5][8u]  | [ 144GB][8mp]      |
 | v2021.2        | [18.04.5][7u]  | [ 136GB][7mp]      |
 
 ### Xilinx User Images (Automated/Scripted Tool Installation)

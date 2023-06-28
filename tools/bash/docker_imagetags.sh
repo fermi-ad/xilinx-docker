@@ -4,6 +4,6 @@
 dtags () {
     local image="${1}"
 
-    wget -q https://registry.hub.docker.com/v1/repositories/"${image}"/tags -O - \
+    wget -q https://registry.hub.docker.com/v2/repositories/"${image}"/tags -O - \
         | tr -d '[]" ' | tr '}' '\n' | awk -F: '{print $3}'
 }
