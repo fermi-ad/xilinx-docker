@@ -19,20 +19,25 @@ TMP_PATH=tmp
 # User account information
 # USER_ACCT: user account name within docker image
 # HOME_DIR : user account home directory
-USER_ACCT=xilinx
-HOME_DIR=/home/$USER_ACCT
+#USER_ACCT=xilinx
+VAI_USER=vitis-ai-user
+VAI_GROUP=vitis-ai-group
+VAI_HOME=/vitis_ai_home
+
+# Docker Image Type
+DOCKER_TYPE=cpu
 
 # GIT Configuration
 # GIT_USER_NAME: Username for git configuration
 # GIT_USER_EMAIL: email address for git configuration
-GIT_USER_NAME="Xilinx User"
-GIT_USER_EMAIL="Xilinx.User@dummyaddress.com"
+GIT_USER_NAME="Vitis AI User"
+GIT_USER_EMAIL="VitisAI.User@dummyaddress.com"
 
 # Xilinx Release Information
 XLNX_RELEASE_VERSION=v3.0
 
 # Xilinx tool information
-XLNX_TOOL_INFO=$BASE_OS_NAME-$BASE_OS_VERSION-vai-cpu-base
+XLNX_TOOL_INFO=$BASE_OS_NAME-$BASE_OS_VERSION-vai-$DOCKER_TYPE-conda-base
 
 # Docker File Recipe Stage
 DOCKER_FILE_STAGE=xilinx_install_$XLNX_TOOL_INFO"_"$XLNX_RELEASE_VERSION
@@ -50,8 +55,8 @@ DOCKER_IMAGE_NAME=xilinx-$XLNX_TOOL_INFO
 # To force rebuild, set DOCKER_CACHE='--no-cache'
 # DOCKER_CACHE='--no-cache'
 # Turn off use of cached images
-#DOCKER_CACHE=''
-DOCKER_CACHE='--no-cache'
+DOCKER_CACHE=''
+#DOCKER_CACHE='--no-cache'
 
 # Location the build is executed from
 DOCKER_BUILD_WORKING_DIR=`pwd`
@@ -66,7 +71,9 @@ DOCKER_IMAGE_VERSION=$XLNX_RELEASE_VERSION
 ########################################################################################
 ########################################################################################
 # Xilinx Tool Install Location
-XLNX_INSTALL_LOCATION=/opt/vitis_ai
+#XLNX_INSTALL_LOCATION=/opt/vitis_ai
+VAI_ROOT=/opt/vitis_ai
+VAI_HOME=/vitis_ai_home
 
 ########################################################################################
 ########################################################################################

@@ -8,10 +8,10 @@
 #	- Jason Moss
 #
 # Created: 
-#	- 11/2/2021
+#	- 8/21/2023
 #
 # Source base image configuration
-source ../../../base-images/ubuntu-20.04.4/include/configuration.sh
+source ../../../base-images/ubuntu-20.04.5/include/configuration.sh
 # Source user image configuration
 source include/configuration.sh
 
@@ -19,6 +19,7 @@ source include/configuration.sh
 DOCKER_FILE_STAGE="base_os_depends_"$XLNX_RELEASE_VERSION
 DOCKER_IMAGE_NAME=dependency_generation
 DOCKER_IMAGE_VERSION=$XLNX_RELEASE_VERSION
+DOCKER_CONTAINER_NAME="build_"$XLNX_TOOL_INFO"_depends_"$XLNX_RELEASE_VERSION
 
 # define options
 function show_opts {
@@ -182,9 +183,10 @@ echo "INSTALL_SERVER_URL="$INSTALL_SERVER_URL
 echo "-----------------------------------"
 echo "Arguments..."
 echo "-----------------------------------"
-echo "	--build-arg USER_ACCT=\"${USER_ACCT}\""
-echo " 	--build-arg HOME_DIR=\"${HOME_DIR}\""
-echo " 	--build-arg XLNX_INSTALL_LOCATION=\"${XLNX_INSTALL_LOCATION}\""
+echo "	--build-arg VAI_USER=\"${VAI_USER}\""
+echo "  --build-arg VAI_ROOT=\"${VAI_ROOT}\""
+echo "  --build-arg VAI_GROUP=\"${VAI_GROUP}\""
+echo "  --build-arg VAI_HOME=\"${VAI_HOME}\""
 echo " 	--build-arg INSTALL_SERVER_URL=\"${SERVER_IP}:8000\""
 echo " 	--build-arg KEYBOARD_CONFIG_FILE=\"${KEYBOARD_CONFIG_FILE}\""
 echo "  --build-arg BUILD_DEBUG=\"${FLAG_BUILD_DEBUG}\""
@@ -196,13 +198,16 @@ if [ $FLAG_BUILD_DEBUG -ne 0 ]; then set -x; fi
 docker build $DOCKER_CACHE -f ./$DOCKER_FILE_NAME \
 	--target $DOCKER_FILE_STAGE \
  	-t $DOCKER_IMAGE_NAME:$DOCKER_IMAGE_VERSION \
- 	--build-arg USER_ACCT="${USER_ACCT}" \
- 	--build-arg HOME_DIR="${HOME_DIR}" \
- 	--build-arg XLNX_INSTALL_LOCATION="${XLNX_INSTALL_LOCATION}" \
+ 	--build-arg VAI_USER="${VAI_USER}" \
+ 	--build-arg VAI_GROUP="${VAI_GROUP}" \
+ 	--build-arg VAI_ROOT="${VAI_ROOT}" \
+ 	--build-arg VAI_HOME="${VAI_HOME}" \
  	--build-arg INSTALL_SERVER_URL="${INSTALL_SERVER_URL}" \
  	--build-arg KEYBOARD_CONFIG_FILE="${KEYBOARD_CONFIG_FILE}" \
  	--build-arg BUILD_DEBUG="${FLAG_BUILD_DEBUG}" \
  	$DOCKER_INSTALL_DIR
+
+#--build-arg XLNX_INSTALL_LOCATION="${XLNX_INSTALL_LOCATION}" \
 
 # Set Xhost permissions
 xhost +
@@ -216,7 +221,6 @@ echo "Create a base docker container..."
 echo "-----------------------------------"
 echo "DOCKER_CONTAINER_NAME="$DOCKER_CONTAINER_NAME
 echo "-----------------------------------"
-DOCKER_CONTAINER_NAME="build_"$XLNX_TOOL_INFO"_depends_"$XLNX_RELEASE_VERSION
 
 if [ $FLAG_BUILD_DEBUG -ne 0 ]; then set -x; fi
 
@@ -261,8 +265,8 @@ docker exec -it $DOCKER_CONTAINER_NAME \
 	bash -c "if [ ${FLAG_BUILD_DEBUG} -ne 0 ]; then set -x; fi \
 	&& apt-get install -y keyboard-configuration \
 	&& sudo dpkg-reconfigure keyboard-configuration \
-	&& mkdir -p ${HOME_DIR}/downloads/tmp \
-	&& cd ${HOME_DIR}/downloads/tmp \
+	&& mkdir -p ${VAI_HOME}/downloads/tmp \
+	&& cd ${VAI_HOME}/downloads/tmp \
 	&& mkdir -p ${KEYBOARD_CONFIG_FILE%/*} \
 	&& debconf-get-selections | grep keyboard-configuration > ${KEYBOARD_CONFIG_FILE} \
 	&& ls -al"
@@ -277,7 +281,7 @@ echo "-----------------------------------"
 if [ $FLAG_BUILD_DEBUG -ne 0 ]; then set -x; fi
 
 mkdir -p $GENERATED_PATH/${KEYBOARD_CONFIG_FILE%/*}
-docker cp $DOCKER_CONTAINER_NAME:$HOME_DIR/downloads/tmp/$KEYBOARD_CONFIG_FILE $GENERATED_PATH/$KEYBOARD_CONFIG_FILE
+docker cp $DOCKER_CONTAINER_NAME:$VAI_HOME/downloads/tmp/$KEYBOARD_CONFIG_FILE $GENERATED_PATH/$KEYBOARD_CONFIG_FILE
 
 if [ $FLAG_BUILD_DEBUG -ne 0 ]; then set +x; fi
 

@@ -50,34 +50,38 @@ RUN if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi \
 # Install sudo and setup a user account, which is essential for Yocto and other tools
 # adduser command:  http://manpages.ubuntu.com/manpages/xenial/man8/adduser.8.html
 # Arguments can be filled at build time using the '--build-arg' option
-ARG USER_ACCT
-ARG HOME_DIR
-ARG XLNX_INSTALL_LOCATION
+ARG VAI_USER
+ARG VAI_GROUP
+ARG VAI_ROOT
+ARG VAI_HOME
 
 RUN if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi \
 	&& apt-get install -y \
 		sudo \
+	&& groupadd -f $VAI_GROUP \
 	&& adduser \
 		--disabled-password \
 		--gecos '' \
 		--shell /bin/bash \
-		--home $HOME_DIR \
-		$USER_ACCT \
-	&& echo \
-		"$USER_ACCT ALL=(ALL) NOPASSWD: ALL" \
+		--home $VAI_HOME \
+		$VAI_USER \
+	&& usermod -aG $VAI_GROUP $VAI_USER \
+    && usermod -aG sudo vitis-ai-user \
+   	&& echo \
+		"$VAI_USER ALL=(ALL) NOPASSWD: ALL" \
 		>> /etc/sudoers \
 # Add user to the dialout group for serial port access \
-	&& adduser $USER_ACCT dialout \
+	&& adduser $VAI_USER dialout \
 # Setup Java librxtx permission for /var/lock so Vivado can user the /dev/ttyUSB devices properly without crashing \
 # Add current user to uucp group \
-	&& adduser $USER_ACCT uucp \
+	&& adduser $VAI_USER uucp \
 # Give uucp group permission to /var/lock \
 	&& chgrp uucp /var/lock \
 # Give write permission to the group \
 	&& chmod g+w /var/lock \
 # Create the Xilinx install folder and add appropriate permissions \
-	&& mkdir -p $XLNX_INSTALL_LOCATION \
-	&& chown -R $USER_ACCT:$USER_ACCT $XLNX_INSTALL_LOCATION \
+	&& mkdir -p $VAI_ROOT \
+	&& chown -R $VAI_USER:$VAI_USER $VAI_ROOT \
 # Set BASH as the default shell \
 	&& echo "dash dash/sh boolean false" | debconf-set-selections \
 	&& DEBIAN_FRONTEND=$DEBIAN_FRONTEND dpkg-reconfigure dash
