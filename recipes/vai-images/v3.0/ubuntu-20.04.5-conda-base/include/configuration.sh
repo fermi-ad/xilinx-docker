@@ -35,15 +35,17 @@ GIT_USER_EMAIL="VitisAI.User@dummyaddress.com"
 
 # Xilinx Release Information
 XLNX_RELEASE_VERSION=v3.0
+XLNX_REGISTRY_NAME="vai-local/"
+XLNX_BASE_OS=$BASE_OS_NAME-$BASE_OS_VERSION
+XLNX_DOCKER_IMG=vai-$DOCKER_TYPE-conda-base
+XLNX_DOCKER_IMG_VERSION=$XLNX_BASE_OS-$XLNX_RELEASE_VERSION
 
-# Xilinx tool information
-XLNX_TOOL_INFO=$BASE_OS_NAME-$BASE_OS_VERSION-vai-$DOCKER_TYPE-conda-base
+# Default Docker File Recipe Stage
+DOCKER_FILE_STAGE=install_$XLNX_DOCKER_IMG"_"$XLNX_DOCKER_IMG_VERSION
 
-# Docker File Recipe Stage
-DOCKER_FILE_STAGE=xilinx_install_$XLNX_TOOL_INFO"_"$XLNX_RELEASE_VERSION
-
-# Docker Image Name
-DOCKER_IMAGE_NAME=xilinx-$XLNX_TOOL_INFO
+# Docker Image Name and Version
+DOCKER_IMAGE_NAME=$XLNX_REGISTRY_NAME$XLNX_DOCKER_IMG
+DOCKER_IMAGE_VERSION=$XLNX_DOCKER_IMG_VERSION
 
 # Should Docker use Cache when building?
 # - A couple of important reasons to DISABLE the use of the cache
@@ -62,8 +64,7 @@ DOCKER_CACHE=''
 DOCKER_BUILD_WORKING_DIR=`pwd`
 DOCKER_BUILD_TMPDIR=$DOCKER_BUILD_WORKING_DIR/tmp
 
-# Docker build image parameters
-DOCKER_IMAGE_VERSION=$XLNX_RELEASE_VERSION
+
 
 ########################################################################################
 ########################################################################################

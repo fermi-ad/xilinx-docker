@@ -1,0 +1,375 @@
+# Dockerfile
+########################################################################################
+# Maintainer:
+#	- Jason Moss
+#
+# Created: 
+#	- 8/21/2023
+########################################################################################
+FROM ubuntu-iso:20.04.5 AS base_os_vai-cpu-conda-base_ubuntu-20.04.5-v3.0
+LABEL author="Jason Moss"
+
+# Address build bug: https://github.com/docker/docker/issues/4032
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Turn on shell command expansion inside docker container IF Debug is configured
+ARG BUILD_DEBUG
+
+RUN if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi \
+# Configure APT to ignore recommended or suggested packages by default to keep the final image small \
+	&& echo "APT::Install-Recommends false;" > /etc/apt/apt.conf.d/00norecommends \
+	&& echo "APT::AutoRemove::RecommendsImportant false;" >> /etc/apt/apt.conf.d/00norecommends \
+	&& echo "APT::Install-Suggests false;" > /etc/apt/apt.conf.d/00nosuggests \
+	&& echo "APT::AutoRemove::SuggestsImportant false;" >> /etc/apt/apt.conf.d/00nosuggests \
+	&& apt-get update \
+# Install apt-utils which is needed by debconf for some of the other packages being installed \
+	&& apt-get install -y \
+		apt-utils \
+# Install vim for local file editing \
+		vim \
+# Install and setup locale \
+	&& apt-get install locales \
+	&& locale-gen en_US.UTF-8 \
+	&& dpkg-reconfigure \
+		--frontend $DEBIAN_FRONTEND locales
+
+# Install debconf-utils, dialog \
+ RUN if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi \
+ 	&& apt-get install -y \
+# Install pre-reqs on server ISO for dialog utilities \
+		software-properties-common \
+	&& add-apt-repository universe \
+	&& apt-get update \
+	&& apt-get install -y \
+ 		dialog \
+ 		debconf-utils \
+# Put debconf in non interactive mode \
+ 	&& echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections
+
+# Create a user account with no password and add user to sudoers
+# Install sudo and setup a user account, which is essential for Yocto and other tools
+# adduser command:  http://manpages.ubuntu.com/manpages/xenial/man8/adduser.8.html
+# Arguments can be filled at build time using the '--build-arg' option
+#ARG USER_ACCT
+#ARG HOME_DIR
+#ARG XLNX_INSTALL_LOCATION
+
+ARG VAI_USER
+ARG VAI_GROUP
+ARG VAI_HOME
+ARG VAI_ROOT
+
+RUN if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi \
+	&& apt-get install -y \
+		sudo \
+	&& groupadd -f $VAI_GROUP \
+	&& adduser \
+		--disabled-password \
+		--gecos '' \
+		--shell /bin/bash \
+		--home $VAI_HOME \
+		$VAI_USER \
+	&& usermod -aG $VAI_GROUP $VAI_USER \
+    && usermod -aG sudo vitis-ai-user \
+	&& echo \
+		"$VAI_USER ALL=(ALL) NOPASSWD: ALL" \
+		>> /etc/sudoers \
+# Add user to the dialout group for serial port access \
+	&& adduser $VAI_USER dialout \
+# Setup Java librxtx permission for /var/lock so Vitis can user the /dev/ttyUSB devices properly without crashing \
+# Add current user to uucp group \
+	&& adduser $VAI_USER uucp \
+# Give uucp group permission to /var/lock \
+	&& chgrp uucp /var/lock \
+# Give write permission to the group \
+	&& chmod g+w /var/lock \
+# Set BASH as the default shell \
+	&& echo "dash dash/sh boolean false" | debconf-set-selections \
+	&& DEBIAN_FRONTEND=$DEBIAN_FRONTEND dpkg-reconfigure dash \
+########################################################################################## \
+#	&& export GOSU_VERSION="1.12"
+#	&& groupadd vitis-ai-group \
+#   && useradd --shell /bin/bash -c '' -m -g vitis-ai-group vitis-ai-user \
+#   && passwd -d vitis-ai-user \
+#   && usermod -aG sudo vitis-ai-user \
+#   && echo 'ALL ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers \
+    && echo 'Defaults        secure_path="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/opt/vitis_ai/conda/bin"' >> /etc/sudoers \
+    && curl -sSkLo /usr/local/bin/gosu "https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-$(dpkg --print-architecture)" \
+    && chmod +x /usr/local/bin/gosu \
+########################################################################################## \
+	&& mkdir -p ${VAI_ROOT} \
+    && chown -R vitis-ai-user:vitis-ai-group ${VAI_ROOT}
+
+########################################################################################
+# Base Ubuntu Configuration for Xilinx Tool Install
+# -------------------------------------------------
+########################################################################################
+FROM base_os_vai-cpu-conda-base_ubuntu-20.04.5-v3.0 AS install_vai-cpu-conda-base_ubuntu-20.04.5-v3.0
+LABEL author="Jason Moss"
+
+# Re-use previous stage ARG
+#ARG USER_ACCT
+#ARG HOME_DIR
+
+ARG VAI_USER
+ARG VAI_HOME
+
+# Switch to the user account
+USER $VAI_USER
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Arguments can be filled at build time using the '--build-arg' option
+#ARG XLNX_INSTALL_LOCATION
+ARG INSTALL_SERVER_URL
+
+# Turn on shell command expansion inside docker container IF Debug is configured
+ARG BUILD_DEBUG
+
+# Setup install location folder permissions
+RUN if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi \
+#	&& mkdir -p $XLNX_INSTALL_LOCATION/tmp \
+#	&& cd $XLNX_INSTALL_LOCATION/tmp \
+# add i386 architecture for zlib1g-dev dependency \
+	&& sudo dpkg --add-architecture i386 \
+	&& sudo apt-get update \
+	&& sudo apt-get install -y \
+######################################################################################## \
+# Container / Workflow Support \
+######################################################################################## \
+# X-org required for docker container windowing in host OS \
+		xorg \
+		xterm \
+# Development tools \
+		git \
+		wget \
+# Compression support \
+		tar \
+		gzip \
+		unzip \
+		xz-utils \	
+# Add minicom for /dev/ttyUSB* access from command line \
+		minicom \
+########################################################################################## \
+# Vitis AI Base Environment: \
+# https://github.com/Xilinx/Vitis-AI/blob/3.0/docker/common/install_base.sh \
+########################################################################################## \
+	&& sudo chmod 1777 /tmp \
+    && sudo mkdir /scratch \
+    && sudo chmod 1777 /scratch \
+	&& sudo apt-get install -y \
+        apt-transport-https \
+        autoconf \
+        automake \
+        bc \
+        build-essential \
+        bzip2 \
+        ca-certificates \
+        curl \
+        g++ \
+        gdb \
+        git \
+        gnupg \
+        locales \
+        libboost-all-dev \
+        libgflags-dev \
+        libgoogle-glog-dev \
+        libgtest-dev \
+        libjsoncpp-dev \
+        libssl-dev \
+        libtool \
+        libunwind-dev \
+        make \
+        cmake \
+        openssh-client \
+        openssl \
+        python3 \
+        python3-dev \
+        python3-minimal \
+        python3-numpy \
+        python3-opencv \
+        python3-pip \
+        python3-setuptools \
+        python3-venv \
+        software-properties-common \
+        sudo \
+        tree \
+        tzdata \
+        unzip \
+        vim \
+        wget \
+        yasm \
+        zstd \
+        libavcodec-dev \
+        libavformat-dev \
+        libeigen3-dev \
+        libgstreamer-plugins-base1.0-dev \
+        libgstreamer1.0-dev \
+        libgtest-dev \
+        libgtk-3-dev \
+        libgtk2.0-dev \
+        libhdf5-dev \
+        libjpeg-dev \
+        libopenexr-dev \
+        libpng-dev \
+        libswscale-dev \
+        libtiff-dev \
+        libwebp-dev \
+        opencl-clhpp-headers \
+        opencl-headers \
+        pocl-opencl-icd \
+        python3-opencv \
+        python3-pip \
+        python3-setuptools \
+        python3-venv \
+        software-properties-common \
+        sudo \
+        tree \
+        unzip \
+        vim \
+        wget \
+        yasm \
+        zstd \
+        libavcodec-dev \
+        libavformat-dev \
+        libeigen3-dev \
+        libgstreamer-plugins-base1.0-dev \
+        libgstreamer1.0-dev \
+        libgtest-dev \
+        libgtk-3-dev \
+        libgtk2.0-dev \
+        libhdf5-dev \
+        libjpeg-dev \
+        libopenexr-dev \
+        libpng-dev \
+        libswscale-dev \
+        libtiff-dev \
+        libwebp-dev \
+        opencl-clhpp-headers \
+        opencl-headers \
+        ffmpeg \
+        pocl-opencl-icd \
+########################################################################################## \
+	&& sudo apt-get install -y \
+		pybind11-dev \
+		python3-pybind11 \
+		libopencv-dev \
+		gcc-9 \
+		gcc-10 \
+		g++-9 \
+		g++-10 \
+      	libprotobuf-c-dev \
+      	protobuf-compiler \
+      	python-protobuf \
+      	swig \
+    && sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-9 10 \
+    	--slave /usr/bin/g++ g++ /usr/bin/g++-9 \
+    	--slave /usr/bin/gcov gcov /usr/bin/gcov-9 \
+  	&& sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-10 90 \
+    	--slave /usr/bin/g++ g++ /usr/bin/g++-10 \
+        --slave /usr/bin/gcov gcov /usr/bin/gcov-10 \
+########################################################################################## \
+	&& pip3 install \
+		Flask \
+		setuptools \
+		wheel \
+########################################################################################## \
+	&& sudo sed -i '/en_US.UTF-8/s/^# //g' /etc/locale.gen \
+	&& sudo cat /etc/environment \
+    && sudo bash -c "echo 'LC_ALL=en_US.UTF-8' >> /etc/environment" \
+    && sudo bash -c "echo 'LANG=en_US.UTF-8' > /etc/locale.conf" \
+    && sudo locale-gen en_US.UTF-8 \
+    && sudo localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8 \
+    && sudo dpkg-reconfigure locales \
+    && sudo ln -snf /usr/share/zoneinfo/$TZ /etc/localtime \
+    && sudo bash -c "echo $TZ > /etc/timezone" \
+    && sudo dpkg-reconfigure -f $DEBIAN_FRONTEND tzdata \
+########################################################################################## \
+	&& cd /tmp \
+	&& wget --progress=dot:mega https://github.com/json-c/json-c/archive/json-c-0.15-20200726.tar.gz \
+    && tar xvf json-c-0.15-20200726.tar.gz \
+    && cd json-c-json-c-0.15-20200726 \
+    && mkdir build \
+    && cd build \
+    && cmake -DBUILD_SHARED_LIBS=ON .. \
+    && make -j \
+    && sudo make install
+
+##########################################################################################
+# Vitis AI Conda Environment:
+# https://github.com/Xilinx/Vitis-AI/blob/3.0/docker/common/install_conda.sh
+##########################################################################################
+# Switch to vitis-ai-user
+USER $VAI_USER
+
+RUN if [ $BUILD_DEBUG -ne 0]; then set -x; fi \
+	&& export HOME=~vitis-ai-user \
+    && if [[ -d "/root/.local" ]]; then \
+       		sudo chmod -R 777 /root/.local;\
+       fi \
+    && sudo chmod 777 /root /root/.local /root/.local/bin || true \
+########################################################################################## \
+    && cd /tmp \
+    && wget --progress=dot:mega https://github.com/conda-forge/miniforge/releases/download/4.10.3-5/Mambaforge-4.10.3-5-Linux-x86_64.sh -O miniconda.sh \
+    && /bin/bash ./miniconda.sh -b -p $VAI_ROOT/conda \
+    && . $VAI_ROOT/conda/etc/profile.d/conda.sh \
+    && conda install -y  conda-build \
+    && rm -fr /tmp/miniconda.sh \
+    &&  /$VAI_ROOT/conda/bin/conda clean -y --force-pkgs-dirs \
+########################################################################################## \
+	&& echo ". $VAI_ROOT/conda/etc/profile.d/conda.sh" >> ~vitis-ai-user/.bashrc \
+	&& sudo ln -s $VAI_ROOT/conda/etc/profile.d/conda.sh /etc/profile.d/conda.sh
+
+##########################################################################################
+# Final Cleanup and Configuration
+##########################################################################################
+ARG GIT_USER_NAME
+ARG GIT_USER_EMAIL
+
+# Setup GIT with a dummy username and email address
+RUN if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi \
+	&& git config \
+	--global user.name "$GIT_USER_NAME" \
+	&& git config \
+	--global user.email "$GIT_USER_EMAIL" \
+	&& git config \
+	--global color.ui true
+# Setup the User Locale \
+# Yocto requires a 'UTF-8' locale \
+# Xilinx tools specifically require the 'en_US.UTF-8' locale \
+#	&& echo "export LANG=en_US.UTF-8" >> $VAI_HOME/.bashrc \
+#	&& export "LANG=en_US.UTF-8"
+
+# Arguments can be filled at build time using the '--build-arg' option
+ARG KEYBOARD_CONFIG_FILE
+ARG XTERM_CONFIG_FILE
+ARG MINICOM_CONFIG_FILE
+
+RUN if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi \
+	&& export TERM=xterm \
+	&& cd /tmp \
+# Get Keyboard configuration file \
+	&& mkdir -p "${KEYBOARD_CONFIG_FILE%/*}" \
+	&& wget -nv $INSTALL_SERVER_URL/$KEYBOARD_CONFIG_FILE -O $KEYBOARD_CONFIG_FILE \
+	&& cat $KEYBOARD_CONFIG_FILE \
+# Configure Keyboard silently \
+	&& sudo DEBIAN_FRONTEND=$DEBIAN_FRONTEND apt-get install -y keyboard-configuration \
+	&& sudo DEBIAN_FRONTEND=$DEBIAN_FRONTEND debconf-set-selections < $KEYBOARD_CONFIG_FILE \
+	&& sudo DEBIAN_FRONTEND=$DEBIAN_FRONTEND dpkg-reconfigure keyboard-configuration \
+# Configure Xterm to change the color scheme and allow copy-paste with host \
+	&& mkdir -p "${XTERM_CONFIG_FILE%/*}" \
+	&& wget -nv $INSTALL_SERVER_URL/$XTERM_CONFIG_FILE -O $XTERM_CONFIG_FILE \
+	&& cat $XTERM_CONFIG_FILE \
+	&& cp $XTERM_CONFIG_FILE $VAI_HOME \
+# Copy Minicom configuration file \
+	&& mkdir -p "${MINICOM_CONFIG_FILE%/*}" \
+	&& wget -nv $INSTALL_SERVER_URL/$MINICOM_CONFIG_FILE -O $MINICOM_CONFIG_FILE \
+	&& cat $MINICOM_CONFIG_FILE \
+	&& cp $MINICOM_CONFIG_FILE $VAI_HOME
+
+# Cleanup apt cache and temporary files to reduce image size
+RUN if [ $BUILD_DEBUG -ne 0 ]; then set -x; fi \
+	&& sudo apt-get clean \
+	&& sudo apt autoremove -y \
+	&& sudo rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
+	&& sudo echo 'debconf debconf/frontend select Dialog' | sudo debconf-set-selections
+
