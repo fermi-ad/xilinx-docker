@@ -72,7 +72,8 @@ docker build \
 --no-cache \
 --platform linux/x86_64 \
 -t nvidia/cuda:10.0-cudnn7-runtime-ubuntu18.04 \
---build-arg IMAGE_NAME=nvidia/cuda dist/end-of-life/10.0/ubuntu18/runtime/cudnn7
+--build-arg IMAGE_NAME=nvidia/cuda \
+dist/end-of-life/10.0/ubuntu18/runtime/cudnn7
 ```
 
 4. (Optional) Build the base runtime image
@@ -81,7 +82,8 @@ docker build \
 --no-cache \
 --platform linux/x86_64 \
 -t nvidia/cuda:10.0-runtime-ubuntu18.04 \
---build-arg IMAGE_NAME=nvidia/cuda dist/end-of-life/10.0/ubuntu18/runtime
+--build-arg IMAGE_NAME=nvidia/cuda \
+dist/end-of-life/10.0/ubuntu18/runtime
 ```
 
 5. (Optional) Build the developer image
@@ -90,7 +92,8 @@ docker build \
 --no-cache \
 --platform linux/x86_64 \
 -t nvidia/cuda:10.0-devel-ubuntu18.04 \
---build-arg IMAGE_NAME=nvidia/cuda dist/end-of-life/10.0/ubuntu18/devel
+--build-arg IMAGE_NAME=nvidia/cuda \
+dist/end-of-life/10.0/ubuntu18/devel
 ```
 
 6. (Optional) Build the developer image with CUDA Deep Neural Network tools
@@ -99,7 +102,8 @@ docker build \
 --no-cache \
 --platform linux/x86_64 \
 -t nvidia/cuda:10.0-cudnn7-devel-ubuntu18.04 \
---build-arg IMAGE_NAME=nvidia/cuda dist/end-of-life/10.0/ubuntu18/devel/cudnn7
+--build-arg IMAGE_NAME=nvidia/cuda \
+dist/end-of-life/10.0/ubuntu18/devel/cudnn7
 ```
 
 ### Using Build Scripts (this repo)

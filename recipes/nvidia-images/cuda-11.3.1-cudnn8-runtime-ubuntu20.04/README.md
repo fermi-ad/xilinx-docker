@@ -51,7 +51,8 @@ docker build \
 --no-cache \
 --platform linux/x86_64 \
 -t nvidia/cuda:11.3.1-cudnn8-runtime-ubuntu20.04 \
---build-arg IMAGE_NAME=nvidia/cuda dist/11.3.1/ubuntu2004/runtime/cudnn8
+--build-arg IMAGE_NAME=nvidia/cuda \
+dist/11.3.1/ubuntu2004/runtime/cudnn8
 ```
 
 4. (Optional) Build the base runtime image
@@ -60,7 +61,8 @@ docker build \
 --no-cache \
 --platform linux/x86_64 \
 -t nvidia/cuda:11.3.1-runtime-ubuntu20.04 \
---build-arg IMAGE_NAME=nvidia/cuda/dist/11.3.1/ubuntu2004/runtime
+--build-arg IMAGE_NAME=nvidia/cuda \
+dist/11.3.1/ubuntu2004/runtime
 ```
 
 5. (Optional) Build the developer image
@@ -69,7 +71,8 @@ docker build \
 --no-cache \
 --platform linux/x86_64 \
 -t nvidia/cuda:11.3.1-devel-ubuntu20.04 \
---build-arg IMAGE_NAME=nvidia/cuda dist/11.3.1/ubuntu2004/devel
+--build-arg IMAGE_NAME=nvidia/cuda \
+dist/11.3.1/ubuntu2004/devel
 ```
 
 6. (Optional) Build the developer image with CUDA Deep Neural Network tools
@@ -78,7 +81,8 @@ docker build \
 --no-cache \
 --platform linux/x86_64 \
 -t nvidia/cuda:11.3.1-cudnn8-devel-ubuntu20.04 \
---build-arg IMAGE_NAME=nvidia/cuda dist/11.3.1/ubuntu2004/devel/cudnn8
+--build-arg IMAGE_NAME=nvidia/cuda \
+dist/11.3.1/ubuntu2004/devel/cudnn8
 ```
 
 ### Using Build Scripts (this repo)

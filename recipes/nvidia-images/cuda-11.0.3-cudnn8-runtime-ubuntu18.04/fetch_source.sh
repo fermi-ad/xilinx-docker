@@ -1,8 +1,7 @@
 #!/bin/bash
 ########################################################################################
 # Fetch dependencies for image generation :
-# - Ubuntu ISO Installer(s)
-# - Ubuntu Base Root Filesystem(s)
+# - CUDA Container Repo Source
 #
 # Maintainer:
 #	- Jason Moss
