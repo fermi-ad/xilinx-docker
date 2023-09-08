@@ -20,7 +20,7 @@ REPO_URL=https://gitlab.com/nvidia/container-images/cuda.git
 REPO_LOCAL_PATH=${DOWNLOAD_PATH}/${REPO}
 
 # Source configuration
-CUDA_VERSION=10.0
+CUDA_VERSION=11.0.3
 OS=ubuntu
 OS_VERSION=18.04
 ARCHES=x86_64 # `arch` - See: https://github.com/docker-library/official-images#architectures-other-than-amd64
@@ -34,40 +34,40 @@ IMAGE_NAME=nvidia/cuda
 
 # Paths
 BASE_PATH="dist/end-of-life/${CUDA_VERSION}"
-#OS_PATH_NAME="${OS}${OS_VERSION//.}"
-OS_PATH_NAME="${OS}${OS_VERSION%.*}"
+OS_PATH_NAME="${OS}${OS_VERSION//.}"
+#OS_PATH_NAME="${OS}${OS_VERSION%.*}"
 
 ########################################################################################
-# base image     : nvidia/cuda:10.0-base-ubuntu18.04
-# runtime image  : nvidia/cuda:10.0-runtime-ubuntu18.04
-# devel image    : nvidia/cuda:10.0-devel-ubuntu18.04
-# cudnn7 image   : nvidia/cuda:10.0-cudnn7-runtime-ubuntu18.04
-# cudnn7 image   : nvidia/cuda:10.0-cudnn7-devel-ubuntu18.04
+# base image     : nvidia/cuda:11.0.3-base-ubuntu18.04
+# runtime image  : nvidia/cuda:11.0.3-runtime-ubuntu18.04
+# devel image    : nvidia/cuda:11.0.3-devel-ubuntu18.04
+# cudnn8 image   : nvidia/cuda:11.0.3-cudnn8-runtime-ubuntu18.04
+# cudnn8 image   : nvidia/cuda:11.0.3-cudnn8-devel-ubuntu18.04
 #######################################################################################
-# base image     : nvidia/cuda:10.0-base-ubuntu18.04
+# base image     : nvidia/cuda:11.0.3-base-ubuntu18.04
 BASE_DOCKER_FILE_PATH=${BASE_PATH}/${OS_PATH_NAME}/base
 BASE_DOCKER_IMAGE_NAME="${IMAGE_NAME}"
 BASE_DOCKER_IMAGE_VERSION="${CUDA_VERSION}-base-${OS}${OS_VERSION}"
 
-# runtime image  : nvidia/cuda:10.0-runtime-ubuntu18.04
+# runtime image  : nvidia/cuda:11.0.3-runtime-ubuntu18.04
 RUNTIME_DOCKER_FILE_PATH=${BASE_PATH}/${OS_PATH_NAME}/runtime
 RUNTIME_DOCKER_IMAGE_NAME="${IMAGE_NAME}"
 RUNTIME_DOCKER_IMAGE_VERSION="${CUDA_VERSION}-runtime-${OS}${OS_VERSION}"
 
-# CUDNN runtime image  : nvidia/cuda:10.0-cudnn7-runtime-ubuntu18.04
-CUDNN_RUNTIME_DOCKER_FILE_PATH=${BASE_PATH}/${OS_PATH_NAME}/runtime/cudnn7
+# CUDNN runtime image  : nvidia/cuda:11.0.3-cudnn8-runtime-ubuntu18.04
+CUDNN_RUNTIME_DOCKER_FILE_PATH=${BASE_PATH}/${OS_PATH_NAME}/runtime/cudnn8
 CUDNN_RUNTIME_DOCKER_IMAGE_NAME="${IMAGE_NAME}"
-CUDNN_RUNTIME_DOCKER_IMAGE_VERSION="${CUDA_VERSION}-cudnn7-runtime-${OS}${OS_VERSION}"
+CUDNN_RUNTIME_DOCKER_IMAGE_VERSION="${CUDA_VERSION}-cudnn8-runtime-${OS}${OS_VERSION}"
 
-# devel image    : nvidia/cuda:10.0-devel-ubuntu18.04
+# devel image    : nvidia/cuda:11.0.3-devel-ubuntu18.04
 DEVEL_DOCKER_FILE_PATH=${BASE_PATH}/${OS_PATH_NAME}/devel
 DEVEL_DOCKER_IMAGE_NAME="${IMAGE_NAME}"
 DEVEL_DOCKER_IMAGE_VERSION="${CUDA_VERSION}-devel-${OS}${OS_VERSION}"
 
-# CUDNN devel image    : nvidia/cuda:10.0-cudnn7-devel-ubuntu18.04
-CUDNN_DEVEL_DOCKER_FILE_PATH=${BASE_PATH}/${OS_PATH_NAME}/devel/cudnn7
+# CUDNN devel image    : nvidia/cuda:11.0.3-cudnn8-devel-ubuntu18.04
+CUDNN_DEVEL_DOCKER_FILE_PATH=${BASE_PATH}/${OS_PATH_NAME}/devel/cudnn8
 CUDNN_DEVEL_DOCKER_IMAGE_NAME="${IMAGE_NAME}"
-CUDNN_DEVEL_DOCKER_IMAGE_VERSION="${CUDA_VERSION}-cudnn7-devel-${OS}${OS_VERSION}"
+CUDNN_DEVEL_DOCKER_IMAGE_VERSION="${CUDA_VERSION}-cudnn8-devel-${OS}${OS_VERSION}"
 
 ########################################################################################
 # Docker Build Script Debug Tracing

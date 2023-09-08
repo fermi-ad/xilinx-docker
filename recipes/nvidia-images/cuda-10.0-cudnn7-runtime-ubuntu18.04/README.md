@@ -16,14 +16,14 @@
 
 | Vitis AI Release | Repository                    | GPU Dockerfile         |
 |:-----------------|:------------------------------|:-----------------------|
-| v1.0             | [Vitis-AI 1.0 Repo][vai10]    | [Dockerfile][vai10df]  |
-| v1.1             | [Vitis-AI 1.1 Repo][vai11]    | [Dockerfile][vai11df]  |
-| v1.2             | [Vitis-AI 1.2 Repo][vai12]    | [Dockerfile][vai12df]  |
-| v1.2.1           | [Vitis-AI 1.2.1 Repo][vai121] | [Dockerfile][vai121df] |
-| v1.3.1           | [Vitis-AI 1.3.1 Repo][vai131] | [Dockerfile][vai131df] |
-| v1.3.2           | [Vitis-AI 1.3.2 Repo][vai132] | [Dockerfile][vai132df] |
-| v1.4             | [Vitis-AI 1.4 Repo][vai14]    | [Dockerfile][vai14df]  |
 | v1.4.1           | [Vitis-AI 1.4.1 Repo][vai141] | [Dockerfile][vai141df] |
+| v1.4             | [Vitis-AI 1.4 Repo][vai14]    | [Dockerfile][vai14df]  |
+| v1.3.2           | [Vitis-AI 1.3.2 Repo][vai132] | [Dockerfile][vai132df] |
+| v1.3.1           | [Vitis-AI 1.3.1 Repo][vai131] | [Dockerfile][vai131df] |
+| v1.2.1           | [Vitis-AI 1.2.1 Repo][vai121] | [Dockerfile][vai121df] |
+| v1.2             | [Vitis-AI 1.2 Repo][vai12]    | [Dockerfile][vai12df]  |
+| v1.1             | [Vitis-AI 1.1 Repo][vai11]    | [Dockerfile][vai11df]  |
+| v1.0             | [Vitis-AI 1.0 Repo][vai10]    | [Dockerfile][vai10df]  |
 
 [vai10]: https://github.com/Xilinx/Vitis-AI/tree/1.0
 [vai11]: https://github.com/Xilinx/Vitis-AI/tree/1.1
@@ -42,6 +42,7 @@
 [vai132df]: https://github.com/Xilinx/Vitis-AI/blob/6d306233c0d0f5cd88134d03218ce207dfa1959b/setup/docker/docker/DockerfileGPU#L1
 [vai14df]: https://github.com/Xilinx/Vitis-AI/blob/f61061eef7550d98bf02a171604c9a9f283a7c47/setup/docker/docker/DockerfileGPU#L1
 [vai141df]: https://github.com/Xilinx/Vitis-AI/blob/c6d79ee83ee940e83ececc9fac693fd9bf1a515c/setup/docker/docker/DockerfileGPU#L1
+
 
 ## Example worflow for building NVIDIA/CUDA images
 - Note: Platform architecture in example commands is ```x86_64```
@@ -101,7 +102,6 @@ docker build \
 --build-arg IMAGE_NAME=nvidia/cuda dist/end-of-life/10.0/ubuntu18/devel/cudnn7
 ```
 
-
 ### Using Build Scripts (this repo)
 
 1. Fetch the CUDA repo source
@@ -112,35 +112,19 @@ docker build \
 
 - repo source
 ```bash
-depends/
-└── cuda
-    ├── build.sh
-    ├── config.py
-    ├── dist
-    ├── doc
-    ├── Dockerfile
-    ├── dotdict.py
-    ├── entrypoint.d
-    ├── error.py
-    ├── LICENSE
-    ├── manager-config.yaml
-    ├── manager.py
-    ├── manifests
-    ├── NGC-DL-CONTAINER-LICENSE
-    ├── nvidia_entrypoint.sh
-    ├── poetry.lock
-    ├── push_readme.sh
-    ├── pyproject.toml
-    ├── README_CICD.md
-    ├── README.md
-    ├── shipitdata.py
-    ├── templates
-    ├── test
-    ├── test_manager
-    ├── util.sh
-    └── utils.py
+depends/cuda/dist/end-of-life/10.0/ubuntu18/
+├── base
+│   └── Dockerfile
+├── devel
+│   ├── cudnn7
+│   │   └── Dockerfile
+│   └── Dockerfile
+└── runtime
+    ├── cudnn7
+    │   └── Dockerfile
+    └── Dockerfile
 
-8 directories, 18 files
+5 directories, 5 files
 ```
 
 2. Build images
