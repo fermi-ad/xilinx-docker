@@ -23,7 +23,9 @@ This repository requires installation and configuration of Docker-CE (and other 
 
 ### Ubuntu Host Support
 
-The recipes, tools and documentation in this repository have been primarily developed using an Ubuntu-based Host OS.
+The recipes, tools and documentation in this repository were previously developed using an Ubuntu-based Host OS, but are now developed primarily under Redhat 8.x/9.x.
+- [Redhat 9.4]()
+- [Redhat 8.2](./documentation/host-os-setup/rhel-8.2/README.md)
 - [Ubuntu 20.04](./documentation/host-os-setup/ubuntu-20.04/README.md)
 - [Ubuntu 18.04](./documentation/host-os-setup/ubuntu-18.04/README.md)
 
@@ -51,15 +53,19 @@ Recipes have been added to this repository to offer the option of creating and u
 
 These are the Base Ubuntu OS Images used for tool installations.
 There are two sizes listed based on if the image is generated from a base tarball release or an iso installer image.
+Note: Base tarball releases will not be included going forward, since Canonical is no longer providing these for older releases.
 
-| Ubuntu Release | Base ISO Image | Base Image   | 
-| -------------- | -------------- | ------------ |
+| Ubuntu Release | Base ISO Image | Base Image   |
+|:---------------|:---------------|:-------------|
+| 20.04.5        | [974MB][11b]   | N/A          |
+| 20.04.4        | [946MB][10b]   | N/A          |
+| 20.04.3        | [909MB][9b]    | N/A          |
 | 20.04.1        | [267MB][5b]    | [72.9MB][5b] |
-| 18.04.5        | [670MB][6b]    | [63.2MB][6b] | 
-| 18.04.2        | [243MB][4b]    | [88.3MB][4b] | 
+| 18.04.5        | [670MB][6b]    | [63.2MB][6b] |
+| 18.04.2        | [243MB][4b]    | [88.3MB][4b] |
 | 18.04.1        | [238MB][3b]    | [83.5MB][3b] |
-| 16.04.4		 | [203MB][1b]    | [112MB][1b]  |
-| 16.04.3		 | [210MB][0b]    | [120MB][0b]  |
+| 16.04.4        | [203MB][1b]    | [112MB][1b]  |
+| 16.04.3        | [210MB][0b]    | [120MB][0b]  |
 
 ### Xilinx User Images (Manual Tool Installation)
 
@@ -69,28 +75,36 @@ Image sizes in this table reflect images created from the Base ISO Image.
 
 User Image Sizes:
 
-| Xilinx Release | Ubuntu Release | User Image     | 
-| -------------- | -------------- | ----------     |
-| v2022.1        | [18.04.5][8u]  | [2.69GB][8u]   |  
-| v2021.2        | [18.04.5][7u]  | [2.63GB][7u]   |
-| v2021.1        | [20.04.1][6u]  | [2.80GB][6u]   |
-| v2021.1        | [18.04.5][6u]  | [2.63GB][6u]   |
-| v2020.2        | [20.04.1][5u]  | [2.11GB][5u]   |
-| v2020.2        | [18.04.2][5u]  | [2.31GB][5u]   |
-| v2020.1        | [18.04.2][4u]  | [2.31GB][4u]   |
-| v2019.2        | [18.04.2][3u]  | [2.31GB][3u]   |
-| v2019.1        | [18.04.1][2u]  | [2.26GB][2u]   |
+| Xilinx Release | Ubuntu Release | User Image    |
+|:---------------|:---------------|:--------------|
+| v2024.1        | [20.04.4][10b] | [2.98GB][12u] |
+| v2023.2        | [20.04.4][10b] | [2.98GB][11u] |
+| v2023.1        | [20.04.4][10b] | [2.97GB][10u] |
+| v2022.2        | [20.04.4][10b] | [2.84GB][9u]  |
+| v2022.1        | [18.04.5][8u]  | [2.69GB][8u]  |
+| v2021.2        | [18.04.5][7u]  | [2.63GB][7u]  |
+| v2021.1        | [20.04.1][6u]  | [2.80GB][6u]  |
+| v2021.1        | [18.04.5][6u]  | [2.63GB][6u]  |
+| v2020.2        | [20.04.1][5u]  | [2.11GB][5u]  |
+| v2020.2        | [18.04.2][5u]  | [2.31GB][5u]  |
+| v2020.1        | [18.04.2][4u]  | [2.31GB][4u]  |
+| v2019.2        | [18.04.2][3u]  | [2.31GB][3u]  |
+| v2019.1        | [18.04.1][2u]  | [2.26GB][2u]  |
 
-### Xilinx User Images (Manual Tool Installation)
+### Xilinx Tool Images (Manual Tool Installation)
 
 These user images include a tool-compatible Ubuntu OS installation with tool specific dependencies and the complete suite of Xilinx tools for that tool release pre-instaled.
 
 New ISO Based Images:
 
-| Xilinx Release | Ubuntu Release | Petalinux + Vitis  |
-| -------------- | -------------- | ------------------ |
-| v2022.1        | [18.04.5][8u]  | [ 144GB][8mp]      |
-| v2021.2        | [18.04.5][7u]  | [ 136GB][7mp]      |
+| Xilinx Release | Ubuntu Release | Petalinux + Vitis |
+|:---------------|:---------------|:------------------|
+| v2024.1        | [20.04.4][12u] | [ 170GB][12mp]    |
+| v2023.2        | [20.04.4][11u] | [ 184GB][11mp]    |
+| v2023.1        | [20.04.4][10u] | [ 184GB][10mp]    |
+| v2022.2        | [20.04.4][9u]  | [ 154GB][9mp]     |
+| v2022.1        | [18.04.5][8u]  | [ 144GB][8mp]     |
+| v2021.2        | [18.04.5][7u]  | [ 136GB][7mp]     |
 
 ### Xilinx User Images (Automated/Scripted Tool Installation)
 
@@ -98,18 +112,23 @@ These user images include a tool-compatible Ubuntu OS installation with tool spe
 
 New ISO Based Images:
 
-| Xilinx Release | Ubuntu Release | Petalinux     | Vivado        | Vitis          | SDK             |
-| -------------- | -------------- | ---------     | ------------  | ------------   | --------------- |
-| v2021.2        | [18.04.5][7u]  | [15.6GB][7mp] | [80.9GB][7mv] | [ 123GB][7avi] | N/A             |
-| v2021.1        | [18.04.5][6u]  | [15.3GB][6mp] | [41.2GB][6mv] | [88.7GB][6avi] | N/A             |
-| v2020.2        | [18.04.2][5u]  | [12.4GB][5ap] | [70.6GB][5av] | [80.5GB][5avi] | N/A             |
-| v2020.1        | [18.04.2][4u]  | [10.9GB][4ap] | [52.2GB][4av] | [71.5GB][4avi] | N/A             |
-| v2019.2        | [18.04.2][3u]  | [18.7GB][3ap] | [41.2GB][3av] | [56.6GB][3avi] | N/A             |
+| Xilinx Release | Ubuntu Release | Petalinux      | Vivado        | Vitis          | SDK |
+|:---------------|:---------------|:---------------|:--------------|:---------------|:----|
+| v2024.1        | [20.04.4][12u] | [14.4GB][12mp] | [][]          | [][]           | N/A |
+| v2023.2        | [20.04.4][11u] | [15.6GB][11mp] | [][]          | [][]           | N/A |
+| v2023.1        | [20.04.4][10u] | [15.6GB][10mp] | [][]          | [][]           | N/A |
+| v2022.2        | [20.04.4][9u]  | [15.6GB][9mp]  | [][]          | [][]           | N/A |
+| v2022.1        | [20.04.4][8u]  | [15.6GB][8mp]  | [][]          | [][]           | N/A |
+| v2021.2        | [18.04.5][7u]  | [15.6GB][7mp]  | [80.9GB][7mv] | [ 123GB][7avi] | N/A |
+| v2021.1        | [18.04.5][6u]  | [15.3GB][6mp]  | [41.2GB][6mv] | [88.7GB][6avi] | N/A |
+| v2020.2        | [18.04.2][5u]  | [12.4GB][5ap]  | [70.6GB][5av] | [80.5GB][5avi] | N/A |
+| v2020.1        | [18.04.2][4u]  | [10.9GB][4ap]  | [52.2GB][4av] | [71.5GB][4avi] | N/A |
+| v2019.2        | [18.04.2][3u]  | [18.7GB][3ap]  | [41.2GB][3av] | [56.6GB][3avi] | N/A |
 
 Base RootFS Release Based Images:
 
 | Xilinx Release | Ubuntu Release | Petalinux     | Vivado        | Vitis          | SDK             |
-| -------------- | -------------- | ---------     | ------------  | ------------   | --------------- |
+|:---------------|:---------------|:--------------|:--------------|:---------------|:----------------|
 | v2020.1        | [18.04.2][4u]  | [10.9GB][4ap] | [52.3GB][4av] | [71.3GB][4avi] | N/A             |
 | v2019.2        | [18.04.2][3u]  | [18.4GB][3ap] | [40.9GB][3av] | [55.2GB][3avi] | N/A             |
 | v2019.1        | [18.04.1][2u]  | [16.5GB][2ap] | [35.2GB][2av] | N/A            | [9.96GB][2asdk] |
@@ -122,17 +141,20 @@ These build times are approximate, rounded to the nearest minute and reflect one
 Note: v2020.x and earlier builds were performed on an i7-5820k based machine
 Note: v2021.x and later build were performed on a ryzen9-5950x based machine
 
-| Xilinx Release | User Image     | Petalinux     | Vivado        | Vitis        | SDK       |
-| -------------- | -------------- | ------------- | ------------- | ------------ | --------- |
-| v2021.2        | 4 min          | 05 min        | 1 hr 12 min   | 2 hr, 01 min | N/A       |
-| v2021.1        | 7 min          | 10 min        | 0 hr 49 min   | 2 hr, 57 min | N/A       |
-| v2020.2        | 9 min          |  7 min        | 2 hr 13 min   | 2 hr, 45 min | N/A       |
-| v2020.1        | 6 min          |  5 min        | 54 min        | 2 hr, 25 min | N/A       |
-| v2019.2        | 6 min          |  9 min        | 39 min        | 55 min       | N/A       |
-| v2019.1        | 6 min          |  8 min        | 27 min        | N/A          | 4 min     |
-| v2018.3        | 5 min          | 11 min        | 26 min        | N/A          | 4 min     |
-| v2018.2        | 5 min          | 13 min        | 25 min        | N/A          | 4 min     |
+| Xilinx Release | User Image | Petalinux | Vivado      | Vitis        | SDK   |
+|:---------------|:-----------|:----------|:------------|:-------------|:------|
+| v2021.2        | 4 min      | 05 min    | 1 hr 12 min | 2 hr, 01 min | N/A   |
+| v2021.1        | 7 min      | 10 min    | 0 hr 49 min | 2 hr, 57 min | N/A   |
+| v2020.2        | 9 min      | 7 min     | 2 hr 13 min | 2 hr, 45 min | N/A   |
+| v2020.1        | 6 min      | 5 min     | 54 min      | 2 hr, 25 min | N/A   |
+| v2019.2        | 6 min      | 9 min     | 39 min      | 55 min       | N/A   |
+| v2019.1        | 6 min      | 8 min     | 27 min      | N/A          | 4 min |
+| v2018.3        | 5 min      | 11 min    | 26 min      | N/A          | 4 min |
+| v2018.2        | 5 min      | 13 min    | 25 min      | N/A          | 4 min |
 
+[11b]: ./recipes/base-images/ubuntu-20.04.5/README.md
+[10b]: ./recipes/base-images/ubuntu-20.04.4/README.md
+[9b]: ./recipes/base-images/ubuntu-20.04.3/README.md
 [8b]: ./recipes/base-images/ubuntu-18.04.5/README.md
 [7b]: ./recipes/base-images/ubuntu-18.04.5/README.md
 [6b]: ./recipes/base-images/ubuntu-18.04.5/README.md
@@ -142,6 +164,10 @@ Note: v2021.x and later build were performed on a ryzen9-5950x based machine
 [1b]: ./recipes/base-images/ubuntu-16.04.4/README.md
 [0b]: ./recipes/base-images/ubuntu-16.04.3/README.md
 
+[12u]: ./recipes/user-images/v2024.1/README.md
+[11u]: ./recipes/user-images/v2023.2/README.md
+[10u]: ./recipes/user-images/v2023.1/README.md
+[9u]: ./recipes/user-images/v2022.2/README.md
 [8u]: ./recipes/user-images/v2022.1/README.md
 [7u]: ./recipes/user-images/v2021.2/README.md
 [6u]: ./recipes/user-images/v2021.1/README.md
@@ -152,6 +178,11 @@ Note: v2021.x and later build were performed on a ryzen9-5950x based machine
 [1u]: ./recipes/user-images/v2018.3/README.md
 [0u]: ./recipes/user-images/v2018.2/README.md
 
+
+[12mp]: ./recipes/user-images/v2024.1/README.petalinux-install.md
+[11mp]: ./recipes/user-images/v2023.2/README.petalinux-install.md
+[10mp]: ./recipes/user-images/v2023.1/README.petalinux-install.md
+[9mp]: ./recipes/user-images/v2022.2/README.petalinux-install.md
 [8mp]: ./recipes/user-images/v2022.1/README.petalinux-install.md
 [7mp]: ./recipes/user-images/v2021.2/README.petalinux-install.md
 [6mp]: ./recipes/user-images/v2021.1/README.petalinux-install.md
@@ -172,6 +203,10 @@ Note: v2021.x and later build were performed on a ryzen9-5950x based machine
 [1mv]: ./recipes/user-images/v2018.3/README.vivado-install.md
 [0mv]: ./recipes/user-images/v2018.2/README.vivado-install.md
 
+[12mvi]: ./recipes/user-images/v2024.1/README/vitis-install.md
+[11mvi]: ./recipes/user-images/v2023.2/README/vitis-install.md
+[10mvi]: ./recipes/user-images/v2023.1/README/vitis-install.md
+[9mvi]: ./recipes/user-images/v2022.2/README/vitis-install.md
 [8mvi]: ./recipes/user-images/v2022.1/README/vitis-install.md
 [7mvi]: ./recipes/user-images/v2021.2/README.vitis-install.md
 [6mvi]: ./recipes/user-images/v2021.1/README.vitis-install.md
@@ -229,17 +264,22 @@ This workflow consists of:
 
 ### Manual Xilinx Tool installation quickstart
 
-For the latest v2021.2 Xilinx Tools:
-- [Build a base Ubuntu Docker Image](./recipes/base-images/ubuntu-18.04.5/README.md)
-- [Build an Ubuntu User Image](./recipes/user-images/v2021.2/README.md)
+For the latest v2024.1 Xilinx Tools:
+- [Build a base Ubuntu Docker Image](./recipes/base-images/ubuntu-20.04.4/README.md)
+- [Build an Ubuntu User Image](./recipes/user-images/v2024.1/README.md)
 - Manually install the Xilinx Tools
-	- [Manual Vivado Installation](./recipes/user-images/v2021.2/README.vivado-install.md)
-	- [Manual Vitis Installation](./recipes/user-images/v2021.2/README.vitis-install.md)
-	- [Manual Petalinux Installation](./recipes/user-images/v2021.2/README.petalinux-install.md)
+	- [Manual Vitis/Vivado Installation](./recipes/user-images/v2024.1/README.vitis-install.md)
+	- [Manual Petalinux Installation](./recipes/user-images/v2024.1/README.petalinux-install.md)
 
 ## Automated Xilinx Tool installation
 
-The goal of this workflow is to automate creation of docker containers with Xilinx tools pre-installed.  This workflow requires the pre-generation of installation dependencies (configuration files) used by the automated image build.  The pre-generation of dependencies is a semi-automated, scripted process but does require user interaction during the process.
+Note: Automated installation examples are not being maintained for newer tools due to execution time making it impractical to spin up docker containers with tool installation on the fly
+
+It is recommended to generate images with manual tool installations and cache these images for CI/CD workflows.
+
+### Older v2021. Automated Tool Installation Example
+Please refer to older tools (v2021.2) for examples on automating tool installation.
+The goal of the automated workflow is to automate creation of docker containers with Xilinx tools pre-installed.  This workflow requires the pre-generation of installation dependencies (configuration files) used by the automated image build.  The pre-generation of dependencies is a semi-automated, scripted process but does require user interaction during the process.
 
 This workflow consists of:
 - Dependency Generation
@@ -250,7 +290,7 @@ This workflow consists of:
 	- Scripted installation of Xilinx Tools.
 	- Results in a Docker image stored in the local repository.
 	
-### Automated Xilinx Tool installation quickstart
+### Automated Xilinx Tool installation quickstart (Older v2021.2)
 
 For the latest v2021.2 Xilinx Tools:
 - [Build a base Ubuntu Docker Image for 18.04.5](./recipes/base-images/ubuntu-18.04.5/README.md)
