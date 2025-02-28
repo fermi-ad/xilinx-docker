@@ -24,7 +24,7 @@ BASE_OS_ARCH=amd64
 
 # Ubuntu Revision (Focal Fossa) 20.04.1
 # Base Tarball Image
-BASE_RELEASE_URL=http://cdimage.ubuntu.com/ubuntu-base/releases/$BASE_OS_VERSION/release
+BASE_RELEASE_URL=http://cdimage.ubuntu.com/ubuntu-base/releases/20.04/release
 BASE_RELEASE_IMAGE=$BASE_OS_NAME-base-$BASE_OS_VERSION-base-$BASE_OS_ARCH.tar.gz
 BASE_RELEASE_CHECKSUM_TYPE=sha256 #sha256, ...
 BASE_RELEASE_CHECKSUM_FILE=SHA256SUMS
@@ -33,7 +33,7 @@ BASE_RELEASE_CHECKSUM_FILE=SHA256SUMS
 # In 20.04, non "live" installers are hosted in a different location
 #ISO_RELEASE_URL=http://old-releases.ubuntu.com/releases/$BASE_OS_VERSION
 #ISO_RELEASE_IMAGE=$BASE_OS_NAME-$BASE_OS_VERSION-server-$BASE_OS_ARCH.iso
-ISO_RELEASE_URL=http://cdimage.ubuntu.com/ubuntu-legacy-server/releases/$BASE_OS_VERSION/release/
+ISO_RELEASE_URL=http://cdimage.ubuntu.com/ubuntu-legacy-server/releases/20.04/release/
 ISO_RELEASE_IMAGE=$BASE_OS_NAME-$BASE_OS_VERSION-legacy-server-$BASE_OS_ARCH.iso
 ISO_RELEASE_CHECKSUM_TYPE=sha256 #sha256, ...
 ISO_RELEASE_CHECKSUM_FILE=SHA256SUMS
